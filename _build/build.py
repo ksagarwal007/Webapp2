@@ -128,7 +128,7 @@ def home():
              {"@type": "Organization", "@id": SITE + "/#org", "name": "Salarist", "url": SITE + "/", "logo": SITE + "/assets/img/icon-512.png", "email": "contact@salarist.in"},
              faq_ld([(H.unescape(q), H.unescape(a)) for q, a in faqs])]
     return layout("/", "Salarist — Money and leave decision tools for salaried India",
-                  "Free tools for salaried Indians: plan your 2027 leave and long weekends, with loan, home and salary tools coming next. No sign-up, your numbers stay on your device, and every figure is checked against official sources.",
+                  "Free money and leave tools for salaried Indians. Plan your 2027 leave and long weekends. No sign-up, rates checked against official sources.",
                   body, graph=graph, og_title="Salarist — Make the big money calls with confidence")
 
 # ---------------- Leave planner ----------------
@@ -310,7 +310,7 @@ def leave_planner():
               "publisher": {"@id": SITE + "/#org"}},
              faq_ld(faqs)]
     return layout("/leave-planner-2027/", "Leave Planner 2027 – Long Weekends & Best Leave Days | Salarist",
-                  "Plan your 2027 leave around India's central government holidays. See every long weekend, the best days to take leave, and the longest breaks for your leave balance. Free, no sign-up.",
+                  "Find every 2027 long weekend and the best days to take leave around India's holidays. Get the most days off for your leave. Free, no sign-up.",
                   body, crumbs=[("/", "Home"), ("/leave-planner-2027/", "Leave Planner 2027")], graph=graph,
                   css=("leave-planner.css",), js=("leave-planner.js",), og="og-leave-planner-2027.png",
                   og_title="Leave Planner 2027: turn your leave into the longest breaks")
