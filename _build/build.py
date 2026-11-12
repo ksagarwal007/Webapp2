@@ -13,7 +13,12 @@ def ver(p): return hashlib.sha1(open(os.path.join(SRC, p), "rb").read()).hexdige
 LOGO = open(os.path.join(SRC, "partials/logo-inline.svg")).read().replace('role="img" aria-label="Salarist"', 'aria-hidden="true" focusable="false"')
 CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
 
-LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027")]
+LOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>'
+def badges(verified_text):
+    return (f'<div class="badges"><span class="badge priv">{LOCK}Private: calculated on your device. Nothing is stored or sent.</span>'
+            f'<span class="badge ok">{CHECK}{verified_text} · <a href="#sources">Sources</a></span></div>')
+
+LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest")]
 NAV = [("/#tools", "Tools"), ("/leave-planner-2027/", "Leave planner"), ("/methodology/", "How we check")]
 
 def ld(obj): return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False, separators=(",", ":")) + "</script>"
@@ -110,13 +115,15 @@ def home():
     body = tpl[tpl.index('<section class="hero">'):tpl.index("</main>")]
     body = body.replace('<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">Launching soon</span></a>',
                         '<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">New</span></a>')
-    for u in ("/prepay-vs-invest/", "/rent-vs-buy/", "/ctc-to-in-hand/"):
+    body = body.replace('<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">Jan 2027</span></a>', '<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">New</span></a>')
+    for u in ("/rent-vs-buy/", "/ctc-to-in-hand/"):
         body = body.replace(f'<a class="ask" href="{u}">', '<a class="ask" href="#tools">')
     body = body.replace('<span class="st"><b>Launching soon</b> · next up</span>', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>')
+    body = body.replace('<span class="st"><b>Coming January 2027</b></span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', 1)
     # Tools that aren't built yet are not links (no dead links for Google or visitors)
     def unlink(m):
         return '<div class="tool off">' + m.group(2) + "</div>"
-    body = re.sub(r'<a class="tool" href="(/(?:prepay-vs-invest|rent-vs-buy|ctc-to-in-hand|budget-planner|company-car-lease-vs-loan)/)">(.*?)</a>', unlink, body, flags=re.S)
+    body = re.sub(r'<a class="tool" href="(/(?:rent-vs-buy|ctc-to-in-hand|budget-planner|company-car-lease-vs-loan)/)">(.*?)</a>', unlink, body, flags=re.S)
     icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
     for k, v in icons.items(): body = body.replace("{{" + k + "}}", v)
     body = body.replace("{{CHECK}}", CHECK)
@@ -128,7 +135,7 @@ def home():
              {"@type": "Organization", "@id": SITE + "/#org", "name": "Salarist", "url": SITE + "/", "logo": SITE + "/assets/img/icon-512.png", "email": "contact@salarist.in"},
              faq_ld([(H.unescape(q), H.unescape(a)) for q, a in faqs])]
     return layout("/", "Salarist — Money and leave decision tools for salaried India",
-                  "Free money and leave tools for salaried Indians. Plan your 2027 leave and long weekends. No sign-up, rates checked against official sources.",
+                  "Free money and leave tools for salaried Indians: plan 2027 leave, and prepay your loan or invest. No sign-up, official rates.",
                   body, graph=graph, og_title="Salarist — Make the big money calls with confidence")
 
 # ---------------- Leave planner ----------------
@@ -164,7 +171,7 @@ def leave_planner():
   <p class="eyebrow">Leave planner</p>
   <h1>Leave Planner 2027: turn your leave into the longest breaks</h1>
   <p class="lead">Two ways to plan: tell us how long a break you want and we'll find the dates that need the fewest leave days, or tell us how many leave days you have and we'll spread them for the most days off. Both work with your own company's holidays.</p>
-  <p class="vline"><span class="vt">{CHECK}<span>Holidays verified on {VERIFIED_TXT} against the DoPT order of 16 July 2026</span></span><a href="#sources">Sources</a></p>
+  {badges("Holidays verified on " + VERIFIED_TXT + " against the DoPT order of 16 July 2026")}
 </div></section>
 
 <section style="padding-top:0"><div class="wrap lp">
@@ -313,8 +320,151 @@ def leave_planner():
     return layout("/leave-planner-2027/", "Leave Planner 2027: Long Weekends & Leave Days | Salarist",
                   "Find every 2027 long weekend and the best days to take leave around India's holidays. Get the most days off for your leave. Free, no sign-up.",
                   body, crumbs=[("/", "Home"), ("/leave-planner-2027/", "Leave Planner 2027")], graph=graph,
-                  css=("leave-planner.css",), js=("leave-planner.js",), og="og-leave-planner-2027.png",
+                  css=("tool.css",), js=("leave-planner.js",), og="og-leave-planner-2027.png",
                   og_title="Leave Planner 2027: turn your leave into the longest breaks")
+
+
+# ---------------- Prepay vs invest ----------------
+def prepay_page():
+    faqs = [
+        ("Is it better to prepay a home loan or invest?",
+         "It depends mainly on three things: your loan's interest rate, the return you expect after tax, and whether you get a tax deduction on the interest. If your investments can beat the loan's effective interest rate after tax, investing usually wins over the long run. If not, prepaying wins, and it's guaranteed."),
+        ("Does prepaying make sense under the new tax regime?",
+         "Under the new regime you get no deduction for interest on a self-occupied home, so every rupee of interest you avoid by prepaying is a real saving. That makes prepaying relatively more attractive than under the old regime."),
+        ("How does the old regime change the answer?",
+         "Under the old regime you can deduct up to ₹2,00,000 of home loan interest a year on a self-occupied home (section 22 of the Income-tax Act, 2025, earlier section 24(b)). Prepaying reduces your interest, so it also reduces this tax saving. The calculator includes that lost saving."),
+        ("Should I reduce my EMI or my tenure when I prepay?",
+         "This calculator assumes you keep the same EMI and shorten the tenure, which saves the most interest. Once the loan closes, it assumes you invest your EMI and the extra amount every month until the original end date, so both choices are compared over the same period."),
+        ("How are investment returns taxed in the calculator?",
+         "Equity mutual fund gains are taxed at 12.5% above ₹1,25,000, plus 4% cess, when you sell at the end. Debt fund gains are taxed at your slab rate when you sell. FD interest is taxed every year at your slab rate, so FD money grows at the after-tax rate."),
+        ("Is the result guaranteed?",
+         "No. Prepaying gives a certain saving, while market returns are not guaranteed and can be lower than you expect, especially over short periods. Use the breakeven return to judge how much risk you're taking: if you need a high return for investing to win, prepaying is the safer choice."),
+    ]
+    num = lambda k, label, unit, mn, mx, st, prefix=True: f"""<div class="fld"><div class="row1"><label for="pv-{k}">{label}</label><span class="w" id="pv-{k}-w"></span></div>
+      <div class="numin">{'<span>₹</span>' if prefix else ''}<input id="pv-{k}" {'type="text" inputmode="numeric" autocomplete="off"' if prefix else f'type="number" inputmode="decimal" min="{mn}" max="{mx}" step="{st}"'}>{'' if prefix else f'<span>{unit}</span>'}</div>
+      <input type="range" id="pv-{k}-r" min="{mn}" max="{mx}" step="{st}" aria-label="{label}"></div>"""
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Loans</p>
+  <h1>Prepay your home loan or invest the extra?</h1>
+  <p class="lead">Every extra rupee can close your loan sooner or grow in the market. We run both choices month by month, with the same money going in either way, include the tax rules for your regime, and show which one leaves you richer.</p>
+  {badges("Tax rules verified on " + VERIFIED_TXT)}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp">
+  <div class="card lp-setup" aria-label="Your numbers">
+    {num("P", "Loan outstanding", "", 100000, 50000000, 50000)}
+    <div class="two-col">{num("rate", "Interest rate", "%", 5, 15, 0.05, False)}{num("years", "Years left", "yrs", 1, 30, 1, False)}</div>
+    {num("extra", "Extra you can pay each month", "", 0, 500000, 1000)}
+    {num("lump", "One-time amount today (optional)", "", 0, 20000000, 50000)}
+    {num("ret", "Return you expect from investing", "% a year", 3, 18, 0.5, False)}
+    <div><span class="lbl" id="kindLbl">Where you'd invest</span>
+      <div class="seg row" role="group" aria-labelledby="kindLbl"><button type="button" data-kind="equity">Equity funds</button><button type="button" data-kind="debt">Debt fund</button><button type="button" data-kind="fd">Fixed deposit</button></div></div>
+    <div><span class="lbl" id="regLbl">Your tax regime</span>
+      <div class="seg row" role="group" aria-labelledby="regLbl"><button type="button" data-regime="new">New regime</button><button type="button" data-regime="old">Old regime</button></div></div>
+    <div class="fld"><label class="lbl" for="pv-slab" style="margin:0">Your income tax slab</label>
+      <select id="pv-slab" class="sel"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option><option value="25">25%</option><option value="30">30%</option></select></div>
+    <label class="chk" id="pv-claim-row" for="pv-claim" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="pv-claim"><span>I claim the home loan interest deduction (self-occupied home, up to ₹2,00,000 a year)</span></label>
+  </div>
+
+  <div>
+    <div class="verdict" id="pvVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="pvPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="pvXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="pvImgBtn">Share as image</button>
+      <button type="button" class="btn-sm btn-ghost" id="pvShare">Copy share link</button>
+    </div>
+    <p class="status" id="pvStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">Interest saved by prepaying</div><div class="n" id="pvSaved">—</div></div>
+      <div class="stat"><div class="l">Loan closes</div><div class="n" id="pvEarly">—</div></div>
+      <div class="stat"><div class="l">Investing wins above</div><div class="n" id="pvBe">—</div></div>
+      <div class="stat"><div class="l">Your EMI</div><div class="n" id="pvEmi">—</div></div>
+    </div>
+    <h2 class="list-h">What if returns are different?</h2>
+    <div class="sens" id="pvSens"></div>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">Net worth over time</h2>
+      <p class="hint" style="margin:0 0 10px">Your investments minus what you still owe on the loan, after tax at the end.</p>
+      <div id="pvChart"></div>
+      <div class="legend2"><span><i style="background:var(--brand)"></i>Invest the extra</span><span><i style="background:var(--leave)"></i>Prepay, then invest</span></div>
+      <p class="hint" id="pvCross"></p>
+    </div>
+    <h2 class="list-h">Where your money went</h2>
+    <div class="money" id="pvMoney"></div>
+    <p class="hint" id="pvMoneyNote"></p>
+    <h2 class="list-h">Assumptions</h2>
+    <ul class="notes" id="pvNotes"></ul>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>The full calculation</h2>
+  <p class="lead" style="font-size:15px">Year by year for each choice. Tap a year to see its 12 months.</p>
+  <div class="modes tabs2" role="tablist" aria-label="Choose which calculation to show"><button type="button" role="tab" data-tab="prepay" aria-selected="true"><b>Prepay, then invest</b></button><button type="button" role="tab" data-tab="invest" aria-selected="false"><b>Invest the extra</b></button></div>
+  <div class="tbl-wrap calc-wrap" id="pvTable"></div>
+</div></section>
+
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <h2>How the calculator works</h2>
+  <p>Both choices start with the same loan and the same extra money, and run month by month until your loan's original end date.</p>
+  <ul><li><strong>Prepay:</strong> the extra goes into the loan every month, so it closes early. From then on, your EMI and the extra are invested every month until the original end date.</li>
+  <li><strong>Invest:</strong> the loan runs its normal course, and the extra is invested every month from day one.</li></ul>
+  <p>At the end, the loan is fully repaid either way, so the choice with the bigger investment pot after tax is the one that leaves you richer. The breakeven return is the yearly return at which both choices come out equal.</p>
+
+  <h2>Tax rules used, tax year 2026-27</h2>
+  <ul>
+    <li><strong>Home loan interest, old regime:</strong> up to ₹2,00,000 a year for a self-occupied home, under section 22 of the Income-tax Act, 2025 (section 24(b) of the 1961 Act). The tax saved each year is assumed to be invested.</li>
+    <li><strong>Home loan interest, new regime:</strong> no deduction for a self-occupied home.</li>
+    <li><strong>Equity mutual funds:</strong> long-term gains taxed at 12.5% above ₹1,25,000 a year, plus 4% cess. Budget 2026 left these rates unchanged.</li>
+    <li><strong>Debt funds and FDs:</strong> taxed at your income tax slab rate, plus 4% cess.</li>
+  </ul>
+  <p>We leave out surcharge, prepayment charges (banks can't charge them on floating-rate home loans taken by individuals) and the old-regime deduction for principal repayment, which most people already use up through PF and other savings.</p>
+
+  <h2>When prepaying makes more sense</h2>
+  <ul>
+    <li>You're on the new tax regime, so interest gives you no tax benefit.</li>
+    <li>Your loan rate is high, or you'd invest in FDs or debt funds rather than equity.</li>
+    <li>You have less than about five years left, too short to ride out market ups and downs.</li>
+    <li>Being debt-free sooner matters to you, for peace of mind or a planned career break.</li>
+  </ul>
+  <h2>When investing makes more sense</h2>
+  <ul>
+    <li>You have many years left and invest in equity funds steadily.</li>
+    <li>You're on the old regime and still claim the full ₹2,00,000 interest deduction.</li>
+    <li>You already have an emergency fund and adequate insurance.</li>
+  </ul>
+
+  <h2 id="sources">Sources</h2>
+  <p>Income-tax Act, 2025 (section 22 on interest on borrowed capital for house property) and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026 for tax year 2026-27. Verified on {VERIFIED_TXT}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<dialog class="dlg" id="pvDlg" aria-labelledby="pvDlgH">
+  <h2 id="pvDlgH">Share your result</h2>
+  <p class="hint" style="margin:4px 0 14px">Made on your device. Nothing is uploaded.</p>
+  <img id="pvImg" alt="Your prepay or invest result as a shareable image" width="1080" height="1350">
+  <div class="dlg-opts">
+    <div class="pal" role="radiogroup" aria-label="Image colour"><button type="button" role="radio" data-pal="blue" aria-checked="true"><i style="background:#1F5FE0"></i>Blue</button><button type="button" role="radio" data-pal="dark" aria-checked="false"><i style="background:#07090D;border:1px solid #2A3850"></i>Dark</button></div>
+    <label class="lbl" for="pvImgTitle" style="margin:14px 0 6px">Title on the image</label>
+    <div class="title-row"><input type="text" id="pvImgTitle" maxlength="70" autocomplete="off"><button type="button" class="link-btn" id="pvImgTitleReset" style="color:var(--brand)">Reset</button></div>
+  </div>
+  <div class="actions"><button type="button" class="btn-sm pri" id="pvImgShare">Share on WhatsApp &amp; more</button><button type="button" class="btn-sm" id="pvImgDl">Save image</button><button type="button" class="btn-sm btn-ghost" id="pvImgClose">Close</button></div>
+  <p class="status" id="pvImgStatus" role="status"></p>
+</dialog>
+"""
+    graph = [{"@type": "WebApplication", "name": "Prepay Home Loan or Invest Calculator", "url": SITE + "/prepay-vs-invest/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Compare prepaying your home loan with investing the extra money, after tax, under the old or new regime.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    return layout("/prepay-vs-invest/", "Prepay Home Loan or Invest? Calculator for India | Salarist",
+                  "Should you prepay your home loan or invest the extra? Compare both after tax, old or new regime, and see your breakeven return. Free, no sign-up.",
+                  body, crumbs=[("/", "Home"), ("/prepay-vs-invest/", "Prepay or Invest")], graph=graph,
+                  css=("tool.css",), js=("prepay.js",), og="og-prepay-vs-invest.png", og_title="Prepay your home loan or invest the extra?")
 
 # ---------------- Text pages ----------------
 def text_page(path, name, title, desc, h1, html_body, updated=True, eyebrow="Salarist"):
@@ -409,9 +559,10 @@ def main():
     for f in (".htaccess", "robots.txt", "site.webmanifest"): shutil.copy(os.path.join(SRC, f), DIST)
     write("/", home())
     write("/leave-planner-2027/", leave_planner())
+    write("/prepay-vs-invest/", prepay_page())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9")] + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9")] + [(p, "0.3") for p in PAGES]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
         f"  <url><loc>{SITE}{u}</loc><lastmod>{VERIFIED}</lastmod><priority>{pr}</priority></url>\n" for u, pr in urls) + "</urlset>\n"
     open(os.path.join(DIST, "sitemap.xml"), "w").write(sm)
