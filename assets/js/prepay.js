@@ -219,13 +219,13 @@
     if (S.regime === "old" && S.claim) notes.push("Includes the tax you save on home loan interest under the old regime (up to ₹2,00,000 of interest a year, at your " + S.slab + "% slab plus 4% cess). Prepaying shrinks this saving, and the comparison accounts for it.");
     if (S.regime === "new") notes.push("New regime: home loan interest on a self-occupied home gives no tax deduction, so prepaying loses no tax benefit.");
     if (S.kind === "equity") notes.push("Equity gains are taxed at 12.5% plus cess above ₹1,25,000, once, when you sell at the end. Selling a little every year to use the yearly ₹1,25,000 exemption would make investing slightly better.");
-    if (S.kind === "debt") notes.push("Debt fund gains are taxed at your " + S.slab + "% slab plus cess when you sell.");
+    if (S.kind === "debt") notes.push("Debt fund gains are taxed at your " + S.slab + "% slab plus cess when you sell (for units bought on or after 1 April 2023).");
     if (S.kind === "fd") notes.push("FD interest is taxed every year at your " + S.slab + "% slab plus cess, so the calculator grows your money at " + (S.ret * (1 - S.slab / 100 * CESS)).toFixed(2) + "% a year after tax.");
     var base = ["When you prepay, your EMI stays the same and the loan closes sooner.",
       "Both choices run until your loan's original end date, with the same money going in each month.",
       "Your investments grow at a steady " + S.ret + "% a year. Real returns go up and down.",
       "Inflation isn't included. It affects both choices in the same way.",
-      "No prepayment charges. Banks can't charge them on floating-rate home loans taken by individuals."];
+      "No prepayment charges. Banks can't charge them on floating-rate home loans taken by individuals. On a fixed-rate loan, check your loan terms."];
     $("pvNotes").innerHTML = base.concat(notes).map(function (t) { return "<li>" + t + "</li>"; }).join("");
   }
 

@@ -184,3 +184,4 @@ table.calc tr.mo th,table.calc tr.mo td{background:var(--s2);font-size:12.5px;co
 table.calc th[scope=row]{position:sticky;left:0;background:var(--s1);z-index:1}
 table.calc tr.mo th[scope=row]{background:var(--s2)}
 table.calc thead th:first-child{left:0;z-index:2}
+.stat .h{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.35}

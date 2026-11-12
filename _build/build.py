@@ -292,7 +292,7 @@ def leave_planner():
   </ul>
 
   <h2 id="sources">Sources</h2>
-  <p>Gazetted and restricted holidays: Department of Personnel and Training, O.M. F.No.12/2/2023-JCA dated 16 July 2026, Annexures I and II, for central government administrative offices in Delhi and New Delhi. Verified on {VERIFIED_TXT}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <p>Gazetted and restricted holidays: <a href="https://dopt.gov.in/" rel="noopener">Department of Personnel and Training</a>, O.M. F.No.12/2/2023-JCA dated 16 July 2026, Annexures I and II, for central government administrative offices in Delhi and New Delhi. Verified on {VERIFIED_TXT}. Read <a href="/methodology/">how we check our numbers</a>.</p>
 
   <h2>Frequently asked questions</h2>
   {faq_html(faqs)}
@@ -336,7 +336,7 @@ def prepay_page():
         ("Should I reduce my EMI or my tenure when I prepay?",
          "This calculator assumes you keep the same EMI and shorten the tenure, which saves the most interest. Once the loan closes, it assumes you invest your EMI and the extra amount every month until the original end date, so both choices are compared over the same period."),
         ("How are investment returns taxed in the calculator?",
-         "Equity mutual fund gains are taxed at 12.5% above ₹1,25,000, plus 4% cess, when you sell at the end. Debt fund gains are taxed at your slab rate when you sell. FD interest is taxed every year at your slab rate, so FD money grows at the after-tax rate."),
+         "Equity mutual fund gains are taxed at 12.5% above ₹1,25,000, plus 4% cess, when you sell at the end. Debt fund gains are taxed at your slab rate when you sell (for units bought on or after 1 April 2023). FD interest is taxed every year at your slab rate, so FD money grows at the after-tax rate."),
         ("Is the result guaranteed?",
          "No. Prepaying gives a certain saving, while market returns are not guaranteed and can be lower than you expect, especially over short periods. Use the breakeven return to judge how much risk you're taking: if you need a high return for investing to win, prepaying is the safer choice."),
     ]
@@ -355,7 +355,7 @@ def prepay_page():
     {num("P", "Loan outstanding", "", 100000, 50000000, 50000)}
     <div class="two-col">{num("rate", "Interest rate", "%", 5, 15, 0.05, False)}{num("years", "Years left", "yrs", 1, 30, 1, False)}</div>
     {num("extra", "Extra you can pay each month", "", 0, 500000, 1000)}
-    {num("lump", "One-time amount today (optional)", "", 0, 20000000, 50000)}
+    <div>{num("lump", "One-time amount today (optional)", "", 0, 20000000, 50000)}<p class="hint">Prepay: it goes into the loan today. Invest: it's invested today.</p></div>
     {num("ret", "Return you expect from investing", "% a year", 3, 18, 0.5, False)}
     <div><span class="lbl" id="kindLbl">Where you'd invest</span>
       <div class="seg row" role="group" aria-labelledby="kindLbl"><button type="button" data-kind="equity">Equity funds</button><button type="button" data-kind="debt">Debt fund</button><button type="button" data-kind="fd">Fixed deposit</button></div></div>
@@ -378,7 +378,7 @@ def prepay_page():
     <div class="stats">
       <div class="stat"><div class="l">Interest saved by prepaying</div><div class="n" id="pvSaved">—</div></div>
       <div class="stat"><div class="l">Loan closes</div><div class="n" id="pvEarly">—</div></div>
-      <div class="stat"><div class="l">Investing wins above</div><div class="n" id="pvBe">—</div></div>
+      <div class="stat"><div class="l">Investing wins above</div><div class="n" id="pvBe">—</div><div class="h">The yearly return your investments need to come out ahead</div></div>
       <div class="stat"><div class="l">Your EMI</div><div class="n" id="pvEmi">—</div></div>
     </div>
     <h2 class="list-h">What if returns are different?</h2>
@@ -410,7 +410,7 @@ def prepay_page():
 <section style="padding-top:0"><div class="wrap prose">
   <h2>How the calculator works</h2>
   <p>Both choices start with the same loan and the same extra money, and run month by month until your loan's original end date.</p>
-  <ul><li><strong>Prepay:</strong> the extra goes into the loan every month, so it closes early. From then on, your EMI and the extra are invested every month until the original end date.</li>
+  <ul><li><strong>Prepay:</strong> the extra goes into the loan every month. Your EMI stays the same, so the loan closes sooner. From then on, your EMI and the extra are invested every month until the original end date.</li>
   <li><strong>Invest:</strong> the loan runs its normal course, and the extra is invested every month from day one.</li></ul>
   <p>At the end, the loan is fully repaid either way, so the choice with the bigger investment pot after tax is the one that leaves you richer. The breakeven return is the yearly return at which both choices come out equal.</p>
 
@@ -419,9 +419,10 @@ def prepay_page():
     <li><strong>Home loan interest, old regime:</strong> up to ₹2,00,000 a year for a self-occupied home, under section 22 of the Income-tax Act, 2025 (section 24(b) of the 1961 Act). The tax saved each year is assumed to be invested.</li>
     <li><strong>Home loan interest, new regime:</strong> no deduction for a self-occupied home.</li>
     <li><strong>Equity mutual funds:</strong> long-term gains taxed at 12.5% above ₹1,25,000 a year, plus 4% cess. Budget 2026 left these rates unchanged.</li>
-    <li><strong>Debt funds and FDs:</strong> taxed at your income tax slab rate, plus 4% cess.</li>
+    <li><strong>Debt funds:</strong> gains taxed at your income tax slab rate, plus 4% cess, for units bought on or after 1 April 2023.</li>
+    <li><strong>FDs:</strong> interest taxed every year at your slab rate, plus 4% cess.</li>
   </ul>
-  <p>We leave out surcharge, prepayment charges (banks can't charge them on floating-rate home loans taken by individuals) and the old-regime deduction for principal repayment, which most people already use up through PF and other savings.</p>
+  <p>We leave out surcharge, prepayment charges (banks can't charge them on floating-rate home loans taken by individuals; on a fixed-rate loan, check your loan terms) and the old-regime deduction for principal repayment, which most people already use up through PF and other savings.</p>
 
   <h2>When prepaying makes more sense</h2>
   <ul>
@@ -438,7 +439,7 @@ def prepay_page():
   </ul>
 
   <h2 id="sources">Sources</h2>
-  <p>Income-tax Act, 2025 (section 22 on interest on borrowed capital for house property) and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026 for tax year 2026-27. Verified on {VERIFIED_TXT}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: Income-tax Act, 2025 (section 22 on interest on borrowed capital for house property) and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026 for tax year 2026-27. Verified on {VERIFIED_TXT}. Read <a href="/methodology/">how we check our numbers</a>.</p>
 
   <h2>Frequently asked questions</h2>
   {faq_html(faqs)}
@@ -463,7 +464,7 @@ def prepay_page():
              faq_ld(faqs)]
     return layout("/prepay-vs-invest/", "Prepay Home Loan or Invest? Calculator for India | Salarist",
                   "Should you prepay your home loan or invest the extra? Compare both after tax, old or new regime, and see your breakeven return. Free, no sign-up.",
-                  body, crumbs=[("/", "Home"), ("/prepay-vs-invest/", "Prepay or Invest")], graph=graph,
+                  body, crumbs=[("/", "Home"), ("/prepay-vs-invest/", "Prepay or Invest Calculator")], graph=graph,
                   css=("tool.css",), js=("prepay.js",), og="og-prepay-vs-invest.png", og_title="Prepay your home loan or invest the extra?")
 
 # ---------------- Text pages ----------------

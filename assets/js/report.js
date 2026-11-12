@@ -34,7 +34,7 @@
   }
   var DISCLAIMER = "This report gives estimates for information only. It is not tax, legal or financial advice. Investment returns are not guaranteed. Check important decisions with a qualified adviser.";
   var TAXRULES = ["Old regime: home loan interest on a self-occupied home is deductible up to ₹2,00,000 a year (section 22 of the Income-tax Act, 2025; section 24(b) of the 1961 Act). New regime: no deduction.",
-    "Equity mutual funds: long-term gains taxed at 12.5% above ₹1,25,000, plus 4% cess. Debt funds and FDs: taxed at your slab rate, plus 4% cess.",
+    "Equity mutual funds: long-term gains taxed at 12.5% above ₹1,25,000, plus 4% cess. Debt funds (units bought on or after 1 April 2023) and FDs: taxed at your slab rate, plus 4% cess.",
     "Rules for tax year 2026-27, verified on 12 Nov 2026."];
 
   /* ---------- PDF ---------- */
