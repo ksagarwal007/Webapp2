@@ -72,7 +72,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/" aria-label="Salarist home">{LOGO}</a>
+    <a class="brand" href="/">{LOGO}<span class="visually-hidden">Salarist home</span></a>
     <nav class="nav" aria-label="Main">{nav}
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme">
         <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -89,7 +89,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
   <div class="wrap">
     <div class="foot">
       <div>
-        <a class="brand" href="/" aria-label="Salarist home">{LOGO}</a>
+        <a class="brand" href="/">{LOGO}<span class="visually-hidden">Salarist home</span></a>
         <p style="margin:12px 0 0;max-width:340px">Money and leave decision tools for salaried India. Free, private and checked against official sources.</p>
       </div>
       <div><h4>Tools</h4><ul>{tools}<li><span>More tools coming soon</span></li></ul></div>
@@ -145,8 +145,8 @@ def leave_planner():
     faqs = [
         ("How many central government holidays are there in 2027?",
          "The DoPT order dated 16 July 2026 lists 17 gazetted holidays for central government offices in Delhi and New Delhi, and employees there can also pick any two of 32 restricted holidays. Independence Day and Milad-un-Nabi both fall on Sunday 15 August, so only 16 dates are distinct."),
-        ("What is the longest break I can get in 2027?",
-         "With Saturdays and Sundays off, three days of leave on 22, 24 and 25 March, around Holi (23 March) and Good Friday (26 March), give nine days off in a row from 20 to 28 March. The planner finds the best combination for your own leave balance and weekly off."),
+        ("How long a break can I get in 2027?",
+         "It depends on how much leave you can take. For example, with Saturdays and Sundays off, three days of leave on 22, 24 and 25 March, around Holi (23 March) and Good Friday (26 March), give nine days off in a row from 20 to 28 March. Choose “Plan a break” and set any length up to 21 days to see the dates that need the fewest leave days."),
         ("How do I get a long break with the fewest leave days?",
          "Choose “Plan a break”, set how many days off in a row you want, and pick a month if you have one in mind. The planner shows the dates that need the fewest leave days first. For example, a 9-day break from 20 to 28 March 2027 needs only 3 days of leave with Saturdays and Sundays off."),
         ("My company has a different holiday list. Does this still work?",
@@ -205,7 +205,7 @@ def leave_planner():
     </div>
     <details class="edit" id="lpEdit">
       <summary>Match your company's holidays</summary>
-      <p class="hint" style="margin-top:0">Starting list: central government, Delhi · <b id="lpHolCount">17</b> holiday dates in use</p>
+      <p class="hint" style="margin-top:0">Starting list: central government, Delhi · <b id="lpHolCount">16</b> holiday dates in use</p>
       <h3>Central government holidays</h3>
       <div class="sub" id="lpGaz"></div>
       <h3>Restricted holidays your employer gives</h3>
@@ -280,6 +280,7 @@ def leave_planner():
   <ul>
     <li><strong>Apply early for the big ones.</strong> Breaks around Holi and Good Friday in March, and Diwali at the end of October, are the ones colleagues will want too.</li>
     <li><strong>Check your company's list first.</strong> Your HR policy decides which holidays you actually get. Add them in the planner before you apply.</li>
+    <li><strong>Use your restricted holidays well.</strong> If your employer lets you pick Holika Dahan (Monday 22 March) as a restricted holiday, the nine-day Holi break from 20 to 28 March needs only two days of leave. Tick your restricted holidays in the planner to see the effect.</li>
     <li><strong>Mind the moon-dependent dates.</strong> Id-ul-Fitr, Bakrid, Muharram and Milad-un-Nabi can move by a day.</li>
   </ul>
 
@@ -309,7 +310,7 @@ def leave_planner():
               "description": "Plan 2027 leave around India's central government holidays: find long weekends, the best days to take leave and the longest breaks for your leave balance.",
               "publisher": {"@id": SITE + "/#org"}},
              faq_ld(faqs)]
-    return layout("/leave-planner-2027/", "Leave Planner 2027 – Long Weekends & Best Leave Days | Salarist",
+    return layout("/leave-planner-2027/", "Leave Planner 2027: Long Weekends & Leave Days | Salarist",
                   "Find every 2027 long weekend and the best days to take leave around India's holidays. Get the most days off for your leave. Free, no sign-up.",
                   body, crumbs=[("/", "Home"), ("/leave-planner-2027/", "Leave Planner 2027")], graph=graph,
                   css=("leave-planner.css",), js=("leave-planner.js",), og="og-leave-planner-2027.png",
