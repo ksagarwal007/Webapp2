@@ -1,0 +1,52 @@
+# Salarist — Hostinger (Apache/LiteSpeed) settings
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+# One address only: https://salarist.in (no www, no http)
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^ https://salarist.in%{REQUEST_URI} [L,R=301]
+# Never serve the git folder or build files
+RewriteRule (^|/)\.git - [F,L]
+# Source files for the build live in _build/ and are not public
+RewriteRule ^_build(/|$) - [F,L]
+</IfModule>
+
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/xml text/plain application/manifest+json
+</IfModule>
+
+<IfModule mod_mime.c>
+AddType font/woff .woff
+AddType application/manifest+json .webmanifest
+</IfModule>
+
+# Caching: CSS/JS file names carry a version (?v=…), so they can be cached for a year.
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 1 hour"
+ExpiresByType text/html "access plus 0 seconds"
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType application/javascript "access plus 1 year"
+ExpiresByType font/woff "access plus 1 year"
+ExpiresByType image/png "access plus 1 month"
+ExpiresByType image/svg+xml "access plus 1 month"
+ExpiresByType application/xml "access plus 1 day"
+</IfModule>
+
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+<FilesMatch "\.(css|js|woff)$">
+Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+<FilesMatch "\.html$">
+Header set Cache-Control "no-cache"
+</FilesMatch>
+</IfModule>
