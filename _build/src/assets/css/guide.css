@@ -19,6 +19,7 @@
 .g-tbl thead th{font-size:13px;color:var(--muted);font-weight:700}
 .g-flip td:nth-child(2),.g-flip td:nth-child(3){white-space:nowrap;font-weight:700}
 .g-flip tr.base td{background:var(--s2)}
+.g-tbl td.nw{white-space:nowrap}.g-pairs tbody th{width:30%}.g-pairs td:last-child{white-space:nowrap;font-weight:700}
 .g-check{padding-left:22px}
 .g-check li{margin:6px 0}
 .g-note{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;margin-top:28px}
@@ -41,3 +42,5 @@
 .g-by-n a{color:var(--text);text-decoration:none}
 .g-by-n a:hover{color:var(--brand)}
 .g-by .g-meta{margin:2px 0 0;gap:2px 10px;font-size:13.5px}
+
+@media (max-width:640px){.g-stack thead{display:none}.g-stack tr{display:block;border-bottom:1px solid var(--line);padding:10px 0}.g-stack th,.g-stack td{display:block;border:0;padding:3px 0;width:auto!important;white-space:normal!important}.g-stack td[data-l]::before{content:attr(data-l);display:block;font-size:12px;color:var(--muted);font-weight:700}}

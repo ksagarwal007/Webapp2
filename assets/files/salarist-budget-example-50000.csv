@@ -1,0 +1,25 @@
+﻿"Salarist Budget Planner · salarist.in/budget-planner · Example: Rohan, ₹50,000 a month, from the Salarist guide"
+"To try it, open salarist.in/budget-planner and choose Load budget."
+
+Section,Item,Frequency,Amount,Type,Tag
+Income,In-hand salary,Monthly,50000,,Salary
+Home,Rent (his share of a 2BHK),Monthly,11000,Need,
+Home,Electricity,Monthly,800,Need,
+Home,Internet and mobile,Monthly,700,Need,
+Home,Cook (his share),Monthly,2000,Need,
+Family,Groceries,Monthly,4000,Need,
+Family,Support for parents,Monthly,4000,Need,
+Family,Medicines and doctor visits,Monthly,500,Need,
+Getting around,Fuel,Monthly,1500,Need,
+Getting around,"Cabs, autos and metro",Monthly,1200,Need,
+Getting around,Bike insurance and servicing,Yearly,6000,Need,
+EMIs and insurance,Health insurance top-up,Yearly,6000,Need,
+Lifestyle,Eating out and ordering in,Monthly,3500,Want,
+Lifestyle,Shopping and clothes,Monthly,2000,Want,
+Lifestyle,OTT and subscriptions,Monthly,400,Want,
+Lifestyle,Gym and personal care,Monthly,1200,Want,
+Occasions,Festivals and gifts,Yearly,12000,Want,
+Occasions,Travel and holidays,Yearly,24000,Want,
+Savings,SIPs and mutual funds,Monthly,6000,Saving,
+Savings,Emergency fund top-up,Monthly,4000,Saving,
+Settings,Emergency fund saved so far,,60000,,

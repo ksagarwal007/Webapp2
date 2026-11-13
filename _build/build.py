@@ -19,6 +19,8 @@ def badges(verified_text):
             + (f'<span class="badge ok">{CHECK}{verified_text} · <a href="#sources">Sources</a></span>' if verified_text else "") + '</div>')
 
 LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest"), ("/rent-vs-buy/", "Rent or Buy"), ("/budget-planner/", "Budget Planner")]
+CAR_LIVE = True   # set False to build without the car lease tool (e.g. to ship guides on their own)
+if CAR_LIVE: LIVE_TOOLS.append(("/company-car-lease-vs-loan/", "Car Lease vs Car Loan"))
 MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/#tools", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
@@ -147,10 +149,14 @@ def home():
         body = body.replace(f'<a class="ask" href="{u}">', '<a class="ask" href="#tools">')
     body = body.replace('<span class="st"><b>Launching soon</b> · next up</span>', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>')
     body = body.replace('<span class="st"><b>Coming January 2027</b></span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', f'<span class="st"><b class="live">Live</b> · tax year {TAX_YEAR}</span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', 1)
+    if CAR_LIVE:
+        body = body.replace('<h3>Company car lease or bank loan?</h3>', '<h3>Car lease or car loan?</h3>', 1)
+        body = body.replace('Compare a salary-linked car lease with a regular car loan, including tax and the resale value.</p>\n        <span class="st"><b>Coming soon</b></span>',
+                            f'Compare a salary-linked car lease with a regular car loan, including tax and the resale value.</p>\n        <span class="st"><b class="live">Live</b> · tax year {TAX_YEAR}</span>', 1)
     # Tools that aren't built yet are not links (no dead links for Google or visitors)
     def unlink(m):
         return '<div class="tool off">' + m.group(2) + "</div>"
-    body = re.sub(r'<a class="tool" href="(/(?:ctc-to-in-hand|company-car-lease-vs-loan)/)">(.*?)</a>', unlink, body, flags=re.S)
+    body = re.sub((r'<a class="tool" href="(/(?:ctc-to-in-hand)/)">(.*?)</a>' if CAR_LIVE else r'<a class="tool" href="(/(?:ctc-to-in-hand|company-car-lease-vs-loan)/)">(.*?)</a>'), unlink, body, flags=re.S)
     icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
     for k, v in icons.items(): body = body.replace("{{" + k + "}}", v)
     body = body.replace("{{CHECK}}", CHECK)
@@ -287,7 +293,7 @@ def leave_planner():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>Want the full picture?</b> Read our guide, <a href="/guides/long-weekends-2027/">Long weekends 2027 in India</a>: every holiday, every long weekend and two ready-made leave plans.</p>
+  <p class="g-callout"><b>Want the full picture?</b> Read our guide, <a href="/guides/long-weekends-2027/">Long weekends 2027 in India</a>: every holiday, every long weekend and two ready-made leave plans. Also read: <a href="/guides/restricted-holidays-2027/">Restricted holidays 2027: which two to pick</a>.</p>
   <h2>How the leave planner works</h2>
   <p>The planner marks every day of {data["year"]} as a weekly off, a holiday or a working day, using your weekly off and your company's holidays.</p>
   <ul><li><strong>Plan a break:</strong> choose how many days off in a row you want, and optionally a month. The planner checks every possible start date and shows the dates that need the fewest leave days.</li>
@@ -512,6 +518,7 @@ TOOL_CARDS = {
     "/rent-vs-buy/": ("Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax."),
     "/budget-planner/": ("Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides."),
 }
+if CAR_LIVE: TOOL_CARDS["/company-car-lease-vs-loan/"] = ("Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.")
 def related(path):
     cards = "".join(f'<a class="rel" href="{u}"><b>{n}</b><span>{d}</span></a>' for u, (n, d) in TOOL_CARDS.items() if u != path)
     return f'<section style="padding-top:0"><div class="wrap"><h2 class="list-h">More decisions you can check</h2><div class="rels">{cards}</div></div></section>'
@@ -847,7 +854,7 @@ def budget_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to budgeting?</b> Read our guide, <a href="/guides/monthly-budget/">How to make a monthly budget on a salary in India</a>, worked through one family's numbers.</p>
+  <p class="g-callout"><b>New to budgeting?</b> Read our guide, <a href="/guides/monthly-budget/">How to make a monthly budget on a salary in India</a>, worked through one family's numbers. Also read: <a href="/guides/budget-on-50000-1-lakh-2-lakh-salary/">Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month</a>.</p>
   <h2>How the planner works</h2>
   <ul>
     <li><strong>Everything becomes monthly.</strong> Monthly amounts stay as they are, yearly amounts are divided by 12, and daily amounts are multiplied by 365 and divided by 12.</li>
@@ -891,6 +898,175 @@ BP_TIPS = [
 ]
 
 # ---------------- Guides ----------------
+
+def car_page():
+    faqs = [
+        ("How does a company car lease save tax?",
+         "Your company leases the car and pays the rental, and usually fuel, servicing and a driver, out of your CTC. That part of your pay is no longer salary in your hand, so you don't pay income tax on it. Instead, you're taxed on a fixed value for the use of the car, set by Rule 15 of the Income-tax Rules, 2026: ₹5,000 a month for an engine up to 1.6 litres or an electric car, or ₹7,000 a month above 1.6 litres. If the lease costs much more than that, the difference escapes tax."),
+        ("What is the taxable value of a company car from April 2026?",
+         "For a car owned or hired by the employer and used for both official and personal purposes: ₹5,000 a month (up to 1.6 litres, or electric) or ₹7,000 a month (above 1.6 litres) if the employer meets the running costs; ₹2,000 or ₹3,000 a month if you meet the running costs for personal use yourself; plus ₹3,000 a month if the employer provides a driver. These values apply from 1 April 2026 under the Income-tax Rules, 2026, and replace the older ₹1,800 and ₹2,400."),
+        ("Does a car lease work under the new tax regime?",
+         "Yes. The car's value is worked out the same way under both regimes, and the lease rental paid by the company was never part of your taxable salary. That's why a car lease is one of the few ways to cut tax under the new regime."),
+        ("Do I still pay for insurance and servicing if I lease?",
+         "Yes, the car needs them either way. With a lease they're usually built into the rental, or paid by the company from your CTC, so they come out of pre-tax pay. With a loan you pay them yourself from take-home pay. Tick the boxes if your lease quote already includes them, so they aren't counted twice."),
+        ("What happens if I leave my job before the lease ends?",
+         "Most schemes ask you to close the lease early, buy the car or pay early termination charges, and the terms vary a lot. Read your company's car policy before you sign. A loan has no such link to your job. Tick \"Show what happens if I leave my job before the lease ends\" to compare both options at that date, with your closure charge."),
+        ("Is an electric car treated differently?",
+         "An electric car is valued like a car with an engine up to 1.6 litres: ₹5,000 a month if the company meets the running costs, or ₹2,000 if you do."),
+        ("Can I claim a tax deduction on a car loan?",
+         "Not as a salaried employee buying a car for personal use. The EMI, insurance, fuel and servicing all come out of your take-home pay."),
+    ]
+    def num(k, label, unit="", mn=0, mx=0, st=1, money=True, rng=True, hint="", cls=""):
+        inp = f'<input id="cl-{k}" type="text" inputmode="numeric" autocomplete="off">' if money else f'<input id="cl-{k}" type="number" inputmode="decimal" min="{mn}" max="{mx}" step="{st}">'
+        return (f'<div class="fld{(" " + cls) if cls else ""}"><div class="row1"><label for="cl-{k}">{label}</label><span class="w" id="cl-{k}-w"></span></div>'
+                f'<div class="numin">{"<span>₹</span>" if money else ""}{inp}{"" if money else f"<span>{unit}</span>"}</div>'
+                + (f'<input type="range" id="cl-{k}-r" min="{mn}" max="{mx}" step="{st}" aria-label="{label}">' if rng else "")
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def chk(k, text): return f'<label class="chk" for="cl-{k}" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="cl-{k}"><span>{text}</span></label>'
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your car</p>
+  <h1>Company car lease or car loan: which costs you less?</h1>
+  <p class="lead">A car leased through your company is paid from pre-tax salary, and you're taxed only on a fixed value for using it. A loan is paid from take-home pay. We put both side by side, with insurance, fuel, upkeep and the car's value at the end, and show which leaves you better off.</p>
+  {badges("Tax rules for tax year " + TAX_YEAR)}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb cl">
+  <div class="card lp-setup" aria-label="Your numbers">
+    <p class="grp-h">The car</p>
+    {num("price", "Car price on the road, without insurance", mn=300000, mx=5000000, st=10000, hint="Ex-showroom price plus registration and road tax. Insurance is entered below.")}
+    <div><span class="lbl" id="engLbl">Engine</span>
+      <div class="seg row" role="group" aria-labelledby="engLbl"><button type="button" data-engine="small">Up to 1.6 litres, or electric</button><button type="button" data-engine="big">Above 1.6 litres</button></div></div>
+    {num("years", "Lease period", "years", 1, 7, 1, money=False, hint="We compare both options over this period, usually 3 to 5 years.", cls="key")}
+    <p class="grp-h">Running costs, the same car either way</p>
+    {num("ins", "Insurance, per year", rng=False)}
+    {num("maint", "Servicing and repairs, per year", rng=False)}
+    {num("fuel", "Fuel or charging, per month", mn=0, mx=30000, st=500)}
+    {chk("driver", "I'll have a driver")}
+    <div class="adv" id="cl-driver-box" hidden>{num("driverCost", "Driver's salary, per month", rng=False)}</div>
+    {num("dep", "Car loses value", "% a year", 5, 30, 1, money=False, hint="Cars often lose 10% to 20% of their value a year. We use this for what the car is worth at the end.")}
+    <p class="grp-h">Company lease</p>
+    {num("rental", "Lease rental, per month", mn=5000, mx=150000, st=500, hint="From your company's quote, including GST.")}
+    {chk("insInc", "Insurance is included in the rental")}
+    {chk("maintInc", "Servicing and repairs are included in the rental")}
+    <div><span class="lbl" id="runLbl">Fuel and other running costs</span>
+      <div class="seg row" role="group" aria-labelledby="runLbl"><button type="button" data-runco="1">Paid through the company</button><button type="button" data-runco="0">I pay them myself</button></div>
+      <p class="hint" id="clPerk"></p></div>
+    <div><span class="lbl" id="endLbl">At the end of the lease</span>
+      <div class="seg row" role="group" aria-labelledby="endLbl"><button type="button" data-end="buy">I buy the car</button><button type="button" data-end="return">I return it</button></div></div>
+    <div class="adv" id="cl-buy-box">{num("buyback", "Price to buy it at the end", rng=False, hint="The buy-back or residual price in your lease terms.")}</div>
+    {chk("early", "Show what happens if I leave my job before the lease ends")}
+    <div class="adv" id="cl-early-box" hidden>
+      {num("exitYrs", "I leave after", "years", 0.5, 6.5, 0.5, money=False)}
+      {num("exitCharge", "Early closure charge", rng=False, hint="What your lease terms charge to close the lease early. Ask HR or the leasing company.")}
+      <div><span class="lbl" id="exitLbl">When I leave</span>
+        <div class="seg row" role="group" aria-labelledby="exitLbl"><button type="button" data-exitend="buy">I buy the car</button><button type="button" data-exitend="return">I hand it back</button></div></div>
+      <div id="cl-exitPrice-box">{num("exitPrice", "Price to buy the car then", rng=False, hint="The early buy-out price in your lease terms for that date.")}</div>
+    </div>
+    <p class="grp-h">Car loan</p>
+    <div>{num("down", "Down payment", mn=0, mx=2000000, st=10000)}<p class="hint" id="cl-loanTxt"></p></div>
+    <div class="two-col">{num("rate", "Interest rate", "%", 6, 15, 0.05, money=False)}{num("loanYrs", "Tenure", "yrs", 1, 8, 1, money=False)}</div>
+    <p class="grp-h">You</p>
+    <div class="fld"><label class="lbl" for="cl-slab" style="margin:0">Your income tax slab</label>
+      <select id="cl-slab" class="sel"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option><option value="25">25%</option><option value="30">30%</option></select>
+      <p class="hint">The rate on your top rupee of salary, under the regime you file in. The lease works under both.</p></div>
+    {num("ret", "What your savings earn", "% a year", 0, 12, 0.5, money=False, hint="After tax. Money one option saves you each month is counted as earning this.")}
+  </div>
+
+  <div>
+    <div class="verdict" id="clVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="clPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="clXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="clShare">Copy share link</button>
+    </div>
+    <p class="status" id="clStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">Lease: out of take-home</div><div class="n" id="clOutL">—</div><div class="h">A month, after the tax saved</div></div>
+      <div class="stat"><div class="l">Loan: out of take-home</div><div class="n" id="clOutB">—</div><div class="h">A month: EMI and running costs</div></div>
+      <div class="stat"><div class="l">Tax saved with the lease</div><div class="n" id="clTax">—</div><div class="h">Over the lease, after tax on the car's value</div></div>
+      <div class="stat"><div class="l">Both equal at a rental of</div><div class="n" id="clBe">—</div><div class="h">A lower rental favours the lease</div></div>
+    </div>
+    <div class="card" id="clExit" style="padding:18px 20px;margin:0 0 22px" hidden><h2 class="list-h" style="margin:0 0 6px" id="clExitH"></h2><p style="margin:0 0 6px;font-size:18px" id="clExitV"></p><p class="hint" style="margin:0" id="clExitT"></p></div>
+    <h2 class="list-h">What if your tax slab is different?</h2>
+    <div class="sens" id="clSens"></div>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">Money paid out of take-home pay</h2>
+      <p class="hint" style="margin:0 0 10px">Running total for each option, including the down payment and the buy-back price.</p>
+      <div id="clChart"></div>
+      <div class="legend2"><span><i style="background:var(--brand)"></i>Company lease</span><span><i style="background:var(--leave)"></i>Car loan</span></div>
+    </div>
+    <h2 class="list-h">Where your money went</h2>
+    <div class="money" id="clMoney"></div>
+    <p class="hint" id="clMoneyNote"></p>
+    <a class="next" href="/budget-planner/"><span class="k">Your next decision</span><b>Fit the car into your monthly budget</b><span class="h">Add the EMI or lease and running costs to see what's left each month.</span></a>
+    <h2 class="list-h">Assumptions</h2>
+    <ul class="notes" id="clNotes"></ul>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>The full calculation</h2>
+  <p class="lead" style="font-size:15px">Year by year for each option. Tap a year to see its 12 months.</p>
+  <div class="modes tabs2" role="tablist" aria-label="Choose which calculation to show"><button type="button" role="tab" data-tab="lease" aria-selected="true"><b>Company lease</b></button><button type="button" role="tab" data-tab="loan" aria-selected="false"><b>Car loan</b></button></div>
+  <div class="tbl-wrap calc-wrap" id="clTable"></div>
+</div></section>
+{related("/company-car-lease-vs-loan/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <h2>How the calculator works</h2>
+  <ul><li><strong>Company lease:</strong> the rental, and the running costs that go through the company, come out of your salary before tax. You pay tax only on the car's fixed value under Rule 15. At the end you buy the car at the agreed price or hand it back.</li>
+  <li><strong>Car loan:</strong> you pay the down payment, then the EMI, insurance, servicing, fuel and any driver from take-home pay. At the end you own the car, minus any loan still owed.</li></ul>
+  <p>Both options count the car's value at the end if you own it. Whichever option costs less each month is assumed to keep the difference as savings, earning the return you choose, so the comparison is fair.</p>
+
+  <h2>Money isn't everything</h2>
+  <div class="factors">
+    <div><h3>Reasons to lease anyway</h3><ul><li>No down payment, and servicing and insurance handled for you.</li><li>A new car every few years, if you return it.</li><li>One fixed monthly amount.</li></ul></div>
+    <div><h3>Reasons to take a loan</h3><ul><li>The car is yours from day one and isn't tied to your job.</li><li>No early termination charges if you change jobs.</li><li>Freedom to sell, modify or drive it as much as you like.</li></ul></div>
+  </div>
+
+  <h2>Tax rules used, tax year {TAX_YEAR}</h2>
+  <ul>
+    <li><strong>Car owned or hired by your employer, used partly for personal purposes:</strong> taxed at ₹5,000 a month for an engine up to 1.6 litres or an electric car, and ₹7,000 a month above 1.6 litres, if the employer meets the running costs. If you meet the running costs for personal use, ₹2,000 or ₹3,000 a month. If the employer provides a driver, ₹3,000 a month more. From Rule 15 of the Income-tax Rules, 2026, in force from 1 April 2026.</li>
+    <li><strong>Lease rental and running costs paid by the company</strong> come out of your CTC before tax, under both regimes.</li>
+    <li><strong>Car loan:</strong> no deduction for a salaried employee's personal car.</li>
+  </ul>
+  <p>We leave out surcharge, early termination charges, and any tax on the transfer of the car at the end, which depends on how your company's scheme is set up.</p>
+
+  <h2 id="sources">Sources</h2>
+  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: Income-tax Rules, 2026 (Rule 15, valuation of perquisites), notified on 20 March 2026 under the Income-tax Act, 2025. Checked for tax year {TAX_YEAR}; we re-check after every Union Budget. Read <a href="/methodology/">how we check our numbers</a>.</p>
+
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="clBar" hidden><span id="clBarT"></span><button type="button" class="btn-sm pri" id="clBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "Car Lease vs Car Loan Calculator", "url": SITE + "/company-car-lease-vs-loan/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Compare leasing a car through your company with buying it on a loan, after tax on the car's perquisite value, insurance, fuel, upkeep and resale.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "cl", CL_TIPS)
+    return layout("/company-car-lease-vs-loan/", "Car Lease vs Car Loan Calculator for India (2026-27) | Salarist",
+                  "Lease a car through your company or buy it on a loan? Compare both after tax, insurance, fuel and resale, with the new ₹5,000/₹7,000 perquisite values. Free, private.",
+                  body, crumbs=[("/", "Home"), ("/company-car-lease-vs-loan/", "Car Lease vs Car Loan Calculator")], graph=graph,
+                  css=("tool.css",), js=("car-lease.js",), og="og-car-lease-vs-loan.png", og_title="Company car lease or car loan: which costs you less?")
+
+CL_TIPS = [
+    ("""<label for="cl-price">Car price on the road, without insurance</label>""", "the on-road price",
+     "What you'd pay to drive the car away, apart from insurance: the ex-showroom price, registration and road tax. A loan is taken on this amount, less your down payment."),
+    ("""<label for="cl-rental">Lease rental, per month</label>""", "the lease rental",
+     "The monthly amount the leasing company charges, usually including GST. Your company deducts it from your CTC before tax. Ask HR for the quote for your car and lease period."),
+    ("""<span class="lbl" id="runLbl">Fuel and other running costs</span>""", "running costs",
+     "If fuel, servicing and a driver are paid or reimbursed by the company from your CTC, they come out of pre-tax pay and the car is valued at ₹5,000 or ₹7,000 a month. If you pay them yourself, the value drops to ₹2,000 or ₹3,000, but those costs come from take-home pay."),
+    ("""<label for="cl-buyback">Price to buy it at the end</label>""", "the buy-back price",
+     "Most leases let you buy the car at the end for an agreed amount, often called the residual value. You pay it from your own money."),
+    ("""<label for="cl-dep">Car loses value</label>""", "depreciation",
+     "How much of its value the car loses each year. Used-car prices for your model, a few years old, are a good guide."),
+    ("""<div class="l">Tax saved with the lease</div>""", "the tax saved",
+     "Tax you don't pay on the rental and running costs that go through the company, minus the tax on the car's fixed value under Rule 15, over the whole lease."),
+]
+
 GUIDES = [  # (path, title, short description, published, image base name, section)
     ("/guides/rent-vs-buy/", "Rent or buy a home in India? How to decide, with a worked example",
      "How to compare renting and buying properly, what each number in the Rent or Buy calculator means, and what changes the answer, worked through one salaried buyer's numbers.",
@@ -910,6 +1086,12 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/hra-vs-home-loan-tax-benefits/", "HRA or home loan tax benefits: which saves more under the old regime?",
      "How HRA exemption and home loan deductions work under the old regime, which saves more in a worked example, and whether tax should decide if you rent or buy.",
      "2026-11-13", "guide-hra-vs-home-loan", "Your home"),
+    ("/guides/restricted-holidays-2027/", "Restricted holidays 2027: which two to pick for the longest breaks",
+     "Which of the 32 restricted holidays in the 2027 central government list are wasted on a weekend, and the pairs that turn a few leave days into week-long breaks.",
+     "2026-11-13", "guide-restricted-holidays-2027", "Your time off"),
+    ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month: three example budgets",
+     "Three example monthly budgets for in-hand pay of ₹50,000, ₹1 lakh and ₹2 lakh: where the money goes, how much each saves, and what to fix first.",
+     "2026-11-13", "guide-budget-by-income", "Your money"),
 ]
 def _L(v):
     a = abs(v); s = "−" if v < 0 else ""
@@ -1162,7 +1344,7 @@ def guide_leave():
 
 <h2 id="restricted">Use your restricted holidays well</h2>
 <p>Alongside the gazetted holidays, the DoPT order lists {G['restricted']} restricted (optional) holidays. Central government staff can pick two of them; many private employers offer a similar choice of optional holidays.</p>
-<p>Pick them to join up breaks rather than for single days. For example, <strong>Holika Dahan on Monday 22 March</strong> is a restricted holiday. Take it, and the {lb['3']['len']}-day Holi and Good Friday break ({_span(lb['3']['from'], lb['3']['to'])}) needs only 2 days of leave instead of 3. Tick your restricted holidays in the planner and it uses them automatically.</p>
+<p>Pick them to join up breaks rather than for single days. For example, <strong>Holika Dahan on Monday 22 March</strong> is a restricted holiday. Take it, and the {lb['3']['len']}-day Holi and Good Friday break ({_span(lb['3']['from'], lb['3']['to'])}) needs only 2 days of leave instead of 3. Tick your restricted holidays in the planner and it uses them automatically. For the best pairs, read <a href="/guides/restricted-holidays-2027/">Restricted holidays 2027: which two to pick</a>.</p>
 
 <h2 id="your-list">If your company's list is different</h2>
 <ul>
@@ -1484,6 +1666,196 @@ def guide_hra():
 """
     return article(path, "HRA vs Home Loan Tax Benefits: Which Saves More? (Old Regime) | Salarist", "HRA or home loan tax benefits?", body, "HRA vs home loan")
 
+def _budget_csv(lines, ef, fname, label):
+    """Write an example budget as a CSV the Budget Planner can load."""
+    import csv, io
+    T = {"need": "Need", "want": "Want", "save": "Saving"}; F = {"m": "Monthly", "y": "Yearly", "d": "Daily"}
+    rows = [[f"Salarist Budget Planner · salarist.in/budget-planner · Example: {label}"],
+            ["To try it, open salarist.in/budget-planner and choose Load budget."], [],
+            ["Section", "Item", "Frequency", "Amount", "Type", "Tag"]]
+    for l in lines:
+        tag = "Salary" if l["name"] == "In-hand salary" else "EMI" if "EMI" in l["name"] else ""
+        rows.append([l["sec"], l["name"], F[l["freq"]], str(l["amt"]), "" if l["sec"] == "Income" else T[l["type"]], tag])
+    rows.append(["Settings", "Emergency fund saved so far", "", str(ef), "", ""])
+    buf = io.StringIO(); csv.writer(buf, lineterminator="\r\n").writerows(rows)
+    os.makedirs(os.path.join(DIST, "assets", "files"), exist_ok=True)
+    open(os.path.join(DIST, "assets", "files", fname), "w", encoding="utf-8-sig").write(buf.getvalue())
+
+def _sec_rows(lines):
+    FREQ = {"m": "a month", "y": "a year", "d": "a day"}
+    low = lambda n: n[0].lower() + n[1:] if n[1:2].islower() else n
+    out = ""
+    for sec in ["Home", "Family", "Getting around", "EMIs and insurance", "Lifestyle", "Occasions", "Savings"]:
+        ls = [l for l in lines if l["sec"] == sec]
+        if not ls: continue
+        items = "; ".join(f"{H.escape(low(l['name']))} {_inr(l['amt'])} {FREQ[l['freq']]}" for l in ls)
+        out += f"<tr><th scope=\"row\">{sec}</th><td>{_inr(sum(l['monthly'] for l in ls))}</td><td>{items[0].upper() + items[1:]}</td></tr>"
+    return out
+
+def guide_budget_tiers():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_budget_tiers_numbers.js")]))
+    path = "/guides/budget-on-50000-1-lakh-2-lakh-salary/"
+    pct = lambda x: f"{round(x * 100)}%"
+    a, b, c = G["50k"], G["1L"], G["2L"]
+    files = {"50k": "salarist-budget-example-50000.csv", "1L": "salarist-budget-example-1-lakh.csv", "2L": "salarist-budget-example-2-lakh.csv"}
+    labels = {"50k": "Rohan, ₹50,000 a month", "1L": "Ananya and Vikram, ₹1 lakh a month", "2L": "the Iyers, ₹2 lakh a month"}
+    for k in files: _budget_csv(G[k]["lines"], G[k]["ef"], files[k], labels[k] + ", from the Salarist guide")
+    def summ(k, who):
+        r = G[k]["r"]; i = r["inc"]
+        return (f"<tr><th scope=\"row\">{who}</th><td>{_inr(i)}</td><td>{pct(r['need'] / i)}</td><td>{pct(r['want'] / i)}</td>"
+                f"<td>{pct(r['save'] / i)}</td><td>{_inr(r['left'])}</td><td><strong>{pct(r['saveRate'])}</strong></td></tr>")
+    ra, rb, rc = a["r"], b["r"], c["r"]
+    def ef_months(t, extra):  # months to reach 6 months of needs if the surplus plus planned top-up goes to the fund
+        gap = max(0, t["efTarget"] - t["ef"]); return round(gap / extra) if extra > 0 else None
+    toc = [("short-answer", "The short answer"), ("fifty", "₹50,000 a month: Rohan"), ("one-lakh", "₹1 lakh a month: Ananya and Vikram"),
+           ("two-lakh", "₹2 lakh a month: the Iyers"), ("lessons", "What the three budgets have in common"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "There's no single right budget for a salary. What changes as income grows is where the pressure sits: rent at ₹50,000, a child's costs at ₹1 lakh, and the home loan and school fees at ₹2 lakh. Here are three example budgets, worked out with the Salarist budget planner, and what each household should fix first.",
+                      "Three salary bars of rising height, each split into needs, wants and savings").replace("TYPE_LINE", "")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>All three households below keep their needs, wants and savings in check, but the share they save doesn't rise with income. <strong>Rohan saves {pct(ra['saveRate'])} of ₹50,000; the Iyers save {pct(rc['saveRate'])} of ₹2 lakh.</strong> As pay grows, so do the fixed commitments: a bigger home, a loan, school fees. A higher salary only builds wealth if savings grow with it.</p>
+<div class="g-scroll"><table class="g-tbl g-flip"><thead><tr><th scope="col">Household</th><th scope="col">In hand</th><th scope="col">Needs</th><th scope="col">Wants</th><th scope="col">Planned savings</th><th scope="col">Left over</th><th scope="col">Saves in all</th></tr></thead><tbody>
+{summ('50k', 'Rohan')}{summ('1L', 'Ananya and Vikram')}{summ('2L', 'The Iyers')}
+</tbody></table></div>
+<p>"Saves in all" counts planned savings plus what's left over. These are examples: use your own numbers in the <a href="/budget-planner/">budget planner</a>, or download any of the three budgets below and load it to start from there.</p>
+
+<h2 id="fifty">₹50,000 a month: Rohan</h2>
+<p>Rohan is 26, single, and shares a 2BHK in Pune. He sends {_inr(4000)} a month home to his parents and rides a bike to work. He has {_inr(a['ef'])} saved for emergencies.</p>
+<div class="g-scroll"><table class="g-tbl g-budget"><thead><tr><th scope="col">Section</th><th scope="col">A month</th><th scope="col">What's in it</th></tr></thead><tbody>{_sec_rows(a['lines'])}</tbody></table></div>
+<ul>
+  <li><strong>What works:</strong> sharing a flat keeps rent at {pct(11000 / ra['inc'])} of his pay, so he can save {_inr(ra['save'])} a month and still have {_inr(ra['left'])} left.</li>
+  <li><strong>Fix first:</strong> his emergency fund covers {ra['efMonths']:.1f} months of needs. Six months is about {_inr(round(a['efTarget'], -3))}. Sending the {_inr(ra['left'])} left over to the fund along with his {_inr(4000)} top-up gets him there in about <strong>{ef_months(a, ra['left'] + 4000)} months</strong>.</li>
+  <li><strong>Watch:</strong> at this salary, one new EMI changes everything. A {_inr(10000)} bike or phone EMI would take all of his surplus and more.</li>
+</ul>
+<p class="g-cta"><a class="btn btn-ghost" href="/assets/files/{files['50k']}" download>Download Rohan's budget</a></p>
+
+<h2 id="one-lakh">₹1 lakh a month: Ananya and Vikram</h2>
+<p>Ananya and Vikram live in Bengaluru with their 3-year-old and bring home {_inr(b['r']['inc'])} a month between them. They rent a 2BHK and run one car. They have {_inr(b['ef'])} saved for emergencies.</p>
+<div class="g-scroll"><table class="g-tbl g-budget"><thead><tr><th scope="col">Section</th><th scope="col">A month</th><th scope="col">What's in it</th></tr></thead><tbody>{_sec_rows(b['lines'])}</tbody></table></div>
+<ul>
+  <li><strong>What works:</strong> they have health and term life insurance in place, and save {_inr(rb['save'])} a month in SIPs, PPF and their emergency fund.</li>
+  <li><strong>Fix first:</strong> yearly costs. Playschool fees, insurance premiums, festivals and a holiday add up to {_inr(rb['setAside'] * 12)} a year, or <strong>{_inr(rb['setAside'])} a month</strong> to put aside. Without a separate account for this, those bills land on one month's salary.</li>
+  <li><strong>Then:</strong> their emergency fund covers {rb['efMonths']:.1f} months. Six months is about {_inr(round(b['efTarget'], -3))}; adding the {_inr(rb['left'])} left over to their {_inr(3000)} top-up gets them there in about {ef_months(b, rb['left'] + 3000)} months.</li>
+</ul>
+<p class="g-cta"><a class="btn btn-ghost" href="/assets/files/{files['1L']}" download>Download Ananya and Vikram's budget</a></p>
+
+<h2 id="two-lakh">₹2 lakh a month: the Iyers</h2>
+<p>The Iyers have two school-age children and a home loan EMI of {_inr(50000)}. Their combined in-hand pay is {_inr(c['r']['inc'])} a month, and they have {_inr(c['ef'])} saved for emergencies.</p>
+<div class="g-scroll"><table class="g-tbl g-budget"><thead><tr><th scope="col">Section</th><th scope="col">A month</th><th scope="col">What's in it</th></tr></thead><tbody>{_sec_rows(c['lines'])}</tbody></table></div>
+<ul>
+  <li><strong>What works:</strong> the EMI is {pct(rc['emiLoad'])} of their pay, which leaves room if one income dips, and they invest {_inr(rc['save'])} a month.</li>
+  <li><strong>The catch:</strong> needs take {pct(rc['need'] / rc['inc'])} of their pay. The EMI and school fees alone come to {_inr(50000 + 15000)} a month. Their savings rate of {pct(rc['saveRate'])} is lower than Rohan's on a quarter of the income.</li>
+  <li><strong>Fix first:</strong> their emergency fund covers {rc['efMonths']:.1f} months. With a loan and two children, six months (about {_inr(round(c['efTarget'], -3))}) matters more, not less. A bonus is the quickest way to close the gap.</li>
+  <li><strong>Before the next big step,</strong> like a bigger home or a second car, run it through the planner first. Fixed costs are easy to add and hard to cut.</li>
+</ul>
+<p class="g-cta"><a class="btn btn-ghost" href="/assets/files/{files['2L']}" download>Download the Iyers' budget</a></p>
+
+<h2 id="lessons">What the three budgets have in common</h2>
+<ol class="g-check">
+  <li><strong>Needs above 50% are normal</strong> in a big Indian city. The 50/30/20 rule is a starting point; a better test is whether you save 20% or more in all.</li>
+  <li><strong>Every one of them is short on the emergency fund.</strong> It's the first thing to build, at any salary.</li>
+  <li><strong>Yearly costs need a monthly set-aside,</strong> from {_inr(ra['setAside'])} a month for Rohan to {_inr(rc['setAside'])} for the Iyers.</li>
+  <li><strong>Raise savings with every raise.</strong> Increase your SIP when your pay goes up, before the extra money finds somewhere else to go.</li>
+</ol>
+<p>For a step-by-step method, read <a href="/guides/monthly-budget/">How to make a monthly budget on a salary</a>.</p>
+<p class="g-cta"><a class="btn" href="/budget-planner/">Make your budget</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>Every figure comes from the same calculation as the <a href="/budget-planner/">budget planner</a>, run on each household's numbers. Yearly amounts are divided by 12, and daily amounts are multiplied by 365 and divided by 12. The emergency fund target is six months of needs, including EMIs. The households are examples, not averages or survey data; costs vary a lot by city and family. The planner works with in-hand pay, after tax, so no tax rules apply. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't financial advice. For a big decision, consider speaking to a qualified adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Budget on ₹50,000, ₹1 Lakh or ₹2 Lakh Salary: 3 Example Budgets | Salarist", "Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month", body, "Budget by income")
+
+def guide_rh():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_rh_numbers.js")]))
+    path = "/guides/restricted-holidays-2027/"
+    P = G["picks"]; hn, hv, du = P["holiNaraka"], P["holiVaisakhi"], P["dussehra"]
+    L = {x["date"]: x for x in G["list"]}
+    def lv(n): return f"{n} day{'s' if n != 1 else ''} of leave"
+    def brk(x): return f"{x['len']} days, {_span(x['from'], x['to'])}"
+    def leave_on(x): return ", ".join(_d(d, False) for d in x["leaveDays"])
+    hol = L["2027-03-22"]["best"]
+    rows = ""
+    for x in G["list"]:
+        if x["kind"] in ("weekend", "clash"): continue
+        f = x["free"]; free = f"{f['len']} days, {_span(f['from'], f['to'])}" if f["len"] >= 2 else "Just the day"
+        best = x.get("best")
+        bt = f"{brk(best)}, {lv(best['leave'])} ({best['leaveWithout']} without it)" if best else "No longer break within 3 days of leave"
+        rows += f"<tr><td class=\"nw\">{_d(x['date'])}</td><td><b>{H.escape(x['name'])}</b></td><td data-l=\"With no leave\">{free}</td><td data-l=\"Longest break, up to 3 days of leave\">{bt}</td></tr>"
+    wk = [x for x in G["list"] if x["kind"] == "weekend"]
+    wk_list = "; ".join(f"{H.escape(x['name'])} ({_d(x['date'])})" for x in wk)
+    cl = [x for x in G["list"] if x["kind"] == "clash"][0]
+    def pair_row(name, p, leave):
+        free = " and ".join(f"{f['len']} days, {_span(f['from'], f['to'])}" for f in p["free"])
+        brks = " and ".join(brk(x) for x in p["breaks"])
+        used = sum(x["leave"] for x in p["breaks"]); without = sum(x["leaveWithout"] for x in p["breaks"])
+        return f"<tr><th scope=\"row\">{name}</th><td data-l=\"With no leave\">{free}</td><td data-l=\"With a little leave\">{brks}, for {lv(used)}</td><td data-l=\"Leave saved\">{without - used} days</td></tr>"
+    toc = [("short-answer", "The short answer"), ("rules", "How restricted holidays work"), ("pairs", "Three pairs worth picking"),
+           ("skip", "Don't pick these"), ("all", "Every restricted holiday on a weekday"), ("choose", "How to choose yours"), ("method", "How these dates were worked out")]
+    body = guide_head(path, f"Central government staff can take any two of the {G['count']} restricted holidays on the 2027 list, and many private companies offer a similar pair of optional holidays. Picked well, two optional days turn into a four-day Holi weekend and a nine-day break. Here's which two to choose.",
+                      "A calendar with two optional holidays ticked and joined to the weekend").replace("TYPE_LINE", "<span>DoPT holiday list of 16 Jul 2026</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Of the {G['count']} restricted holidays in 2027, <strong>{G['weekend']} fall on a Saturday or Sunday</strong> and one falls on the same day as a gazetted holiday, so only <strong>{G['usable']} are worth picking</strong>.</p>
+<p><strong>The best single pick is Holika Dahan, Monday 22 March.</strong> It joins the weekend to Holi on Tuesday for a 4-day break with no leave. Take {lv(hol['leave'])} ({leave_on(hol)}) and Good Friday finishes the week: <strong>{brk(hol)}</strong>.</p>
+<p>For the second pick, choose the season you want a break in: Diwali (Naraka Chaturdasi), April (Vaisakhi), or Durga Puja, where it pays to use both picks together. Every weekday restricted holiday gives you one extra day off; the good ones join up with weekends and other holidays.</p>
+<p class="g-cta"><a class="btn" href="/leave-planner-2027/?r=0322,1028">Try Holi and Diwali in the planner</a></p>
+
+<h2 id="rules">How restricted holidays work</h2>
+<p>The Department of Personnel and Training (DoPT) office memorandum of 16 July 2026 lists 17 gazetted holidays and {G['count']} restricted holidays for central government offices in Delhi and New Delhi. Gazetted holidays close the office for everyone. Restricted holidays don't: the office stays open, and each employee may take <strong>any two</strong> of them in the year.</p>
+<p>Offices in other states follow lists set by their state's coordination committee, so check your own office's list. Private companies set their own rules: many offer two or three optional or floating holidays, sometimes from a list like this one, sometimes on any festival you choose.</p>
+
+<h2 id="pairs">Three pairs worth picking</h2>
+<p>Each pair below, worked out with the leave planner for a Monday-to-Friday week:</p>
+<div class="g-scroll"><table class="g-tbl g-pairs g-stack"><thead><tr><th scope="col">Pick</th><th scope="col">With no leave</th><th scope="col">With a little leave</th><th scope="col">Leave saved</th></tr></thead><tbody>
+{pair_row("Holi and Diwali: Holika Dahan (22 Mar) and Naraka Chaturdasi (28 Oct)", hn, 0)}
+{pair_row("Holi and April: Holika Dahan (22 Mar) and Vaisakhi (14 Apr)", hv, 0)}
+{pair_row("Durga Puja: Mahashtami (7 Oct) and Mahanavmi (8 Oct)", du, 0)}
+</tbody></table></div>
+<ul>
+  <li><strong>Holi and Diwali</strong> gives you two 4-day festival weekends without any leave, and two 9-day breaks if you add leave. Take leave on {leave_on(hn['breaks'][1])} for the Diwali week.</li>
+  <li><strong>Holi and April</strong> gives the most days off for the leave: Vaisakhi on Wednesday 14 April sits next to Ram Navami on Thursday, and Mahavir Jayanti follows on Monday 19 April. Take leave on {leave_on(hv['breaks'][1])} for {brk(hv['breaks'][1])}.</li>
+  <li><strong>Durga Puja</strong> uses both picks on one festival. Dussehra falls on Saturday 9 October, so Mahashtami and Mahanavmi make it a 4-day weekend. With leave on {leave_on(du['breaks'][0])}, Gandhi Jayanti on Saturday 2 October starts a {du['breaks'][0]['len']}-day break.</li>
+</ul>
+
+<h2 id="skip">Don't pick these</h2>
+<p>These {G['weekend']} restricted holidays fall on a weekend in 2027, so choosing one gives you nothing extra on a Monday-to-Friday week: {wk_list}.</p>
+<p>{H.escape(cl['name'])} on {_d(cl['date'])} is the same day as {H.escape(cl['with'])}, already a holiday for everyone.</p>
+<p>If you work Saturdays, the Saturday ones do give you a day off. Choose your week in the <a href="/leave-planner-2027/">leave planner</a> to see your own options.</p>
+
+<h2 id="all">Every restricted holiday on a weekday</h2>
+<p>For each of the {G['usable']} that fall on a weekday: the break it makes with no leave, and the longest break it's part of with up to 3 days of leave. The figure in brackets is the leave the same break would take without the restricted holiday.</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Date</th><th scope="col">Restricted holiday</th><th scope="col">With no leave</th><th scope="col">Longest break, up to 3 days of leave</th></tr></thead><tbody>{rows}</tbody></table></div>
+
+<h2 id="choose">How to choose yours</h2>
+<ol class="g-check">
+  <li><strong>Festival first.</strong> If you celebrate a festival on the list, that's your pick. Use the second one for a longer break.</li>
+  <li><strong>Prefer Mondays and Fridays,</strong> or a Thursday before a Friday holiday. They join up with the weekend.</li>
+  <li><strong>Check your own list.</strong> Your office or company may have a different set. Tick your holidays in the <a href="/leave-planner-2027/">leave planner</a> and it builds your breaks around them.</li>
+  <li><strong>Apply early.</strong> Restricted holidays still need approval like leave, and popular dates fill up.</li>
+  <li><strong>Watch for date changes.</strong> Festivals that follow the moon can move by notification. Check before booking travel.</li>
+</ol>
+<p>For the full year, including long weekends and ready-made leave plans, read <a href="/guides/long-weekends-2027/">Long weekends 2027 in India</a>.</p>
+<p class="g-cta"><a class="btn" href="/leave-planner-2027/">Plan my 2027 leave</a></p>
+
+<h2 id="method">How these dates were worked out</h2>
+<p>Every break comes from the same calculation as the <a href="/leave-planner-2027/">2027 leave planner</a>, run on the central government list with a Monday-to-Friday week and the chosen restricted holidays added. The holidays are from the DoPT office memorandum dated 16 July 2026 (Annexure I, gazetted, and Annexure II, restricted, for central government administrative offices in Delhi and New Delhi). Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">Holiday dates for some festivals depend on the moon and may be changed by official notification. Always check your own employer's list before booking.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Restricted Holidays 2027: Which Two to Pick for Longer Breaks | Salarist", "Restricted holidays 2027: which two to pick", body, "Restricted holidays 2027")
+
 def guides_index():
     cards = "".join(
         f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>'
@@ -1593,6 +1965,7 @@ def main():
     write("/prepay-vs-invest/", prepay_page())
     write("/rent-vs-buy/", rentbuy_page())
     write("/budget-planner/", budget_page())
+    if CAR_LIVE: write("/company-car-lease-vs-loan/", car_page())
     write("/guides/", guides_index())
     write("/guides/rent-vs-buy/", guide_rentbuy())
     write("/guides/long-weekends-2027/", guide_leave())
@@ -1600,9 +1973,11 @@ def main():
     write("/guides/prepay-home-loan-or-invest/", guide_prepay())
     write("/guides/under-construction-vs-ready-to-move/", guide_uc())
     write("/guides/hra-vs-home-loan-tax-benefits/", guide_hra())
+    write("/guides/restricted-holidays-2027/", guide_rh())
+    write("/guides/budget-on-50000-1-lakh-2-lakh-salary/", guide_budget_tiers())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7")] + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime

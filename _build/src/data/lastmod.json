@@ -1,74 +1,86 @@
 {
  "/": {
   "date": "2026-11-13",
-  "hash": "699135dd436c05ea"
+  "hash": "787ba794a2ac9152"
  },
  "/about/": {
   "date": "2026-11-13",
-  "hash": "5ef936c622b121aa"
+  "hash": "d30e8525a3ea0e3b"
  },
  "/budget-planner/": {
   "date": "2026-11-13",
-  "hash": "a2a3b3aa2bd4f84d"
+  "hash": "b2c65e66761dce39"
+ },
+ "/company-car-lease-vs-loan/": {
+  "date": "2026-11-13",
+  "hash": "61bcda0cc755d100"
  },
  "/contact/": {
   "date": "2026-11-13",
-  "hash": "c4de03e4cfb15055"
+  "hash": "2b46edc58e066eac"
  },
  "/disclaimer/": {
   "date": "2026-11-13",
-  "hash": "4afafa93b90e5756"
+  "hash": "3436794732ea1867"
  },
  "/guides/": {
   "date": "2026-11-13",
-  "hash": "cc857d8a0e03244c"
+  "hash": "45dd4b3733bb70ca"
+ },
+ "/guides/budget-on-50000-1-lakh-2-lakh-salary/": {
+  "date": "2026-11-13",
+  "hash": "a79024a96c77d233"
  },
  "/guides/hra-vs-home-loan-tax-benefits/": {
   "date": "2026-11-13",
-  "hash": "47a4668ba42e8d91"
+  "hash": "5d3d71b1149bb23f"
  },
  "/guides/long-weekends-2027/": {
   "date": "2026-11-13",
-  "hash": "ab18fcd9127be901"
+  "hash": "785f285433cea288"
  },
  "/guides/monthly-budget/": {
   "date": "2026-11-13",
-  "hash": "ab0c8129b6069d10"
+  "hash": "4eec6639b01e7ef8"
  },
  "/guides/prepay-home-loan-or-invest/": {
   "date": "2026-11-13",
-  "hash": "6e2a605ca02bf1b9"
+  "hash": "98a5ed6801883b78"
  },
  "/guides/rent-vs-buy/": {
   "date": "2026-11-13",
-  "hash": "731854859f327236"
+  "hash": "0f19246b97e336d1"
+ },
+ "/guides/restricted-holidays-2027/": {
+  "date": "2026-11-13",
+  "hash": "ad41b13449fa71fa"
  },
  "/guides/under-construction-vs-ready-to-move/": {
   "date": "2026-11-13",
-  "hash": "b809dc2d5b9c485d"
+  "hash": "b5dabbe733bb9aa5"
  },
  "/leave-planner-2027/": {
   "date": "2026-11-13",
-  "hash": "2417f055851fae6e"
+  "hash": "009450a59196dfda"
  },
  "/methodology/": {
   "date": "2026-11-13",
-  "hash": "50d6c54303c800ea"
+  "hash": "7ff4eac5aaea0cd9"
  },
  "/prepay-vs-invest/": {
   "date": "2026-11-13",
-  "hash": "3112d82b324ce57c"
+  "hash": "33bc9f23767c42f3"
  },
  "/privacy/": {
   "date": "2026-11-13",
-  "hash": "95f0414ffd7a00a3"
+  "hash": "0020c719cc82313a"
  },
  "/rent-vs-buy/": {
   "date": "2026-11-13",
-  "hash": "449f9309e4d022c3"
+  "hash": "fc91ae4c1163a8c4"
  },
  "/terms/": {
   "date": "2026-11-13",
-  "hash": "add437955146aa83"
+  "hash": "602978b8980e7fbb"
  }
 }

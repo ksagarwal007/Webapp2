@@ -1,0 +1,33 @@
+﻿"Salarist Budget Planner · salarist.in/budget-planner · Example: the Iyers, ₹2 lakh a month, from the Salarist guide"
+"To try it, open salarist.in/budget-planner and choose Load budget."
+
+Section,Item,Frequency,Amount,Type,Tag
+Income,In-hand salary,Monthly,200000,,Salary
+Home,Home loan EMI,Monthly,50000,Need,EMI
+Home,Society maintenance,Monthly,5000,Need,
+Home,Electricity,Monthly,3500,Need,
+Home,Cooking gas,Monthly,1200,Need,
+Home,Internet and mobile,Monthly,2000,Need,
+Home,Domestic help,Monthly,8000,Need,
+Family,Groceries,Monthly,14000,Need,
+Family,"Milk, bread and daily needs",Daily,150,Need,
+Family,School fees (two children),Yearly,180000,Need,
+Family,Support for parents,Monthly,8000,Need,
+Family,Medicines and doctor visits,Monthly,2500,Need,
+Getting around,Fuel,Monthly,6000,Need,
+Getting around,"Cabs, autos and metro",Monthly,2000,Need,
+Getting around,Car insurance and servicing,Yearly,30000,Need,
+EMIs and insurance,Health insurance premium,Yearly,35000,Need,
+EMIs and insurance,Term life insurance premium,Yearly,30000,Need,
+Lifestyle,Eating out and ordering in,Monthly,6000,Want,
+Lifestyle,Shopping and clothes,Monthly,4000,Want,
+Lifestyle,OTT and subscriptions,Monthly,1000,Want,
+Lifestyle,"Gym, hobbies and personal care",Monthly,3000,Want,
+Occasions,Festivals and gifts,Yearly,50000,Want,
+Occasions,Weddings and family functions,Yearly,30000,Want,
+Occasions,Travel and holidays,Yearly,100000,Want,
+Occasions,Gadgets and appliances,Yearly,18000,Want,
+Savings,SIPs and mutual funds,Monthly,25000,Saving,
+Savings,PPF,Monthly,5000,Saving,
+Savings,NPS,Monthly,5000,Saving,
+Settings,Emergency fund saved so far,,500000,,

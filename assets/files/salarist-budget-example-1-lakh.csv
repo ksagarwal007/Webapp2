@@ -1,0 +1,32 @@
+﻿"Salarist Budget Planner · salarist.in/budget-planner · Example: Ananya and Vikram, ₹1 lakh a month, from the Salarist guide"
+"To try it, open salarist.in/budget-planner and choose Load budget."
+
+Section,Item,Frequency,Amount,Type,Tag
+Income,In-hand salary,Monthly,100000,,Salary
+Home,Rent,Monthly,20000,Need,
+Home,Society maintenance,Monthly,2500,Need,
+Home,Electricity,Monthly,1800,Need,
+Home,Cooking gas,Monthly,1000,Need,
+Home,Internet and mobile,Monthly,1300,Need,
+Home,Domestic help,Monthly,3000,Need,
+Family,Groceries,Monthly,8000,Need,
+Family,"Milk, bread and daily needs",Daily,80,Need,
+Family,Playschool fees,Yearly,48000,Need,
+Family,Support for parents,Monthly,3000,Need,
+Family,Medicines and doctor visits,Monthly,1500,Need,
+Getting around,Fuel,Monthly,3000,Need,
+Getting around,"Cabs, autos and metro",Monthly,1500,Need,
+Getting around,Car insurance and servicing,Yearly,15000,Need,
+EMIs and insurance,Health insurance premium,Yearly,22000,Need,
+EMIs and insurance,Term life insurance premium,Yearly,18000,Need,
+Lifestyle,Eating out and ordering in,Monthly,4000,Want,
+Lifestyle,Shopping and clothes,Monthly,3000,Want,
+Lifestyle,OTT and subscriptions,Monthly,600,Want,
+Lifestyle,"Gym, hobbies and personal care",Monthly,1500,Want,
+Occasions,Festivals and gifts,Yearly,30000,Want,
+Occasions,Weddings and family functions,Yearly,20000,Want,
+Occasions,Travel and holidays,Yearly,50000,Want,
+Savings,SIPs and mutual funds,Monthly,12000,Saving,
+Savings,PPF,Monthly,3000,Saving,
+Savings,Emergency fund top-up,Monthly,3000,Saving,
+Settings,Emergency fund saved so far,,150000,,
