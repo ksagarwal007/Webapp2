@@ -219,3 +219,14 @@ input[type=range]{touch-action:pan-y}
 .rel{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--s1);color:var(--text);text-decoration:none}
 .rel:hover{border-color:var(--brand)}
 .rel span{font-size:14px;color:var(--muted)}
+/* Info tips */
+.tipw{position:relative;display:inline-flex;vertical-align:middle;margin-left:6px}
+.fld .row1 .tipw{margin-right:auto;align-self:center}
+.lbl:has(+ .tipw),.list-h:has(+ .tipw),.edit h3:has(+ .tipw){display:inline-block}
+.lbl + .tipw{margin-bottom:10px}
+.tip{width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;position:relative}
+.tip svg{width:14px;height:14px;flex:none}
+.tip::after{content:"";position:absolute;inset:-8px}
+.tip:hover,.tip[aria-expanded=true]{color:var(--brand)}
+.tipb{position:absolute;top:calc(100% + 6px);left:-10px;z-index:15;width:min(300px,calc(100vw - 40px));background:var(--s1);color:var(--text);border:1px solid var(--line);border-radius:var(--r-sm);box-shadow:0 10px 28px rgba(0,0,0,.18);padding:12px 14px;font-size:13.5px;font-weight:400;line-height:1.5;text-transform:none;letter-spacing:0;text-align:left;white-space:normal}
+.tipb[hidden]{display:none}

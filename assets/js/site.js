@@ -24,3 +24,20 @@
   document.addEventListener("click", function (e) { if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) set(false); });
   window.addEventListener("resize", function () { if (window.innerWidth > 720 && !panel.hidden) set(false); });
 })();
+/* Info tips: tap to open, tap again, tap elsewhere or press Escape to close */
+(function () {
+  var open = null;
+  function close() { if (!open) return; open.setAttribute("aria-expanded", "false"); document.getElementById(open.getAttribute("aria-controls")).hidden = true; open = null; }
+  function place(b) {
+    var p = b.parentNode.querySelector(".tipb"); p.style.left = "-10px";
+    var r = p.getBoundingClientRect(), over = r.right - (window.innerWidth - 12);
+    if (over > 0) p.style.left = (-10 - over) + "px";
+    r = p.getBoundingClientRect(); if (r.left < 12) p.style.left = (parseFloat(p.style.left) + 12 - r.left) + "px";
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest(".tip");
+    if (b) { e.preventDefault(); var was = b === open; close(); if (!was) { open = b; b.setAttribute("aria-expanded", "true"); document.getElementById(b.getAttribute("aria-controls")).hidden = false; place(b); } return; }
+    if (open && !e.target.closest(".tipb")) close();
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && open) { var b = open; close(); b.focus(); } });
+})();

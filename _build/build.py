@@ -20,7 +20,7 @@ def badges(verified_text):
 
 LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest"), ("/rent-vs-buy/", "Rent or Buy")]
 MENU_EXTRA = []   # extra phone-menu tools for review builds
-NAV = [("/#tools", "Tools"), ("/leave-planner-2027/", "Leave planner"), ("/methodology/", "How we check")]
+NAV = [("/#tools", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
 def ld(obj): return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False, separators=(",", ":")) + "</script>"
 
@@ -34,7 +34,7 @@ def faq_ld(faqs):
 def faq_html(faqs):
     return '<div class="faq">' + "".join(f"<details><summary>{H.escape(q)}</summary><p>{a}</p></details>" for q, a in faqs) + "</div>"
 
-def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="og-home.png", og_title=None, noindex=False, head_extra=""):
+def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="og-home.png", og_title=None, noindex=False, head_extra="", og_type="website"):
     graph = list(graph or [])
     if crumbs: graph.append(breadcrumbs_ld(crumbs))
     canon = SITE + path
@@ -62,7 +62,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
 <link rel="icon" href="/assets/img/icon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
-{css_links}<meta property="og:type" content="website">
+{css_links}<meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="Salarist">
 <meta property="og:locale" content="en_IN">
 <meta property="og:title" content="{H.escape(og_title or title)}">
@@ -96,7 +96,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
       <p class="menu-h">Tools</p>
       <ul>{menu_tools}<li><a href="/#tools">All tools and what's coming</a></li></ul>
       <p class="menu-h">Salarist</p>
-      <ul><li><a href="/methodology/">How we check our numbers</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li></ul>
+      <ul><li><a href="/guides/">Guides</a></li><li><a href="/methodology/">How we check our numbers</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li></ul>
     </div>
   </div>
 </header>
@@ -113,7 +113,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
       </div>
       <div><h4>Tools</h4><ul>{tools}<li><span>More tools coming soon</span></li></ul></div>
       <div><h4>Salarist</h4><ul>
-        <li><a href="/about/">About</a></li><li><a href="/methodology/">How we check our numbers</a></li><li><a href="/contact/">Contact</a></li>
+        <li><a href="/guides/">Guides</a></li><li><a href="/about/">About</a></li><li><a href="/methodology/">How we check our numbers</a></li><li><a href="/contact/">Contact</a></li>
         <li><a href="/privacy/">Privacy policy</a></li><li><a href="/terms/">Terms of use</a></li><li><a href="/disclaimer/">Disclaimer</a></li></ul></div>
     </div>
     <p class="disc">Salarist provides estimates for information only. It is not tax, legal or financial advice. Check important decisions with a qualified adviser. © 2026 Salarist.</p>
@@ -333,6 +333,7 @@ def leave_planner():
               "description": "Plan 2027 leave around India's central government holidays: find long weekends, the best days to take leave and the longest breaks for your leave balance.",
               "publisher": {"@id": SITE + "/#org"}},
              faq_ld(faqs)]
+    body = add_tips(body, "lp", LP_TIPS)
     return layout("/leave-planner-2027/", "Leave Planner 2027: Long Weekends & Leave Days | Salarist",
                   "Find every 2027 long weekend and the best days to take leave around India's holidays. Get the most days off for your leave. Free, no sign-up.",
                   body, crumbs=[("/", "Home"), ("/leave-planner-2027/", "Leave Planner 2027")], graph=graph,
@@ -479,6 +480,7 @@ def prepay_page():
               "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
               "description": "Compare prepaying your home loan with investing the extra money, after tax, under the old or new regime.", "publisher": {"@id": SITE + "/#org"}},
              faq_ld(faqs)]
+    body = add_tips(body, "pv", PV_TIPS)
     return layout("/prepay-vs-invest/", "Prepay Home Loan or Invest? Calculator for India | Salarist",
                   "Should you prepay your home loan or invest the extra? Compare both after tax, old or new regime, and see your breakeven return. Free, no sign-up.",
                   body, crumbs=[("/", "Home"), ("/prepay-vs-invest/", "Prepay or Invest Calculator")], graph=graph,
@@ -640,6 +642,7 @@ def rentbuy_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/rent-vs-buy/">Rent or buy a home in India? How to decide</a>. It walks through every number on this page with a worked example.</p>
   <h2>How the calculator works</h2>
   <p>Both choices start with the same money and run month by month for as long as you plan to stay.</p>
   <ul><li><strong>Buy:</strong> you pay the down payment, stamp duty, registration and other costs at the start. Every month you pay the EMI and the owner's costs. At the end you sell, pay selling costs and tax on the gain, and repay any loan left.</li>
@@ -688,10 +691,252 @@ def rentbuy_page():
               "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
               "description": "Compare renting and buying a home in India after stamp duty, EMIs, tax, HRA and the sale, and see the home price growth you need for buying to win.", "publisher": {"@id": SITE + "/#org"}},
              faq_ld(faqs)]
+    body = add_tips(body, "rb", RB_TIPS)
     return layout("/rent-vs-buy/", "Rent vs Buy Calculator for India: Which Leaves You Richer? | Salarist",
                   "Should you rent or buy a home? Compare both after stamp duty, EMIs, HRA, tax and the sale, under the old or new regime. Free, private, no sign-up.",
                   body, crumbs=[("/", "Home"), ("/rent-vs-buy/", "Rent vs Buy Calculator")], graph=graph,
                   css=("tool.css",), js=("rent-buy.js",), og="og-rent-vs-buy.png", og_title="Rent or buy a home: which leaves you richer?")
+
+# ---------------- Info tips ----------------
+TIP_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg>'
+def add_tips(body, prefix, tips):
+    """tips: list of (exact closing-tag anchor, label for the button, tip text). The tip is placed right after the anchor."""
+    for i, (anchor, name, text) in enumerate(tips):
+        assert body.count(anchor) == 1, ("tip anchor", anchor)
+        tid = f"{prefix}-tip{i}"
+        w = (f'<span class="tipw"><button type="button" class="tip" aria-expanded="false" aria-controls="{tid}" aria-label="What is {H.escape(name)}?">{TIP_ICON}</button>'
+             f'<span class="tipb" id="{tid}" role="note" hidden>{text}</span></span>')
+        if anchor.startswith('<div class="l">'):   # stat labels: inside, next to the words
+            cut = anchor.rindex("</"); body = body.replace(anchor, anchor[:cut] + w + anchor[cut:])
+        else:                                        # labels and headings: right after, so names and headings stay clean
+            body = body.replace(anchor, anchor + w)
+    return body
+
+RB_TIPS = [
+    ("""<label for="rb-stay">How long you'll live there</label>""", "how long you'll live there",
+     "Buying has big one-time costs: stamp duty, registration and, later, selling costs. The longer you stay, the more years those costs are spread over, which is why this number often decides the answer."),
+    ("""<label for="rb-down">Down payment</label>""", "the down payment",
+     "The part of the price you pay from your savings. Banks lend only part of a home's value, so you pay the rest. The renter invests this money instead."),
+    ("""<label for="rb-grow">Home price growth</label>""", "home price growth",
+     "How much the home's value rises each year, on average, over your stay. Price growth in your own area over the last 10 years is a better guide than city or national averages."),
+    ("""<label for="rb-rentUp">Rent increase</label>""", "rent increase",
+     "How much your rent goes up each year. Check the renewal clause in your current lease for a realistic figure."),
+    ("""<label for="rb-ret">Return you expect from investing</label>""", "the expected return",
+     "The average yearly return on the money the renter invests, and on anything the buyer invests once the loan is paid. Returns go up and down and aren't guaranteed, so use a cautious figure."),
+    ("""<label for="rb-sell">Selling costs</label>""", "selling costs",
+     "Brokerage and other charges you pay when you sell, as a share of the sale price."),
+    ("""<span class="lbl" id="regLbl">Your tax regime</span>""", "the tax regime",
+     "New regime: lower tax rates, but no HRA exemption and no home loan deductions for a home you live in. Old regime: higher rates, but you can claim both. Pick the one you file under."),
+    ("""<label for="rb-room">Room left in your ₹1,50,000 limit</label>""", "the ₹1,50,000 limit",
+     "Section 123 of the Income-tax Act, 2025 (section 80C earlier) lets you deduct up to ₹1,50,000 a year in total for PF, PPF, ELSS, life insurance, home loan principal, stamp duty, registration and more. Most salaried people use much of it through PF."),
+    ("""<label for="rb-possess">Years until possession</label>""", "possession",
+     "Until you get the keys, you pay only interest on the loan (often called pre-EMI) and you still pay rent. The full EMI starts at possession."),
+    ("""<div class="l">Cash needed to buy</div>""", "cash needed to buy",
+     "Down payment plus stamp duty, registration and other buying costs, and your rent deposit if the home isn't ready yet. The renter invests this amount on day one."),
+    ("""<h2 class="list-h" style="margin:0 0 4px">Net worth over time</h2>""", "net worth",
+     "Everything you'd have if you cashed out that month: your investments after tax, plus the home after selling costs and tax, minus the loan still owed."),
+]
+PV_TIPS = [
+    ("""<label for="pv-P">Loan outstanding</label>""", "the loan outstanding",
+     "What you still owe on the home loan today. Your bank's latest statement or app shows it as the principal outstanding."),
+    ("""<label for="pv-extra">Extra you can pay each month</label>""", "the extra amount",
+     "Money you have left each month after your EMI and expenses. The calculator compares putting it into the loan against investing it."),
+    ("""<label for="pv-ret">Return you expect from investing</label>""", "the expected return",
+     "The average yearly return on the money you'd invest. Returns go up and down and aren't guaranteed, so use a cautious figure."),
+    ("""<span class="lbl" id="kindLbl">Where you'd invest</span>""", "where you'd invest",
+     "This changes the tax on your gains. Equity funds: 12.5% above ₹1,25,000 of gains, when you sell. Debt funds: your slab rate when you sell. FDs: your slab rate every year."),
+    ("""<span class="lbl" id="regLbl">Your tax regime</span>""", "the tax regime",
+     "Old regime only: home loan interest on a home you live in cuts your tax, up to ₹2,00,000 of interest a year. Prepaying reduces that saving. New regime: no such deduction."),
+    ("""<div class="l">Interest saved by prepaying</div>""", "interest saved",
+     "How much less interest you pay the bank in total if you put the extra into the loan. It's a guaranteed saving, but it's not the whole answer: the verdict also counts what investing would have earned."),
+    ("""<h2 class="list-h" style="margin:0 0 4px">Net worth over time</h2>""", "net worth",
+     "Your investments minus what you still owe on the loan, each month. Tax on investments is taken off at the end."),
+]
+LP_TIPS = [
+    ("""<span class="lbl" id="weekLbl">Your weekly off</span>""", "the weekly off",
+     "The days you never work. The planner counts these as free days, so a long weekend needs fewer leave days."),
+    ("""<h3>Restricted holidays your employer gives</h3>""", "restricted holidays",
+     "Optional holidays you pick from a list. Central government staff can take two a year; many private employers offer a similar choice. Tick the ones you'll take."),
+]
+
+# ---------------- Guides ----------------
+GUIDES = [  # (path, title, short description, published, image base name, section)
+    ("/guides/rent-vs-buy/", "Rent or buy a home in India? How to decide, with a worked example",
+     "How to compare renting and buying properly, what each number in the Rent or Buy calculator means, and what changes the answer, worked through one salaried buyer's numbers.",
+     "2026-11-13", "guide-rent-vs-buy", "Your home"),
+]
+def _L(v):
+    a = abs(v); s = "−" if v < 0 else ""
+    if a >= 1e7: return f"{s}₹{a/1e7:.2f} Cr".replace(".00 Cr", " Cr")
+    if a >= 1e5: return f"{s}₹{a/1e5:.1f} L".replace(".0 L", " L")
+    return f"{s}₹{a:,.0f}"
+def _inr(v):
+    v = round(v); n = str(abs(v)); h = n[-3:]; r = n[:-3]
+    while len(r) > 2: h = r[-2:] + "," + h; r = r[:-2]
+    if r: h = r + "," + h
+    return ("−" if v < 0 else "") + "₹" + h
+def _date(iso):
+    y, m, d = iso.split("-")
+    return f"{int(d)} {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][int(m)-1]} {y}"
+def _pic(img, alt, eager=False):
+    at = 'fetchpriority="high"' if eager else 'loading="lazy"'
+    return (f'<picture><source type="image/webp" srcset="/assets/img/{img}-1600x900.webp">'
+            f'<img src="/assets/img/{img}-1600x900.jpg" width="1600" height="900" alt="{alt}" {at}></picture>')
+
+def guide_rentbuy():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_numbers.js")]))
+    A, R = G["arjun"], G["results"]
+    b = R["base"]
+    def verdict(r): return ("Renting wins by " if r["diff"] > 0 else "Buying wins by ") + _L(abs(r["diff"]))
+    skip = ("possess", "room", "basic", "hra", "metro", "claimInt", "claimHra")
+    q = "&".join(f"{k}={'1' if v is True else '0' if v is False else v}" for k, v in A.items() if k not in skip)
+    tool_link = "/rent-vs-buy/?" + q
+    path, title, desc, pub, img, section = GUIDES[0]
+    flips = [("He stays 5 years instead of 12", R["stay5"]), ("He stays 20 years", R["stay20"]),
+             ("Prices grow 8% a year instead of 6%", R["grow8"]), ("Prices grow 4% a year", R["grow4"]),
+             ("He buys under construction, possession in 3 years", R["uc3"]), ("He keeps the home instead of selling", R["keep"]),
+             ("He sells and puts the gain into another home", R["reinvest"]), ("He'd invest in FDs, not equity funds", R["fd"]),
+             ("He files under the old regime (HRA and home loan deductions)", R["old"])]
+    flip_rows = "".join(f"<tr><td>{t}</td><td>{verdict(r)}</td><td>{r['be']:.1f}%</td></tr>" for t, r in flips)
+    bw = R["buyWins"]
+    toc = [("short-answer", "The short answer"), ("rent-wasted", "Is rent really wasted money?"), ("arjun", "Meet Arjun: the example"),
+           ("result", "Arjun's result, line by line"), ("flips", "What changes the answer"), ("buying-wins", "When buying wins"),
+           ("invest-trap", "The catch with renting and investing"), ("tax", "Old regime, HRA and home loan tax benefits"),
+           ("not-money", "What the numbers can't capture"), ("checklist", "A checklist before you decide"), ("method", "How these numbers were worked out")]
+    toc_html = "".join(f'<li><a href="#{i}">{t}</a></li>' for i, t in toc)
+    hero_alt = "A balance weighing a rented apartment building and growing investments against an owned house"
+    body = f"""<article class="guide">
+<header class="wrap g-head">
+  <p class="eyebrow">Guide · {section}</p>
+  <h1>{title}</h1>
+  <p class="lead">Buying feels like building an asset and renting feels like money gone. Both feelings are only half right. This guide shows how to compare the two honestly, using one salaried buyer's numbers, and what it takes for buying to come out ahead.</p>
+  <p class="g-meta"><span>By Salarist</span><span>Published <time datetime="{pub}">{_date(pub)}</time></span><span>Written for tax year {TAX_YEAR}</span><span>READ_MIN min read</span></p>
+</header>
+<figure class="wrap g-hero">{_pic(img, hero_alt, eager=True)}</figure>
+<div class="wrap g-body prose">
+<nav class="g-toc" aria-label="In this guide"><p>In this guide</p><ol>{toc_html}</ol></nav>
+
+<h2 id="short-answer">The short answer</h2>
+<p>Whether renting or buying leaves you richer comes down to three numbers: <strong>how long you'll live in the home</strong>, <strong>how fast home prices grow where you're buying</strong>, and <strong>what your money would earn if you invested it instead</strong>. Tax rules, stamp duty and EMIs matter too, but less than people expect.</p>
+<p>With the kind of numbers common in big Indian cities today, renting and investing the difference often comes out ahead on money alone. Buying wins when you stay a long time, prices in your area rise strongly, and you'd otherwise invest cautiously. The rest of this guide shows why, step by step.</p>
+<p class="g-cta"><a class="btn" href="/rent-vs-buy/">Check your own numbers</a></p>
+
+<h2 id="rent-wasted">Is rent really wasted money?</h2>
+<p>Rent is money you never get back. But owners also pay money they never get back, and it's easy to forget how much:</p>
+<ul>
+  <li><strong>Interest on the loan.</strong> In the example below, {_L(b['interest'])} of the {_L(b['emiPaid'])} paid in EMIs over 12 years is interest. Only the rest reduces the loan.</li>
+  <li><strong>Stamp duty and registration</strong>, paid once and gone: {_L(A['stamp'] + A['reg'])} on a {_L(A['price'])} flat in the example.</li>
+  <li><strong>Maintenance, property tax and repairs</strong> every year.</li>
+  <li><strong>Selling costs and tax on the gain</strong> when you sell.</li>
+  <li><strong>What the down payment could have earned</strong> if it had been invested instead.</li>
+</ul>
+<p>So the fair question isn't "rent or EMI?" but "after all these costs, which choice leaves me with more?" That's what the calculator answers.</p>
+
+<h2 id="arjun">Meet Arjun: the example</h2>
+<p>Arjun is 31, works in IT in Pune and earns ₹18 lakh a year. He files under the new tax regime, where his top slab is 20%. He's choosing between buying a 2BHK and renting a similar flat. Arjun is an example: his numbers are realistic, but use your own when you try the calculator.</p>
+<div class="g-scroll"><table class="g-tbl"><tbody>
+  <tr><th scope="row">Flat price</th><td>{_inr(A['price'])}</td></tr>
+  <tr><th scope="row">Down payment</th><td>{_inr(A['down'])} (20%)</td></tr>
+  <tr><th scope="row">Stamp duty</th><td>{_inr(A['stamp'])} (7% of the price, from his cost sheet)</td></tr>
+  <tr><th scope="row">Registration and other costs</th><td>{_inr(A['reg'])} and {_inr(A['other'])}</td></tr>
+  <tr><th scope="row">Home loan</th><td>{_inr(b['loan'])} at {A['rate']}% for {A['tenure']} years: EMI {_inr(b['emi'])}</td></tr>
+  <tr><th scope="row">Owner's costs</th><td>{_inr(A['own'])} a year, rising {A['ownUp']}% a year</td></tr>
+  <tr><th scope="row">Rent for a similar flat</th><td>{_inr(A['rent'])} a month, rising {A['rentUp']}% a year, with a {_inr(A['deposit'])} deposit</td></tr>
+  <tr><th scope="row">How long he'll stay</th><td>{A['stay']} years, then sell</td></tr>
+  <tr><th scope="row">Home price growth</th><td>{A['grow']}% a year</td></tr>
+  <tr><th scope="row">If he invests instead</th><td>Equity mutual funds at {A['ret']}% a year</td></tr>
+</tbody></table></div>
+<p class="g-cta"><a class="btn btn-ghost" href="{tool_link}">Open the calculator with Arjun's numbers</a></p>
+
+<h2 id="result">Arjun's result, line by line</h2>
+<h3>The verdict: {verdict(b)}</h3>
+<p>After 12 years, renting and investing leaves Arjun with <strong>{_L(b['rent'])}</strong> after tax. Buying leaves him with <strong>{_L(b['buy'])}</strong> once he sells the flat, pays {A['sell']}% in selling costs and {_L(b['propTax'])} of tax on the gain, and repays the {_L(b['loanLeft'])} still owed on the loan.</p>
+<p>How can that be, when the flat itself grows to {_L(b['home'])}? Because the renter starts with a {_L(b['upfront'])} head start (the down payment and buying costs, invested on day one) and keeps investing the gap between his rent and the buyer's EMI and upkeep. Arjun's rent starts at less than half his EMI, so that gap is large for years.</p>
+<h3>"Buying wins if prices grow above {b['be']:.1f}% a year"</h3>
+<p>This is the breakeven: the yearly home price growth at which both choices end level. It's the most useful number on the page. Ask yourself honestly whether homes in your area are likely to rise faster than that, every year, for your whole stay. If the breakeven is well above what you expect, renting is the safer bet. If it's below, buying looks good.</p>
+<h3>"Buying pays off: not within 30 years"</h3>
+<p>This tells you how long you'd need to stay for buying to come out ahead. For Arjun, buying never catches up at these numbers, even over 30 years. When buying does win, this number tells you the minimum stay that makes it worth it.</p>
+<h3>Cash needed to buy: {_L(b['upfront'])}</h3>
+<p>Down payment plus stamp duty, registration and other costs. This is real money that leaves your savings on day one, and it's exactly what the renter invests instead.</p>
+<h3>The chart and "Where your money went"</h3>
+<p>The chart shows what each choice would be worth if you cashed out in any given month. The buyer's line starts lower, because stamp duty and buying costs are gone the moment you buy. The table below it lists every rupee: what each choice paid, what it invested and what it ends with. Both choices use exactly the same money, so the comparison is fair.</p>
+
+<h2 id="flips">What changes the answer</h2>
+<p>Here's what happens to Arjun's result when one thing changes and everything else stays the same:</p>
+<div class="g-scroll"><table class="g-tbl g-flip"><thead><tr><th scope="col">If…</th><th scope="col">Result</th><th scope="col">Buying wins if prices grow above</th></tr></thead><tbody>
+<tr class="base"><td>Arjun's numbers as above</td><td>{verdict(b)}</td><td>{b['be']:.1f}%</td></tr>{flip_rows}
+</tbody></table></div>
+<p>Two things stand out. Home price growth moves the result more than anything else, and the breakeven barely moves when tax or the investment type changes. Stay length matters too: here a longer stay widens the gap, because Arjun's equity investments compound faster than a flat growing at 6%.</p>
+
+<h2 id="buying-wins">When buying wins</h2>
+<p>Change three things: prices in Arjun's area grow <strong>8% a year</strong>, he'd only expect <strong>10% a year</strong> from investing, and he stays <strong>15 years and keeps the flat</strong>. Now <strong>{verdict(bw)}</strong>, and buying pays off after about <strong>{bw['payoff']:.1f} years</strong>.</p>
+<p>That's the pattern: buying wins when you stay long, local prices rise strongly and steadily, and your alternative investments would grow slowly. If those describe you, buying can make sense on money alone.</p>
+
+<h2 id="invest-trap">The catch with renting and investing</h2>
+<p>Renting only wins if you actually invest the difference, every month, for years, and leave it alone when markets fall. Many people don't. If the money saved by renting would drift into spending, the EMI works as forced saving and buying may leave you better off in practice.</p>
+<p>A practical test: set up a monthly SIP for the gap between your EMI and rent for six months before deciding. If it feels easy, the renting numbers are realistic for you.</p>
+
+<h2 id="tax">Old regime, HRA and home loan tax benefits</h2>
+<p>Under the old regime, a buyer can deduct up to ₹2,00,000 of home loan interest a year on a home they live in (section 22 of the Income-tax Act, 2025), and count principal, stamp duty and registration within the ₹1,50,000 limit of section 123. A renter can claim the HRA exemption instead. The new regime allows neither.</p>
+<p>These benefits help both sides, so they move the answer less than people think. For Arjun on the old regime, with a basic salary of ₹60,000 a month and HRA of ₹30,000, the result is: {verdict(R['old'])}, close to his new-regime result. Choose the old regime in the calculator to see your own figures.</p>
+
+<h2 id="not-money">What the numbers can't capture</h2>
+<p>A calculator compares money. Your decision is about more than that:</p>
+<ul>
+  <li><strong>Reasons to buy anyway:</strong> no landlord and no forced moves, stability for children's schooling or ageing parents, freedom to change the home, and a home that's yours in retirement.</li>
+  <li><strong>Reasons to keep renting:</strong> freedom to move for a better job, money that stays liquid for emergencies and opportunities, and no risk from a delayed project or a slow resale market.</li>
+</ul>
+<p>It's fine to buy even when renting wins on paper. Just know what the peace of mind is costing you, and decide with that number in front of you.</p>
+
+<h2 id="checklist">A checklist before you decide</h2>
+<ol class="g-check">
+  <li>How long will you realistically live in this home? Be honest about job moves.</li>
+  <li>How have home prices in this specific area moved over the last 10 years?</li>
+  <li>After the down payment and costs, will you still have an emergency fund of 6 months' expenses?</li>
+  <li>Could you keep paying the EMI if your income dropped for a few months?</li>
+  <li>If you rent, will you really invest the difference every month?</li>
+  <li>Under construction? Add a year or two to the builder's possession date and check again.</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/rent-vs-buy/">Run your numbers in the calculator</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>Every figure in this guide comes from the same calculation as the <a href="/rent-vs-buy/">Rent or Buy calculator</a>, run on Arjun's inputs, so the guide and the tool always agree. The calculation runs month by month, with the same money going into both choices. It includes stamp duty, registration, EMIs, owner's costs, rent, the security deposit, investment tax at the end and tax on the home sale. The tax rules are for tax year {TAX_YEAR}: gains on a home held over 24 months are taxed at 12.5% plus cess without indexation, and equity fund gains above ₹1,25,000 at 12.5% plus cess. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This guide is for information and education. It isn't financial, tax or legal advice, and returns aren't guaranteed. For a big decision, consider speaking to a qualified adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    words = len(re.sub(r"<[^>]+>", " ", body).split())
+    body = body.replace("READ_MIN", str(max(1, round(words / 220))))
+    images = [f"{SITE}/assets/img/{img}-1600x900.jpg", f"{SITE}/assets/img/{img}-1200x900.jpg", f"{SITE}/assets/img/{img}-1200x1200.jpg"]
+    graph = [{"@type": "Article", "@id": SITE + path + "#article", "headline": title, "description": desc, "image": images,
+              "datePublished": pub + "T09:00:00+05:30", "dateModified": pub + "T09:00:00+05:30",
+              "author": {"@type": "Organization", "name": "Salarist", "url": SITE + "/"}, "publisher": {"@id": SITE + "/#org"},
+              "mainEntityOfPage": SITE + path, "inLanguage": "en-IN", "articleSection": "Guides", "wordCount": words,
+              "about": [{"@type": "Thing", "name": "Renting vs buying a home"}, {"@type": "Thing", "name": "Home loans in India"}],
+              "isAccessibleForFree": True},
+             {"@type": "Organization", "@id": SITE + "/#org", "name": "Salarist", "url": SITE + "/", "logo": SITE + "/assets/img/icon-512.png"}]
+    extra = (f'<meta property="article:published_time" content="{pub}T09:00:00+05:30">\n<meta property="article:section" content="Guides">\n'
+             f'<meta property="og:image:alt" content="Rent or buy a home in India: a Salarist guide">\n'
+             f'<link rel="preload" as="image" href="/assets/img/{img}-1600x900.webp" type="image/webp" fetchpriority="high">\n')
+    return layout(path, "Rent or Buy a Home in India? How to Decide (Worked Example) | Salarist", desc, body,
+                  crumbs=[("/", "Home"), ("/guides/", "Guides"), (path, "Rent or buy a home")], graph=graph,
+                  css=("tool.css", "guide.css"), og=f"og-{img}.png", og_title="Rent or buy a home in India? How to decide",
+                  head_extra=extra, og_type="article")
+
+def guides_index():
+    cards = "".join(
+        f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>'
+        for p, t, ds, d, im, sec in GUIDES)
+    body = (f'<section class="tool-hero"><div class="wrap"><p class="eyebrow">Guides</p><h1>Guides to the big money decisions</h1>'
+            f'<p class="lead">Each guide walks through one decision with a worked example and explains every number the matching tool shows. Written for tax year {TAX_YEAR}.</p></div></section>'
+            f'<section style="padding-top:0"><div class="wrap"><div class="g-cards">{cards}</div></div></section>')
+    graph = [{"@type": "CollectionPage", "name": "Salarist guides", "url": SITE + "/guides/", "inLanguage": "en-IN",
+              "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": SITE + g[0], "name": g[1]} for i, g in enumerate(GUIDES)]}}]
+    return layout("/guides/", "Guides to Salaried Money Decisions in India | Salarist",
+                  "Plain-English guides with worked examples for the big money decisions salaried Indians face, starting with renting or buying a home.",
+                  body, crumbs=[("/", "Home"), ("/guides/", "Guides")], graph=graph, css=("tool.css", "guide.css"), og="og-home.png")
 
 # ---------------- Text pages ----------------
 def text_page(path, name, title, desc, h1, html_body, updated=True, eyebrow="Salarist"):
@@ -788,9 +1033,11 @@ def main():
     write("/leave-planner-2027/", leave_planner())
     write("/prepay-vs-invest/", prepay_page())
     write("/rent-vs-buy/", rentbuy_page())
+    write("/guides/", guides_index())
+    write("/guides/rent-vs-buy/", guide_rentbuy())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9")] + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8")] + [(p, "0.3") for p in PAGES]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
         f"  <url><loc>{SITE}{u}</loc><lastmod>{VERIFIED}</lastmod><priority>{pr}</priority></url>\n" for u, pr in urls) + "</urlset>\n"
     open(os.path.join(DIST, "sitemap.xml"), "w").write(sm)

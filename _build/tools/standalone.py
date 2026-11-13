@@ -14,4 +14,9 @@ def js(m): return "<script>" + open(os.path.join(DIST, m.group(1).lstrip("/")), 
 inline_extra = "".join("<script>" + open(os.path.join(DIST, "assets/js", e), encoding="utf-8").read() + "</script>" for e in extra)
 html = re.sub(r'<script src="([^"?]+)\?v=[^"]*" defer></script>', js, html)
 html = html.replace("</body>", inline_extra + "</body>")
+def img(m):
+    f = os.path.join(DIST, m.group(2).lstrip("/")); ext = f.rsplit(".", 1)[1]
+    mime = {"jpg": "image/jpeg", "webp": "image/webp", "png": "image/png", "svg": "image/svg+xml"}[ext]
+    return m.group(1) + '="data:' + mime + ";base64," + base64.b64encode(open(f, "rb").read()).decode() + '"'
+html = re.sub(r'(src|srcset)="(/assets/img/[^"]+)"', img, html)
 open(out, "w", encoding="utf-8").write(html); print(out, len(html) // 1024, "KB")

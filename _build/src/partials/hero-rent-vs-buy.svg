@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A balance weighing a rented apartment building against an owned house">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <!-- soft coins -->
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="170" r="70"/><circle cx="1430" cy="150" r="54"/><circle cx="1340" cy="760" r="90"/><circle cx="260" cy="760" r="46"/></g>
+  <!-- stand -->
+  <path d="M800 250 L800 760" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round"/>
+  <path d="M640 790 H960" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round"/>
+  <circle cx="800" cy="240" r="30" fill="#FFD27A"/>
+  <!-- beam, slightly tilted -->
+  <g transform="rotate(-6 800 250)">
+    <path d="M360 250 H1240" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/>
+    <!-- left hanger and pan -->
+    <path d="M380 250 L300 470 M380 250 L460 470" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="5"/>
+    <path d="M270 470 H490 Q480 520 380 520 Q280 520 270 470 Z" fill="#FFFFFF"/>
+    <!-- right hanger and pan -->
+    <path d="M1220 250 L1140 470 M1220 250 L1300 470" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="5"/>
+    <path d="M1110 470 H1330 Q1320 520 1220 520 Q1120 520 1110 470 Z" fill="#FFFFFF"/>
+  <!-- left pan load: apartment building + growing bars (rent and invest) -->
+  <g transform="translate(300 270)">
+    <rect x="0" y="0" width="120" height="200" rx="10" fill="#0E1726"/>
+    <g fill="#FFD27A"><rect x="18" y="20" width="24" height="24" rx="4"/><rect x="78" y="20" width="24" height="24" rx="4"/><rect x="18" y="64" width="24" height="24" rx="4" opacity=".45"/><rect x="78" y="64" width="24" height="24" rx="4"/><rect x="18" y="108" width="24" height="24" rx="4"/><rect x="78" y="108" width="24" height="24" rx="4" opacity=".45"/></g>
+    <rect x="44" y="150" width="32" height="50" rx="4" fill="#4C8DFF"/>
+    <g fill="#3DD68C"><rect x="140" y="140" width="22" height="60" rx="5"/><rect x="170" y="100" width="22" height="100" rx="5"/><rect x="200" y="50" width="22" height="150" rx="5"/></g>
+  </g>
+  <!-- right pan load: owned house with key -->
+  <g transform="translate(1090 220)">
+    <path d="M30 120 L130 40 L230 120 Z" fill="#FFD27A"/>
+    <rect x="50" y="118" width="160" height="132" rx="8" fill="#0E1726"/>
+    <rect x="110" y="170" width="40" height="80" rx="5" fill="#FFD27A"/>
+    <rect x="68" y="140" width="30" height="30" rx="4" fill="#4C8DFF"/>
+    <rect x="162" y="140" width="30" height="30" rx="4" fill="#4C8DFF"/>
+  </g>
+  </g>
+  <!-- key -->
+  <g transform="translate(1290 560) rotate(-30)" fill="none" stroke="#FFD27A" stroke-width="14" stroke-linecap="round">
+    <circle cx="0" cy="0" r="34"/><path d="M34 0 H130 M100 0 V26 M124 0 V20"/>
+  </g>
+  <!-- rupee coins on the left -->
+  <g transform="translate(180 600)"><circle r="44" fill="#FFD27A"/><path d="M-16 -20 H18 M-16 -6 H18 M-14 -20 C12 -20 12 8 -14 8 L14 26" fill="none" stroke="#0E1726" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>
