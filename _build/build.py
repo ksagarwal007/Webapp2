@@ -18,7 +18,8 @@ def badges(verified_text):
     return (f'<div class="badges"><span class="badge priv">{LOCK}Private: calculated on your device. Nothing is stored or sent.</span>'
             f'<span class="badge ok">{CHECK}{verified_text} · <a href="#sources">Sources</a></span></div>')
 
-LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest")]
+LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest"), ("/rent-vs-buy/", "Rent or Buy")]
+MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/#tools", "Tools"), ("/leave-planner-2027/", "Leave planner"), ("/methodology/", "How we check")]
 
 def ld(obj): return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False, separators=(",", ":")) + "</script>"
@@ -45,6 +46,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
     css_links = "".join(f'<link rel="stylesheet" href="/assets/css/{c}?v={ver("assets/css/" + c)}">\n' for c in ("site.css",) + tuple(css))
     js_tags = "".join(f'<script src="/assets/js/{j}?v={ver("assets/js/" + j)}" defer></script>\n' for j in ("site.js",) + tuple(js))
     tools = "".join(f'<li><a href="{u}">{n}</a></li>' for u, n in LIVE_TOOLS)
+    menu_tools = "".join(f'<li><a href="{u}"{" aria-current=\"page\"" if u == path else ""}>{n}</a></li>' for u, n in LIVE_TOOLS + MENU_EXTRA)
     return f'''<!DOCTYPE html>
 <html lang="en-IN">
 <head>
@@ -83,7 +85,19 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
         <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       </button>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menuPanel">
+        <svg class="open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
     </nav>
+  </div>
+  <div class="menu-panel" id="menuPanel" hidden>
+    <div class="wrap">
+      <p class="menu-h">Tools</p>
+      <ul>{menu_tools}<li><a href="/#tools">All tools and what's coming</a></li></ul>
+      <p class="menu-h">Salarist</p>
+      <ul><li><a href="/methodology/">How we check our numbers</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li></ul>
+    </div>
   </div>
 </header>
 <main id="main">
@@ -116,14 +130,16 @@ def home():
     body = body.replace('<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">Launching soon</span></a>',
                         '<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">New</span></a>')
     body = body.replace('<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">Jan 2027</span></a>', '<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">New</span></a>')
-    for u in ("/rent-vs-buy/", "/ctc-to-in-hand/"):
+    body = body.replace('<a class="ask" href="/rent-vs-buy/">Rent or buy? <span class="soon">Jan 2027</span></a>', '<a class="ask" href="/rent-vs-buy/">Rent or buy? <span class="soon">New</span></a>')
+    body = body.replace('<span class="st"><b>Coming January 2027</b></span>\n      </a>\n      <a class="tool" href="/ctc-to-in-hand/">', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>\n      </a>\n      <a class="tool" href="/ctc-to-in-hand/">', 1)
+    for u in ("/ctc-to-in-hand/",):
         body = body.replace(f'<a class="ask" href="{u}">', '<a class="ask" href="#tools">')
     body = body.replace('<span class="st"><b>Launching soon</b> · next up</span>', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>')
     body = body.replace('<span class="st"><b>Coming January 2027</b></span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', 1)
     # Tools that aren't built yet are not links (no dead links for Google or visitors)
     def unlink(m):
         return '<div class="tool off">' + m.group(2) + "</div>"
-    body = re.sub(r'<a class="tool" href="(/(?:rent-vs-buy|ctc-to-in-hand|budget-planner|company-car-lease-vs-loan)/)">(.*?)</a>', unlink, body, flags=re.S)
+    body = re.sub(r'<a class="tool" href="(/(?:ctc-to-in-hand|budget-planner|company-car-lease-vs-loan)/)">(.*?)</a>', unlink, body, flags=re.S)
     icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
     for k, v in icons.items(): body = body.replace("{{" + k + "}}", v)
     body = body.replace("{{CHECK}}", CHECK)
@@ -135,7 +151,7 @@ def home():
              {"@type": "Organization", "@id": SITE + "/#org", "name": "Salarist", "url": SITE + "/", "logo": SITE + "/assets/img/icon-512.png", "email": "contact@salarist.in"},
              faq_ld([(H.unescape(q), H.unescape(a)) for q, a in faqs])]
     return layout("/", "Salarist — Money and leave decision tools for salaried India",
-                  "Free money and leave tools for salaried Indians: plan 2027 leave, and prepay your loan or invest. No sign-up, official rates.",
+                  "Free money and leave tools for salaried Indians: plan 2027 leave, prepay your loan or invest, and rent or buy a home. No sign-up, official rates.",
                   body, graph=graph, og_title="Salarist — Make the big money calls with confidence")
 
 # ---------------- Leave planner ----------------
@@ -467,6 +483,205 @@ def prepay_page():
                   body, crumbs=[("/", "Home"), ("/prepay-vs-invest/", "Prepay or Invest Calculator")], graph=graph,
                   css=("tool.css",), js=("prepay.js",), og="og-prepay-vs-invest.png", og_title="Prepay your home loan or invest the extra?")
 
+STAMP_PORTALS = [  # official state stamps and registration portals with duty calculators
+    ("Andhra Pradesh", "https://registration.ap.gov.in/"), ("Delhi", "https://revenue.delhi.gov.in/"),
+    ("Karnataka", "https://kaveri.karnataka.gov.in/"), ("Maharashtra", "https://igrmaharashtra.gov.in/"),
+    ("Tamil Nadu", "https://tnreginet.gov.in/"), ("Telangana", "https://registration.telangana.gov.in/"),
+    ("Uttar Pradesh", "https://igrsup.gov.in/")]
+STATE_OPTS = "".join(f'<option value="{u}">{n}</option>' for n, u in STAMP_PORTALS)
+
+def rentbuy_page():
+    faqs = [
+        ("Is it better to rent or buy a home in India?",
+         "It depends mostly on three numbers: how fast home prices grow where you're buying, how long you'll stay, and the return you'd earn by investing the money you don't put into the home. In big Indian cities, rent is often only 2% to 3% of the home's price a year, which usually makes renting and investing cheaper unless prices grow fast or you stay a long time. The calculator shows the home price growth you need for buying to win."),
+        ("How does the calculator compare renting and buying fairly?",
+         "Both choices use the same money. At the start, the buyer pays the down payment, stamp duty, registration and other costs, and the renter invests that money instead. Every month after that, whichever choice costs less invests the difference. At the end we assume you sell the home, pay selling costs, tax and any loan left, and compare what each choice leaves you with."),
+        ("What if I plan to keep the home and never sell?",
+         "Choose \"I keep it\" under \"At the end of your stay\". We then count the home at its market value at that point, with no selling costs or tax, and subtract any loan still owed. Choosing \"I sell it\" shows what the home is worth to you in cash, after selling costs and tax."),
+        ("How does the calculator handle an under-construction home?",
+         "Choose \"Under construction\" and enter the years until possession. Until then you pay interest only on the loan (pre-EMI) and keep paying rent, which is often the biggest hidden cost. The regular EMI starts at possession. Under the old regime, interest paid before the year of possession is claimed in five equal parts from that year, within the ₹2,00,000 limit, and the limit drops to ₹30,000 if possession comes more than five years after the loan year."),
+        ("Is there tax if I sell and buy another home?",
+         "If you've held the home for more than 24 months and put the gain into another home in India within the time allowed, the gain is exempt under section 82 of the Income-tax Act, 2025 (section 54 of the 1961 Act), up to ₹10 crore. Tick \"I'll put the gain into another home\" to include this."),
+        ("Why do I enter stamp duty and registration in rupees?",
+         "Most buyers know the exact amounts from the builder's cost sheet or the state's stamp duty calculator, and the rates differ by state, city, the buyer's gender and the property's value. Entering the rupee amount avoids getting the rate wrong."),
+        ("Does the old tax regime change the answer?",
+         "Yes, in both directions. A buyer can deduct up to ₹2,00,000 of home loan interest a year (section 22 of the Income-tax Act, 2025) and count principal, stamp duty and registration within the ₹1,50,000 limit of section 123. A renter can claim the HRA exemption. Turn on the old regime to include both. The new regime gives neither."),
+        ("How is HRA exemption calculated?",
+         "It's the lowest of three amounts: the HRA you actually receive, the rent you pay minus 10% of your basic salary, and 50% of basic salary if you live in Delhi, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad, Pune or Ahmedabad (40% anywhere else). It's available only under the old regime."),
+        ("How is the gain on selling a home taxed?",
+         "If you've held the home for more than 24 months, the gain is long-term and taxed at 12.5% plus 4% cess, without indexation. If you sell within 24 months, the gain is added to your income and taxed at your slab rate. The cost includes the price, stamp duty, registration and other buying costs."),
+    ]
+    def num(k, label, unit="", mn=0, mx=0, st=1, money=True, rng=True, hint="", cls=""):
+        inp = f'<input id="rb-{k}" type="text" inputmode="numeric" autocomplete="off">' if money else f'<input id="rb-{k}" type="number" inputmode="decimal" min="{mn}" max="{mx}" step="{st}">'
+        return (f'<div class="fld{(" " + cls) if cls else ""}"><div class="row1"><label for="rb-{k}">{label}</label><span class="w" id="rb-{k}-w"></span></div>'
+                f'<div class="numin">{"<span>₹</span>" if money else ""}{inp}{"" if money else f"<span>{unit}</span>"}</div>'
+                + (f'<input type="range" id="rb-{k}-r" min="{mn}" max="{mx}" step="{st}" aria-label="{label}">' if rng else "")
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Home</p>
+  <h1>Rent or buy a home: which leaves you richer?</h1>
+  <p class="lead">Buying feels like building an asset, and renting feels like money gone. We put both on the same footing: same money in, month by month, with stamp duty, EMIs, upkeep, rent, tax and the sale at the end, and show which one leaves you with more.</p>
+  {badges("Tax rules verified on " + VERIFIED_TXT)}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb">
+  <div class="card lp-setup" aria-label="Your numbers">
+    {num("stay", "How long you'll live there", "years", 1, 30, 1, money=False, hint="Set to 10 years to start. Change it: it's the number that matters most.", cls="key")}
+    <p class="grp-h">The home</p>
+    {num("price", "Home price", mn=500000, mx=50000000, st=100000)}
+    <div>{num("down", "Down payment", mn=0, mx=20000000, st=50000)}<p class="hint" id="rb-loanTxt"></p></div>
+    <div>{num("stamp", "Stamp duty", rng=False, hint="The exact amount in rupees, from your cost sheet or your state's stamp duty calculator.")}
+      <details class="helper"><summary>Don't know the amount? Find your state's calculator</summary>
+        <p class="hint" style="margin-top:6px">Stamp duty depends on your state, city, the buyer's gender and the higher of the price and the government's rate for the area, so we don't guess it. Your state's official calculator shows the exact stamp duty and registration charges.</p>
+        <label class="lbl" for="rb-state" style="margin:12px 0 6px">Your state</label>
+        <select id="rb-state" class="sel" data-state><option value="">Choose your state</option>{STATE_OPTS}</select>
+        <p style="margin:10px 0 0"><a id="rb-stateLink" href="#" target="_blank" rel="noopener" hidden></a></p>
+        <p class="hint">Not listed? Search for your state's stamps and registration department.</p>
+      </details></div>
+    {num("reg", "Registration charges", rng=False, hint="The exact amount in rupees.")}
+    {num("other", "Other buying costs", rng=False, hint="Brokerage, legal fees, interiors, GST on an under-construction home: anything you pay that isn't the price.")}
+    <div><span class="lbl" id="ucLbl">When do you get the home?</span>
+      <div class="seg row" role="group" aria-labelledby="ucLbl"><button type="button" data-uc="0">Ready to move in</button><button type="button" data-uc="1">Under construction</button></div></div>
+    <div class="adv" id="rb-uc-box" hidden>
+      {num("possess", "Years until possession", "years", 0.5, 7, 0.5, money=False, hint="You pay interest only (pre-EMI) and keep renting until then. Builders often run late: try a year or two more.")}
+    </div>
+    {num("own", "Owner's costs each year", rng=False, hint="Maintenance, property tax and repairs together, from the day you move in.")}
+    {num("ownUp", "Owner's costs rise", "% a year", 0, 15, 0.5, money=False)}
+    {num("grow", "Home price growth", "% a year", -5, 15, 0.5, money=False)}
+    <p class="grp-h">The loan</p>
+    <div class="two-col">{num("rate", "Interest rate", "%", 5, 15, 0.05, money=False)}{num("tenure", "Tenure", "yrs", 1, 30, 1, money=False)}</div>
+    <p class="grp-h">Renting</p>
+    {num("rent", "Rent for a similar home, per month", mn=0, mx=300000, st=500)}
+    {num("rentUp", "Rent increase", "% a year", 0, 15, 0.5, money=False)}
+    {num("deposit", "Security deposit", rng=False, hint="Comes back in full when you move out.")}
+    <label class="chk" for="rb-depUp" style="border:0;grid-template-columns:22px 1fr;margin-top:-12px"><input type="checkbox" id="rb-depUp"><span>The deposit rises with the rent each year</span></label>
+    <p class="grp-h">Investing</p>
+    {num("ret", "Return you expect from investing", "% a year", 3, 18, 0.5, money=False)}
+    <div><span class="lbl" id="kindLbl">Where you'd invest</span>
+      <div class="seg row" role="group" aria-labelledby="kindLbl"><button type="button" data-kind="equity">Equity funds</button><button type="button" data-kind="debt">Debt fund</button><button type="button" data-kind="fd">Fixed deposit</button></div></div>
+    <p class="grp-h">At the end of your stay</p>
+    <div><span class="lbl" id="endLbl">What happens to the home?</span>
+      <div class="seg row" role="group" aria-labelledby="endLbl"><button type="button" data-end="sell">I sell it</button><button type="button" data-end="keep">I keep it</button></div>
+      <p class="hint">Keep it: we count the home at its market value, with no selling costs or tax.</p></div>
+    <div id="rb-sell-box" style="display:flex;flex-direction:column;gap:18px">
+      {num("sell", "Selling costs", "% of price", 0, 5, 0.25, money=False)}
+      <label class="chk" for="rb-reinvest" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="rb-reinvest"><span>I'll put the gain into another home (no tax on it under section 82, earlier section 54)</span></label>
+    </div>
+    <p class="grp-h">Tax</p>
+    <div><span class="lbl" id="regLbl">Your tax regime</span>
+      <div class="seg row" role="group" aria-labelledby="regLbl"><button type="button" data-regime="new">New regime</button><button type="button" data-regime="old">Old regime</button></div></div>
+    <div class="fld"><label class="lbl" for="rb-slab" style="margin:0">Your income tax slab</label>
+      <select id="rb-slab" class="sel"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option><option value="25">25%</option><option value="30">30%</option></select></div>
+    <div class="adv" id="rb-old" hidden>
+      <h3>Old regime: if you buy</h3>
+      <label class="chk" for="rb-claimInt" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="rb-claimInt"><span>Claim home loan interest (up to ₹2,00,000 a year)</span></label>
+      {num("room", "Room left in your ₹1,50,000 limit", rng=False, hint="Your PF, PPF, ELSS and insurance premiums already use this limit. Enter only what's left for principal, stamp duty and registration.")}
+      <h3>Old regime: if you rent</h3>
+      <label class="chk" for="rb-claimHra" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="rb-claimHra"><span>Claim HRA exemption</span></label>
+      <div id="rb-hra-box" style="display:flex;flex-direction:column;gap:18px">
+        {num("basic", "Basic salary per month", rng=False)}
+        {num("hra", "HRA you get per month", rng=False)}
+        <div><span class="lbl" id="metroLbl">Where you live</span>
+          <div class="seg row" role="group" aria-labelledby="metroLbl"><button type="button" data-metro="1">Delhi, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad, Pune or Ahmedabad</button><button type="button" data-metro="0">Anywhere else</button></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="verdict" id="rbVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="rbPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="rbXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="rbImgBtn">Share as image</button>
+      <button type="button" class="btn-sm btn-ghost" id="rbShare">Copy share link</button>
+    </div>
+    <p class="status" id="rbStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">Buying wins if prices grow above</div><div class="n" id="rbBe">—</div><div class="h">The yearly home price growth where both choices end equal</div></div>
+      <div class="stat"><div class="l">Buying pays off</div><div class="n" id="rbPay">—</div><div class="h">How long you need to stay for buying to come out ahead</div></div>
+      <div class="stat"><div class="l">Cash needed to buy</div><div class="n" id="rbUp">—</div></div>
+      <div class="stat"><div class="l">Your EMI</div><div class="n" id="rbEmi">—</div></div>
+    </div>
+    <h2 class="list-h">What if home prices grow differently?</h2>
+    <div class="sens" id="rbSens"></div>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">Net worth over time</h2>
+      <p class="hint" style="margin:0 0 10px">What you'd have if you sold everything that month, after selling costs, tax and the loan.</p>
+      <div id="rbChart"></div>
+      <div class="legend2"><span><i style="background:var(--brand)"></i>Rent and invest</span><span><i style="background:var(--leave)"></i>Buy</span></div>
+      <p class="hint" id="rbCross"></p>
+    </div>
+    <h2 class="list-h">Where your money went</h2>
+    <div class="money" id="rbMoney"></div>
+    <p class="hint" id="rbMoneyNote"></p>
+    <h2 class="list-h">Assumptions</h2>
+    <ul class="notes" id="rbNotes"></ul>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>The full calculation</h2>
+  <p class="lead" style="font-size:15px">Year by year for each choice, over your stay. Tap a year to see its 12 months.</p>
+  <div class="modes tabs2" role="tablist" aria-label="Choose which calculation to show"><button type="button" role="tab" data-tab="buy" aria-selected="true"><b>Buy</b></button><button type="button" role="tab" data-tab="rent" aria-selected="false"><b>Rent and invest</b></button></div>
+  <div class="tbl-wrap calc-wrap" id="rbTable"></div>
+</div></section>
+
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <h2>How the calculator works</h2>
+  <p>Both choices start with the same money and run month by month for as long as you plan to stay.</p>
+  <ul><li><strong>Buy:</strong> you pay the down payment, stamp duty, registration and other costs at the start. Every month you pay the EMI and the owner's costs. At the end you sell, pay selling costs and tax on the gain, and repay any loan left.</li>
+  <li><strong>Rent:</strong> you pay the security deposit at the start and invest what the buyer spent on buying. Every month you pay rent. At the end you get the deposit back and sell your investments.</li></ul>
+  <p>Each month, whichever choice costs less invests the difference, so both use exactly the same money. Usually the renter invests early on, while rent is lower than the EMI. Later, as rent rises and the loan closes, the buyer may invest too.</p>
+
+  <h2>Money isn't everything</h2>
+  <div class="factors">
+    <div><h3>Reasons to buy anyway</h3><ul><li>No landlord: no forced moves, no rent hikes, freedom to change the home.</li><li>Stability for children's schooling and ageing parents.</li><li>A home you own is a fallback in retirement.</li></ul></div>
+    <div><h3>Reasons to keep renting</h3><ul><li>Freedom to move for a better job or a different city.</li><li>Your money stays liquid for emergencies and opportunities.</li><li>No risk from a delayed project or a slow resale market.</li></ul></div>
+  </div>
+
+  <h2>Tax rules used, tax year 2026-27</h2>
+  <ul>
+    <li><strong>Selling the home:</strong> held over 24 months, the gain is long-term and taxed at 12.5% plus 4% cess, without indexation. Held 24 months or less, it's taxed at your slab rate plus cess. Budget 2026 left these rates unchanged.</li>
+    <li><strong>Buying another home with the gain:</strong> a long-term gain put into another home in India within the time allowed is exempt under section 82 of the Income-tax Act, 2025 (section 54 of the 1961 Act), up to ₹10 crore.</li>
+    <li><strong>Home loan interest, old regime:</strong> up to ₹2,00,000 a year for a home you live in, under section 22 of the Income-tax Act, 2025 (section 24(b) of the 1961 Act). For an under-construction home, interest paid before the year of possession is claimed in five equal yearly parts from that year, within the same limit (Budget 2026 confirmed this), and the limit is ₹30,000 if possession comes more than five years after the loan year. New regime: no deduction.</li>
+    <li><strong>Principal, stamp duty and registration, old regime:</strong> within the ₹1,50,000 limit of section 123 (section 80C of the 1961 Act). Stamp duty and registration count only in the year you pay them.</li>
+    <li><strong>HRA exemption, old regime only:</strong> the lowest of the HRA you receive, rent minus 10% of basic, and 50% of basic in Delhi, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad, Pune and Ahmedabad (40% elsewhere), as listed in the Income-tax Rules, 2026.</li>
+    <li><strong>Investments:</strong> equity fund gains taxed at 12.5% above ₹1,25,000 a year plus cess; debt fund gains and FD interest at your slab rate plus cess.</li>
+  </ul>
+  <p>We leave out surcharge, construction delays (add them to the years until possession), GST on an under-construction home unless you include it in other buying costs, and the cost of furnishing a rented home.</p>
+
+  <h2 id="sources">Sources</h2>
+  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: Income-tax Act, 2025 (sections 22, 82 and 123), the Income-tax Rules, 2026 (HRA), and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026 for tax year 2026-27. Verified on {VERIFIED_TXT}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="rbBar" hidden><span id="rbBarT"></span><button type="button" class="btn-sm pri" id="rbBarBtn">See the result</button></div>
+<dialog class="dlg" id="rbDlg" aria-labelledby="rbDlgH">
+  <h2 id="rbDlgH">Share your result</h2>
+  <p class="hint" style="margin:4px 0 14px">Made on your device. Nothing is uploaded.</p>
+  <img id="rbImg" alt="Your rent or buy result as a shareable image" width="1080" height="1350">
+  <div class="dlg-opts">
+    <div class="pal" role="radiogroup" aria-label="Image colour"><button type="button" role="radio" data-pal="blue" aria-checked="true"><i style="background:#1F5FE0"></i>Blue</button><button type="button" role="radio" data-pal="dark" aria-checked="false"><i style="background:#07090D;border:1px solid #2A3850"></i>Dark</button></div>
+    <label class="lbl" for="rbImgTitle" style="margin:14px 0 6px">Title on the image</label>
+    <div class="title-row"><input type="text" id="rbImgTitle" maxlength="70" autocomplete="off"><button type="button" class="link-btn" id="rbImgTitleReset" style="color:var(--brand)">Reset</button></div>
+  </div>
+  <div class="actions"><button type="button" class="btn-sm pri" id="rbImgShare">Share on WhatsApp &amp; more</button><button type="button" class="btn-sm" id="rbImgDl">Save image</button><button type="button" class="btn-sm btn-ghost" id="rbImgClose">Close</button></div>
+  <p class="status" id="rbImgStatus" role="status"></p>
+</dialog>
+"""
+    graph = [{"@type": "WebApplication", "name": "Rent vs Buy Calculator", "url": SITE + "/rent-vs-buy/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Compare renting and buying a home in India after stamp duty, EMIs, tax, HRA and the sale, and see the home price growth you need for buying to win.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    return layout("/rent-vs-buy/", "Rent vs Buy Calculator for India: Which Leaves You Richer? | Salarist",
+                  "Should you rent or buy a home? Compare both after stamp duty, EMIs, HRA, tax and the sale, under the old or new regime. Free, private, no sign-up.",
+                  body, crumbs=[("/", "Home"), ("/rent-vs-buy/", "Rent vs Buy Calculator")], graph=graph,
+                  css=("tool.css",), js=("rent-buy.js",), og="og-rent-vs-buy.png", og_title="Rent or buy a home: which leaves you richer?")
+
 # ---------------- Text pages ----------------
 def text_page(path, name, title, desc, h1, html_body, updated=True, eyebrow="Salarist"):
     body = f'<div class="wrap page"><p class="eyebrow">{eyebrow}</p><h1>{h1}</h1>' + (f'<p class="updated">Last updated {VERIFIED_TXT}</p>' if updated else "") + f'<div class="prose">{html_body}</div></div>'
@@ -561,9 +776,10 @@ def main():
     write("/", home())
     write("/leave-planner-2027/", leave_planner())
     write("/prepay-vs-invest/", prepay_page())
+    write("/rent-vs-buy/", rentbuy_page())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9")] + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9")] + [(p, "0.3") for p in PAGES]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
         f"  <url><loc>{SITE}{u}</loc><lastmod>{VERIFIED}</lastmod><priority>{pr}</priority></url>\n" for u, pr in urls) + "</urlset>\n"
     open(os.path.join(DIST, "sitemap.xml"), "w").write(sm)

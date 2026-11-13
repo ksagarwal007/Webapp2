@@ -185,3 +185,24 @@ table.calc th[scope=row]{position:sticky;left:0;background:var(--s1);z-index:1}
 table.calc tr.mo th[scope=row]{background:var(--s2)}
 table.calc thead th:first-child{left:0;z-index:2}
 .stat .h{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.35}
+/* Rent or buy */
+.rb .lp-setup{position:static}
+.grp-h{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 -10px;padding-top:6px;border-top:1px solid var(--line)}
+.grp-h:first-child{border-top:0;padding-top:0}
+.fld.key{background:var(--s1);border:2px solid var(--brand);border-radius:var(--r-field);padding:12px 14px}
+.adv{background:var(--s2);border:1px solid var(--line);border-radius:var(--r-field);padding:14px;display:flex;flex-direction:column;gap:18px}
+.adv h3{font-size:14px;margin:0}
+.chartbox .ln.buy{stroke:var(--leave)}
+.chartbox .ln.rent{stroke:var(--brand)}
+.factors{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:600px){.factors{grid-template-columns:1fr}}
+.factors div{background:var(--s1);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px}
+.factors h3{font-size:15px;margin:0 0 6px}
+.factors ul{margin:0;padding-left:18px;font-size:14px}
+.rb-bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--s1);border:1px solid var(--line);border-radius:var(--pill);padding:6px 6px 6px 18px;box-shadow:0 8px 24px rgba(0,0,0,.18);font-weight:800;font-size:15px}
+.rb-bar[hidden]{display:none}
+@media (min-width:901px){.rb-bar{display:none}}
+.helper{margin-top:10px;border:1px solid var(--line);border-radius:var(--r-field);padding:0 14px;background:var(--s1)}
+.helper summary{min-height:44px;display:flex;align-items:center;font-size:14px;font-weight:600;color:var(--brand);cursor:pointer}
+.helper[open]{padding-bottom:14px}
+#rb-stateLink{font-weight:700}
