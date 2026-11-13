@@ -1,0 +1,23 @@
+﻿Salarist Budget Planner · salarist.in/budget-planner · Example: Meera's budget from the Salarist guide
+"To try it, open salarist.in/budget-planner and choose Load budget."
+
+Section,Item,Frequency,Amount,Type,Tag
+Income,In-hand salary,Monthly,110000,,Salary
+Income,Bonus or variable pay,Yearly,120000,,
+Home,Rent,Monthly,24000,Need,
+Home,Society maintenance,Monthly,3500,Need,
+Home,Electricity,Monthly,2500,Need,
+Home,Internet and mobile,Monthly,1500,Need,
+Home,Domestic help,Monthly,6000,Need,
+Family,Groceries,Monthly,12000,Need,
+Family,"Milk, bread and daily needs",Daily,120,Need,
+Family,School fees,Yearly,90000,Need,
+Getting around,Fuel,Monthly,4000,Need,
+Getting around,Car or bike EMI,Monthly,12000,Need,EMI
+EMIs and insurance,Health insurance premium,Yearly,25000,Need,
+Lifestyle,Eating out and ordering in,Monthly,6000,Want,
+Lifestyle,Shopping and clothes,Monthly,4000,Want,
+Occasions,Festivals and gifts,Yearly,40000,Want,
+Occasions,Travel and holidays,Yearly,60000,Want,
+Savings,SIPs and mutual funds,Monthly,15000,Saving,
+Settings,Emergency fund saved so far,,200000,,

@@ -16,9 +16,9 @@ CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="cur
 LOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>'
 def badges(verified_text):
     return (f'<div class="badges"><span class="badge priv">{LOCK}Private: calculated on your device. Nothing is stored or sent.</span>'
-            f'<span class="badge ok">{CHECK}{verified_text} · <a href="#sources">Sources</a></span></div>')
+            + (f'<span class="badge ok">{CHECK}{verified_text} · <a href="#sources">Sources</a></span>' if verified_text else "") + '</div>')
 
-LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest"), ("/rent-vs-buy/", "Rent or Buy")]
+LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest"), ("/rent-vs-buy/", "Rent or Buy"), ("/budget-planner/", "Budget Planner")]
 MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/#tools", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
@@ -38,6 +38,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
     graph = list(graph or [])
     if crumbs: graph.append(breadcrumbs_ld(crumbs))
     canon = SITE + path
+    main_cls = ' class="home"' if path == "/" else ""
     nav = "".join(f'<a href="{u}" class="hide-sm"{" aria-current=\"page\"" if u == path else ""}>{n}</a>' for u, n in NAV)
     crumb_html = ""
     if crumbs:
@@ -100,7 +101,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
     </div>
   </div>
 </header>
-<main id="main">
+<main id="main"{main_cls}>
 {crumb_html}
 {body}
 </main>
@@ -127,11 +128,21 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
 def home():
     tpl = open(os.path.join(SRC, "partials/home.tpl.html"), encoding="utf-8").read()
     body = tpl[tpl.index('<section class="hero">'):tpl.index("</main>")]
+    order = ["/guides/long-weekends-2027/", "/guides/monthly-budget/", "/guides/rent-vs-buy/"]
+    gs = sorted(GUIDES, key=lambda g: order.index(g[0]) if g[0] in order else 99)[:3]
+    cards = "".join(f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec}</span><b>{t}</b><span>{ds}</span></a>' for p, t, ds, d, im, sec in gs)
+    guides_sec = (f'<section id="guides" aria-labelledby="guides-h" style="padding-top:0"><div class="wrap">'
+                  f'<p class="eyebrow">Guides</p><h2 id="guides-h">Understand the decision before you make it</h2>'
+                  f'<p class="lead">Plain-English guides that walk through each decision with a worked example and explain every number the tools show.</p>'
+                  f'<div class="g-cards" style="margin-top:24px">{cards}</div>'
+                  f'<p style="margin:20px 0 0"><a class="more" href="/guides/">See all guides →</a></p></div></section>\n')
+    body = body.replace('<section id="rates"', guides_sec + '<section id="rates"', 1)
     body = body.replace('<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">Launching soon</span></a>',
                         '<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">New</span></a>')
     body = body.replace('<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">Jan 2027</span></a>', '<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">New</span></a>')
     body = body.replace('<a class="ask" href="/rent-vs-buy/">Rent or buy? <span class="soon">Jan 2027</span></a>', '<a class="ask" href="/rent-vs-buy/">Rent or buy? <span class="soon">New</span></a>')
     body = body.replace('<span class="st"><b>Coming January 2027</b></span>\n      </a>\n      <a class="tool" href="/ctc-to-in-hand/">', f'<span class="st"><b class="live">Live</b> · tax year {TAX_YEAR}</span>\n      </a>\n      <a class="tool" href="/ctc-to-in-hand/">', 1)
+    body = body.replace('<span class="st"><b>Coming soon</b></span>\n      </a>\n      <a class="tool" href="/company-car-lease-vs-loan/">', '<span class="st"><b class="live">Live</b> · new</span>\n      </a>\n      <a class="tool" href="/company-car-lease-vs-loan/">', 1)
     for u in ("/ctc-to-in-hand/",):
         body = body.replace(f'<a class="ask" href="{u}">', '<a class="ask" href="#tools">')
     body = body.replace('<span class="st"><b>Launching soon</b> · next up</span>', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>')
@@ -139,7 +150,7 @@ def home():
     # Tools that aren't built yet are not links (no dead links for Google or visitors)
     def unlink(m):
         return '<div class="tool off">' + m.group(2) + "</div>"
-    body = re.sub(r'<a class="tool" href="(/(?:ctc-to-in-hand|budget-planner|company-car-lease-vs-loan)/)">(.*?)</a>', unlink, body, flags=re.S)
+    body = re.sub(r'<a class="tool" href="(/(?:ctc-to-in-hand|company-car-lease-vs-loan)/)">(.*?)</a>', unlink, body, flags=re.S)
     icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
     for k, v in icons.items(): body = body.replace("{{" + k + "}}", v)
     body = body.replace("{{CHECK}}", CHECK)
@@ -276,6 +287,7 @@ def leave_planner():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>Want the full picture?</b> Read our guide, <a href="/guides/long-weekends-2027/">Long weekends 2027 in India</a>: every holiday, every long weekend and two ready-made leave plans.</p>
   <h2>How the leave planner works</h2>
   <p>The planner marks every day of {data["year"]} as a weekly off, a holiday or a working day, using your weekly off and your company's holidays.</p>
   <ul><li><strong>Plan a break:</strong> choose how many days off in a row you want, and optionally a month. The planner checks every possible start date and shows the dates that need the fewest leave days.</li>
@@ -497,6 +509,7 @@ TOOL_CARDS = {
     "/leave-planner-2027/": ("Leave Planner 2027", "Turn your leave into the longest breaks of 2027, around official holidays."),
     "/prepay-vs-invest/": ("Prepay or Invest", "Should extra money go into your home loan or into investments? After tax."),
     "/rent-vs-buy/": ("Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax."),
+    "/budget-planner/": ("Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides."),
 }
 def related(path):
     cards = "".join(f'<a class="rel" href="{u}"><b>{n}</b><span>{d}</span></a>' for u, (n, d) in TOOL_CARDS.items() if u != path)
@@ -759,11 +772,134 @@ LP_TIPS = [
      "Optional holidays you pick from a list. Central government staff can take two a year; many private employers offer a similar choice. Tick the ones you'll take."),
 ]
 
+def budget_page():
+    faqs = [
+        ("How should a salaried person in India plan a monthly budget?",
+         "Start from your in-hand salary, not your CTC. List every regular cost, then the yearly ones like school fees, insurance premiums, festivals and holidays, and turn each yearly cost into a monthly amount to put aside. Decide your savings first, as SIPs or recurring deposits, and treat what's left as your spending money. The planner does all of this as you type."),
+        ("What is the 50/30/20 rule?",
+         "It's a simple starting split: about 50% of take-home pay for needs (housing, groceries, bills, EMIs), 30% for wants (eating out, shopping, holidays) and 20% for savings. It's a guide, not a rule. In big cities rent alone can take much of the 50%, so the planner lets you set your own target and compares your plan with it."),
+        ("Why does the planner turn yearly costs into monthly amounts?",
+         "Because yearly costs are what usually break a budget. A ₹1,50,000 school fee or a ₹25,000 insurance premium doesn't show up in a normal month, so it's easy to spend that money elsewhere. Putting aside one-twelfth of each yearly cost every month means the money is there when the bill arrives."),
+        ("What is EMI load, and why does it matter?",
+         "EMI load is the share of your in-hand salary that goes to loan EMIs: home, car, personal loans and card EMIs together. Lenders look at it before approving a new loan, and a high share leaves little room if your income drops. The planner shows it so you can see how much of your pay is already committed."),
+        ("How big should my emergency fund be?",
+         "A common guide is enough to cover six months of essential expenses, including EMIs. The planner compares what you've saved with your monthly needs and shows how many months it covers. Build this before investing for growth, and keep it somewhere you can reach quickly, like a savings account or a liquid fund."),
+        ("Is my budget saved anywhere?",
+         "No. Everything stays in your browser and is gone when you close the page. To keep your budget, choose Save budget: it downloads a CSV file to your device that opens in Excel or Google Sheets. Next month, choose Load budget and pick that file to carry on where you left off."),
+        ("Can I edit the saved file in Excel or Google Sheets?",
+         "Yes. Change amounts or add rows in the table, save it as CSV again, and load it back into the planner. Keep the Section, Item, Frequency and Amount columns. The two lines at the top only say where the file came from; the planner skips them."),
+    ]
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Monthly money</p>
+  <h1>Budget planner for salaried India</h1>
+  <p class="lead">Start from your in-hand salary, add what you spend, and see what's really left each month. Yearly costs like school fees, insurance and festivals become a monthly amount to put aside, so they never catch you out.</p>
+  {badges(None)}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap bp">
+  <div>
+    <div class="actions bp-file">
+      <button type="button" class="btn-sm" id="bpLoadBtn">Load budget</button>
+      <button type="button" class="btn-sm" id="bpSaveBtn">Save budget</button>
+      <button type="button" class="btn-sm btn-ghost" id="bpClear">Clear amounts</button>
+      <button type="button" class="btn-sm btn-ghost" id="bpReset">Start over</button>
+      <input type="file" id="bpFile" accept=".csv,text/csv" hidden>
+    </div>
+    <p class="hint" style="margin:4px 0 14px">Nothing is saved on this site. <b>Save budget</b> downloads a CSV file you can open in Excel or Sheets and load here next month.</p>
+    <p class="status" id="bpStatus" role="status"></p>
+    <div class="bp-legend hint">Open a section to fill it in. On expenses, tap <span class="bl-t t-need">Need</span> or <span class="bl-t t-want">Want</span> to change what a line counts as.</div>
+    <div id="bpEdit" class="bp-edit" aria-label="Your income and expenses"></div>
+    <div class="card bp-more">
+      <div class="fld"><div class="row1"><label for="bp-ef">Emergency fund saved so far</label></div><div class="numin"><span>₹</span><input id="bp-ef" type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 2,00,000"></div></div>
+      <div><span class="lbl" id="tLbl">Your target split</span>
+        <div class="bp-t" role="group" aria-labelledby="tLbl">
+          <label>Needs<span class="numin"><input id="bp-tNeed" type="number" min="0" max="100" inputmode="numeric"><span>%</span></span></label>
+          <label>Wants<span class="numin"><input id="bp-tWant" type="number" min="0" max="100" inputmode="numeric"><span>%</span></span></label>
+          <label>Savings<span class="numin"><input id="bp-tSave" type="number" min="0" max="100" inputmode="numeric"><span>%</span></span></label>
+        </div><p class="hint">Starts at 50/30/20. Change it to suit your city and family.</p></div>
+    </div>
+  </div>
+
+  <div class="bp-res">
+    <div class="verdict" id="bpVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="bpPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="bpXlsx">Download Excel</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="l">Income a month</div><div class="n" id="bpInc">—</div><div class="h">Yearly extras like bonus spread over 12 months</div></div>
+      <div class="stat"><div class="l">Savings rate</div><div class="n" id="bpSave">—</div><div class="h">Planned savings plus what's left, as a share of income</div></div>
+      <div class="stat"><div class="l">EMI load</div><div class="n" id="bpEmi">—</div><div class="h">Share of your in-hand salary going to EMIs</div></div>
+      <div class="stat"><div class="l">Emergency fund covers</div><div class="n" id="bpEf">—</div><div class="h">Months of needs, including EMIs. Aim for 6.</div></div>
+    </div>
+    <h2 class="list-h">Needs, wants and savings</h2>
+    <div class="card bp-split" id="bpSplit"></div>
+    <ul class="notes bp-tips" id="bpTips" hidden></ul>
+    <h2 class="list-h">Yearly costs to plan for</h2>
+    <div class="card bp-yearly" id="bpYearly"></div>
+    <h2 class="list-h">Where your money goes each month</h2>
+    <ul class="card bp-cats" id="bpCats"></ul>
+    <div id="bpNext"></div>
+  </div>
+</div></section>
+{related("/budget-planner/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>New to budgeting?</b> Read our guide, <a href="/guides/monthly-budget/">How to make a monthly budget on a salary in India</a>, worked through one family's numbers.</p>
+  <h2>How the planner works</h2>
+  <ul>
+    <li><strong>Everything becomes monthly.</strong> Monthly amounts stay as they are, yearly amounts are divided by 12, and daily amounts are multiplied by 365 and divided by 12.</li>
+    <li><strong>Income, expenses and savings are kept apart.</strong> Each expense is a need (what you must pay, including EMIs and insurance) or a want (what you choose); tap the label to change it. Savings are SIPs, deposits, PPF and other money you put away on purpose.</li>
+    <li><strong>What's left</strong> is your income minus needs, wants and planned savings. Your savings rate counts planned savings plus anything left over.</li>
+    <li><strong>Yearly costs</strong> are listed with the monthly amount to put aside for each, so the money is ready when the bill comes.</li>
+  </ul>
+  <h2>Make the budget work for you</h2>
+  <ul>
+    <li><strong>Pay yourself first.</strong> Set SIPs to go out the day after salary day, then spend what's left.</li>
+    <li><strong>Give yearly costs their own account.</strong> Move the set-aside amount to a separate savings account or recurring deposit every month.</li>
+    <li><strong>Build the emergency fund before investing for growth.</strong> Six months of needs is a common target.</li>
+    <li><strong>Check it once a month.</strong> Save your budget, load it next month and update the amounts that changed.</li>
+  </ul>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="bpBar" hidden><span id="bpBarT"></span><button type="button" class="btn-sm pri" id="bpBarBtn">See the result</button></div>
+"""
+    body = add_tips(body, "bp", BP_TIPS)
+    graph = [{"@type": "WebApplication", "name": "Budget Planner", "url": SITE + "/budget-planner/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Plan a monthly budget from your in-hand salary, with yearly costs turned into monthly set-asides, a needs-wants-savings split, EMI load and emergency fund check.",
+              "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    return layout("/budget-planner/", "Budget Planner for Salaried Indians: Monthly Budget Calculator | Salarist",
+                  "Plan your monthly budget from your in-hand salary. Yearly costs become monthly set-asides, with 50/30/20 split, EMI load and emergency fund check. Free, private.",
+                  body, crumbs=[("/", "Home"), ("/budget-planner/", "Budget Planner")], graph=graph,
+                  css=("tool.css",), js=("budget.js",), og="og-budget-planner.png", og_title="Budget planner for salaried India")
+
+BP_TIPS = [
+    ("""<span class="lbl" id="tLbl">Your target split</span>""", "the target split",
+     "How you'd like your income divided between needs, wants and savings. 50/30/20 is a common starting point; in big cities, needs often take more because of rent."),
+    ("""<div class="l">Savings rate</div>""", "the savings rate",
+     "Planned savings (SIPs, RDs, PPF) plus anything left over at the end of the month, as a share of your total income. The higher it is, the faster you build wealth."),
+    ("""<div class="l">EMI load</div>""", "EMI load",
+     "All your EMIs together as a share of your in-hand salary. Lenders check this before giving you a new loan, and a high share leaves little room if your income drops."),
+    ("""<label for="bp-ef">Emergency fund saved so far</label>""", "the emergency fund",
+     "Money kept aside only for emergencies like a job loss or medical bill, in a savings account or liquid fund you can reach quickly. Don't count long-term investments."),
+]
+
 # ---------------- Guides ----------------
 GUIDES = [  # (path, title, short description, published, image base name, section)
     ("/guides/rent-vs-buy/", "Rent or buy a home in India? How to decide, with a worked example",
      "How to compare renting and buying properly, what each number in the Rent or Buy calculator means, and what changes the answer, worked through one salaried buyer's numbers.",
      "2026-11-13", "guide-rent-vs-buy", "Your home"),
+    ("/guides/long-weekends-2027/", "Long weekends 2027 in India: plan your leave for the longest breaks",
+     "Every 2027 central government holiday, the long weekends that need no leave, and the leave days that turn into week-long breaks, worked out with the Salarist leave planner.",
+     "2026-11-13", "guide-leave-planner-2027", "Your time off"),
+    ("/guides/monthly-budget/", "How to make a monthly budget on a salary in India, with a worked example",
+     "A simple way to budget on a salary: start from in-hand pay, turn yearly costs into monthly set-asides, save first and build an emergency fund, worked through one family's numbers.",
+     "2026-11-13", "guide-budget-planner", "Your money"),
 ]
 def _L(v):
     a = abs(v); s = "−" if v < 0 else ""
@@ -925,6 +1061,232 @@ def guide_rentbuy():
                   css=("tool.css", "guide.css"), og=f"og-{img}.png", og_title="Rent or buy a home in India? How to decide",
                   head_extra=extra, og_type="article")
 
+def _dow(iso):
+    import datetime
+    y, m, d = map(int, iso.split("-")); return datetime.date(y, m, d).strftime("%a")
+def _d(iso, dow=True):
+    y, m, d = iso.split("-"); s = f"{int(d)} {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][int(m)-1]}"
+    return (_dow(iso) + " " + s) if dow else s
+def _span(a, b): return _d(a) + " – " + _d(b)
+
+def article(path, seo_title, og_title, body, crumb, words_note=True):
+    g = [x for x in GUIDES if x[0] == path][0]
+    _, title, desc, pub, img, section = g
+    words = len(re.sub(r"<[^>]+>", " ", body).split())
+    body = body.replace("READ_MIN", str(max(1, round(words / 220))))
+    images = [f"{SITE}/assets/img/{img}-1600x900.jpg", f"{SITE}/assets/img/{img}-1200x900.jpg", f"{SITE}/assets/img/{img}-1200x1200.jpg"]
+    graph = [{"@type": "Article", "@id": SITE + path + "#article", "headline": title, "description": desc, "image": images,
+              "datePublished": pub + "T09:00:00+05:30", "dateModified": pub + "T09:00:00+05:30",
+              "author": {"@type": "Organization", "name": "Salarist", "url": SITE + "/"}, "publisher": {"@id": SITE + "/#org"},
+              "mainEntityOfPage": SITE + path, "inLanguage": "en-IN", "articleSection": "Guides", "wordCount": words, "isAccessibleForFree": True},
+             {"@type": "Organization", "@id": SITE + "/#org", "name": "Salarist", "url": SITE + "/", "logo": SITE + "/assets/img/icon-512.png"}]
+    extra = (f'<meta property="article:published_time" content="{pub}T09:00:00+05:30">\n<meta property="article:section" content="Guides">\n'
+             f'<meta property="og:image:alt" content="{H.escape(og_title)}: a Salarist guide">\n'
+             f'<link rel="preload" as="image" href="/assets/img/{img}-1600x900.webp" type="image/webp" fetchpriority="high">\n')
+    return layout(path, seo_title, desc, body, crumbs=[("/", "Home"), ("/guides/", "Guides"), (path, crumb)], graph=graph,
+                  css=("tool.css", "guide.css"), og=f"og-{img}.png", og_title=og_title, head_extra=extra, og_type="article")
+
+def guide_head(path, lead, hero_alt):
+    g = [x for x in GUIDES if x[0] == path][0]
+    _, title, desc, pub, img, section = g
+    return f"""<article class="guide">
+<header class="wrap g-head">
+  <p class="eyebrow">Guide · {section}</p>
+  <h1>{title}</h1>
+  <p class="lead">{lead}</p>
+  <p class="g-meta"><span>By Salarist</span><span>Published <time datetime="{pub}">{_date(pub)}</time></span>TYPE_LINE<span>READ_MIN min read</span></p>
+</header>
+<figure class="wrap g-hero">{_pic(img, hero_alt, eager=True)}</figure>"""
+
+def toc_html(toc): return '<nav class="g-toc" aria-label="In this guide"><p>In this guide</p><ol>' + "".join(f'<li><a href="#{i}">{t}</a></li>' for i, t in toc) + "</ol></nav>"
+
+def guide_leave():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_leave_numbers.js")]))
+    path = "/guides/long-weekends-2027/"
+    hol_rows = "".join(f"<tr><td>{_d(d)}</td><td>{H.escape(n)}</td><td>{'Weekday' if _dow(d) not in ('Sat','Sun') else 'Weekend'}</td></tr>" for d, n in G["holidays"])
+    long_rows = "".join(f"<li><strong>{_span(b['from'], b['to'])}</strong>: {b['len']} days off around {' and '.join(b['holidays'])}, no leave needed.</li>" for b in G["long"])
+    val_rows = "".join(f"<tr><td>{_span(b['from'], b['to'])}</td><td>{', '.join(_d(x) for x in b['leaveDays'])}</td><td>{b['len']} days off</td><td>{' and '.join(b['holidays'])}</td></tr>" for b in G["value"])
+    lb = G["longestBy"]
+    lb_rows = "".join(f"<tr><td>{k} day{'s' if k != '1' else ''}</td><td>{_span(v['from'], v['to'])}</td><td>{v['len']} days off</td><td>{', '.join(_d(x, False) for x in v['leaveDays'])}</td></tr>" for k, v in lb.items())
+    def plan_list(p): return "".join(f"<li>{_span(b['from'], b['to'])}: {b['len']} days off for {b['leave']} day{'s' if b['leave'] != 1 else ''} of leave</li>" for b in p["breaks"])
+    p8, p12 = G["plan8"], G["plan12"]
+    toc = [("short-answer", "The short answer"), ("holidays", "All central government holidays in 2027"), ("free", "Long weekends with no leave"),
+           ("best-value", "The best value breaks: 1 to 3 days of leave"), ("longest", "The longest break for each number of leave days"),
+           ("plans", "Two ready-made plans for the year"), ("restricted", "Use your restricted holidays well"), ("your-list", "If your company's list is different"),
+           ("tips", "Before you apply"), ("method", "How these dates were worked out")]
+    body = guide_head(path, "Eleven of India's 2027 central government holidays fall on a weekday, and several sit right next to a weekend. With a little planning, a handful of leave days turns into breaks of a week or more. Here's every holiday, every long weekend, and the smartest ways to use your leave.",
+                      "A calendar with a nine-day break highlighted, a sun and an aeroplane").replace("TYPE_LINE", "<span>Holidays as per the DoPT order of 16 July 2026</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>The central government's 2027 list has <strong>{G['distinct']} holiday dates</strong> (17 holidays, with Independence Day and Milad-un-Nabi both on 15 August), and <strong>{G['weekday']} of them fall on a weekday</strong>. That gives <strong>{len(G['long'])} long weekends with no leave at all</strong>, and the best deal of the year: <strong>{lb['3']['len']} days off for {3} days of leave</strong> around Holi and Good Friday, {_span(lb['3']['from'], lb['3']['to'])}.</p>
+<p>With 8 days of leave used well, you can have <strong>{p8['daysOff']} days off</strong> in breaks across the year; with 12, <strong>{p12['daysOff']}</strong>. These figures are for a Monday-to-Friday week and the central list. Your company's list may differ, so check yours in the planner.</p>
+<p class="g-cta"><a class="btn" href="/leave-planner-2027/">Plan my 2027 leave</a></p>
+
+<h2 id="holidays">All central government holidays in 2027</h2>
+<p>These are the gazetted holidays for central government administrative offices in Delhi and New Delhi, from the Department of Personnel and Training (DoPT) order dated 16 July 2026. Many private companies base their lists on it.</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Date</th><th scope="col">Holiday</th><th scope="col">Falls on</th></tr></thead><tbody>{hol_rows}</tbody></table></div>
+
+<h2 id="free">Long weekends with no leave</h2>
+<p>These holidays fall on a Friday or Monday, so you get three days off without using any leave:</p>
+<ul>{long_rows}</ul>
+<p>Diwali on Friday 29 October is the pick of these: a festival weekend with no leave needed.</p>
+
+<h2 id="best-value">The best value breaks: 1 to 3 days of leave</h2>
+<p>These are the breaks that give the most days off for each day of leave you use. Take the leave on the days shown, and the weekend and holidays do the rest.</p>
+<div class="g-scroll"><table class="g-tbl g-flip"><thead><tr><th scope="col">Break</th><th scope="col">Take leave on</th><th scope="col">Days off</th><th scope="col">Around</th></tr></thead><tbody>{val_rows}</tbody></table></div>
+
+<h2 id="longest">The longest break for each number of leave days</h2>
+<p>If you'd rather take one proper holiday, here's the longest break you can get for each number of leave days:</p>
+<div class="g-scroll"><table class="g-tbl g-flip"><thead><tr><th scope="col">Leave used</th><th scope="col">Break</th><th scope="col">Days off</th><th scope="col">Take leave on</th></tr></thead><tbody>{lb_rows}</tbody></table></div>
+<p>March and April are the sweet spot in 2027: Holi and Good Friday fall in the same week, and Ram Navami and Mahavir Jayanti fall either side of a weekend.</p>
+
+<h2 id="plans">Two ready-made plans for the year</h2>
+<h3>8 days of leave: {p8['daysOff']} days off</h3>
+<ul>{plan_list(p8)}</ul>
+<h3>12 days of leave: {p12['daysOff']} days off</h3>
+<ul>{plan_list(p12)}</ul>
+<p>Both plans leave the rest of your leave for the second half of the year, school holidays or emergencies. The planner can build a plan for any number of leave days.</p>
+
+<h2 id="restricted">Use your restricted holidays well</h2>
+<p>Alongside the gazetted holidays, the DoPT order lists {G['restricted']} restricted (optional) holidays. Central government staff can pick two of them; many private employers offer a similar choice of optional holidays.</p>
+<p>Pick them to join up breaks rather than for single days. For example, <strong>Holika Dahan on Monday 22 March</strong> is a restricted holiday. Take it, and the {lb['3']['len']}-day Holi and Good Friday break ({_span(lb['3']['from'], lb['3']['to'])}) needs only 2 days of leave instead of 3. Tick your restricted holidays in the planner and it uses them automatically.</p>
+
+<h2 id="your-list">If your company's list is different</h2>
+<ul>
+  <li><strong>Different holidays:</strong> private companies and state government offices follow their own lists. In the planner, untick the holidays you don't get and add your company's own.</li>
+  <li><strong>Saturdays:</strong> if you work Saturdays, or alternate ones, there are no free long weekends and every break costs more leave. The planner handles a Sunday-only week and second-and-fourth Saturdays off.</li>
+  <li><strong>Leave rules:</strong> some employers count weekends or holidays that fall between leave days as leave too (often called a sandwich rule). Check your leave policy before you apply.</li>
+</ul>
+
+<h2 id="tips">Before you apply</h2>
+<ol class="g-check">
+  <li>Check your company's 2027 holiday list as soon as it's published, and update the planner.</li>
+  <li>Apply early for the popular breaks: Holi week, the April long weekends and Diwali fill up fast in most teams.</li>
+  <li>Book travel early for the same reason. Fares for long weekends rise as they approach.</li>
+  <li>Keep a few days in reserve for emergencies and the second half of the year.</li>
+  <li>Budget for the trip: add travel to your monthly plan in the <a href="/budget-planner/">budget planner</a>.</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/leave-planner-2027/">Find your best breaks</a></p>
+
+<h2 id="method">How these dates were worked out</h2>
+<p>Every break in this guide comes from the same calculation as the <a href="/leave-planner-2027/">2027 leave planner</a>, run on the central government list with a Monday-to-Friday week. The holidays are from the DoPT office memorandum dated 16 July 2026 (gazetted holidays for central government administrative offices in Delhi and New Delhi). Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">Holiday dates for some festivals depend on the moon and may be changed by official notification. Always check your own employer's list before booking.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Long Weekends 2027 in India: Holiday List and Best Leave Plan | Salarist", "Long weekends 2027 in India", body, "Long weekends 2027")
+
+def guide_budget():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_budget_numbers.js")]))
+    r, t = G["r"], G["trim"]
+    path = "/guides/monthly-budget/"
+    FREQ = {"m": "a month", "y": "a year", "d": "a day"}
+    sec_rows = ""
+    for sec in ["Income", "Home", "Family", "Getting around", "EMIs and insurance", "Lifestyle", "Occasions", "Savings"]:
+        ls = [l for l in G["lines"] if l["sec"] == sec]
+        if not ls: continue
+        tot = sum(l["monthly"] for l in ls)
+        low = lambda n: n[0].lower() + n[1:] if n[1:2].islower() else n
+        items = "; ".join(f"{H.escape(low(l['name']))} {_inr(l['amt'])} {FREQ[l['freq']]}" for l in ls)
+        sec_rows += f"<tr><th scope=\"row\">{sec}</th><td>{_inr(tot)}</td><td>{items[0].upper() + items[1:]}</td></tr>"
+    pct = lambda x: f"{round(x * 100)}%"
+    noBonus = r["left"] - (r["inc"] - r["incRegular"])
+    # sample CSV for readers to load
+    rows = [["Salarist Budget Planner · salarist.in/budget-planner · Example: Meera's budget from the Salarist guide"],
+            ["To try it, open salarist.in/budget-planner and choose Load budget."], [],
+            ["Section", "Item", "Frequency", "Amount", "Type", "Tag"]]
+    T = {"need": "Need", "want": "Want", "save": "Saving"}; F = {"m": "Monthly", "y": "Yearly", "d": "Daily"}
+    for l in G["lines"]:
+        tag = "Salary" if l["name"] == "In-hand salary" else "EMI" if "EMI" in l["name"] else ""
+        rows.append([l["sec"], l["name"], F[l["freq"]], str(l["amt"]), "" if l["sec"] == "Income" else T[l["type"]], tag])
+    rows.append(["Settings", "Emergency fund saved so far", "", str(G["ef"]), "", ""])
+    import csv, io
+    buf = io.StringIO(); csv.writer(buf, lineterminator="\r\n").writerows(rows)
+    os.makedirs(os.path.join(DIST, "assets", "files"), exist_ok=True)
+    open(os.path.join(DIST, "assets", "files", "salarist-budget-example-meera.csv"), "w", encoding="utf-8-sig").write(buf.getvalue())
+    toc = [("short-answer", "The short answer"), ("meera", "Meera's budget: the example"), ("result", "Her result, line by line"),
+           ("bonus", "The bonus trap"), ("split", "Needs, wants and savings"), ("yearly", "Yearly costs: the budget breakers"),
+           ("fix", "Small changes, real difference"), ("emergency", "Building the emergency fund"), ("habits", "Habits that make a budget stick"),
+           ("method", "How these numbers were worked out")]
+    body = guide_head(path, "A budget isn't about tracking every rupee. It's about knowing, before the month starts, what's coming in, what has to go out, and what you'll keep. Here's a simple way to do it on a salary, worked through one family's real-looking numbers.",
+                      "A salary split into three jars for needs, wants and savings").replace("TYPE_LINE", "")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<ol>
+  <li><strong>Start from your in-hand salary,</strong> not your CTC. That's the money you actually have.</li>
+  <li><strong>List every cost, including the yearly ones,</strong> and turn each yearly cost into a monthly amount to put aside.</li>
+  <li><strong>Decide your savings first</strong> and set them to leave your account right after salary day.</li>
+  <li><strong>Spend what's left,</strong> and check the plan once a month.</li>
+</ol>
+<p>The <a href="/budget-planner/">budget planner</a> does the arithmetic as you type. The rest of this guide shows what the numbers mean, using one family's budget.</p>
+
+<h2 id="meera">Meera's budget: the example</h2>
+<p>Meera is 34 and lives in Pune with her husband and their 7-year-old. Her in-hand salary is {_inr(110000)} a month, plus a yearly bonus of {_inr(120000)}. Her husband's income covers other family goals, so this budget runs on her pay. She has {_inr(G['ef'])} set aside for emergencies. Meera is an example; use your own numbers in the planner.</p>
+<div class="g-scroll"><table class="g-tbl g-budget"><thead><tr><th scope="col">Section</th><th scope="col">A month</th><th scope="col">What's in it</th></tr></thead><tbody>{sec_rows}</tbody></table></div>
+<p class="g-cta"><a class="btn btn-ghost" href="/assets/files/salarist-budget-example-meera.csv" download>Download Meera's budget to load in the planner</a></p>
+
+<h2 id="result">Her result, line by line</h2>
+<h3>Money left each month: {_inr(r['left'])}</h3>
+<p>Her income averages {_inr(r['inc'])} a month once the bonus is spread over 12 months. Needs come to {_inr(r['need'])}, wants to {_inr(r['want'])}, and she puts {_inr(r['save'])} into SIPs. That leaves {_inr(r['left'])}.</p>
+<h3>Savings rate: {pct(r['saveRate'])}</h3>
+<p>Her SIPs plus what's left over, as a share of her income. It's the single best measure of whether a budget builds wealth. Many planners suggest aiming for 20% or more; Meera is just short.</p>
+<h3>EMI load: {pct(r['emiLoad'])}</h3>
+<p>Her car EMI of {_inr(12000)} is {pct(r['emiLoad'])} of her in-hand salary. Lenders look at this share before giving a new loan, and a low figure leaves room if her income dips.</p>
+<h3>Emergency fund: {r['efMonths']:.1f} months</h3>
+<p>Her {_inr(G['ef'])} would cover {r['efMonths']:.1f} months of needs, including the EMI. The usual target is 6 months, so this is her weakest spot.</p>
+<h3>Set aside for yearly costs: {_inr(r['setAside'])} a month</h3>
+<p>School fees, the health insurance premium, festivals and the family holiday add up to {_inr(r['setAside'] * 12)} a year. Spread evenly, that's {_inr(r['setAside'])} a month she needs to put aside, even in months when nothing is due.</p>
+
+<h2 id="bonus">The bonus trap</h2>
+<p>Meera's budget only works because of her bonus. Spread over the year, it adds {_inr(r['inc'] - r['incRegular'])} a month. Without it, she'd be <strong>short by {_inr(-noBonus)} a month</strong>.</p>
+<p>That's common, and risky: bonuses and variable pay can shrink in a bad year. A safer plan covers needs and regular savings from the fixed salary, and uses the bonus for yearly costs, the emergency fund or extra investing. In the planner, compare your regular income with your total to see how much your plan leans on the bonus.</p>
+
+<h2 id="split">Needs, wants and savings</h2>
+<p>The 50/30/20 rule suggests about half of take-home pay for needs, 30% for wants and 20% for savings. Meera's split is {pct(r['need'] / r['inc'])} needs, {pct(r['want'] / r['inc'])} wants and {pct(r['saveRate'])} savings.</p>
+<p>Her needs are well above 50%, mostly rent and school fees, and that's normal for a family in a big Indian city. The rule is a starting point, not a test you pass or fail. The planner lets you set a target that fits your life and shows where you are against it.</p>
+
+<h2 id="yearly">Yearly costs: the budget breakers</h2>
+<p>Most budgets don't fail on groceries. They fail in June when school fees are due, or in October when Diwali spending arrives on top of a normal month. The fix is simple:</p>
+<ul>
+  <li>List every yearly cost: school fees, insurance premiums, vehicle insurance and servicing, festivals, weddings, holidays, gadgets.</li>
+  <li>Divide each by 12. The planner does this and shows the monthly total.</li>
+  <li>Move that amount every month to a separate savings account or recurring deposit, and pay the bills from there when they come.</li>
+</ul>
+
+<h2 id="fix">Small changes, real difference</h2>
+<p>If Meera trims eating out from {_inr(6000)} to {_inr(4000)} and shopping from {_inr(4000)} to {_inr(3000)}, she keeps <strong>{_inr(t['left'])} a month instead of {_inr(r['left'])}</strong>, and her savings rate rises to <strong>{pct(t['saveRate'])}</strong>. That's {_inr((t['left'] - r['left']) * 12)} more a year, from two lines.</p>
+<p>Wants are the easiest place to start because they're choices. Needs take longer to change: a cheaper home or school is a big decision, not a monthly tweak.</p>
+
+<h2 id="emergency">Building the emergency fund</h2>
+<p>Six months of Meera's needs is about {_inr(G['efTarget'])}. She has {_inr(G['ef'])}, so she's {_inr(G['efGap'])} short. Putting all of her monthly surplus towards it would take about <strong>{round(G['efMonthsAtLeft'])} months</strong>, or about <strong>{round(G['efMonthsAtTrim'])} months</strong> with the trims above. Using part of her next bonus would close the gap much faster.</p>
+<p>Keep the emergency fund where you can reach it within a day or two, like a savings account or a liquid fund, and don't count long-term investments towards it.</p>
+
+<h2 id="habits">Habits that make a budget stick</h2>
+<ol class="g-check">
+  <li>Pay yourself first: set SIPs to go out the day after salary day.</li>
+  <li>Give yearly costs their own account, topped up every month.</li>
+  <li>Build the emergency fund before investing for growth.</li>
+  <li>Plan bigger spends ahead, like holidays around <a href="/guides/long-weekends-2027/">2027's long weekends</a>.</li>
+  <li>Review once a month: save your budget from the planner, load it next month and update what changed.</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/budget-planner/">Make your budget</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>Every figure in this guide comes from the same calculation as the <a href="/budget-planner/">budget planner</a>, run on Meera's numbers. Yearly amounts are divided by 12, and daily amounts are multiplied by 365 and divided by 12. The savings rate counts planned savings plus what's left over, as a share of total income with the bonus spread monthly. The planner works with in-hand pay, after tax, so no tax rules apply. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This guide is for information and education. It isn't financial advice. For a big decision, consider speaking to a qualified adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "How to Make a Monthly Budget on a Salary in India (Worked Example) | Salarist", "Make a monthly budget on a salary", body, "Monthly budget")
+
 def guides_index():
     cards = "".join(
         f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>'
@@ -1033,11 +1395,14 @@ def main():
     write("/leave-planner-2027/", leave_planner())
     write("/prepay-vs-invest/", prepay_page())
     write("/rent-vs-buy/", rentbuy_page())
+    write("/budget-planner/", budget_page())
     write("/guides/", guides_index())
     write("/guides/rent-vs-buy/", guide_rentbuy())
+    write("/guides/long-weekends-2027/", guide_leave())
+    write("/guides/monthly-budget/", guide_budget())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8")] + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9")] + [(p, "0.3") for p in PAGES]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
         f"  <url><loc>{SITE}{u}</loc><lastmod>{VERIFIED}</lastmod><priority>{pr}</priority></url>\n" for u, pr in urls) + "</urlset>\n"
     open(os.path.join(DIST, "sitemap.xml"), "w").write(sm)

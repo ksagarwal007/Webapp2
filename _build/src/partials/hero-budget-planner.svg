@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A salary split into three jars for needs, wants and savings">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="180" cy="180" r="70"/><circle cx="1440" cy="160" r="56"/><circle cx="1380" cy="770" r="90"/></g>
+  <!-- salary note -->
+  <g transform="translate(800 170)">
+    <rect x="-150" y="-62" width="300" height="124" rx="22" fill="#FFFFFF"/>
+    <rect x="-128" y="-40" width="256" height="80" rx="14" fill="none" stroke="#1F5FE0" stroke-width="5"/>
+    <g transform="translate(0 0)"><circle r="30" fill="#FFD27A"/><path d="M-11 -14 H12 M-11 -4 H12 M-9 -14 C8 -14 8 6 -9 6 L9 18" fill="none" stroke="#0E1726" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>
+  </g>
+  <!-- flows -->
+  <g fill="none" stroke="#FFFFFF" stroke-opacity=".6" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 20">
+    <path d="M760 240 C 700 330, 480 330, 430 420"/><path d="M800 240 V 420"/><path d="M840 240 C 900 330, 1120 330, 1170 420"/>
+  </g>
+  <!-- jars -->
+  <g id="jar">
+    <g transform="translate(430 600)">
+      <rect x="-120" y="-170" width="240" height="320" rx="44" fill="#FFFFFF" fill-opacity=".14" stroke="#FFFFFF" stroke-width="8"/>
+      <rect x="-90" y="-200" width="180" height="40" rx="14" fill="#FFFFFF"/>
+      <rect x="-104" y="-40" width="208" height="174" rx="30" fill="#4C8DFF"/>
+    </g>
+    <g transform="translate(800 600)">
+      <rect x="-120" y="-170" width="240" height="320" rx="44" fill="#FFFFFF" fill-opacity=".14" stroke="#FFFFFF" stroke-width="8"/>
+      <rect x="-90" y="-200" width="180" height="40" rx="14" fill="#FFFFFF"/>
+      <rect x="-104" y="40" width="208" height="94" rx="30" fill="#F5B547"/>
+    </g>
+    <g transform="translate(1170 600)">
+      <rect x="-120" y="-170" width="240" height="320" rx="44" fill="#FFFFFF" fill-opacity=".14" stroke="#FFFFFF" stroke-width="8"/>
+      <rect x="-90" y="-200" width="180" height="40" rx="14" fill="#FFFFFF"/>
+      <rect x="-104" y="10" width="208" height="124" rx="30" fill="#3DD68C"/>
+      <g fill="#FFD27A"><circle cx="-30" cy="-30" r="24"/><circle cx="26" cy="-56" r="24"/></g>
+    </g>
+  </g>
+</svg>

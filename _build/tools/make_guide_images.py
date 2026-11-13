@@ -18,10 +18,21 @@ def page(w, h, inner, extra=""):
 @font-face{{font-family:J;src:url(file://{fonts}/jakarta-800.woff);font-weight:800}}
 @font-face{{font-family:J;src:url(file://{fonts}/jakarta-600.woff);font-weight:600}}
 body{{margin:0;width:{w}px;height:{h}px;overflow:hidden;background:{BG};font-family:J}}{extra}</style></head><body>{inner}</body></html>"""
+BRAND = (f'<div style="position:absolute;left:64px;top:52px;z-index:3">{logo.replace("<svg ", '<svg style="height:56px;width:auto;display:block" ', 1)}</div>'
+         '<div style="position:absolute;right:64px;bottom:44px;z-index:3;color:rgba(255,255,255,.85);font:600 26px J">salarist.in</div>')
+BRAND_CSS = (".ink{fill:#fff}.coin{fill:#FFD27A}.wm .ink,.wm .coin{fill:#fff}"
+             "body{background:radial-gradient(ellipse at 50% 35%,rgba(255,255,255,.16),rgba(255,255,255,0) 60%),linear-gradient(135deg,#1F5FE0,#0B2A6B)}")
+def wm(w, h):
+    """Faint Salarist wordmarks in the open areas of the background (watermark)."""
+    spots = [(0.04, 0.72, 96), (0.58, 0.05, 80), (0.70, 0.64, 88), (0.30, 0.30, 64)]
+    return "".join(f'<div class="wm" style="position:absolute;left:{x*w:.0f}px;top:{y*h:.0f}px;opacity:.07;transform:rotate(-12deg);z-index:0">'
+                   f'{logo.replace("<svg ", f"<svg style=\"height:{sz}px;width:auto;display:block\" ", 1)}</div>' for x, y, sz in spots)
+def layered(w, h, svg_tag):
+    return wm(w, h) + f'<div style="position:absolute;inset:0;z-index:1">{svg_tag}</div>' + BRAND
 jobs = {
-    "1600x900": (1600, 900, page(1600, 900, svg.replace("<svg ", '<svg width="1600" height="900" ', 1))),
-    "1200x900": (1200, 900, page(1200, 900, svg.replace("<svg ", '<svg width="1600" height="900" style="margin-left:-200px" ', 1))),
-    "1200x1200": (1200, 1200, page(1200, 1200, art.replace("<svg ", '<svg width="1600" height="900" style="margin:150px 0 0 -200px" ', 1))),
+    "1600x900": (1600, 900, page(1600, 900, layered(1600, 900, art.replace("<svg ", '<svg width="1600" height="900" ', 1)), BRAND_CSS)),
+    "1200x900": (1200, 900, page(1200, 900, layered(1200, 900, art.replace("<svg ", '<svg width="1600" height="900" style="margin-left:-200px" ', 1)), BRAND_CSS)),
+    "1200x1200": (1200, 1200, page(1200, 1200, layered(1200, 1200, art.replace("<svg ", '<svg width="1600" height="900" style="margin:150px 0 0 -200px" ', 1)), BRAND_CSS)),
     "og": (1200, 630, page(1200, 630, f"""<div class="t">{logo}<h1>{l1}<br><span>{l2}</span></h1><p>Free guide · salarist.in</p></div>
       <div class="art">{art.replace("<svg ", '<svg width="680" height="383" ', 1)}</div>""",
       ".t{position:absolute;left:64px;top:60px;width:560px;z-index:2}.t svg{height:52px;width:auto}.t .ink{fill:#fff}.t .coin{fill:#FFD27A}"
