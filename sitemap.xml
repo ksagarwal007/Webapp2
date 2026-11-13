@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://salarist.in/</loc><lastmod>2026-11-13</lastmod><priority>1.0</priority></url>
+  <url><loc>https://salarist.in/tools/</loc><lastmod>2026-11-13</lastmod><priority>0.6</priority></url>
   <url><loc>https://salarist.in/leave-planner-2027/</loc><lastmod>2026-11-13</lastmod><priority>0.9</priority></url>
   <url><loc>https://salarist.in/prepay-vs-invest/</loc><lastmod>2026-11-13</lastmod><priority>0.9</priority></url>
   <url><loc>https://salarist.in/rent-vs-buy/</loc><lastmod>2026-11-13</lastmod><priority>0.9</priority></url>
@@ -14,7 +15,12 @@
   <url><loc>https://salarist.in/guides/hra-vs-home-loan-tax-benefits/</loc><lastmod>2026-11-13</lastmod><priority>0.7</priority></url>
   <url><loc>https://salarist.in/guides/restricted-holidays-2027/</loc><lastmod>2026-11-13</lastmod><priority>0.7</priority></url>
   <url><loc>https://salarist.in/guides/budget-on-50000-1-lakh-2-lakh-salary/</loc><lastmod>2026-11-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://salarist.in/guides/company-car-lease-vs-car-loan/</loc><lastmod>2026-11-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://salarist.in/guides/company-car-perquisite-value-2026/</loc><lastmod>2026-11-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://salarist.in/guides/best-months-for-a-week-long-break-2027/</loc><lastmod>2026-11-13</lastmod><priority>0.7</priority></url>
+  <url><loc>https://salarist.in/guides/long-weekends-2027-six-day-week/</loc><lastmod>2026-11-13</lastmod><priority>0.7</priority></url>
   <url><loc>https://salarist.in/company-car-lease-vs-loan/</loc><lastmod>2026-11-13</lastmod><priority>0.9</priority></url>
+  <url><loc>https://salarist.in/emi-calculator/</loc><lastmod>2026-11-13</lastmod><priority>0.9</priority></url>
   <url><loc>https://salarist.in/about/</loc><lastmod>2026-11-13</lastmod><priority>0.3</priority></url>
   <url><loc>https://salarist.in/methodology/</loc><lastmod>2026-11-13</lastmod><priority>0.3</priority></url>
   <url><loc>https://salarist.in/contact/</loc><lastmod>2026-11-13</lastmod><priority>0.3</priority></url>

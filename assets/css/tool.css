@@ -313,3 +313,7 @@ details.bsec summary .bsec-t{margin-left:auto}
 details.bsec summary::before{display:none}
 .bsec > .bl:first-child,.bsec > summary + .bl{border-top:0}
 .g-callout{background:var(--s1);border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:var(--r-sm);padding:14px 16px}
+
+.em-evs{display:flex;flex-direction:column;gap:12px}.em-ev{display:flex;flex-direction:column;gap:12px;border:1px solid var(--line);border-radius:var(--r-field);background:var(--s2);padding:12px 14px}.em-ev-h{display:flex;justify-content:space-between;align-items:center}.em-ev-h b{font-size:14px}.em-ev .fld label{font-size:13px;font-weight:600}
+.em-bar{height:16px;border-radius:var(--pill);background:var(--leave);overflow:hidden;margin:4px 0 10px}.em-bar i{display:block;height:100%;background:var(--brand)}
+.em .lp-setup{min-width:0}.em-ev .two-col{grid-template-columns:minmax(0,1fr)}.em-ev .sel,#em-start{min-width:0;max-width:100%}

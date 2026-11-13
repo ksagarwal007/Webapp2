@@ -1,86 +1,110 @@
 {
  "/": {
   "date": "2026-11-13",
-  "hash": "787ba794a2ac9152"
+  "hash": "5960a935b03452e6"
  },
  "/about/": {
   "date": "2026-11-13",
-  "hash": "d30e8525a3ea0e3b"
+  "hash": "4dd5cd3922c2d00c"
  },
  "/budget-planner/": {
   "date": "2026-11-13",
-  "hash": "b2c65e66761dce39"
+  "hash": "8a21771bb295f819"
  },
  "/company-car-lease-vs-loan/": {
   "date": "2026-11-13",
-  "hash": "61bcda0cc755d100"
+  "hash": "cb5676b6d984ce9c"
  },
  "/contact/": {
   "date": "2026-11-13",
-  "hash": "2b46edc58e066eac"
+  "hash": "2a3a54bcc8f35217"
  },
  "/disclaimer/": {
   "date": "2026-11-13",
-  "hash": "3436794732ea1867"
+  "hash": "06da80a096c0f548"
+ },
+ "/emi-calculator/": {
+  "date": "2026-11-13",
+  "hash": "8c1c7d014121bd10"
  },
  "/guides/": {
   "date": "2026-11-13",
-  "hash": "45dd4b3733bb70ca"
+  "hash": "5cebe42c5e4f7e74"
+ },
+ "/guides/best-months-for-a-week-long-break-2027/": {
+  "date": "2026-11-13",
+  "hash": "b7562ffdbfade219"
  },
  "/guides/budget-on-50000-1-lakh-2-lakh-salary/": {
   "date": "2026-11-13",
-  "hash": "a79024a96c77d233"
+  "hash": "f06658c5a1112c2c"
+ },
+ "/guides/company-car-lease-vs-car-loan/": {
+  "date": "2026-11-13",
+  "hash": "bc6243a5270109d3"
+ },
+ "/guides/company-car-perquisite-value-2026/": {
+  "date": "2026-11-13",
+  "hash": "47c8f3c696494e79"
  },
  "/guides/hra-vs-home-loan-tax-benefits/": {
   "date": "2026-11-13",
-  "hash": "5d3d71b1149bb23f"
+  "hash": "7d65daf47904967e"
+ },
+ "/guides/long-weekends-2027-six-day-week/": {
+  "date": "2026-11-13",
+  "hash": "49bf66595961d619"
  },
  "/guides/long-weekends-2027/": {
   "date": "2026-11-13",
-  "hash": "785f285433cea288"
+  "hash": "a4d17bbf5881eaa3"
  },
  "/guides/monthly-budget/": {
   "date": "2026-11-13",
-  "hash": "4eec6639b01e7ef8"
+  "hash": "c1304554db4634db"
  },
  "/guides/prepay-home-loan-or-invest/": {
   "date": "2026-11-13",
-  "hash": "98a5ed6801883b78"
+  "hash": "42e8abd91a3ded51"
  },
  "/guides/rent-vs-buy/": {
   "date": "2026-11-13",
-  "hash": "0f19246b97e336d1"
+  "hash": "9dba48fc78a8b7c2"
  },
  "/guides/restricted-holidays-2027/": {
   "date": "2026-11-13",
-  "hash": "ad41b13449fa71fa"
+  "hash": "419793f657ae0a7f"
  },
  "/guides/under-construction-vs-ready-to-move/": {
   "date": "2026-11-13",
-  "hash": "b5dabbe733bb9aa5"
+  "hash": "e5b84f7e1c8e02a4"
  },
  "/leave-planner-2027/": {
   "date": "2026-11-13",
-  "hash": "009450a59196dfda"
+  "hash": "e94f104cda70f2f8"
  },
  "/methodology/": {
   "date": "2026-11-13",
-  "hash": "7ff4eac5aaea0cd9"
+  "hash": "dabed5df016bd2ed"
  },
  "/prepay-vs-invest/": {
   "date": "2026-11-13",
-  "hash": "33bc9f23767c42f3"
+  "hash": "bdb4ff8bd7bb61f4"
  },
  "/privacy/": {
   "date": "2026-11-13",
-  "hash": "0020c719cc82313a"
+  "hash": "292de13f09c4eb8f"
  },
  "/rent-vs-buy/": {
   "date": "2026-11-13",
-  "hash": "fc91ae4c1163a8c4"
+  "hash": "dc1ffda137903997"
  },
  "/terms/": {
   "date": "2026-11-13",
-  "hash": "602978b8980e7fbb"
+  "hash": "5a970d0dad40a69e"
+ },
+ "/tools/": {
+  "date": "2026-11-13",
+  "hash": "123f68fd9b32e8fe"
  }
 }

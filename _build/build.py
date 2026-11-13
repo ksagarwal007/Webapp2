@@ -21,8 +21,11 @@ def badges(verified_text):
 LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest"), ("/rent-vs-buy/", "Rent or Buy"), ("/budget-planner/", "Budget Planner")]
 CAR_LIVE = True   # set False to build without the car lease tool (e.g. to ship guides on their own)
 if CAR_LIVE: LIVE_TOOLS.append(("/company-car-lease-vs-loan/", "Car Lease vs Car Loan"))
+EMI_LIVE = True   # set False to build without the EMI calculator
+if EMI_LIVE: LIVE_TOOLS.append(("/emi-calculator/", "EMI Calculator"))
+QUICK_TOOLS = ["/emi-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
 MENU_EXTRA = []   # extra phone-menu tools for review builds
-NAV = [("/#tools", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
+NAV = [("/tools/", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
 def ld(obj): return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False, separators=(",", ":")) + "</script>"
 
@@ -49,7 +52,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
     css_links = "".join(f'<link rel="stylesheet" href="/assets/css/{c}?v={ver("assets/css/" + c)}">\n' for c in ("site.css",) + tuple(css))
     js_tags = "".join(f'<script src="/assets/js/{j}?v={ver("assets/js/" + j)}" defer></script>\n' for j in ("site.js",) + tuple(js))
     tools = "".join(f'<li><a href="{u}">{n}</a></li>' for u, n in LIVE_TOOLS)
-    menu_tools = "".join(f'<li><a href="{u}"{" aria-current=\"page\"" if u == path else ""}>{n}</a></li>' for u, n in LIVE_TOOLS + MENU_EXTRA)
+    menu_tools = "".join(f'<li><a href="{u}"{" aria-current=\"page\"" if u == path else ""}>{n}</a></li>' for u, n in LIVE_TOOLS + MENU_EXTRA if u not in QUICK_TOOLS)
     return f'''<!DOCTYPE html>
 <html lang="en-IN">
 <head>
@@ -97,7 +100,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
   <div class="menu-panel" id="menuPanel" hidden>
     <div class="wrap">
       <p class="menu-h">Tools</p>
-      <ul>{menu_tools}<li><a href="/#tools">All tools and what's coming</a></li></ul>
+      <ul>{menu_tools}<li><a href="/tools/"><b>See all tools →</b></a></li></ul>
       <p class="menu-h">Salarist</p>
       <ul><li><a href="/guides/">Guides</a></li><li><a href="/methodology/">How we check our numbers</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li></ul>
     </div>
@@ -114,7 +117,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
         <a class="brand" href="/">{LOGO}<span class="visually-hidden">Salarist home</span></a>
         <p style="margin:12px 0 0;max-width:340px">Money and leave decision tools for salaried India. Free, private and checked against official sources.</p>
       </div>
-      <div><h4>Tools</h4><ul>{tools}<li><span>More tools coming soon</span></li></ul></div>
+      <div><h4>Tools</h4><ul><li><a href="/tools/">All tools</a></li><li><a href="/tools/#soon">What's coming</a></li></ul></div>
       <div><h4>Salarist</h4><ul>
         <li><a href="/guides/">Guides</a></li><li><a href="/about/">About</a></li><li><a href="/methodology/">How we check our numbers</a></li><li><a href="/contact/">Contact</a></li>
         <li><a href="/privacy/">Privacy policy</a></li><li><a href="/terms/">Terms of use</a></li><li><a href="/disclaimer/">Disclaimer</a></li></ul></div>
@@ -138,6 +141,9 @@ def home():
                   f'<p class="lead">Plain-English guides that walk through each decision with a worked example and explain every number the tools show.</p>'
                   f'<div class="g-cards" style="margin-top:24px">{cards}</div>'
                   f'<p style="margin:20px 0 0"><a class="more" href="/guides/">See all guides →</a></p></div></section>\n')
+    i = body.index('<section id="tools"'); j = body.index("</section>", i); k = body.rindex("</div>", i, j)
+    body = body[:k] + ('<div class="quick"><h3 class="list-h" style="margin:34px 0 14px">Quick calculators</h3>' + quick_chips() +
+                       '<p style="margin:18px 0 0"><a class="more" href="/tools/">See all tools →</a></p></div>') + body[k:]
     body = body.replace('<section id="rates"', guides_sec + '<section id="rates"', 1)
     body = body.replace('<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">Launching soon</span></a>',
                         '<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">New</span></a>')
@@ -293,7 +299,7 @@ def leave_planner():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>Want the full picture?</b> Read our guide, <a href="/guides/long-weekends-2027/">Long weekends 2027 in India</a>: every holiday, every long weekend and two ready-made leave plans. Also read: <a href="/guides/restricted-holidays-2027/">Restricted holidays 2027: which two to pick</a>.</p>
+  <p class="g-callout"><b>Want the full picture?</b> Read our guide, <a href="/guides/long-weekends-2027/">Long weekends 2027 in India</a>: every holiday, every long weekend and two ready-made leave plans. Also read: <a href="/guides/restricted-holidays-2027/">Restricted holidays 2027: which two to pick</a>, <a href="/guides/best-months-for-a-week-long-break-2027/">the best months for a week-long break</a> and <a href="/guides/long-weekends-2027-six-day-week/">long weekends for six-day weeks</a>.</p>
   <h2>How the leave planner works</h2>
   <p>The planner marks every day of {data["year"]} as a weekly off, a holiday or a working day, using your weekly off and your company's holidays.</p>
   <ul><li><strong>Plan a break:</strong> choose how many days off in a row you want, and optionally a month. The planner checks every possible start date and shows the dates that need the fewest leave days.</li>
@@ -518,6 +524,7 @@ TOOL_CARDS = {
     "/rent-vs-buy/": ("Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax."),
     "/budget-planner/": ("Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides."),
 }
+if EMI_LIVE: TOOL_CARDS["/emi-calculator/"] = ("EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.")
 if CAR_LIVE: TOOL_CARDS["/company-car-lease-vs-loan/"] = ("Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.")
 def related(path):
     cards = "".join(f'<a class="rel" href="{u}"><b>{n}</b><span>{d}</span></a>' for u, (n, d) in TOOL_CARDS.items() if u != path)
@@ -899,6 +906,154 @@ BP_TIPS = [
 
 # ---------------- Guides ----------------
 
+def emi_page():
+    faqs = [
+        ("How is EMI calculated?",
+         "EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1), where P is the loan amount, r is the yearly interest rate divided by 12 (as a decimal) and n is the number of months. Each month, interest is charged on the loan still left, and the rest of the EMI repays the loan. That's why early EMIs are mostly interest and later ones mostly principal."),
+        ("Is it better to cut the tenure or the EMI after a part-payment?",
+         "Cutting the tenure saves more interest, because your EMI stays the same and more of it goes to the principal each month. Cutting the EMI lowers your monthly outgo and keeps the same end date. Choose tenure if you can afford the EMI, and EMI if you want breathing room. You can set it for each part-payment."),
+        ("Can I add part-payments at different times and amounts?",
+         "Yes. Add as many part-payments as you like, each with its own month and amount, such as ₹1 lakh now and ₹2 lakh from your bonus in April. Tick \"Repeat every year\" for one you plan to make every year. You can also add a fixed extra amount every month."),
+        ("What happens when my floating interest rate changes?",
+         "Add a rate change with the month it applies from. Banks usually keep your EMI the same and change the tenure when a floating rate moves; you can choose to keep the end date and change the EMI instead. If a higher rate means the EMI no longer covers the interest, the tool raises the EMI so the loan still gets repaid."),
+        ("Why save and load a loan plan?",
+         "So you can come back later and carry on. The file has your loan details, part-payments and rate changes. Next time, load it, update what you owe from your latest loan statement, and see what your next part-payment would do. It's saved only on your device; we don't store anything."),
+        ("Is there a charge for prepaying a loan?",
+         "RBI rules don't allow banks to charge a prepayment penalty on floating-rate loans taken by individuals for non-business purposes. Fixed-rate loans and some other loans may have a charge, so check your loan terms. The tool doesn't include prepayment charges."),
+        ("Does the EMI depend on my tax regime?",
+         "No. Under the old regime, you can deduct home loan interest up to ₹2,00,000 a year for a home you live in and count principal within the ₹1,50,000 limit, which lowers your tax but not your EMI. The new regime allows neither. Car and personal loans for personal use get no deduction."),
+    ]
+    def num(k, label, unit="", mn=0, mx=0, st=1, money=True, rng=True, hint="", cls=""):
+        inp = f'<input id="em-{k}" type="text" inputmode="numeric" autocomplete="off">' if money else f'<input id="em-{k}" type="number" inputmode="decimal" min="{mn}" max="{mx}" step="{st}">'
+        return (f'<div class="fld{(" " + cls) if cls else ""}"><div class="row1"><label for="em-{k}">{label}</label><span class="w" id="em-{k}-w"></span></div>'
+                f'<div class="numin">{"<span>₹</span>" if money else ""}{inp}{"" if money else f"<span>{unit}</span>"}</div>'
+                + (f'<input type="range" id="em-{k}-r" min="{mn}" max="{mx}" step="{st}" aria-label="{label}">' if rng else "")
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your loans</p>
+  <h1>EMI calculator, with part-payments and rate changes</h1>
+  <p class="lead">Work out the EMI on a home, car or personal loan. Then plan part-payments of any amount, whenever you expect the money, add interest rate changes, and see the interest you save and when the loan closes. Save your plan and pick it up later.</p>
+  {badges("Reducing-balance method, as banks use")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb em">
+  <div class="card lp-setup" aria-label="Your loan">
+    <div><span class="lbl" id="typeLbl">Loan type</span>
+      <div class="seg row" role="group" aria-labelledby="typeLbl"><button type="button" data-type="home">Home</button><button type="button" data-type="car">Car</button><button type="button" data-type="personal">Personal</button></div>
+      <p class="hint">Fills in typical starting values. Use the figures from your lender's offer or loan statement.</p></div>
+    <div><span class="lbl" id="modeLbl">Which loan?</span>
+      <div class="seg row" role="group" aria-labelledby="modeLbl"><button type="button" data-mode="new">A new loan</button><button type="button" data-mode="existing">A loan I already have</button></div></div>
+    <div id="em-new-box" style="display:flex;flex-direction:column;gap:18px">
+      {num("amount", "Loan amount", mn=50000, mx=20000000, st=50000)}
+      {num("years", "Tenure", "years", 1, 30, 1, money=False)}
+    </div>
+    <div class="adv" id="em-old-box" hidden>
+      {num("owe", "Amount you owe today", rng=False, hint="The principal outstanding on your latest loan statement or bank app.")}
+      <div><span class="lbl" id="knowLbl">You know</span>
+        <div class="seg row" role="group" aria-labelledby="knowLbl"><button type="button" data-know="emi">My EMI</button><button type="button" data-know="left">The months left</button></div></div>
+      <div id="em-curEmi-box">{num("curEmi", "Your current EMI", rng=False)}</div>
+      <div id="em-left-box" hidden>{num("left", "Months left", "months", 1, 480, 1, money=False, rng=False)}</div>
+    </div>
+    {num("rate", "Interest rate", "% a year", 5, 20, 0.05, money=False)}
+    <div class="fld"><label class="lbl" for="em-start" id="em-startLbl" style="margin:0">Month of your first EMI</label><input class="sel" type="month" id="em-start"></div>
+    <p class="grp-h">Part-payments and rate changes</p>
+    <div><span class="lbl" id="effLbl">Part-payments cut</span>
+      <div class="seg row" role="group" aria-labelledby="effLbl"><button type="button" data-effect="tenure">The tenure (EMI stays)</button><button type="button" data-effect="emi">The EMI (end date stays)</button></div>
+      <p class="hint">Cutting the tenure saves more interest. You can change this for any single part-payment below.</p></div>
+    {num("extra", "Extra every month", mn=0, mx=100000, st=500, hint="Optional. A fixed amount on top of the EMI, every month.")}
+    <div id="emEvents" class="em-evs"></div>
+    <div class="actions" style="margin:0"><button type="button" class="btn-sm" id="emAddPay">Add a part-payment</button><button type="button" class="btn-sm btn-ghost" id="emAddRate">Add a rate change</button></div>
+    <p class="hint" style="margin-top:-8px">Add each part-payment you expect, with its month: a bonus, a maturity, a gift. Tick "Repeat every year" for one you'll make every year. Add a rate change if your floating rate moves.</p>
+    <p class="grp-h">Your loan plan</p>
+    <div class="actions" style="margin:0"><button type="button" class="btn-sm" id="emSaveBtn">Save my loan plan</button><button type="button" class="btn-sm" id="emLoadBtn">Load my loan plan</button><input type="file" id="emFile" accept=".csv,text/csv" hidden></div>
+    <p class="hint" style="margin-top:-8px" id="emSaveHint">Saves your loan, part-payments and rate changes as a small file on your device. Load it here next time, update what you owe from your latest statement, and carry on planning. Nothing is stored on our side.</p>
+  </div>
+
+  <div>
+    <div class="verdict" id="emVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="emPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="emXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="emShare">Copy share link</button>
+    </div>
+    <p class="status" id="emStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">Your EMI</div><div class="n" id="emEmi">—</div><div class="h">A month, to start with</div></div>
+      <div class="stat"><div class="l">Total interest</div><div class="n" id="emInt">—</div><div class="h">Over the whole loan</div></div>
+      <div class="stat"><div class="l">Interest saved</div><div class="n" id="emSaved">—</div><div class="h">By your part-payments</div></div>
+      <div class="stat"><div class="l">Loan closes</div><div class="n" id="emEnd">—</div><div class="h">Month of the last EMI</div></div>
+    </div>
+    <h2 class="list-h">Principal and interest</h2>
+    <div id="emSplit"></div>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">Loan left over time</h2>
+      <p class="hint" style="margin:0 0 10px">Dots mark your part-payments.</p>
+      <div id="emChart"></div>
+      <div class="legend2"><span><i style="background:var(--brand)"></i>With your part-payments</span><span id="emLegendNo"><i style="background:var(--leave)"></i>Without part-payments</span></div>
+    </div>
+    <div id="emEachBox" hidden><h2 class="list-h">What each part-payment does</h2><ul class="notes" id="emEach"></ul><p class="hint">Compared with your plan without that part-payment. Earlier part-payments save more, because they cut interest for longer.</p></div>
+    <h2 class="list-h">What if the rate is different?</h2>
+    <div class="sens" id="emSens"></div>
+    <p class="hint">EMI · total interest, with your part-payments.</p>
+    <div class="card" style="padding:16px 18px;margin:18px 0"><h2 class="list-h" style="margin:0 0 8px">How much loan can an EMI buy?</h2>
+      {num("afford", "An EMI you can manage", rng=False)}<p style="margin:10px 0 0;font-weight:700" id="emAffRes"></p></div>
+    <a class="next" id="emNext" href="/prepay-vs-invest/"><span class="k">Your next decision</span><b></b><span class="h"></span></a>
+    <h2 class="list-h">Assumptions</h2>
+    <ul class="notes" id="emNotes"></ul>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Repayment schedule</h2>
+  <p class="lead" style="font-size:15px">Year by year. Tap a year to see each month.</p>
+  <div class="tbl-wrap calc-wrap" id="emTable"></div>
+</div></section>
+{related("/emi-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <h2>How the calculator works</h2>
+  <p>Each month, interest is charged on the loan still left, at the rate for that month. Your EMI pays that interest first, and the rest reduces the loan. This is the reducing-balance method banks use for home, car and personal loans.</p>
+  <ul>
+    <li><strong>Part-payments</strong> are made right after that month's EMI and reduce the loan straight away. Cutting the tenure keeps your EMI; cutting the EMI keeps the end date.</li>
+    <li><strong>Rate changes</strong> apply from the month you enter. By default your EMI stays the same and the tenure changes, as most banks do.</li>
+    <li><strong>"What each part-payment does"</strong> compares your plan with and without that one part-payment.</li>
+  </ul>
+  <h2>Saving and loading your plan</h2>
+  <p>A loan runs for years, and plans change. Save your plan to keep a copy of everything you entered. Next time, load it, update the amount you owe from your latest statement, and see what your next part-payment would do. The file is a CSV that opens in Excel too. It stays on your device.</p>
+  <h2>Tax</h2>
+  <p>Your EMI is the same under both tax regimes. Under the old regime, home loan interest for a home you live in can be deducted up to ₹2,00,000 a year (section 22 of the Income-tax Act, 2025) and principal within the ₹1,50,000 limit of section 123. To see how that changes renting against buying, use <a href="/rent-vs-buy/">Rent or Buy</a>; to weigh a part-payment against investing, use <a href="/prepay-vs-invest/">Prepay or Invest</a>.</p>
+  <h2 id="sources">Sources</h2>
+  <p>The standard reducing-balance EMI formula. Prepayment charges: Reserve Bank of India rules on floating-rate loans to individuals. Tax: <a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>, Income-tax Act, 2025 (sections 22 and 123), tax year {TAX_YEAR}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="emBar" hidden><span id="emBarT"></span><button type="button" class="btn-sm pri" id="emBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "EMI Calculator", "url": SITE + "/emi-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "EMI calculator for home, car and personal loans, with part-payments at any time, rate changes, a full schedule, and a loan plan you can save and load.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "em", EM_TIPS)
+    return layout("/emi-calculator/", "EMI Calculator with Part-Payments and Rate Changes (Home, Car, Personal) | Salarist",
+                  "Calculate your loan EMI, then plan part-payments of any amount at any time and rate changes. See interest saved, when the loan closes, and save your plan. Free, private.",
+                  body, crumbs=[("/", "Home"), ("/emi-calculator/", "EMI Calculator")], graph=graph,
+                  css=("tool.css",), js=("emi.js",), og="og-emi-calculator.png", og_title="EMI calculator with part-payments and rate changes")
+
+EM_TIPS = [
+    ("""<span class="lbl" id="modeLbl">Which loan?</span>""", "which loan",
+     "A new loan starts from the full amount. For a loan you already have, enter what you owe today and your current EMI or months left, so the plan starts from where your loan really is."),
+    ("""<label for="em-rate">Interest rate</label>""", "the interest rate",
+     "The yearly rate on your loan. For a floating-rate loan, use today's rate and add rate changes below if you want to see what a move would do."),
+    ("""<span class="lbl" id="effLbl">Part-payments cut</span>""", "tenure or EMI",
+     "After a part-payment, your bank either keeps your EMI and shortens the loan (tenure), or keeps the end date and lowers your EMI. Shortening the loan saves more interest."),
+    ("""<button type="button" class="btn-sm" id="emSaveBtn">Save my loan plan</button>""", "saving your plan",
+     "Downloads a small CSV file with everything you entered. Use Load my loan plan to bring it back later and update it. The PDF and Excel reports are for reading; the plan file is for loading back here."),
+    ("""<div class="l">Interest saved</div>""", "interest saved",
+     "Total interest without your part-payments, minus total interest with them. Rate changes you add count in both."),
+]
+
 def car_page():
     faqs = [
         ("How does a company car lease save tax?",
@@ -1014,6 +1169,7 @@ def car_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/company-car-lease-vs-car-loan/">Company car lease or car loan? How to decide</a>, worked through one employee's numbers. Also read: <a href="/guides/company-car-perquisite-value-2026/">Company car perquisite value from April 2026</a>.</p>
   <h2>How the calculator works</h2>
   <ul><li><strong>Company lease:</strong> the rental, and the running costs that go through the company, come out of your salary before tax. You pay tax only on the car's fixed value under Rule 15. At the end you buy the car at the agreed price or hand it back.</li>
   <li><strong>Car loan:</strong> you pay the down payment, then the EMI, insurance, servicing, fuel and any driver from take-home pay. At the end you own the car, minus any loan still owed.</li></ul>
@@ -1092,6 +1248,18 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month: three example budgets",
      "Three example monthly budgets for in-hand pay of ₹50,000, ₹1 lakh and ₹2 lakh: where the money goes, how much each saves, and what to fix first.",
      "2026-11-13", "guide-budget-by-income", "Your money"),
+    ("/guides/company-car-lease-vs-car-loan/", "Company car lease or car loan? How to decide, with a worked example",
+     "How a salary-linked car lease works, the values you're taxed on from April 2026, and how it compares with a car loan, worked through one employee's numbers.",
+     "2026-11-13", "guide-car-lease", "Your car"),
+    ("/guides/company-car-perquisite-value-2026/", "Company car perquisite value from April 2026: the new ₹5,000 and ₹7,000 rules",
+     "The new taxable values for a company car under Rule 15 of the Income-tax Rules, 2026, what they cost you in tax, and whether a car lease is still worth it.",
+     "2026-11-13", "guide-car-perquisite", "Your car"),
+    ("/guides/best-months-for-a-week-long-break-2027/", "Best months for a week-long break in 2027",
+     "The cheapest 9-day break in every month of 2027, with the leave days to take, worked out with the Salarist leave planner on the central government list.",
+     "2026-11-13", "guide-best-months-2027", "Your time off"),
+    ("/guides/long-weekends-2027-six-day-week/", "Long weekends 2027 for six-day-week workers",
+     "The best 2027 breaks if you work Saturdays, or get only the 2nd and 4th Saturdays off, with the leave each one needs.",
+     "2026-11-13", "guide-six-day-week-2027", "Your time off"),
 ]
 def _L(v):
     a = abs(v); s = "−" if v < 0 else ""
@@ -1349,7 +1517,7 @@ def guide_leave():
 <h2 id="your-list">If your company's list is different</h2>
 <ul>
   <li><strong>Different holidays:</strong> private companies and state government offices follow their own lists. In the planner, untick the holidays you don't get and add your company's own.</li>
-  <li><strong>Saturdays:</strong> if you work Saturdays, or alternate ones, there are no free long weekends and every break costs more leave. The planner handles a Sunday-only week and second-and-fourth Saturdays off.</li>
+  <li><strong>Saturdays:</strong> if you work Saturdays, or alternate ones, there are no free long weekends and every break costs more leave. The planner handles a Sunday-only week and second-and-fourth Saturdays off. See <a href="/guides/long-weekends-2027-six-day-week/">long weekends 2027 for six-day weeks</a>.</li>
   <li><strong>Leave rules:</strong> some employers count weekends or holidays that fall between leave days as leave too (often called a sandwich rule). Check your leave policy before you apply.</li>
 </ul>
 
@@ -1856,17 +2024,356 @@ def guide_rh():
 """
     return article(path, "Restricted Holidays 2027: Which Two to Pick for Longer Breaks | Salarist", "Restricted holidays 2027: which two to pick", body, "Restricted holidays 2027")
 
+def guide_car():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_car_numbers.js")]))
+    S, B, sl = G["S"], G["base"], G["slabs"]
+    path = "/guides/company-car-lease-vs-car-loan/"
+    sl_rows = "".join(f"<tr><td>{k}%</td><td>{('Lease saves ' + _L(v['diff'])) if v['diff'] > 0 else ('Loan saves ' + _L(-v['diff']))}</td></tr>" for k, v in sl.items())
+    toc = [("short-answer", "The short answer"), ("how", "How a company car lease works"), ("values", "The values you're taxed on"), ("example", "The example: Neha's car"),
+           ("result", "Her result, number by number"), ("changes", "What changes the answer"), ("ask", "Questions to ask before you sign"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Many companies let you lease a car through your salary. The rental comes out of your pay before tax, and you're taxed only on a small fixed value for the car. Here's how that compares with buying the same car on a loan, worked through one employee's numbers.",
+                      "A car between a lease document and a loan document, with a rupee coin").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>A company car lease usually wins for people in the higher tax slabs, because the rental and running costs come out of pre-tax pay while you're taxed only on <strong>₹5,000 or ₹7,000 a month</strong>. In our example, a {_L(S['price'])} car over {S['years']} years, the lease comes out <strong>{_L(B['diff'])} ahead</strong> in the 30% slab and {_L(sl['20']['diff'])} ahead in the 20% slab, but loses in the 0% slab.</p>
+<p>The answer turns on four things: your tax slab, the rental your company is quoted, what you pay to keep the car at the end, and whether you might leave the job before the lease ends.</p>
+<p class="g-cta"><a class="btn" href="/company-car-lease-vs-loan/">Compare your own numbers</a></p>
+
+<h2 id="how">How a company car lease works</h2>
+<ul>
+  <li><strong>The leasing company owns the car</strong> and leases it to your employer, usually for 3 to 5 years. The car is registered in its name.</li>
+  <li><strong>Your CTC is restructured:</strong> the monthly rental, and often fuel, servicing, insurance and a driver, are paid by the company out of your CTC. That part of your pay is no longer taxable salary.</li>
+  <li><strong>You're taxed on a fixed value for using the car,</strong> set by Rule 15 of the Income-tax Rules, 2026, not on what it really costs.</li>
+  <li><strong>At the end,</strong> you usually buy the car at an agreed price or hand it back.</li>
+</ul>
+<p>With a loan, you own the car from day one, but the EMI, insurance, fuel and servicing all come out of take-home pay, after tax.</p>
+
+<h2 id="values">The values you're taxed on</h2>
+<p>For a car owned or hired by your employer and used for both work and personal trips, from 1 April 2026:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Who pays the running costs</th><th scope="col">Up to 1.6 litres, or electric</th><th scope="col">Above 1.6 litres</th></tr></thead><tbody>
+<tr><th scope="row">The company</th><td data-l="Up to 1.6 litres, or electric">₹5,000 a month</td><td data-l="Above 1.6 litres">₹7,000 a month</td></tr>
+<tr><th scope="row">You, for personal use</th><td data-l="Up to 1.6 litres, or electric">₹2,000 a month</td><td data-l="Above 1.6 litres">₹3,000 a month</td></tr>
+</tbody></table></div>
+<p>Add ₹3,000 a month if the company also provides a driver. These values replaced the old ₹1,800 and ₹2,400 this year. Read more in <a href="/guides/company-car-perquisite-value-2026/">Company car perquisite value from April 2026</a>.</p>
+
+<h2 id="example">The example: Neha's car</h2>
+<p>Neha is 34, works in Bengaluru and is in the 30% tax slab. Her company offers a car lease, and she's looking at a car costing {_inr(S['price'])} on the road, with an engine under 1.6 litres. She compares:</p>
+<ul>
+  <li><strong>The lease:</strong> {_inr(S['rental'])} a month for {S['years']} years, including GST, insurance and servicing. Fuel of {_inr(S['fuel'])} a month goes through the company. At the end she buys the car for {_inr(S['buyback'])}.</li>
+  <li><strong>The loan:</strong> {_inr(S['down'])} down and a loan of {_inr(S['price'] - S['down'])} at {S['rate']}% for {S['loanYrs']} years. She pays insurance ({_inr(S['ins'])} a year), servicing ({_inr(S['maint'])} a year) and fuel herself.</li>
+</ul>
+<p>Either way, she expects the car to lose {S['dep']}% of its value a year, and money she doesn't spend earns {S['ret']}% a year. Neha is an example; use your own numbers in the calculator.</p>
+
+<h2 id="result">Her result, number by number</h2>
+<h3>Leasing saves her {_L(B['diff'])} over {S['years']} years</h3>
+<p>That counts everything: what she pays each month, the down payment, the buy-back price, the car's value at the end (about {_L(B['car'])} under both options), and what the money she doesn't spend would earn.</p>
+<h3>Out of take-home pay: {_inr(B['outL'])} a month with the lease, {_inr(B['outB'])} with the loan</h3>
+<p>The lease rental and fuel come to {_inr(S['rental'] + S['fuel'])} a month, but because they come out of pre-tax pay, her take-home drops by much less. With the loan, the EMI of {_inr(B['emi'])} plus insurance, servicing and fuel all come from take-home, and she also pays {_L(S['down'])} up front.</p>
+<h3>Tax saved: {_L(B['taxNet'])}</h3>
+<p>She saves {_L(B['taxSaved'])} in tax on the rental and fuel over {S['years']} years, and pays {_inr(B['perkTax'])} in tax on the car's ₹5,000-a-month value. That net saving is most of the lease's advantage.</p>
+<h3>The lease stops winning at a rental of about {_inr(round(G['be'] / 100) * 100)} a month</h3>
+<p>If her company's quote were higher than that, the loan would cost less. It's the most useful number to check against the quote you get.</p>
+
+<h2 id="changes">What changes the answer</h2>
+<h3>Your tax slab</h3>
+<p>The lease's advantage comes almost entirely from tax, so it shrinks fast in lower slabs. Neha's numbers at each slab:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Tax slab</th><th scope="col">Over {S['years']} years</th></tr></thead><tbody>{sl_rows}</tbody></table></div>
+<p>The car rules are the same under the old and new regimes, but the slab rates differ, so check which slab your top rupee of salary falls in under the regime you file in.</p>
+<h3>Buying the car at the end, or handing it back</h3>
+<p>If Neha hands the car back, the lease is only {_L(G['ret']['diff'])} ahead: with the loan she'd own a car worth about {_L(B['car'])}. A lease you hand back is closer to renting a car than buying one.</p>
+<h3>Paying fuel yourself</h3>
+<p>If fuel doesn't go through the company, the car's taxable value drops to ₹2,000 a month, but fuel comes out of take-home pay. For Neha, the lease is still {_L(G['self']['diff'])} ahead, a little less than before.</p>
+<h3>A bigger engine</h3>
+<p>Above 1.6 litres, the value is ₹7,000 a month. With the same rental, the lease is {_L(G['big']['diff'])} ahead.</p>
+<h3>Leaving the job early</h3>
+<p>Most schemes charge to close the lease early. If Neha left after 2 years, paid a {_inr(S['exitCharge'])} closure charge and bought the car for {_inr(S['exitPrice'])}, the lease would still be {_L(G['exit']['diff'])} ahead. If she had to hand it back instead, that falls to {_L(G['exitReturn']['diff'])}. Try your own exit terms in the calculator.</p>
+
+<h2 id="ask">Questions to ask before you sign</h2>
+<ol class="g-check">
+  <li>What does the rental include: GST, insurance, servicing, tyres, roadside help?</li>
+  <li>Can fuel and a driver go through the company too, and what bills do you need to give?</li>
+  <li>What's the buy-back price at the end, and does the transfer cost extra?</li>
+  <li>What happens if you leave the company, and what are the early closure charges?</li>
+  <li>Is there a limit on how far you can drive, and who pays for accident repairs?</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/company-car-lease-vs-loan/">Compare lease and loan</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>Every figure comes from the same calculation as the <a href="/company-car-lease-vs-loan/">Car Lease vs Car Loan Calculator</a>, run on Neha's numbers. Tax is at her slab plus 4% cess, without surcharge. Insurance and servicing are spread evenly over the months. The car's taxable values are from Rule 15 of the Income-tax Rules, 2026, which apply from 1 April 2026 under both regimes. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This guide is for information and education. It isn't financial or tax advice. Check your company's car policy and, for a big decision, consider speaking to a qualified adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Company Car Lease vs Car Loan in India: How to Decide (2026-27) | Salarist", "Company car lease or car loan?", body, "Car lease vs car loan")
+
+def guide_perk():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_car_numbers.js")]))
+    S, B, O, N = G["S"], G["base"], G["OLD"], G["PERK"]
+    path = "/guides/company-car-perquisite-value-2026/"
+    def yr_tax(v, slab): return v * 12 * slab / 100 * 1.04
+    rows = "".join(f"<tr><th scope=\"row\">{s}% slab</th><td data-l=\"Up to 1.6 litres, or electric\">{_inr(yr_tax(5000, s))} (was {_inr(yr_tax(1800, s))})</td><td data-l=\"Above 1.6 litres\">{_inr(yr_tax(7000, s))} (was {_inr(yr_tax(2400, s))})</td></tr>" for s in (5, 20, 30))
+    extra = (5000 - 1800) * 12 * S["years"] * 0.30 * 1.04
+    toc = [("short-answer", "The short answer"), ("table", "Old and new values"), ("tax", "What it means for your tax"), ("lease", "Is a car lease still worth it?"),
+           ("ev", "Electric cars"), ("check", "What to check on your payslip"), ("method", "Sources")]
+    body = guide_head(path, "From 1 April 2026, the taxable value of a company car used for personal trips went up for the first time in years: from ₹1,800 to ₹5,000 a month for smaller cars, and from ₹2,400 to ₹7,000 for bigger ones. Here's what changed, what it costs you in tax, and whether a car lease still makes sense.",
+                      "A car with a price tag showing a rising value").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Under Rule 15 of the Income-tax Rules, 2026, a car owned or hired by your employer and used for both work and personal trips is valued at <strong>₹5,000 a month</strong> (engine up to 1.6 litres, or electric) or <strong>₹7,000 a month</strong> (above 1.6 litres) when the company pays the running costs. That's added to your taxable salary.</p>
+<p>In the 30% slab, that's about <strong>{_inr(yr_tax(5000, 30))} of tax a year</strong> for a smaller car, up from {_inr(yr_tax(1800, 30))}. It's more, but for most people a car lease still saves far more than it costs.</p>
+<p class="g-cta"><a class="btn" href="/company-car-lease-vs-loan/">Check your car lease</a></p>
+
+<h2 id="table">Old and new values</h2>
+<p>For a car owned or hired by the employer and used partly for personal purposes, a month:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Situation</th><th scope="col">Up to 1.6 litres, or electric</th><th scope="col">Above 1.6 litres</th></tr></thead><tbody>
+<tr><th scope="row">Company pays the running costs</th><td data-l="Up to 1.6 litres, or electric"><strong>₹5,000</strong> (was ₹1,800)</td><td data-l="Above 1.6 litres"><strong>₹7,000</strong> (was ₹2,400)</td></tr>
+<tr><th scope="row">You pay the running costs for personal use</th><td data-l="Up to 1.6 litres, or electric"><strong>₹2,000</strong> (was ₹600)</td><td data-l="Above 1.6 litres"><strong>₹3,000</strong> (was ₹900)</td></tr>
+<tr><th scope="row">Driver provided by the company</th><td data-l="Up to 1.6 litres, or electric"><strong>+₹3,000</strong> (was ₹900)</td><td data-l="Above 1.6 litres"><strong>+₹3,000</strong> (was ₹900)</td></tr>
+</tbody></table></div>
+<p>The new values come from Rule 15 of the Income-tax Rules, 2026, notified on 20 March 2026 under the Income-tax Act, 2025. The old ones were in Rule 3 of the Income-tax Rules, 1962, and hadn't changed in years.</p>
+
+<h2 id="tax">What it means for your tax</h2>
+<p>The value is added to your salary, so you pay tax on it at your slab rate plus 4% cess. Tax a year when the company pays the running costs:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Your slab</th><th scope="col">Up to 1.6 litres, or electric</th><th scope="col">Above 1.6 litres</th></tr></thead><tbody>{rows}</tbody></table></div>
+<p>This applies under both the old and new regimes. Surcharge, for very high incomes, isn't included.</p>
+
+<h2 id="lease">Is a car lease still worth it?</h2>
+<p>For most people in the higher slabs, yes. The rental and running costs you pay through the company still come out of pre-tax pay, and those are usually many times larger than the ₹5,000 or ₹7,000 you're taxed on.</p>
+<p>In our worked example, a {_L(S['price'])} car leased for {S['years']} years at {_inr(S['rental'])} a month in the 30% slab, the new values add about <strong>{_L(extra)} of tax over the lease</strong> compared with the old ones. The lease still comes out <strong>{_L(B['diff'])} ahead</strong> of buying on a loan. See the full example in <a href="/guides/company-car-lease-vs-car-loan/">Company car lease or car loan?</a></p>
+<p>The higher values matter most for cheaper cars and lower slabs, where the tax saved was small to begin with. Run your own quote through the calculator before you sign.</p>
+
+<h2 id="ev">Electric cars</h2>
+<p>The new rules put electric cars in the lower band, with cars up to 1.6 litres: ₹5,000 a month if the company pays the running costs, or ₹2,000 if you do. Charging at home can usually go through the company like fuel; check your car policy.</p>
+
+<h2 id="check">What to check on your payslip</h2>
+<ol class="g-check">
+  <li>The car's value should appear as a perquisite in your salary, at ₹5,000, ₹7,000, ₹2,000 or ₹3,000 a month, plus ₹3,000 with a driver.</li>
+  <li>If it still shows ₹1,800 or ₹2,400 for months from April 2026, ask payroll: you may owe more tax at year end.</li>
+  <li>The lease rental and running costs should be shown as deductions from your CTC, not as taxable pay.</li>
+  <li>Your Form 130 (the new name for Form 16) at the end of the tax year should show the same value.</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/company-car-lease-vs-loan/">Compare lease and loan</a></p>
+
+<h2 id="method">Sources</h2>
+<p>Rule 15 of the Income-tax Rules, 2026, notified on 20 March 2026 and in force from 1 April 2026, from the <a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>; earlier values from Rule 3 of the Income-tax Rules, 1962. Tax worked out at the slab rate plus 4% cess. Figures for the lease come from the <a href="/company-car-lease-vs-loan/">Car Lease vs Car Loan Calculator</a>. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article covers cars owned or hired by your employer, the usual car lease setup. If you own the car and your employer only pays its running costs, different rules apply. This isn't tax advice; check with your payroll team or a tax adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Company Car Perquisite Value 2026: New ₹5,000/₹7,000 Rules Explained | Salarist", "Company car perquisite value from April 2026", body, "Car perquisite value 2026")
+
+def guide_months():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_leave_more_numbers.js")]))
+    M = G["months"]
+    path = "/guides/best-months-for-a-week-long-break-2027/"
+    rows = "".join(f"<tr><td class=\"nw\"><b>{m['month']}</b></td><td data-l=\"Break\">{m['len']} days, {_span(m['from'], m['to'])}</td><td data-l=\"Leave needed\"><b>{m['leave']} day{'s' if m['leave'] != 1 else ''}</b></td><td data-l=\"Holidays in it\">{' and '.join(m['holidays']) if m['holidays'] else 'None'}</td></tr>" for m in M)
+    best = sorted(M, key=lambda m: (m["leave"], -m["len"]))
+    three = [m for m in M if m["leave"] == 3]
+    def leave_on(m): return ", ".join(_d(d, False) for d in m["leaveDays"])
+    toc = [("short-answer", "The short answer"), ("months", "Month by month"), ("picks", "The best months, explained"), ("hard", "The hardest months"),
+           ("tips", "Before you book"), ("method", "How these dates were worked out")]
+    body = guide_head(path, "A week-long break usually costs five days of leave. In some months of 2027, holidays cut that to three. Here's the cheapest week-long break in every month of the year, so you can plan around the months that give you the most time off for your leave.",
+                      "Twelve month cards with three spring months highlighted for a week-long break").replace("TYPE_LINE", "<span>DoPT holiday list of 16 Jul 2026</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>For a 9-day break (two weekends and the week between), the best months in 2027 are <strong>{' and '.join(m['month'] for m in three)}</strong>, which need only <strong>3 days of leave</strong>. <strong>April</strong> gives the longest: {M[3]['len']} days for {M[3]['leave']} days of leave. {', '.join(m['month'] for m in M if m['leave'] == 5)} have no weekday holidays to help, so a week off costs the full 5 days.</p>
+<p>These are for a Monday-to-Friday week and the central government list. Your company's list may differ, so check yours in the planner.</p>
+<p class="g-cta"><a class="btn" href="/leave-planner-2027/">Plan my 2027 leave</a></p>
+
+<h2 id="months">Month by month</h2>
+<p>The 9-day break in each month that needs the fewest leave days:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Month</th><th scope="col">Break</th><th scope="col">Leave needed</th><th scope="col">Holidays in it</th></tr></thead><tbody>{rows}</tbody></table></div>
+
+<h2 id="picks">The best months, explained</h2>
+<h3>March: Holi and Good Friday</h3>
+<p>Holi falls on Tuesday 23 March and Good Friday on 26 March. Take leave on {leave_on(M[2])} for {_span(M[2]['from'], M[2]['to'])}. If you get restricted holidays, Holika Dahan on Monday 22 March cuts it to 2 days: see <a href="/guides/restricted-holidays-2027/">which restricted holidays to pick</a>.</p>
+<h3>April: Ram Navami and Mahavir Jayanti</h3>
+<p>Ram Navami is on Thursday 15 April and Mahavir Jayanti on Monday 19 April. Take leave on {leave_on(M[3])} for {M[3]['len']} days off, {_span(M[3]['from'], M[3]['to'])}.</p>
+<h3>May: Bakrid and Buddha Purnima</h3>
+<p>Id-ul-Zuha falls on Monday 17 May and Buddha Purnima on Thursday 20 May. Take leave on {leave_on(M[4])} for {_span(M[4]['from'], M[4]['to'])}, a good time for the hills before the summer rush peaks.</p>
+<h3>Also good: January, June, August and October</h3>
+<p>Each needs 4 days of leave for 9 days off, around Republic Day, Muharram, Janmashtami and Diwali. The Diwali week ({_span(M[9]['from'], M[9]['to'])}) is the most popular, so apply early.</p>
+
+<h2 id="hard">The hardest months</h2>
+<p>{', '.join(m['month'] for m in M if m['leave'] == 5)} need the full 5 days for a week off. Holidays in these months, like Guru Nanak's Birthday and Christmas, fall on a weekend in 2027. If you want a break then, a long weekend with one or two days of leave may be better value. The <a href="/guides/long-weekends-2027/">long weekends guide</a> lists them all.</p>
+
+<h2 id="tips">Before you book</h2>
+<ol class="g-check">
+  <li>Check your company's 2027 holiday list and update the planner.</li>
+  <li>Apply early for March, April and Diwali: everyone wants the same weeks.</li>
+  <li>Book travel early too. Fares around these breaks rise as they approach.</li>
+  <li>Some employers count weekends and holidays between leave days as leave (a sandwich rule). Check your policy.</li>
+  <li>Plan the cost in your <a href="/budget-planner/">budget planner</a> as a yearly travel line.</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/leave-planner-2027/">Find your best breaks</a></p>
+
+<h2 id="method">How these dates were worked out</h2>
+<p>Every break comes from the same calculation as the <a href="/leave-planner-2027/">2027 leave planner</a>: for each month, every 9-day window starting in that month is checked, and the one needing the fewest leave days wins; days off on either side are added. It uses the central government list with a Monday-to-Friday week, from the DoPT office memorandum dated 16 July 2026. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">Holiday dates for some festivals depend on the moon and may be changed by official notification. Always check your own employer's list before booking.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Best Months for a Week-Long Break in 2027 (India Holiday Planner) | Salarist", "Best months for a week-long break in 2027", body, "Best months for a break 2027")
+
+def guide_sixday():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_leave_more_numbers.js")]))
+    F, S1, A = G["five"], G["sunOnly"], G["alt"]
+    path = "/guides/long-weekends-2027-six-day-week/"
+    def brk(b): return f"{b['len']} days, {_span(b['from'], b['to'])}"
+    def lv(n): return f"{n} day{'s' if n != 1 else ''} of leave"
+    def leave_on(b): return ", ".join(_d(d, False) for d in b["leaveDays"])
+    def vrows(p): return "".join(f"<tr><td data-l=\"Break\">{brk(b)}</td><td data-l=\"Take leave on\">{leave_on(b)}</td><td data-l=\"Around\">{' and '.join(b['holidays'])}</td></tr>" for b in p["value"])
+    def plan(p): return "".join(f"<li>{brk(b)}: {lv(b['leave'])}</li>" for b in p["breaks"])
+    toc = [("short-answer", "The short answer"), ("sunday", "If only Sunday is off"), ("alternate", "If the 2nd and 4th Saturdays are off"),
+           ("compare", "How it compares with a five-day week"), ("tips", "Making the most of it"), ("method", "How these dates were worked out")]
+    body = guide_head(path, "Most long-weekend lists assume Saturdays off. If you work six days a week, or every other Saturday, the picture is very different. Here are the 2027 breaks that work for you, with the leave each one needs.",
+                      "Two weeks of day tiles with only Sunday, or Sunday and a Saturday, off").replace("TYPE_LINE", "<span>DoPT holiday list of 16 Jul 2026</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<ul>
+  <li><strong>Sunday only off:</strong> there are no free long weekends in 2027. The best deals need 1 day of leave for a 3-day weekend, such as Good Friday ({brk(S1['value'][2])}, leave on {leave_on(S1['value'][2])}). With 8 days of leave you can have <strong>{S1['plan8']['daysOff']} days off</strong> in breaks.</li>
+  <li><strong>2nd and 4th Saturdays off:</strong> one free long weekend, Good Friday, {brk(A['long'][0])}. With 8 days of leave, <strong>{A['plan8']['daysOff']} days off</strong>.</li>
+  <li>For comparison, a Monday-to-Friday week gets {len(F['long'])} free long weekends and {F['plan8']['daysOff']} days off for the same 8 days of leave.</li>
+</ul>
+<p class="g-cta"><a class="btn" href="/leave-planner-2027/">Plan with my week</a></p>
+
+<h2 id="sunday">If only Sunday is off</h2>
+<p>Every Saturday is a working day, so a holiday on a Friday or Monday gives a 2-day break, not 3. These breaks give the most days off for the leave:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Break</th><th scope="col">Take leave on</th><th scope="col">Around</th></tr></thead><tbody>{vrows(S1)}</tbody></table></div>
+<h3>8 days of leave: {S1['plan8']['daysOff']} days off</h3>
+<ul>{plan(S1['plan8'])}</ul>
+
+<h2 id="alternate">If the 2nd and 4th Saturdays are off</h2>
+<p>Many banks and some offices give the second and fourth Saturdays off. That helps in the months where a holiday lands next to one of them:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Break</th><th scope="col">Take leave on</th><th scope="col">Around</th></tr></thead><tbody>{vrows(A)}</tbody></table></div>
+<h3>8 days of leave: {A['plan8']['daysOff']} days off</h3>
+<ul>{plan(A['plan8'])}</ul>
+
+<h2 id="compare">How it compares with a five-day week</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Your week</th><th scope="col">Free long weekends</th><th scope="col">Days off with 8 days of leave</th><th scope="col">With 12 days of leave</th></tr></thead><tbody>
+<tr><th scope="row">Monday to Friday</th><td data-l="Free long weekends">{len(F['long'])}</td><td data-l="Days off with 8 days of leave">{F['plan8']['daysOff']}</td><td data-l="With 12 days of leave">{F['plan12']['daysOff']}</td></tr>
+<tr><th scope="row">2nd and 4th Saturdays off</th><td data-l="Free long weekends">{len(A['long'])}</td><td data-l="Days off with 8 days of leave">{A['plan8']['daysOff']}</td><td data-l="With 12 days of leave">{A['plan12']['daysOff']}</td></tr>
+<tr><th scope="row">Sunday only</th><td data-l="Free long weekends">{len(S1['long'])}</td><td data-l="Days off with 8 days of leave">{S1['plan8']['daysOff']}</td><td data-l="With 12 days of leave">{S1['plan12']['daysOff']}</td></tr>
+</tbody></table></div>
+<p>Every working Saturday inside a break costs a day of leave, so short breaks of 3 to 5 days around a holiday are your best value. A 9-day break costs at least {S1['week'][0]['leave']} days of leave with only Sunday off, against 3 on a five-day week.</p>
+
+<h2 id="tips">Making the most of it</h2>
+<ol class="g-check">
+  <li>Aim for breaks around weekday holidays near Sunday: Republic Day, Holi, Good Friday, Ram Navami and Mahavir Jayanti, Bakrid and Buddha Purnima, and Diwali.</li>
+  <li>Check whether your restricted or optional holidays can join up with a Sunday. See <a href="/guides/restricted-holidays-2027/">which restricted holidays to pick</a>.</li>
+  <li>If your company follows a state holiday list, update the planner with your own holidays.</li>
+  <li>Ask whether weekends and holidays between leave days are counted as leave (a sandwich rule).</li>
+</ol>
+<p>For the five-day-week view, read <a href="/guides/long-weekends-2027/">Long weekends 2027 in India</a> and <a href="/guides/best-months-for-a-week-long-break-2027/">the best months for a week-long break</a>.</p>
+<p class="g-cta"><a class="btn" href="/leave-planner-2027/">Find your best breaks</a></p>
+
+<h2 id="method">How these dates were worked out</h2>
+<p>Every break comes from the same calculation as the <a href="/leave-planner-2027/">2027 leave planner</a>, which lets you choose a Monday-to-Friday week, Sunday only, or the 2nd and 4th Saturdays off. It uses the central government list from the DoPT office memorandum dated 16 July 2026. The plans pick the set of breaks that gives the most days off for the leave. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">Holiday dates for some festivals depend on the moon and may be changed by official notification. Always check your own employer's list before booking.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Long Weekends 2027 for Six-Day Week Workers (Sunday Only, Alternate Saturdays) | Salarist", "Long weekends 2027 for six-day weeks", body, "Six-day week 2027")
+
+# ---------------- All tools ----------------
+# (group, [(path, name, description, live, status text, [guide paths])])
+def catalog():
+    L = lambda p: any(u == p for u, _ in LIVE_TOOLS)
+    return [
+        ("Your time off", [("/leave-planner-2027/", "Leave Planner 2027", "Turn your leave into the longest breaks of 2027, around central, state or your company's holidays.", True, "",
+                            ["/guides/long-weekends-2027/", "/guides/restricted-holidays-2027/", "/guides/best-months-for-a-week-long-break-2027/", "/guides/long-weekends-2027-six-day-week/"])]),
+        ("Your pay", [("/ctc-to-in-hand/", "CTC to in-hand, and your hike", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", [])]),
+        ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/"]),
+                        ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", [])]),
+        ("Your home", [("/rent-vs-buy/", "Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax.", True, "",
+                        ["/guides/rent-vs-buy/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/"])]),
+        ("Your money", [("/budget-planner/", "Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides.", True, "",
+                         ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/"])]),
+        ("Your car", [("/company-car-lease-vs-loan/", "Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.", L("/company-car-lease-vs-loan/"), "Coming soon",
+                       ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/"])]),
+    ]
+QUICK_SOON = ["SIP calculator", "FD, PPF and RD", "Gratuity", "Old vs new regime", "HRA exemption", "Vehicle ownership cost", "Old-to-new section finder"]
+
+def quick_chips():
+    live = "".join(f'<a class="qchip" href="{u}">{n}</a>' for u, n in LIVE_TOOLS if u == "/emi-calculator/")
+    soon = "".join(f'<span class="qchip off">{n}<small>Soon</small></span>' for n in QUICK_SOON[:5])
+    return f'<div class="qchips">{live}{soon}</div>'
+
+def _gshort(t):
+    """Short guide title for lists: the part before ': ' or the first '? '."""
+    t = t.replace(", with a worked example", "")
+    for sep in ("? ", ": "):
+        if sep in t: return t.split(sep)[0] + ("?" if sep == "? " else "")
+    return t
+def _gslug(path): return path.strip("/").split("/")[-1]
+
+def tools_index():
+    gtitle = {g[0]: g[1] for g in GUIDES}
+    icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
+    IC = {"Your time off": "I_CAL", "Your pay": "I_PAY", "Your loans": "I_LOAN", "Your home": "I_HOME", "Your money": "I_WALLET", "Your car": "I_CAR"}
+    cards = ""
+    for grp, items in sorted(catalog(), key=lambda g: not all(x[3] for x in g[1])):
+        for p, n, d, live, st, gl in items:
+            guides = [g for g in gl if g in gtitle]
+            gl_html = ""
+            if guides and live:
+                gl_html = ('<div class="tl-g"><b>Guides</b><ul>' + "".join(f'<li><a href="{g}">{H.escape(_gshort(gtitle[g]))}</a></li>' for g in guides[:3]) + "</ul>"
+                           + f'<a class="more" href="/guides/#{_gslug(p)}">{"See all " + str(len(guides)) + " guides" if len(guides) > 1 else "See it with all our guides"} →</a></div>')
+            head = f'<h3><a href="{p}">{n}</a></h3>' if live else f"<h3>{n}</h3>"
+            badge = '<span class="st"><b class="live">Live</b></span>' if live else f'<span class="st"><b>{st}</b></span>'
+            cards += f'<div class="tool tl{"" if live else " off"}"><span class="grp"><span class="ic">{icons[IC[grp]]}</span>{grp}</span>{head}<p>{d}</p>{gl_html}{badge}</div>'
+    secs = f'<div class="groups" style="margin-top:8px">{cards}</div>'
+    soon = "".join(f'<span class="qchip off">{n}<small>Soon</small></span>' for n in QUICK_SOON)
+    body = (f'<section class="tool-hero"><div class="wrap"><p class="eyebrow">All tools</p><h1>Every Salarist tool, in one place</h1>'
+            f'<p class="lead">Decision tools and calculators for salaried India, grouped by what they help with, with the guides that explain them. All free, all private: everything is calculated on your device.</p></div></section>'
+            f'<section style="padding-top:0"><div class="wrap">{secs}'
+            f'<h2 class="list-h" id="soon" style="margin:40px 0 14px">Quick calculators on the way</h2><div class="qchips">{soon}</div>'
+            f'<p class="hint" style="margin-top:12px">Tax-based calculators follow the 1 February 2027 Union Budget, so their rates are right from day one.</p></div></section>')
+    live = [(p, n) for grp, items in catalog() for p, n, d, lv, st, gl in items if lv]
+    graph = [{"@type": "CollectionPage", "name": "All Salarist tools", "url": SITE + "/tools/", "inLanguage": "en-IN",
+              "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": SITE + p, "name": n} for i, (p, n) in enumerate(live)]}}]
+    return layout("/tools/", "All Tools: Salary, Loan, Home, Car and Leave Calculators for India | Salarist",
+                  "Every Salarist tool in one place: leave planner, EMI, prepay or invest, rent or buy, budget planner and car lease vs loan, with the guides that explain them.",
+                  body, crumbs=[("/", "Home"), ("/tools/", "All tools")], graph=graph, css=("tool.css",), og="og-home.png")
+
 def guides_index():
-    cards = "".join(
-        f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>'
-        for p, t, ds, d, im, sec in GUIDES)
+    gmap = {g[0]: g for g in GUIDES}
+    def card(g):
+        p, t, ds, d, im, sec = g
+        return f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>'
+    secs, used = "", set()
+    for grp, items in catalog():
+        for tp, n, d, live, st, gl in items:
+            gs = [gmap[x] for x in gl if x in gmap]
+            if not gs or not live: continue
+            used.update(x[0] for x in gs)
+            secs += (f'<h2 class="list-h" id="{_gslug(tp)}" style="margin:36px 0 6px;scroll-margin-top:90px">{n}</h2>'
+                     f'<p class="hint" style="margin:0 0 14px">{len(gs)} guide{"s" if len(gs) != 1 else ""} · <a href="{tp}">Open the {n} tool</a></p><div class="g-cards">' + "".join(card(g) for g in gs) + "</div>")
+    rest = [g for g in GUIDES if g[0] not in used]
+    if rest: secs += '<h2 class="list-h" style="margin:36px 0 14px">More guides</h2><div class="g-cards">' + "".join(card(g) for g in rest) + "</div>"
     body = (f'<section class="tool-hero"><div class="wrap"><p class="eyebrow">Guides</p><h1>Guides to the big money decisions</h1>'
-            f'<p class="lead">Each guide walks through one decision with a worked example and explains every number the matching tool shows. Written for tax year {TAX_YEAR}.</p></div></section>'
-            f'<section style="padding-top:0"><div class="wrap"><div class="g-cards">{cards}</div></div></section>')
+            f'<p class="lead">Each guide walks through one decision with a worked example and explains every number the matching tool shows, grouped here by tool. Written for tax year {TAX_YEAR}.</p></div></section>'
+            f'<section style="padding-top:0"><div class="wrap">{secs}</div></section>')
     graph = [{"@type": "CollectionPage", "name": "Salarist guides", "url": SITE + "/guides/", "inLanguage": "en-IN",
               "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": SITE + g[0], "name": g[1]} for i, g in enumerate(GUIDES)]}}]
     return layout("/guides/", "Guides to Salaried Money Decisions in India | Salarist",
-                  "Plain-English guides with worked examples for the big money decisions salaried Indians face, starting with renting or buying a home.",
+                  "Plain-English guides with worked examples for the money and leave decisions salaried Indians face: leave, loans, home, budget and car.",
                   body, crumbs=[("/", "Home"), ("/guides/", "Guides")], graph=graph, css=("tool.css", "guide.css"), og="og-home.png")
 
 # ---------------- Text pages ----------------
@@ -1966,7 +2473,9 @@ def main():
     write("/rent-vs-buy/", rentbuy_page())
     write("/budget-planner/", budget_page())
     if CAR_LIVE: write("/company-car-lease-vs-loan/", car_page())
+    if EMI_LIVE: write("/emi-calculator/", emi_page())
     write("/guides/", guides_index())
+    write("/tools/", tools_index())
     write("/guides/rent-vs-buy/", guide_rentbuy())
     write("/guides/long-weekends-2027/", guide_leave())
     write("/guides/monthly-budget/", guide_budget())
@@ -1975,9 +2484,13 @@ def main():
     write("/guides/hra-vs-home-loan-tax-benefits/", guide_hra())
     write("/guides/restricted-holidays-2027/", guide_rh())
     write("/guides/budget-on-50000-1-lakh-2-lakh-salary/", guide_budget_tiers())
+    write("/guides/company-car-lease-vs-car-loan/", guide_car())
+    write("/guides/company-car-perquisite-value-2026/", guide_perk())
+    write("/guides/best-months-for-a-week-long-break-2027/", guide_months())
+    write("/guides/long-weekends-2027-six-day-week/", guide_sixday())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime
