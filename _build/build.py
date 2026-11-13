@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Salarist static site build: shared layout, SEO tags, structured data, sitemap. Output: dist/"""
-import hashlib, json, os, re, shutil, subprocess, html as H
+import math, hashlib, json, os, re, shutil, subprocess, html as H
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC, DIST = os.path.join(ROOT, "src"), os.path.join(ROOT, "dist")
@@ -25,7 +25,9 @@ EMI_LIVE = True   # set False to build without the EMI calculator
 if EMI_LIVE: LIVE_TOOLS.append(("/emi-calculator/", "EMI Calculator"))
 SIP_LIVE = True   # set False to build without the SIP calculator
 if SIP_LIVE: LIVE_TOOLS.append(("/sip-calculator/", "SIP Calculator"))
-QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
+GRATUITY_LIVE = True   # set False to build without the gratuity calculator
+if GRATUITY_LIVE: LIVE_TOOLS.append(("/gratuity-calculator/", "Gratuity Calculator"))
+QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/gratuity-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
 MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/tools/", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
@@ -41,7 +43,63 @@ def faq_ld(faqs):
 def faq_html(faqs):
     return '<div class="faq">' + "".join(f"<details><summary>{H.escape(q)}</summary><p>{a}</p></details>" for q, a in faqs) + "</div>"
 
+# ---------------- Search titles and descriptions ----------------
+# Rule (agreed 14 Nov): tool and guide pages have no " | Salarist" in the title (Google shows the site name separately);
+# titles ≤ 60 characters with the main search phrase first; descriptions ≤ 160 characters. The build stops if a page breaks this.
+SEO = {
+    "/": ("Salarist: Money and Leave Tools for Salaried India", None),
+    "/about/": ("About Salarist: Free Money and Leave Tools", None),
+    "/tools/": ("All Salary, Loan, SIP and Leave Calculators for India", "Every Salarist tool in one place: leave planner, EMI, SIP, prepay or invest, rent or buy, budget planner and car lease vs loan, with their guides."),
+    "/guides/": ("Money and Leave Guides for Salaried Indians", "Plain-English guides with worked examples for the money and leave decisions salaried Indians face: leave, loans, home, budget, car and investing."),
+    "/leave-planner-2027/": ("Leave Planner 2027: Long Weekends and Best Leave Days", None),
+    "/prepay-vs-invest/": ("Prepay Home Loan or Invest? Calculator for India", None),
+    "/rent-vs-buy/": ("Rent vs Buy Calculator for India: Which Leaves You Richer?", None),
+    "/budget-planner/": ("Monthly Budget Planner for Salaried Indians", "See what's really left each month on your salary: yearly costs as monthly set-asides, savings rate, EMI load and emergency fund. Free and private."),
+    "/company-car-lease-vs-loan/": ("Car Lease vs Car Loan Calculator for India (2026-27)", "Lease a car through your company or buy it on a loan? Compare both after tax, insurance, fuel and resale, with the 2026 perquisite values. Free."),
+    "/emi-calculator/": ("EMI Calculator with Part-Payments and Rate Changes", "Work out your EMI, then plan part-payments of any amount at any time and rate changes. See the interest saved and when the loan closes. Free."),
+    "/gratuity-calculator/": ("Gratuity Calculator under the New Labour Codes", "Work out your gratuity under the new labour codes: the amount, when you become eligible, how much is tax-free and what staying longer adds. Free."),
+    "/sip-calculator/": ("SIP Calculator with Step-Up, Goals and Existing Portfolio", "See what your SIP could grow to, or the SIP you need for a goal, with a yearly step-up and your existing portfolio. After tax and inflation. Free."),
+    "/guides/rent-vs-buy/": ("Rent or Buy a Home in India? How to Decide, With Example", "How to compare renting and buying a home in India, what each number in the calculator means and what changes the answer, with a worked example."),
+    "/guides/long-weekends-2027/": ("Long Weekends 2027 in India: Holiday List and Leave Plan", "Every 2027 central government holiday, the long weekends that need no leave, and the leave days that turn into week-long breaks."),
+    "/guides/monthly-budget/": ("How to Make a Monthly Budget on a Salary in India", "A simple way to budget on a salary: start from in-hand pay, plan yearly costs monthly, save first and build an emergency fund. With a worked example."),
+    "/guides/prepay-home-loan-or-invest/": ("Prepay Home Loan or Invest? How to Decide, With Example", "How to compare prepaying a home loan with investing the money, after tax, what each number in the calculator means and what changes the answer."),
+    "/guides/under-construction-vs-ready-to-move/": ("Under Construction vs Ready to Move: The Real Cost", "What rent plus pre-EMI interest really costs while your flat is built, what each year of delay adds, and how much cheaper it needs to be."),
+    "/guides/hra-vs-home-loan-tax-benefits/": ("HRA vs Home Loan Tax Benefits: Which Saves More?", None),
+    "/guides/restricted-holidays-2027/": ("Restricted Holidays 2027: Which Two to Pick", None),
+    "/guides/budget-on-50000-1-lakh-2-lakh-salary/": ("Budget on ₹50,000, ₹1 Lakh or ₹2 Lakh Salary: 3 Examples", None),
+    "/guides/company-car-lease-vs-car-loan/": ("Company Car Lease vs Car Loan in India: How to Decide", None),
+    "/guides/company-car-perquisite-value-2026/": ("Company Car Perquisite Value 2026: New ₹5,000/₹7,000 Rules", None),
+    "/guides/best-months-for-a-week-long-break-2027/": ("Best Months for a Week-Long Break in 2027 (India)", None),
+    "/guides/long-weekends-2027-six-day-week/": ("Long Weekends 2027 for Six-Day and Alternate-Saturday Weeks", None),
+    "/guides/how-part-payments-cut-your-home-loan/": ("Home Loan Part-Payment: How Much It Saves You (Example)", "How much a home loan part-payment saves, cutting tenure vs EMI, why earlier is better and what a rate rise does, worked through one ₹50 lakh loan."),
+    "/guides/car-lease-new-tax-regime/": ("Car Lease Under the New Tax Regime: Still Worth It?", None),
+    "/guides/plan-for-school-fees-and-yearly-costs/": ("How to Plan for School Fees and Other Yearly Costs", None),
+    "/guides/how-much-sip-do-you-need/": ("How Much SIP Do You Need? Plan a Goal With Step-Up", None),
+    "/guides/step-up-sip/": ("Step-Up SIP: How a 10% Yearly Increase Adds Up", None),
+    "/guides/how-mutual-fund-gains-are-taxed/": ("Mutual Fund Tax on Selling: Equity and Debt (2026-27)", None),
+}
+TITLE_MAX, DESC_MAX = 60, 160
+def check_seo():
+    """Stop the build if any page's search title or description breaks the rule."""
+    bad = []
+    for root, _, files in os.walk(DIST):
+        if "index.html" not in files: continue
+        html = open(os.path.join(root, "index.html"), encoding="utf-8").read()
+        t = H.unescape(re.search(r"<title>(.*?)</title>", html, re.S).group(1).strip())
+        m = re.search(r'<meta name="description" content="([^"]*)"', html); d = H.unescape(m.group(1)) if m else ""
+        page = "/" + os.path.relpath(root, DIST).replace(".", "").strip("/") + "/"
+        page = "/" if page == "//" else page
+        brand_ok = page == "/" or not page.startswith(("/guides/", "/tools/")) and page not in [u for u, _ in LIVE_TOOLS] or "| Salarist" not in t
+        if len(t) > TITLE_MAX: bad.append(f"{page}: title {len(t)} chars: {t}")
+        if len(d) > DESC_MAX: bad.append(f"{page}: description {len(d)} chars")
+        if not d: bad.append(f"{page}: no description")
+        if not brand_ok: bad.append(f"{page}: title has ' | Salarist'")
+    if bad: raise SystemExit("SEO check failed:\n  " + "\n  ".join(bad))
+
 def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="og-home.png", og_title=None, noindex=False, head_extra="", og_type="website"):
+    if path in SEO:
+        title = SEO[path][0]
+        if SEO[path][1]: desc = SEO[path][1]
     graph = list(graph or [])
     if crumbs: graph.append(breadcrumbs_ld(crumbs))
     canon = SITE + path
@@ -1008,6 +1066,7 @@ def sip_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>Planning a goal?</b> Read our guide, <a href="/guides/how-much-sip-do-you-need/">How much SIP do you need?</a>, worked through one parent's numbers. Also read: <a href="/guides/step-up-sip/">Step-up SIP</a> and <a href="/guides/how-mutual-fund-gains-are-taxed/">How mutual fund gains are taxed</a>.</p>
   <h2>How the calculator works</h2>
   <ul>
     <li><strong>Each SIP</strong> goes in at the start of the month and grows at the return you choose until the end. Returns compound monthly so that a year gives exactly that rate.</li>
@@ -1053,6 +1112,124 @@ SP_TIPS = [
      "Prices rise over time, so ₹1 crore in 20 years buys much less than ₹1 crore today. We divide by inflation to show the value in today's rupees."),
     ("""<button type="button" class="btn-sm" id="spSaveBtn">Save my SIP plan</button>""", "saving your plan",
      "Downloads a small CSV file with everything you entered. Use Load my SIP plan to bring it back later and update it. The PDF and Excel reports are for reading; the plan file is for loading back here."),
+]
+
+def gratuity_page():
+    faqs = [
+        ("How is gratuity calculated?",
+         "Gratuity = last drawn monthly wages × 15 ÷ 26 × years of service. That's 15 days' wages for every year, counting a month as 26 working days. Under the Code on Social Security, 2020, a part-year of more than six months counts as a full year, so 7 years and 7 months counts as 8 years. The most your employer has to pay is ₹20 lakh."),
+        ("What does \"Gratuity already received earlier\" mean, and why do you ask for it?",
+         "It's the total gratuity you've received over your whole career so far, from every past employer added together. If this is your first job, or you've never received gratuity before, enter 0. We ask because of tax: only ₹20 lakh of gratuity is tax-free over your lifetime, not ₹20 lakh per job. Whatever was tax-free earlier uses up part of that limit, so it decides how much of this payout is tax-free and how much is added to your taxable salary. For example, if you got ₹6 lakh tax-free from a past employer, only ₹14 lakh of the limit is left. If part of an earlier payout was taxed, enter only the tax-free part."),
+        ("How many years do I need to work to get gratuity?",
+         "Permanent employees need 5 years of continuous service. Fixed-term (contract) employees qualify after 1 year and get gratuity in proportion to their service. If an employee dies or is disabled, gratuity is paid whatever the length of service."),
+        ("What changed with the new labour codes?",
+         "From 21 November 2025, gratuity is under section 53 of the Code on Social Security, 2020. Two changes matter most. Fixed-term employees now qualify after 1 year. And \"wages\" has a new definition: if your allowances (everything other than basic, DA and retaining allowance) are more than half your total pay, the excess counts as wages. So wages are at least half your total pay, which raises gratuity for anyone whose basic is a small part of their pay."),
+        ("Is my gratuity taxed?",
+         "Gratuity up to ₹20 lakh over your whole career is tax-free for private-sector employees, under section 19 of the Income-tax Act, 2025 (earlier section 10(10) of the 1961 Act). This applies under both the old and new tax regimes. Anything above the limit is added to your salary for the year and taxed at your slab rate. Gratuity for central and state government employees is fully tax-free."),
+        ("Does service before 21 November 2025 count under the new wage rule?",
+         "This hasn't been settled clearly yet. Your service before that date still counts towards your years. What's unclear is whether the wider definition of wages applies to gratuity for those earlier years. We show your gratuity under both the old rule (basic + DA) and the labour codes, so you can see the range. Check with your employer how they're paying it."),
+        ("What if my employer isn't covered by the Code?",
+         "The Code applies to establishments with 10 or more employees. If yours isn't covered, gratuity depends on your employer's policy or contract. For tax, the tax-free part is the least of: the gratuity you receive, ₹20 lakh less what you've had tax-free before, and half your average monthly salary over the last 10 months × completed years of service."),
+    ]
+    def num(k, label, hint="", lid=None):
+        return (f'<div class="fld"><div class="row1"><label for="gr-{k}"{f" id={chr(34)}{lid}{chr(34)}" if lid else ""}>{label}</label><span class="w" id="gr-{k}-w"></span></div>'
+                f'<div class="numin"><span>₹</span><input id="gr-{k}" type="text" inputmode="numeric" autocomplete="off"></div>'
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your job</p>
+  <h1>Gratuity calculator, under the new labour codes</h1>
+  <p class="lead">See how much gratuity you'll get when you leave, under the wage rule that took effect on 21 November 2025. Find out how much of it is tax-free, when you become eligible, and what staying a little longer would add.</p>
+  {badges("Tax rules for tax year " + TAX_YEAR)}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb gr">
+  <div class="card lp-setup" aria-label="Your job">
+    <div><span class="lbl" id="typeLbl">Your employment</span>
+      <div class="seg row" role="group" aria-labelledby="typeLbl"><button type="button" data-type="permanent">Permanent</button><button type="button" data-type="fixed">Fixed-term</button></div></div>
+    <div><span class="lbl" id="reasonLbl">Why are you leaving?</span>
+      <div class="seg row" role="group" aria-labelledby="reasonLbl"><button type="button" data-reason="leave">Resigning, retiring or contract ending</button><button type="button" data-reason="death">Death or disablement</button></div></div>
+    <div><span class="lbl" id="employerLbl">Your employer</span>
+      <div class="seg row" role="group" aria-labelledby="employerLbl"><button type="button" data-employer="covered">Private, 10+ employees</button><button type="button" data-employer="notcovered">Private, under 10</button><button type="button" data-employer="govt">Government</button></div></div>
+    <div class="fld"><label class="lbl" for="gr-join" style="margin:0">Date you joined</label><input class="sel" type="date" id="gr-join" min="1960-01-01"></div>
+    <div class="fld"><label class="lbl" for="gr-leave" style="margin:0">Date you leave</label><input class="sel" type="date" id="gr-leave" min="1960-01-01"><p class="hint">Use today's date to see what you'd get if you left now.</p></div>
+    <p class="hint" id="gr-svc"></p>
+    {num("basic", "Basic + DA a month", "From your payslip: basic pay plus dearness allowance, if you get it.")}
+    {num("total", "Total pay a month", "Your full monthly pay before deductions: basic, DA, HRA and all other allowances. Leave out bonus, overtime and your employer's PF.")}
+    <p class="hint" id="gr-wageTxt"></p>
+    <div id="gr-avg-box" hidden>{num("avg10", "Average salary, last 10 months", "Average monthly basic + DA over the 10 months before you leave. Used only for the tax-free limit.")}</div>
+    <div id="gr-earlier-box">{num("earlier", "Gratuity already received earlier", "The <b>total</b> gratuity you've received over your whole career so far, from all past employers added together. Enter 0 if you've never received gratuity. We ask because only ₹20 lakh of gratuity is tax-free in your lifetime, so what you've had tax-free before reduces the tax-free part of this payout.", lid="gr-earlierLbl")}</div>
+  </div>
+
+  <div>
+    <div class="verdict" id="grVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="grPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="grXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="grShare">Copy share link</button>
+    </div>
+    <p class="status" id="grStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">Gratuity</div><div class="n" id="grGrat">—</div><div class="h">Before tax</div></div>
+      <div class="stat"><div class="l">Tax-free</div><div class="n" id="grFree">—</div><div class="h">Not taxed</div></div>
+      <div class="stat"><div class="l">Taxable</div><div class="n" id="grTax">—</div><div class="h">Added to your salary</div></div>
+      <div class="stat"><div class="l">Tax-free limit available</div><div class="n" id="grRoom">—</div><div class="h" id="grRoomH">Of your ₹20 lakh lifetime limit</div></div>
+    </div>
+    <p class="g-callout" id="grStay" hidden></p>
+    <div id="grCmpBox"><h2 class="list-h">Old rule vs labour codes</h2>
+    <div class="sens" id="grCmp" style="grid-template-columns:repeat(2,minmax(0,1fr))"></div></div>
+    <div class="chartbox" id="grChartBox">
+      <h2 class="list-h" style="margin:0 0 4px">Your gratuity by years of service</h2>
+      <p class="hint" style="margin:0 0 10px">At your current pay, up to the ₹20 lakh maximum. The dot is where you are.</p>
+      <div id="grChart"></div>
+      <div class="legend2"><span><i style="background:var(--brand)"></i>Labour codes</span><span><i style="background:var(--leave)"></i>Old rule: basic + DA</span></div>
+    </div>
+    <a class="next" href="/budget-planner/"><span class="k">Your next decision</span><b>Changing jobs? Plan your budget for the gap</b><span class="h">See what's left each month, with yearly costs set aside.</span></a>
+    <a class="next" href="/sip-calculator/" style="margin-top:12px"><span class="k">Also useful</span><b>Investing your gratuity? See what it could grow to</b><span class="h">Add it as a lump sum in the SIP calculator.</span></a>
+    <h2 class="list-h">Assumptions</h2>
+    <ul class="notes" id="grNotes"></ul>
+  </div>
+</div></section>
+{related("/gratuity-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>Years counted:</strong> your completed years, plus one more if the part-year is over six months.</li>
+    <li><strong>Wages:</strong> basic + DA, or half your total pay if that's higher, as the labour codes require.</li>
+    <li><strong>Gratuity:</strong> wages × 15 ÷ 26 × years counted, up to ₹20 lakh.</li>
+    <li><strong>Tax-free limit available:</strong> ₹20 lakh, less the gratuity you received earlier. This payout is tax-free up to that amount.</li>
+    <li><strong>Stay longer:</strong> the next date your counted years go up, and what that adds.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Gratuity: section 53 of the <a href="https://labour.gov.in/" rel="noopener">Code on Social Security, 2020</a>, in force from 21 November 2025. Tax: section 19 of the <a href="https://www.incometaxindia.gov.in/" rel="noopener">Income-tax Act, 2025</a> (Table, S. No. 3: death-cum-retirement gratuity), which replaces section 10(10) of the 1961 Act. Checked for tax year {TAX_YEAR}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="grBar" hidden><span id="grBarT"></span><button type="button" class="btn-sm pri" id="grBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "Gratuity Calculator", "url": SITE + "/gratuity-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Gratuity calculator under the new labour codes: amount, eligibility, the tax-free part after earlier gratuity, and what staying longer adds.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "gr", GR_TIPS)
+    return layout("/gratuity-calculator/", "Gratuity Calculator under the New Labour Codes",
+                  "Work out your gratuity under the new labour codes: the amount, when you become eligible, how much is tax-free and what staying longer adds. Free.",
+                  body, crumbs=[("/", "Home"), ("/gratuity-calculator/", "Gratuity Calculator")], graph=graph,
+                  css=("tool.css",), js=("gratuity.js",), og="og-gratuity-calculator.png", og_title="Gratuity calculator under the new labour codes")
+
+GR_TIPS = [
+    ("""<span class="lbl" id="typeLbl">Your employment</span>""", "employment type",
+     "Fixed-term means a contract for a set period. Fixed-term employees qualify for gratuity after 1 year; permanent employees after 5 years."),
+    ("""<span class="lbl" id="employerLbl">Your employer</span>""", "employer type",
+     "The Code covers establishments with 10 or more employees. Government means central or state government service, where gratuity follows separate rules and is fully tax-free."),
+    ("""<label for="gr-total">Total pay a month</label>""", "total pay",
+     "Needed for the new wage rule: if your allowances are more than half your total pay, the excess counts as wages. So your wages for gratuity are at least half your total pay."),
+    ("""<label for="gr-earlier" id="gr-earlierLbl">Gratuity already received earlier</label>""", "gratuity received earlier",
+     "Add up every gratuity you've received from past employers over your career, for example ₹2 lakh from your first job and ₹4 lakh from your second: enter ₹6,00,000. The ₹20 lakh tax-free limit is for your whole life, not per job, so this tells us how much of the limit you have left. If part of an earlier payout was taxed, enter only the tax-free part."),
+    ("""<div class="l">Tax-free limit available</div>""", "the tax-free limit available",
+     "How much of your ₹20 lakh lifetime tax-free limit you can use for this payout: ₹20 lakh minus the gratuity you received earlier. This payout is tax-free up to this amount, and anything above it is taxed at your slab rate. The figure below shows what's left for any future gratuity after this payout."),
 ]
 
 def emi_page():
@@ -1419,6 +1596,15 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/plan-for-school-fees-and-yearly-costs/", "How to plan for school fees and other yearly costs",
      "List your yearly costs, turn them into one monthly set-aside, give them their own account and time it right, with an example family's month-by-month plan.",
      "2026-11-13", "guide-yearly-costs", "Your money"),
+    ("/guides/how-much-sip-do-you-need/", "How much SIP do you need? Plan a goal with a step-up",
+     "Turn a goal into a monthly SIP: put a number on it, add inflation, work out the SIP, and see how a step-up, an existing portfolio and returns change it.",
+     "2026-11-14", "guide-sip-goal", "Your investments"),
+    ("/guides/step-up-sip/", "Step-up SIP: how a 10% yearly increase changes your final amount",
+     "What a step-up SIP is, how much it adds over 20 years at different step-ups, how much to step up and how to set it up.",
+     "2026-11-14", "guide-step-up-sip", "Your investments"),
+    ("/guides/how-mutual-fund-gains-are-taxed/", "How mutual fund gains are taxed when you sell",
+     "Equity and debt fund tax rules for tax year 2026-27, how they apply to a SIP, a worked example, and legal ways to pay less.",
+     "2026-11-14", "guide-mf-tax", "Your investments"),
 ]
 def _L(v):
     a = abs(v); s = "−" if v < 0 else ""
@@ -2457,10 +2643,11 @@ def catalog():
     return [
         ("Your time off", [("/leave-planner-2027/", "Leave Planner 2027", "Turn your leave into the longest breaks of 2027, around central, state or your company's holidays.", True, "",
                             ["/guides/long-weekends-2027/", "/guides/restricted-holidays-2027/", "/guides/best-months-for-a-week-long-break-2027/", "/guides/long-weekends-2027-six-day-week/"])]),
-        ("Your pay", [("/ctc-to-in-hand/", "CTC to in-hand, and your hike", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", [])]),
+        ("Your pay", [("/ctc-to-in-hand/", "CTC to in-hand, and your hike", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", []),
+                      ("/gratuity-calculator/", "Gratuity Calculator", "Your gratuity under the new labour codes, how much is tax-free, and what staying longer adds.", L("/gratuity-calculator/"), "Coming soon", [])]),
         ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/"]),
                         ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", ["/guides/how-part-payments-cut-your-home-loan/"])]),
-        ("Your investments", [("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", [])]),
+        ("Your investments", [("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", ["/guides/how-much-sip-do-you-need/", "/guides/step-up-sip/", "/guides/how-mutual-fund-gains-are-taxed/"])]),
         ("Your home", [("/rent-vs-buy/", "Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax.", True, "",
                         ["/guides/rent-vs-buy/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/"])]),
         ("Your money", [("/budget-planner/", "Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides.", True, "",
@@ -2468,7 +2655,7 @@ def catalog():
         ("Your car", [("/company-car-lease-vs-loan/", "Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.", L("/company-car-lease-vs-loan/"), "Coming soon",
                        ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/"])]),
     ]
-QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + ["FD, PPF and RD", "Gratuity", "Old vs new regime", "HRA exemption", "Vehicle ownership cost", "Old-to-new section finder"]
+QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + ["FD, PPF and RD"] + (["Gratuity"] if not GRATUITY_LIVE else []) + ["Old vs new regime", "HRA exemption", "Vehicle ownership cost", "Old-to-new section finder"]
 
 def quick_chips():
     live = "".join(f'<a class="qchip" href="{u}">{n}</a>' for u, n in LIVE_TOOLS if u in QUICK_TOOLS)
@@ -2721,6 +2908,181 @@ def guide_yearly_costs():
 """
     return article(path, "How to Plan for School Fees and Other Yearly Costs (With Monthly Set-Aside) | Salarist", "How to plan for school fees and yearly costs", body, "School fees and yearly costs")
 
+def guide_sip_goal():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_sip_numbers.js")]))
+    M = G["main"]; st, fl = M["step10Sim"], M["flatSim"]
+    r100 = lambda v: _inr(math.ceil(v / 100) * 100)
+    path = "/guides/how-much-sip-do-you-need/"
+    toc = [("short-answer", "The short answer"), ("goal", "Step 1: put a number on the goal"), ("inflation", "Step 2: add inflation"), ("sip", "Step 3: work out the SIP"),
+           ("stepup", "Why a step-up makes it doable"), ("existing", "If you already invest"), ("returns", "If returns are lower or higher"), ("late", "The cost of starting late"),
+           ("tax", "Leave room for tax"), ("checklist", "Your plan in five steps"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "A goal like your child's education feels far away and hard to price. Here's how to turn it into a monthly SIP you can actually start, worked through one parent's numbers: from the goal, to inflation, to a step-up that grows with your pay.",
+                      "A rising line of savings reaching a flag on a hill").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>To have what ₹50 lakh buys today in 15 years, at 6% inflation, you need about <strong>{_L(M['goal'])}</strong>. At a 12% yearly return, that takes a SIP of <strong>{r100(M['flat'])} a month</strong>, or <strong>{r100(M['step10'])} a month</strong> to start if you raise it by 10% every year. If you already have ₹5 lakh invested, the starting SIP drops to <strong>{r100(M['existing'])}</strong>.</p>
+<p class="g-cta"><a class="btn" href="/sip-calculator/">Work out your SIP</a></p>
+
+<h2 id="goal">Step 1: put a number on the goal</h2>
+<p>Priya, 32, wants to save for her daughter's college education in 15 years. Good courses cost about ₹50 lakh today, including living costs. That's her goal in today's money. Priya is an example; use your own goal in the calculator.</p>
+
+<h2 id="inflation">Step 2: add inflation</h2>
+<p>Education costs rise every year. At 6% a year, what costs ₹50 lakh today will cost about <strong>{_L(M['goal'])}</strong> in 15 years. That's the number her SIP has to reach. In the calculator, tick "This amount is in today's money" and it does this for you.</p>
+
+<h2 id="sip">Step 3: work out the SIP</h2>
+<p>Assuming her equity funds return 12% a year on average, Priya needs:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Plan</th><th scope="col">SIP to start</th><th scope="col">Last year's SIP</th><th scope="col">Total put in</th></tr></thead><tbody>
+<tr><th scope="row">Same SIP every year</th><td data-l="SIP to start">{r100(M['flat'])}</td><td data-l="Last year's SIP">{r100(fl['lastSip'])}</td><td data-l="Total put in">{_L(fl['invested'])}</td></tr>
+<tr><th scope="row">10% step-up every year</th><td data-l="SIP to start"><strong>{r100(M['step10'])}</strong></td><td data-l="Last year's SIP">{r100(st['lastSip'])}</td><td data-l="Total put in">{_L(st['invested'])}</td></tr>
+</tbody></table></div>
+
+<h2 id="stepup">Why a step-up makes it doable</h2>
+<p>{r100(M['flat'])} a month may be too much for Priya today. With a 10% yearly step-up, she starts at {r100(M['step10'])} and raises it as her pay grows. She puts in more in total, {_L(st['invested'])} against {_L(fl['invested'])}, because more of her money goes in later and has less time to grow, but the starting amount is far easier on today's budget.</p>
+<p>Set the step-up to match your expected pay rise, not more. Read more in <a href="/guides/step-up-sip/">Step-up SIP: how a 10% yearly increase changes your final amount</a>.</p>
+
+<h2 id="existing">If you already invest</h2>
+<p>Priya already has ₹5 lakh in funds (she put in ₹4 lakh). That money keeps growing, so she needs less from new SIPs: <strong>{r100(M['existing'])} a month</strong> with a 10% step-up, or {r100(M['existingFlat'])} without. In the calculator, choose "I already invest" and enter your portfolio's value and what you've put in.</p>
+
+<h2 id="returns">If returns are lower or higher</h2>
+<p>Returns aren't guaranteed, and a couple of percent makes a real difference over 15 years. With a 10% step-up, Priya's starting SIP would be:</p>
+<ul>
+  <li>At 10% a year: <strong>{r100(M['r10'])}</strong></li>
+  <li>At 12% a year: {r100(M['step10'])}</li>
+  <li>At 14% a year: {r100(M['r14'])}</li>
+</ul>
+<p>Planning at a cautious return and being pleasantly surprised is better than the other way round.</p>
+
+<h2 id="late">The cost of starting late</h2>
+<p>If Priya waits 5 years and has only 10 years left, the starting SIP for the same goal jumps to <strong>{r100(M['late5'])}</strong> a month with a step-up, two and a half times as much. Time does most of the work in a SIP.</p>
+
+<h2 id="tax">Leave room for tax</h2>
+<p>The {_L(M['goal'])} is the value before tax. If Priya sells all her equity funds at once, tax on gains above ₹1,25,000 at 12.5% plus cess comes to about {_L(st['tax'])}, leaving {_L(st['after'])}. Aim slightly higher, or sell in stages over two or three years to use the yearly ₹1,25,000 limit more than once. Read <a href="/guides/how-mutual-fund-gains-are-taxed/">how mutual fund gains are taxed</a>.</p>
+
+<h2 id="checklist">Your plan in five steps</h2>
+<ol class="g-check">
+  <li>Put today's cost on the goal.</li>
+  <li>Choose the years and a cautious return, and let the calculator add inflation.</li>
+  <li>Pick a starting SIP your budget can carry, with a step-up that matches your pay rise.</li>
+  <li>Save your plan in the calculator.</li>
+  <li>Once a year, load it, update your portfolio value from your statement, and check you're on track.</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/sip-calculator/">Plan your goal</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>Every figure comes from the same calculation as the <a href="/sip-calculator/">SIP calculator</a>: each SIP goes in at the start of the month and returns compound so that a year gives exactly the rate shown. Tax uses the equity fund rules for tax year {TAX_YEAR}. Returns are assumptions, not predictions. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This guide is for information and education. It isn't investment advice. Mutual fund investments are subject to market risks; consider speaking to a qualified adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "How much SIP do you need?", body, "How much SIP you need")
+
+def guide_sip_step():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_sip_numbers.js")]))
+    S_ = G["steps"]; s0, s5, s10, s15 = S_
+    path = "/guides/step-up-sip/"
+    rows = "".join(f"<tr><th scope=\"row\">{s['step']}% a year</th><td data-l=\"SIP in year 20\">{_inr(s['lastSip'])}</td><td data-l=\"Total put in\">{_L(s['invested'])}</td><td data-l=\"Value after 20 years\"><strong>{_L(s['value'])}</strong></td></tr>" for s in S_)
+    toc = [("short-answer", "The short answer"), ("what", "What a step-up SIP is"), ("table", "The numbers over 20 years"), ("why", "Why it adds so much"),
+           ("how", "How much to step up"), ("setup", "How to set it up"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Most people start a SIP and leave it at the same amount for years, even as their pay rises. A step-up raises it a little every year. Here's how much difference that makes, worked out with the Salarist SIP calculator.",
+                      "Coin stacks rising step by step").replace("TYPE_LINE", "")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>₹10,000 a month for 20 years at 12% a year grows to about <strong>{_L(s0['value'])}</strong>. Raise it by 10% every year and it grows to about <strong>{_L(s10['value'])}</strong>, roughly twice as much. To get there without a step-up, you'd need to start at about {_inr(round(G['stepSame'], -2))} a month.</p>
+<p class="g-cta"><a class="btn" href="/sip-calculator/">Try a step-up</a></p>
+
+<h2 id="what">What a step-up SIP is</h2>
+<p>A step-up (or top-up) SIP increases your monthly amount by a fixed percentage once a year. With ₹10,000 and a 10% step-up, you invest ₹10,000 a month in year 1, ₹11,000 in year 2, ₹12,100 in year 3, and so on. Most fund houses and apps let you set this once when you start.</p>
+
+<h2 id="table">The numbers over 20 years</h2>
+<p>Starting at ₹10,000 a month, 12% a year:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Step-up</th><th scope="col">SIP in year 20</th><th scope="col">Total put in</th><th scope="col">Value after 20 years</th></tr></thead><tbody>{rows}</tbody></table></div>
+
+<h2 id="why">Why it adds so much</h2>
+<p>Part of the difference is simply that you put in more: {_L(s10['invested'])} with a 10% step-up, against {_L(s0['invested'])} without. But it's also painless, because each year's increase comes out of a pay rise, not out of today's budget. You never feel the full {_inr(s10['lastSip'])} a month you're investing by year 20.</p>
+
+<h2 id="how">How much to step up</h2>
+<ul>
+  <li><strong>Match your pay rise, not more.</strong> If your salary grows 8–10% a year, a 10% step-up keeps your savings rate steady.</li>
+  <li><strong>Be careful with big step-ups.</strong> At 15% a year, the SIP reaches {_inr(s15['lastSip'])} a month by year 20. That only works if your income keeps up.</li>
+  <li><strong>Skip a year if you need to.</strong> Most platforms let you pause or change the step-up. A smaller increase is better than stopping the SIP.</li>
+</ul>
+
+<h2 id="setup">How to set it up</h2>
+<ol class="g-check">
+  <li>In your fund app, look for "step-up", "top-up" or "SIP increase" when you create or edit a SIP.</li>
+  <li>Choose a percentage or a fixed amount, and the month it rises (just after your appraisal works well).</li>
+  <li>Check your plan in the <a href="/sip-calculator/">SIP calculator</a>, and see <a href="/guides/how-much-sip-do-you-need/">how much SIP you need for a goal</a>.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>All figures come from the <a href="/sip-calculator/">SIP calculator</a>: each SIP goes in at the start of the month, returns compound so a year gives exactly 12%, and the SIP rises once every 12 months. Values are before tax. Returns are assumptions, not predictions. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't investment advice. Mutual fund investments are subject to market risks.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Step-up SIP", body, "Step-up SIP")
+
+def guide_mf_tax():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_sip_numbers.js")]))
+    E, D = G["eq"], G["debt"]
+    path = "/guides/how-mutual-fund-gains-are-taxed/"
+    toc = [("short-answer", "The short answer"), ("equity", "Equity funds"), ("debt", "Debt funds"), ("sip", "How it works for a SIP"), ("example", "An example"),
+           ("tips", "Ways to pay less, legally"), ("method", "Sources")]
+    body = guide_head(path, "You pay tax on mutual funds only when you sell, and how much depends on the type of fund and how long you held it. Here are the rules for tax year " + TAX_YEAR + ", what they mean for a SIP, and a worked example.",
+                      "A rupee coin passing through a filter into a jar").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Fund type</th><th scope="col">Held 12 months or less</th><th scope="col">Held over 12 months</th></tr></thead><tbody>
+<tr><th scope="row">Equity funds</th><td data-l="Held 12 months or less">20%</td><td data-l="Held over 12 months">12.5% on gains above ₹1,25,000 a year</td></tr>
+<tr><th scope="row">Debt funds (bought from 1 April 2023)</th><td data-l="Held 12 months or less">Your slab rate</td><td data-l="Held over 12 months">Your slab rate</td></tr>
+</tbody></table></div>
+<p>Add 4% cess to all of these. You pay nothing while you stay invested; tax is due in the year you sell.</p>
+<p class="g-cta"><a class="btn" href="/sip-calculator/">See your SIP after tax</a></p>
+
+<h2 id="equity">Equity funds</h2>
+<p>Funds that invest at least 65% in Indian shares are taxed as equity. If you sell units after more than 12 months, the gain is long-term: the first ₹1,25,000 of long-term gains in a tax year is tax-free, and the rest is taxed at 12.5% plus cess. If you sell within 12 months, the gain is short-term and taxed at 20% plus cess.</p>
+
+<h2 id="debt">Debt funds</h2>
+<p>For debt fund units bought from 1 April 2023, the gain is added to your income and taxed at your slab rate, however long you hold them. There's no lower long-term rate. That's why a debt fund's after-tax return is close to a fixed deposit's for people in the higher slabs.</p>
+
+<h2 id="sip">How it works for a SIP</h2>
+<p>Each SIP instalment counts as a separate purchase with its own date. When you sell, the oldest units go first. So if you sell your whole SIP portfolio, the instalments from the last 12 months are short-term, and everything older is long-term.</p>
+
+<h2 id="example">An example</h2>
+<p>₹10,000 a month for 10 years, sold all at once at the end, all units treated as long-term:</p>
+<ul>
+  <li><strong>Equity fund at 12% a year:</strong> it grows to {_L(E['value'])} on {_L(E['invested'])} put in. Tax on the {_L(E['gain'])} gain, after the ₹1,25,000 limit, is about <strong>{_inr(E['tax'])}</strong>, leaving {_L(E['after'])}.</li>
+  <li><strong>Debt fund at 7% a year, 30% slab:</strong> it grows to {_L(D['value'])}. Tax on the {_L(D['gain'])} gain is about <strong>{_inr(D['tax'])}</strong>, leaving {_L(D['after'])}.</li>
+</ul>
+
+<h2 id="tips">Ways to pay less, legally</h2>
+<ol class="g-check">
+  <li><strong>Sell in stages.</strong> Spread equity withdrawals over two or three tax years to use the ₹1,25,000 limit each year.</li>
+  <li><strong>Book gains each year.</strong> Some investors sell and buy back enough units each year to realise ₹1,25,000 of long-term gain tax-free. Check exit loads first.</li>
+  <li><strong>Wait past 12 months</strong> before selling equity units, to pay 12.5% instead of 20%.</li>
+</ol>
+<p>The <a href="/sip-calculator/">SIP calculator</a> shows your value after tax for both fund types. Planning a goal? Read <a href="/guides/how-much-sip-do-you-need/">How much SIP do you need?</a></p>
+
+<h2 id="method">Sources</h2>
+<p>Capital gains rates from the Finance (No. 2) Act, 2024, unchanged by Budget 2026; the treatment of debt fund units bought from 1 April 2023 from the Finance Act, 2023; checked for tax year {TAX_YEAR} against the <a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>. Examples from the <a href="/sip-calculator/">SIP calculator</a>. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't tax advice. Surcharge, grandfathering of gains before 31 January 2018, and special fund types aren't covered; check with a tax adviser for your situation.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "How mutual fund gains are taxed", body, "Mutual fund tax")
+
 def guides_index():
     gmap = {g[0]: g for g in GUIDES}
     def card(g):
@@ -2844,6 +3206,7 @@ def main():
     if CAR_LIVE: write("/company-car-lease-vs-loan/", car_page())
     if EMI_LIVE: write("/emi-calculator/", emi_page())
     if SIP_LIVE: write("/sip-calculator/", sip_page())
+    if GRATUITY_LIVE: write("/gratuity-calculator/", gratuity_page())
     write("/guides/", guides_index())
     write("/tools/", tools_index())
     write("/guides/rent-vs-buy/", guide_rentbuy())
@@ -2861,9 +3224,12 @@ def main():
     write("/guides/how-part-payments-cut-your-home-loan/", guide_emi())
     write("/guides/car-lease-new-tax-regime/", guide_car_newregime())
     write("/guides/plan-for-school-fees-and-yearly-costs/", guide_yearly_costs())
+    write("/guides/how-much-sip-do-you-need/", guide_sip_goal())
+    write("/guides/step-up-sip/", guide_sip_step())
+    write("/guides/how-mutual-fund-gains-are-taxed/", guide_mf_tax())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime
@@ -2878,6 +3244,7 @@ def main():
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
         f"  <url><loc>{SITE}{u}</loc><lastmod>{lm[u]['date']}</lastmod><priority>{pr}</priority></url>\n" for u, pr in urls) + "</urlset>\n"
     open(os.path.join(DIST, "sitemap.xml"), "w").write(sm)
+    check_seo()
     print("built", sum(len(fs) for _, _, fs in os.walk(DIST)), "files")
 
 if __name__ == "__main__":

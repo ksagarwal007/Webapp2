@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A rising line of savings reaching a flag on a hill">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+    <path d="M200 760 Q 800 560 1400 520 L1400 800 L200 800 Z" fill="#FFFFFF" fill-opacity=".12"/>
+  <path d="M260 720 C 520 690, 760 600, 980 470 S 1230 300, 1300 260" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+  <g fill="#3DD68C" stroke="#FFFFFF" stroke-width="6"><circle cx="420" cy="700" r="18"/><circle cx="640" cy="640" r="18"/><circle cx="860" cy="540" r="18"/><circle cx="1080" cy="400" r="18"/></g>
+  <g transform="translate(1300 260)"><rect x="-6" y="-170" width="12" height="170" rx="6" fill="#FFFFFF"/><path d="M6 -170 L140 -138 L6 -104 Z" fill="#F5B547"/></g>
+  <g transform="translate(300 300)"><circle r="56" fill="#FFD27A" stroke="#0E1726" stroke-opacity=".15" stroke-width="4"/><g transform="scale(1.40)"><path d="M-14 -18 H15 M-14 -5 H15 M-12 -18 C10 -18 10 8 -12 8 L12 22" fill="none" stroke="#0E1726" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+</svg>
