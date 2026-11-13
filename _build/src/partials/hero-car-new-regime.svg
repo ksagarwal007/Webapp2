@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A car next to a shield with a tick">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+    <g transform="translate(720 620) scale(1.05)">
+    <path d="M-300 40 L-300 -40 Q-300 -70 -270 -76 L-190 -90 L-120 -170 Q-100 -190 -70 -190 L120 -190 Q150 -190 170 -170 L240 -90 L290 -80 Q320 -74 320 -44 L320 40 Q320 60 300 60 L-280 60 Q-300 60 -300 40 Z" fill="#FFFFFF"/>
+    <path d="M-160 -95 L-105 -160 Q-95 -170 -80 -170 L-10 -170 L-10 -95 Z M20 -95 L20 -170 L110 -170 Q125 -170 135 -160 L195 -95 Z" fill="#9CC0FF"/>
+    <g><circle cx="-170" cy="60" r="62" fill="#0E1726"/><circle cx="-170" cy="60" r="26" fill="#CDD6E3"/><circle cx="190" cy="60" r="62" fill="#0E1726"/><circle cx="190" cy="60" r="26" fill="#CDD6E3"/></g>
+    <rect x="270" y="-50" width="40" height="20" rx="8" fill="#FFD27A"/>
+  </g>
+  
+  <g transform="translate(1210 330)"><path d="M0 -150 L120 -105 V10 Q120 110 0 160 Q-120 110 -120 10 V-105 Z" fill="#FFFFFF"/><path d="M0 -118 L92 -84 V8 Q92 88 0 128 Q-92 88 -92 8 V-84 Z" fill="#3DD68C"/>
+    <path d="M-42 6 L-10 38 L46 -24" fill="none" stroke="#0E1726" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>

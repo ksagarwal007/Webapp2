@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A calendar with yearly bills marked and a jar filling up each month">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+    <g transform="translate(250 260)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="0.9"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#CDD6E3"/><rect x="22" y="68" width="56" height="14" rx="7" fill="#E3E8F0"/></g>
+  <g transform="translate(370 260)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="0.9"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#CDD6E3"/><rect x="22" y="68" width="56" height="14" rx="7" fill="#E3E8F0"/></g>
+  <g transform="translate(490 260)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="0.9"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#CDD6E3"/><rect x="22" y="68" width="56" height="14" rx="7" fill="#E3E8F0"/></g>
+  <g transform="translate(610 260)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="1"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#F5B547"/><circle cx="50" cy="78" r="22" fill="#FFD27A" stroke="#0E1726" stroke-width="5"/></g>
+  <g transform="translate(730 260)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="1"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#F5B547"/><circle cx="50" cy="78" r="22" fill="#FFD27A" stroke="#0E1726" stroke-width="5"/></g>
+  <g transform="translate(850 260)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="0.9"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#CDD6E3"/><rect x="22" y="68" width="56" height="14" rx="7" fill="#E3E8F0"/></g>
+  <g transform="translate(250 410)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="0.9"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#CDD6E3"/><rect x="22" y="68" width="56" height="14" rx="7" fill="#E3E8F0"/></g>
+  <g transform="translate(370 410)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="0.9"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#CDD6E3"/><rect x="22" y="68" width="56" height="14" rx="7" fill="#E3E8F0"/></g>
+  <g transform="translate(490 410)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="0.9"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#CDD6E3"/><rect x="22" y="68" width="56" height="14" rx="7" fill="#E3E8F0"/></g>
+  <g transform="translate(610 410)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="1"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#F5B547"/><circle cx="50" cy="78" r="22" fill="#FFD27A" stroke="#0E1726" stroke-width="5"/></g>
+  <g transform="translate(730 410)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="0.9"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#CDD6E3"/><rect x="22" y="68" width="56" height="14" rx="7" fill="#E3E8F0"/></g>
+  <g transform="translate(850 410)"><rect width="100" height="120" rx="20" fill="#FFFFFF" fill-opacity="0.9"/><rect x="0" y="0" width="100" height="30" rx="14" fill="#CDD6E3"/><rect x="22" y="68" width="56" height="14" rx="7" fill="#E3E8F0"/></g>
+  <g transform="translate(1180 560)"><rect x="-130" y="-230" width="260" height="330" rx="46" fill="#FFFFFF" fill-opacity=".14" stroke="#FFFFFF" stroke-width="8"/><rect x="-96" y="-262" width="192" height="40" rx="14" fill="#FFFFFF"/>
+    <rect x="-112" y="-40" width="224" height="124" rx="32" fill="#3DD68C"/><g fill="#FFD27A"><circle cx="-36" cy="-82" r="26"/><circle cx="30" cy="-110" r="26"/><circle cx="-6" cy="-150" r="26"/></g></g>
+  <path d="M990 330 C 1040 300, 1080 300, 1120 300" fill="none" stroke="#FFFFFF" stroke-opacity=".6" stroke-width="8" stroke-dasharray="2 20" stroke-linecap="round"/>
+</svg>

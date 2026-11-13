@@ -23,7 +23,9 @@ CAR_LIVE = True   # set False to build without the car lease tool (e.g. to ship 
 if CAR_LIVE: LIVE_TOOLS.append(("/company-car-lease-vs-loan/", "Car Lease vs Car Loan"))
 EMI_LIVE = True   # set False to build without the EMI calculator
 if EMI_LIVE: LIVE_TOOLS.append(("/emi-calculator/", "EMI Calculator"))
-QUICK_TOOLS = ["/emi-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
+SIP_LIVE = True   # set False to build without the SIP calculator
+if SIP_LIVE: LIVE_TOOLS.append(("/sip-calculator/", "SIP Calculator"))
+QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
 MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/tools/", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
@@ -524,6 +526,7 @@ TOOL_CARDS = {
     "/rent-vs-buy/": ("Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax."),
     "/budget-planner/": ("Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides."),
 }
+if SIP_LIVE: TOOL_CARDS["/sip-calculator/"] = ("SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.")
 if EMI_LIVE: TOOL_CARDS["/emi-calculator/"] = ("EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.")
 if CAR_LIVE: TOOL_CARDS["/company-car-lease-vs-loan/"] = ("Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.")
 def related(path):
@@ -861,7 +864,7 @@ def budget_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to budgeting?</b> Read our guide, <a href="/guides/monthly-budget/">How to make a monthly budget on a salary in India</a>, worked through one family's numbers. Also read: <a href="/guides/budget-on-50000-1-lakh-2-lakh-salary/">Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month</a>.</p>
+  <p class="g-callout"><b>New to budgeting?</b> Read our guide, <a href="/guides/monthly-budget/">How to make a monthly budget on a salary in India</a>, worked through one family's numbers. Also read: <a href="/guides/budget-on-50000-1-lakh-2-lakh-salary/">Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month</a> and <a href="/guides/plan-for-school-fees-and-yearly-costs/">How to plan for school fees and other yearly costs</a>.</p>
   <h2>How the planner works</h2>
   <ul>
     <li><strong>Everything becomes monthly.</strong> Monthly amounts stay as they are, yearly amounts are divided by 12, and daily amounts are multiplied by 365 and divided by 12.</li>
@@ -905,6 +908,152 @@ BP_TIPS = [
 ]
 
 # ---------------- Guides ----------------
+
+def sip_page():
+    faqs = [
+        ("How is SIP return calculated?",
+         "Each monthly instalment grows from the month you invest it until the end. We compound returns monthly so that a full year gives exactly the yearly rate you enter. Some calculators divide the yearly rate by 12 instead, which shows slightly higher numbers for the same rate."),
+        ("What is a step-up SIP?",
+         "A step-up (or top-up) SIP raises your monthly amount by a fixed percentage every year, usually in line with your pay rise. Even a 10% yearly step-up can make a large difference over 15 to 20 years, because the bigger amounts have time to grow."),
+        ("I already have a portfolio. How do I use this?",
+         "Choose \"I already invest\" and enter your portfolio's value today and the amount you've put in so far, both shown in your fund app or statement, plus the SIP you'll continue. The calculator grows your existing money and your future SIPs together, and uses what you've put in to work out the tax on your gains."),
+        ("How are SIP gains taxed?",
+         "For equity mutual funds, gains on units held over 12 months are long-term: gains above ₹1,25,000 in a year are taxed at 12.5% plus cess. Units held 12 months or less are taxed at 20% plus cess. For debt funds bought from 1 April 2023, gains are taxed at your slab rate, however long you hold them."),
+        ("What return should I assume?",
+         "Use a cautious figure. Equity funds have returned more than fixed deposits over long periods, but returns vary a lot from year to year and aren't guaranteed. The \"what if returns are different\" boxes show how much the answer changes if returns are 2% lower or higher."),
+        ("Why save and load a SIP plan?",
+         "So you can check every year whether you're on track. Save your plan, and next year load it, update your portfolio value and invested amount from your latest statement, and see what your SIP is now set to reach. The file stays on your device."),
+        ("Should I invest or prepay my home loan?",
+         "It depends on your loan rate, the return you expect after tax, and how much risk you can take. Our Prepay or Invest calculator compares both, month by month, after tax."),
+    ]
+    def num(k, label, unit="", mn=0, mx=0, st=1, money=True, rng=True, hint="", cls="", lid=None, hid=None):
+        inp = f'<input id="sp-{k}" type="text" inputmode="numeric" autocomplete="off">' if money else f'<input id="sp-{k}" type="number" inputmode="decimal" min="{mn}" max="{mx}" step="{st}">'
+        return (f'<div class="fld{(" " + cls) if cls else ""}"><div class="row1"><label for="sp-{k}"{f" id={chr(34)}{lid}{chr(34)}" if lid else ""}>{label}</label><span class="w" id="sp-{k}-w"></span></div>'
+                f'<div class="numin">{"<span>₹</span>" if money else ""}{inp}{"" if money else f"<span>{unit}</span>"}</div>'
+                + (f'<input type="range" id="sp-{k}-r" min="{mn}" max="{mx}" step="{st}" aria-label="{label}">' if rng else "")
+                + (f'<p class="hint"{f" id={chr(34)}{hid}{chr(34)}" if hid else ""}>{hint}</p>' if hint or hid else "") + "</div>")
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your investments</p>
+  <h1>SIP calculator, with step-up and your existing investments</h1>
+  <p class="lead">See what a monthly SIP could grow to, or how much you need to invest each month for a goal. Add a yearly step-up, start from the portfolio you already have, and see the value after tax and in today's money.</p>
+  {badges("Tax rules for tax year " + TAX_YEAR)}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb sp">
+  <div class="card lp-setup" aria-label="Your SIP">
+    <div><span class="lbl" id="modeLbl">Where are you starting?</span>
+      <div class="seg row" role="group" aria-labelledby="modeLbl"><button type="button" data-mode="fresh">Starting fresh</button><button type="button" data-mode="existing">I already invest</button></div></div>
+    <div class="adv" id="sp-ex-box" hidden>
+      {num("cur", "Portfolio value today", rng=False, hint="The current value of the funds this SIP goes into, from your fund app or statement.")}
+      {num("cost", "Invested so far", rng=False, hid="sp-costHint")}
+    </div>
+    <div><span class="lbl" id="goalLbl">What do you want to know?</span>
+      <div class="seg row" role="group" aria-labelledby="goalLbl"><button type="button" data-goal="grow">What my SIP grows to</button><button type="button" data-goal="target">SIP needed for a goal</button></div></div>
+    <div id="sp-sip-box">{num("sip", "Monthly SIP", mn=500, mx=200000, st=500, lid="sp-sipLbl")}</div>
+    <div class="adv" id="sp-goal-box" hidden>
+      {num("target", "Your goal", rng=False, hint="The amount you want at the end, such as ₹1 crore for a child's education.")}
+      <label class="chk" for="sp-today" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="sp-today"><span>This amount is in today's money (we'll add inflation)</span></label>
+    </div>
+    {num("step", "Step-up every year", "%", 0, 25, 1, money=False, hint="Raise your SIP by this much each year, for example with your pay rise. 0 keeps it the same.")}
+    {num("lump", "Lump sum at the start", rng=False, lid="sp-lumpLbl", hid="sp-lumpHint")}
+    {num("years", "How long", "years", 1, 40, 1, money=False, cls="key")}
+    {num("ret", "Expected return", "% a year", 1, 18, 0.5, money=False, hint="Use a cautious figure. Returns aren't guaranteed.")}
+    <div><span class="lbl" id="kindLbl">Fund type</span>
+      <div class="seg row" role="group" aria-labelledby="kindLbl"><button type="button" data-kind="equity">Equity fund</button><button type="button" data-kind="debt">Debt fund</button></div></div>
+    <div class="fld" id="sp-slab-box"><label class="lbl" for="sp-slab" style="margin:0">Your income tax slab</label>
+      <select id="sp-slab" class="sel"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option><option value="25">25%</option><option value="30">30%</option></select></div>
+    {num("infl", "Inflation", "% a year", 0, 10, 0.5, money=False, hint="To show what your money will be worth in today's rupees.")}
+    <p class="grp-h">Your SIP plan</p>
+    <div class="actions" style="margin:0"><button type="button" class="btn-sm" id="spSaveBtn">Save my SIP plan</button><button type="button" class="btn-sm" id="spLoadBtn">Load my SIP plan</button><input type="file" id="spFile" accept=".csv,text/csv" hidden></div>
+    <p class="hint" style="margin-top:-8px">Saves everything you entered as a small file on your device. Next year, load it, update your portfolio value from your statement, and check you're on track. Nothing is stored on our side.</p>
+  </div>
+
+  <div>
+    <div class="verdict" id="spVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="spPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="spXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="spShare">Copy share link</button>
+    </div>
+    <p class="status" id="spStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">Value at the end</div><div class="n" id="spVal">—</div><div class="h">Before tax</div></div>
+      <div class="stat"><div class="l">Total put in</div><div class="n" id="spInv">—</div><div class="h">Including what you already have</div></div>
+      <div class="stat"><div class="l">Value after tax</div><div class="n" id="spAfter">—</div><div class="h">If you sell it all at the end</div></div>
+      <div class="stat"><div class="l">In today's money</div><div class="n" id="spReal">—</div><div class="h">After tax and inflation</div></div>
+    </div>
+    <h2 class="list-h">What you put in and what it earns</h2>
+    <div id="spSplit"></div>
+    <p class="hint">Gains: <b id="spGain">—</b></p>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">Your money over time</h2>
+      <p class="hint" style="margin:0 0 10px">The dotted line is what you put in; the gap above it is what your money earns.</p>
+      <div id="spChart"></div>
+      <div class="legend2"><span><i style="background:var(--brand)"></i>Your plan</span><span id="spLegFlat"><i style="background:var(--leave)"></i>Without step-up</span><span><i style="background:var(--muted)"></i>Put in</span></div>
+    </div>
+    <h2 class="list-h" id="spSensH">What if returns are different?</h2>
+    <div class="sens" id="spSens"></div>
+    <a class="next" href="/prepay-vs-invest/"><span class="k">Your next decision</span><b>Have a home loan? See whether to invest this money or prepay the loan</b><span class="h">Prepay or Invest compares both, after tax.</span></a>
+    <a class="next" href="/budget-planner/" style="margin-top:12px"><span class="k">Also useful</span><b>Fit the SIP into your monthly budget</b><span class="h">See what's left each month after your savings.</span></a>
+    <h2 class="list-h">Assumptions</h2>
+    <ul class="notes" id="spNotes"></ul>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Year by year</h2>
+  <div class="tbl-wrap calc-wrap" id="spTable"></div>
+</div></section>
+{related("/sip-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>Each SIP</strong> goes in at the start of the month and grows at the return you choose until the end. Returns compound monthly so that a year gives exactly that rate.</li>
+    <li><strong>Step-up</strong> raises the monthly SIP by your percentage every 12 months.</li>
+    <li><strong>If you already invest,</strong> your portfolio grows alongside your new SIPs. What you've put in so far is used as its cost for tax.</li>
+    <li><strong>Goal mode</strong> works backwards: it finds the starting SIP that reaches your goal, counting what you already have.</li>
+    <li><strong>After tax</strong> assumes you sell everything at the end. <strong>In today's money</strong> takes off inflation.</li>
+  </ul>
+  <h2>Tax rules used, tax year {TAX_YEAR}</h2>
+  <ul>
+    <li><strong>Equity mutual funds:</strong> units held over 12 months: gains above ₹1,25,000 a year taxed at 12.5% plus 4% cess. Held 12 months or less: 20% plus cess.</li>
+    <li><strong>Debt mutual funds</strong> bought from 1 April 2023: gains taxed at your slab rate plus cess, whatever the holding period.</li>
+  </ul>
+  <p>We leave out surcharge, exit loads and stamp duty on purchases. Returns aren't guaranteed; mutual fund investments are subject to market risks.</p>
+  <h2 id="sources">Sources</h2>
+  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: capital gains rates from the Finance (No. 2) Act, 2024, unchanged by Budget 2026, and the treatment of debt fund gains from the Finance Act, 2023. Checked for tax year {TAX_YEAR}; we re-check after every Union Budget. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="spBar" hidden><span id="spBarT"></span><button type="button" class="btn-sm pri" id="spBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "SIP Calculator", "url": SITE + "/sip-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "SIP calculator with yearly step-up, your existing portfolio, a goal mode, value after tax and in today's money, and a plan you can save.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "sp", SP_TIPS)
+    return layout("/sip-calculator/", "SIP Calculator with Step-Up, Existing Portfolio and Goal Planner | Salarist",
+                  "See what your SIP could grow to, or the SIP you need for a goal. Add a yearly step-up and your existing portfolio, and see the value after tax and inflation. Free, private.",
+                  body, crumbs=[("/", "Home"), ("/sip-calculator/", "SIP Calculator")], graph=graph,
+                  css=("tool.css",), js=("sip.js",), og="og-sip-calculator.png", og_title="SIP calculator with step-up and your existing investments")
+
+SP_TIPS = [
+    ("""<span class="lbl" id="modeLbl">Where are you starting?</span>""", "where you're starting",
+     "Starting fresh begins from zero, or from a lump sum. If you already invest, enter your portfolio's value today and what you've put in, and the calculator carries on from there."),
+    ("""<label for="sp-cost">Invested so far</label>""", "invested so far",
+     "The total you've put in, shown as “invested” or “cost” in your fund app or statement. Tax is on the gain over this amount, so it matters for the after-tax result."),
+    ("""<label for="sp-step">Step-up every year</label>""", "step-up",
+     "Raises your SIP by this percentage every 12 months. If your SIP is ₹10,000 with a 10% step-up, it becomes ₹11,000 in year 2 and ₹12,100 in year 3."),
+    ("""<label for="sp-ret">Expected return</label>""", "the expected return",
+     "The average yearly return you expect over the whole period. Equity funds swing a lot from year to year; use a cautious long-term figure and check the what-if boxes."),
+    ("""<label for="sp-infl">Inflation</label>""", "inflation",
+     "Prices rise over time, so ₹1 crore in 20 years buys much less than ₹1 crore today. We divide by inflation to show the value in today's rupees."),
+    ("""<button type="button" class="btn-sm" id="spSaveBtn">Save my SIP plan</button>""", "saving your plan",
+     "Downloads a small CSV file with everything you entered. Use Load my SIP plan to bring it back later and update it. The PDF and Excel reports are for reading; the plan file is for loading back here."),
+]
 
 def emi_page():
     faqs = [
@@ -1012,6 +1161,7 @@ def emi_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>New to part-payments?</b> Read our guide, <a href="/guides/how-part-payments-cut-your-home-loan/">How part-payments cut your home loan</a>, worked through one ₹50 lakh loan.</p>
   <h2>How the calculator works</h2>
   <p>Each month, interest is charged on the loan still left, at the rate for that month. Your EMI pays that interest first, and the rest reduces the loan. This is the reducing-balance method banks use for home, car and personal loans.</p>
   <ul>
@@ -1169,7 +1319,7 @@ def car_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/company-car-lease-vs-car-loan/">Company car lease or car loan? How to decide</a>, worked through one employee's numbers. Also read: <a href="/guides/company-car-perquisite-value-2026/">Company car perquisite value from April 2026</a>.</p>
+  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/company-car-lease-vs-car-loan/">Company car lease or car loan? How to decide</a>, worked through one employee's numbers. Also read: <a href="/guides/company-car-perquisite-value-2026/">Company car perquisite value from April 2026</a> and <a href="/guides/car-lease-new-tax-regime/">Car lease under the new tax regime</a>.</p>
   <h2>How the calculator works</h2>
   <ul><li><strong>Company lease:</strong> the rental, and the running costs that go through the company, come out of your salary before tax. You pay tax only on the car's fixed value under Rule 15. At the end you buy the car at the agreed price or hand it back.</li>
   <li><strong>Car loan:</strong> you pay the down payment, then the EMI, insurance, servicing, fuel and any driver from take-home pay. At the end you own the car, minus any loan still owed.</li></ul>
@@ -1260,6 +1410,15 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/long-weekends-2027-six-day-week/", "Long weekends 2027 for six-day-week workers",
      "The best 2027 breaks if you work Saturdays, or get only the 2nd and 4th Saturdays off, with the leave each one needs.",
      "2026-11-13", "guide-six-day-week-2027", "Your time off"),
+    ("/guides/how-part-payments-cut-your-home-loan/", "How part-payments cut your home loan, with a worked example",
+     "How EMIs work, how much a part-payment saves, cutting the tenure or the EMI, why earlier is better and what a rate change does, worked through one ₹50 lakh loan.",
+     "2026-11-13", "guide-emi-part-payments", "Your loans"),
+    ("/guides/car-lease-new-tax-regime/", "Car lease under the new tax regime: is it still worth it?",
+     "Why a company car lease still cuts tax under the new regime, who gains at each salary level, and when a loan is the better choice.",
+     "2026-11-13", "guide-car-new-regime", "Your car"),
+    ("/guides/plan-for-school-fees-and-yearly-costs/", "How to plan for school fees and other yearly costs",
+     "List your yearly costs, turn them into one monthly set-aside, give them their own account and time it right, with an example family's month-by-month plan.",
+     "2026-11-13", "guide-yearly-costs", "Your money"),
 ]
 def _L(v):
     a = abs(v); s = "−" if v < 0 else ""
@@ -2300,19 +2459,20 @@ def catalog():
                             ["/guides/long-weekends-2027/", "/guides/restricted-holidays-2027/", "/guides/best-months-for-a-week-long-break-2027/", "/guides/long-weekends-2027-six-day-week/"])]),
         ("Your pay", [("/ctc-to-in-hand/", "CTC to in-hand, and your hike", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", [])]),
         ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/"]),
-                        ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", [])]),
+                        ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", ["/guides/how-part-payments-cut-your-home-loan/"])]),
+        ("Your investments", [("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", [])]),
         ("Your home", [("/rent-vs-buy/", "Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax.", True, "",
                         ["/guides/rent-vs-buy/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/"])]),
         ("Your money", [("/budget-planner/", "Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides.", True, "",
-                         ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/"])]),
+                         ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/", "/guides/plan-for-school-fees-and-yearly-costs/"])]),
         ("Your car", [("/company-car-lease-vs-loan/", "Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.", L("/company-car-lease-vs-loan/"), "Coming soon",
-                       ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/"])]),
+                       ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/"])]),
     ]
-QUICK_SOON = ["SIP calculator", "FD, PPF and RD", "Gratuity", "Old vs new regime", "HRA exemption", "Vehicle ownership cost", "Old-to-new section finder"]
+QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + ["FD, PPF and RD", "Gratuity", "Old vs new regime", "HRA exemption", "Vehicle ownership cost", "Old-to-new section finder"]
 
 def quick_chips():
-    live = "".join(f'<a class="qchip" href="{u}">{n}</a>' for u, n in LIVE_TOOLS if u == "/emi-calculator/")
-    soon = "".join(f'<span class="qchip off">{n}<small>Soon</small></span>' for n in QUICK_SOON[:5])
+    live = "".join(f'<a class="qchip" href="{u}">{n}</a>' for u, n in LIVE_TOOLS if u in QUICK_TOOLS)
+    soon = "".join(f'<span class="qchip off">{n}<small>Soon</small></span>' for n in QUICK_SOON[:6 - len(QUICK_TOOLS)])
     return f'<div class="qchips">{live}{soon}</div>'
 
 def _gshort(t):
@@ -2326,7 +2486,7 @@ def _gslug(path): return path.strip("/").split("/")[-1]
 def tools_index():
     gtitle = {g[0]: g[1] for g in GUIDES}
     icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
-    IC = {"Your time off": "I_CAL", "Your pay": "I_PAY", "Your loans": "I_LOAN", "Your home": "I_HOME", "Your money": "I_WALLET", "Your car": "I_CAR"}
+    IC = {"Your investments": "I_GROW", "Your time off": "I_CAL", "Your pay": "I_PAY", "Your loans": "I_LOAN", "Your home": "I_HOME", "Your money": "I_WALLET", "Your car": "I_CAR"}
     cards = ""
     for grp, items in sorted(catalog(), key=lambda g: not all(x[3] for x in g[1])):
         for p, n, d, live, st, gl in items:
@@ -2351,6 +2511,215 @@ def tools_index():
     return layout("/tools/", "All Tools: Salary, Loan, Home, Car and Leave Calculators for India | Salarist",
                   "Every Salarist tool in one place: leave planner, EMI, prepay or invest, rent or buy, budget planner and car lease vs loan, with the guides that explain them.",
                   body, crumbs=[("/", "Home"), ("/tools/", "All tools")], graph=graph, css=("tool.css",), og="og-home.png")
+
+def guide_emi():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_emi_numbers.js")]))
+    b, ot, oe, y1, y10, bo, be, pl, rt, re_, pr = (G[k] for k in ["base", "one_t", "one_e", "yr1", "yr10", "bonus", "bonus_e", "plan", "rate_t", "rate_e", "planRate"])
+    path = "/guides/how-part-payments-cut-your-home-loan/"
+    def sv(x): return _L(b["totInt"] - x["totInt"])
+    def mc(x): return mths_txt(b["months"] - x["months"])
+    toc = [("short-answer", "The short answer"), ("emi", "How your EMI works"), ("example", "The example: Karthik's loan"), ("one", "One part-payment"),
+           ("tenure-emi", "Cut the tenure or the EMI?"), ("timing", "Why earlier is better"), ("bonus", "A part-payment every year"), ("rate", "When the rate changes"),
+           ("plan", "Karthik's plan, all together"), ("tips", "Before you part-pay"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "A home loan EMI looks fixed, but you can change how long you pay it. Part-payments, even small ones now and then, cut years off a loan and lakhs of interest. Here's how they work, worked through one borrower's ₹50 lakh loan.",
+                      "A loan balance falling faster with part-payments marked along the way").replace("TYPE_LINE", "")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>On a ₹50 lakh home loan at 8.5% for 20 years, the EMI is {_inr(b['emi0'])} and you pay <strong>{_L(b['totInt'])} in interest</strong>. A part-payment of ₹2 lakh every April, from your bonus, cuts that by <strong>{sv(bo)}</strong> and closes the loan in <strong>{bo['end']} instead of {b['end']}</strong>.</p>
+<p>Three rules make the most of every part-payment: pay as early as you can, choose to cut the tenure rather than the EMI, and keep going every year.</p>
+<p class="g-cta"><a class="btn" href="/emi-calculator/">Plan your part-payments</a></p>
+
+<h2 id="emi">How your EMI works</h2>
+<p>Each month, the bank charges interest on the loan still left, and the rest of your EMI pays the loan down. Early on, the loan is large, so most of the EMI is interest. In the first year of a ₹50 lakh loan at 8.5%, <strong>{_L(b['y1']['i'])} of the {_L(b['emi0'] * 12)} you pay is interest</strong>, and only {_L(b['y1']['p'])} reduces the loan.</p>
+<p>A part-payment goes straight to the loan. That lowers the interest charged every month after it, for the rest of the loan. That's why it saves far more than its own size.</p>
+
+<h2 id="example">The example: Karthik's loan</h2>
+<p>Karthik, 31, has taken a ₹50 lakh home loan at a floating rate of 8.5% for 20 years. His first EMI is in December 2026. He gets a bonus every April and can spare ₹2 lakh of it, and he has ₹1 lakh he could put in right away. Karthik is an example; use your own loan in the calculator.</p>
+<div class="g-scroll"><table class="g-tbl"><tbody>
+<tr><th scope="row">EMI</th><td>{_inr(b['emi0'])} a month</td></tr>
+<tr><th scope="row">Total interest, no part-payments</th><td>{_L(b['totInt'])}</td></tr>
+<tr><th scope="row">Last EMI</th><td>{b['end']}</td></tr>
+</tbody></table></div>
+
+<h2 id="one">One part-payment</h2>
+<p>If Karthik pays ₹1 lakh now, after his first EMI, and keeps his EMI the same, he saves <strong>{sv(ot)} of interest</strong> and finishes {mc(ot)} sooner, in {ot['end']}. That's more than four times the ₹1 lakh he put in.</p>
+
+<h2 id="tenure-emi">Cut the tenure or the EMI?</h2>
+<p>After a part-payment, banks let you either keep your EMI and shorten the loan, or keep the end date and lower your EMI.</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">₹1 lakh now</th><th scope="col">EMI after</th><th scope="col">Loan ends</th><th scope="col">Interest saved</th></tr></thead><tbody>
+<tr><th scope="row">Cut the tenure</th><td data-l="EMI after">{_inr(ot['emiLast'])}</td><td data-l="Loan ends">{ot['end']}</td><td data-l="Interest saved"><strong>{sv(ot)}</strong></td></tr>
+<tr><th scope="row">Cut the EMI</th><td data-l="EMI after">{_inr(oe['emiLast'])}</td><td data-l="Loan ends">{oe['end']}</td><td data-l="Interest saved">{sv(oe)}</td></tr>
+</tbody></table></div>
+<p>Cutting the tenure saves about four times as much, because the full EMI keeps working on a smaller loan. Choose a lower EMI only if you need the breathing room each month.</p>
+
+<h2 id="timing">Why earlier is better</h2>
+<p>The same ₹2 lakh saves very different amounts depending on when you pay it:</p>
+<ul>
+  <li><strong>In April 2027,</strong> in year 1: saves {sv(y1)} and {mc(y1)}.</li>
+  <li><strong>In April 2036,</strong> in year 10: saves {sv(y10)} and {mc(y10)}.</li>
+</ul>
+<p>An early part-payment cuts interest for more years. If you're choosing between part-paying now or later, now wins.</p>
+
+<h2 id="bonus">A part-payment every year</h2>
+<p>If Karthik puts ₹2 lakh of his bonus in every April, the loan closes in <strong>{bo['end']}</strong>, nearly ten years early, and he saves <strong>{sv(bo)}</strong> of interest. If he chose to lower his EMI each time instead, he'd save {sv(be)} and still be paying until {be['end']}.</p>
+<p>In the calculator, add the part-payment once and tick "Repeat every year".</p>
+
+<h2 id="rate">When the rate changes</h2>
+<p>Floating rates move. If Karthik's rate rose to 9.25% from June 2027:</p>
+<ul>
+  <li><strong>EMI stays the same</strong> (what most banks do): the loan runs until {rt['end']}, {mths_txt(rt['months'] - b['months'])} longer, and costs {_L(rt['totInt'] - b['totInt'])} more in interest.</li>
+  <li><strong>End date stays the same:</strong> his EMI rises to {_inr(re_['emiLast'])}, and the extra interest is {_L(re_['totInt'] - b['totInt'])}.</li>
+</ul>
+<p>When rates rise, banks often stretch the tenure quietly. Check your loan statement after a rate change, and ask to raise your EMI if you'd rather keep your end date.</p>
+
+<h2 id="plan">Karthik's plan, all together</h2>
+<p>₹1 lakh now, ₹2 lakh every April, EMI kept the same:</p>
+<ul>
+  <li>At 8.5%: the loan closes in <strong>{pl['end']}</strong>, and he saves <strong>{sv(pl)}</strong> of interest.</li>
+  <li>Even if the rate rises to 9.25% in June 2027, it closes in {pr['end']}, still almost a decade early.</li>
+</ul>
+<p>Part-payments are the best protection against rate rises: a smaller loan means each rise costs less.</p>
+
+<h2 id="tips">Before you part-pay</h2>
+<ol class="g-check">
+  <li><strong>Keep an emergency fund first.</strong> Money in your loan is hard to get back.</li>
+  <li><strong>Check the charges.</strong> RBI rules don't allow banks to charge for prepaying floating-rate loans taken by individuals for purposes other than business. Fixed-rate loans may have a charge.</li>
+  <li><strong>Tell the bank what you want:</strong> a shorter tenure or a lower EMI. Get it in writing.</li>
+  <li><strong>Compare with investing.</strong> If your loan rate is low and you can invest for the long term, investing may leave you richer. See <a href="/prepay-vs-invest/">Prepay or Invest</a>.</li>
+  <li><strong>Keep your plan.</strong> Save it from the calculator, and update it each year from your loan statement.</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/emi-calculator/">Try your own loan</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>Every figure comes from the same calculation as the <a href="/emi-calculator/">EMI calculator</a>: interest is charged monthly on the loan left, and each part-payment is made right after that month's EMI. Prepayment charges, processing fees and insurance aren't included. The RBI rule on prepayment charges is from its circular of 2 August 2019. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This guide is for information and education. It isn't financial advice. For a big decision, consider speaking to a qualified adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "How Part-Payments Cut Your Home Loan: EMI, Tenure and Interest Saved (Worked Example) | Salarist", "How part-payments cut your home loan", body, "Part-payments on a home loan")
+
+def mths_txt(n):
+    n = round(n); y, m = divmod(n, 12)
+    return " ".join(x for x in [f"{y} year{'s' if y != 1 else ''}" if y else "", f"{m} month{'s' if m != 1 else ''}" if m or not y else ""] if x)
+
+def guide_car_newregime():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_car_numbers.js")]))
+    S, sl = G["S"], G["slabs"]
+    path = "/guides/car-lease-new-tax-regime/"
+    bands = [("Up to ₹12,75,000", "0", "Nil, after the rebate"), ("₹12,75,001 – ₹16,75,000", "15", "15%"), ("₹16,75,001 – ₹20,75,000", "20", "20%"),
+             ("₹20,75,001 – ₹24,75,000", "25", "25%"), ("Above ₹24,75,000", "30", "30%")]
+    rows = "".join(f"<tr><th scope=\"row\">{a}</th><td data-l=\"Your top slab\">{t}</td><td data-l=\"Lease vs loan, Neha's car\">{('Lease saves ' + _L(sl[k]['diff'])) if sl[k]['diff'] > 0 else ('Loan saves ' + _L(-sl[k]['diff']))}</td></tr>" for a, k, t in bands)
+    toc = [("short-answer", "The short answer"), ("why", "Why a lease works under the new regime"), ("who", "Who gains, by salary"), ("old", "And under the old regime?"),
+           ("check", "Before you sign up"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "The new tax regime takes away most deductions: no HRA, no home loan interest, no 80C. A company car lease still works, because it changes what counts as your salary rather than claiming a deduction. Here's who gains, and by how much.",
+                      "A car with a price tag showing a rising value").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Yes, a car lease is still worth it under the new regime if your salary is in the higher slabs. In our example, a {_L(S['price'])} car leased for {S['years']} years, the lease saves <strong>{_L(sl['30']['diff'])}</strong> over a loan in the 30% slab and <strong>{_L(sl['20']['diff'])}</strong> in the 20% slab. If your taxable salary is under about ₹12.75 lakh, you pay no tax anyway, and a loan comes out cheaper.</p>
+<p class="g-cta"><a class="btn" href="/company-car-lease-vs-loan/">Check your own numbers</a></p>
+
+<h2 id="why">Why a lease works under the new regime</h2>
+<p>The new regime removes deductions, but a car lease isn't a deduction. Your company pays the lease rental and running costs out of your CTC, so that money never becomes taxable salary. You're taxed only on the car's fixed value, ₹5,000 or ₹7,000 a month under Rule 15 of the Income-tax Rules, 2026, and that rule is the same under both regimes.</p>
+<p>That makes a lease one of the few ways left to cut tax under the new regime, alongside a few other salary items your employer may offer.</p>
+
+<h2 id="who">Who gains, by salary</h2>
+<p>New-regime slabs for tax year {TAX_YEAR}, shown as salary before the ₹75,000 standard deduction, and what the lease saves for Neha's car at each top slab:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Salary, after the lease</th><th scope="col">Your top slab</th><th scope="col">Lease vs loan, Neha's car</th></tr></thead><tbody>{rows}</tbody></table></div>
+<p>Tax is nil on total income up to ₹12 lakh because of the rebate, which is ₹12.75 lakh of salary after the standard deduction. Below that, a lease saves no tax, so you'd pay the leasing company's margin for nothing.</p>
+<p>A lease also lowers your taxable salary, so it can move you into a lower slab. If your salary is near a slab edge, the saving on the part that drops below it is at the lower rate. Check where your salary lands after the lease rental and running costs come out.</p>
+
+<h2 id="old">And under the old regime?</h2>
+<p>The car rules are the same, but the old regime's slabs are steeper: 30% applies above ₹10 lakh of taxable income. So at the same salary, a lease often saves more under the old regime. Whichever regime you choose, use the slab you'll actually pay in the calculator.</p>
+
+<h2 id="check">Before you sign up</h2>
+<ol class="g-check">
+  <li>Work out your taxable salary after the lease, and check which slab your top rupee falls in.</li>
+  <li>Ask what the rental includes: GST, insurance, servicing.</li>
+  <li>Ask whether fuel and a driver can go through the company too: that's where much of the saving comes from.</li>
+  <li>Check the early closure terms in case you change jobs.</li>
+</ol>
+<p>For the full worked example, read <a href="/guides/company-car-lease-vs-car-loan/">Company car lease or car loan?</a>, and for the values you're taxed on, <a href="/guides/company-car-perquisite-value-2026/">Company car perquisite value from April 2026</a>.</p>
+<p class="g-cta"><a class="btn" href="/company-car-lease-vs-loan/">Compare lease and loan</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>The lease-vs-loan figures come from the <a href="/company-car-lease-vs-loan/">Car Lease vs Car Loan Calculator</a>, run on Neha's car (a {_L(S['price'])} car, {_inr(S['rental'])} a month for {S['years']} years, fuel through the company, bought back for {_inr(S['buyback'])}) at each slab rate plus 4% cess. The slabs, rebate and standard deduction are the new-regime rules for tax year {TAX_YEAR}; the car values are from Rule 15 of the Income-tax Rules, 2026. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't tax advice. Surcharge for very high incomes and marginal relief near ₹12 lakh aren't included; check with a tax adviser for your situation.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Car Lease Under the New Tax Regime: Is It Still Worth It? (2026-27) | Salarist", "Car lease under the new tax regime", body, "Car lease, new regime")
+
+def guide_yearly_costs():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_yearly_costs_numbers.js")]))
+    path = "/guides/plan-for-school-fees-and-yearly-costs/"
+    items = "".join(f"<tr><th scope=\"row\">{H.escape(i['name'])}</th><td data-l=\"A year\">{_inr(i['amt'])}</td><td data-l=\"Due in\">{i['when']}</td></tr>" for i in G["items"])
+    rows = "".join(f"<tr><td class=\"nw\">{r['month']}</td><td data-l=\"Put aside\">{_inr(r['dep'])}</td><td data-l=\"Bills\">{_inr(r['bill']) if r['bill'] else '—'}</td><td data-l=\"In the account\"{' class=\"neg\"' if r['bal'] < -0.5 else ''}>{_inr(r['bal'])}</td></tr>" for r in G["now"]["rows"])
+    sa = G["setAside"]
+    toc = [("short-answer", "The short answer"), ("list", "Step 1: list every yearly cost"), ("monthly", "Step 2: turn them into one monthly amount"),
+           ("account", "Step 3: give them their own account"), ("timing", "Watch the timing"), ("late", "What happens if you start late"), ("tips", "Make it stick"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Most budgets don't fail on groceries. They fail in April, when school fees are due, or in October, when Diwali lands on top of the fee instalment. Here's a simple way to see those costs coming and pay them without stress.",
+                      "A calendar with yearly bills marked and a jar filling up each month").replace("TYPE_LINE", "")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<ol>
+  <li>List every cost that comes once or twice a year: school fees, insurance, festivals, holidays.</li>
+  <li>Add them up and divide by 12. For the family below, that's <strong>{_inr(sa)} a month</strong>.</li>
+  <li>Move that amount into a separate account on salary day, every month, and pay the bills from there.</li>
+  <li>Start with a small cushion, about one month's set-aside, because the bills don't arrive evenly.</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/budget-planner/">Work out your set-aside</a></p>
+
+<h2 id="list">Step 1: list every yearly cost</h2>
+<p>Here's an example family with one child in school. Their yearly costs, and when each falls due:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Cost</th><th scope="col">A year</th><th scope="col">Due in</th></tr></thead><tbody>{items}
+<tr><th scope="row"><strong>Total</strong></th><td data-l="A year"><strong>{_inr(G['yearly'])}</strong></td><td></td></tr></tbody></table></div>
+<p>Go through last year's bank statement to find yours. People usually miss vehicle servicing, gifts and school extras like books and transport deposits.</p>
+
+<h2 id="monthly">Step 2: turn them into one monthly amount</h2>
+<p>{_inr(G['yearly'])} a year is <strong>{_inr(sa)} a month</strong>. In the <a href="/budget-planner/">budget planner</a>, enter each cost as "a year" and it adds them up and shows the monthly set-aside for you.</p>
+<p>Treat that amount like a bill. If your budget can't fit it, that's worth knowing now, not in April.</p>
+
+<h2 id="account">Step 3: give them their own account</h2>
+<p>Keep the set-aside away from your everyday spending: a separate savings account, a recurring deposit timed to your big bills, or a liquid fund. Set up a standing instruction for the day after salary day, so it happens without a decision.</p>
+
+<h2 id="timing">Watch the timing</h2>
+<p>The bills don't arrive evenly. October is the hardest month, with the second fee instalment and Diwali together: {_inr(G['big'][0]['bill'])}. Here's the account month by month, starting from nothing in December 2026:</p>
+<div class="g-scroll"><table class="g-tbl g-stack g-yc"><thead><tr><th scope="col">Month</th><th scope="col">Put aside</th><th scope="col">Bills</th><th scope="col">In the account</th></tr></thead><tbody>{rows}</tbody></table></div>
+<p>The account dips below zero twice, in May and October, by up to {_inr(G['buffer'])}. Starting with a one-time cushion of about <strong>{_inr(G['buffer'])}</strong>, one month's set-aside, keeps it positive all year. A small bonus or the first month's set-aside paid twice does the job.</p>
+
+<h2 id="late">What happens if you start late</h2>
+<p>If the family starts setting money aside only in April, when the first fee instalment is due, they're short by up to <strong>{_inr(-G['late']['low'])}</strong> during the year. That's the gap that ends up on a credit card or a personal loan. The earlier you start, the less it hurts.</p>
+
+<h2 id="tips">Make it stick</h2>
+<ol class="g-check">
+  <li>Ask the school for the full year's fee schedule, including term fees and annual charges.</li>
+  <li>Add fee increases: many schools raise fees every year, so plan for a bit more.</li>
+  <li>Check insurance renewal dates and put them in your calendar.</li>
+  <li>Plan the year's travel around the long weekends. See <a href="/guides/long-weekends-2027/">Long weekends 2027</a>.</li>
+  <li>Use bonuses for the cushion or a part-payment, not to rescue a bad month.</li>
+</ol>
+<p>For the full budgeting method, read <a href="/guides/monthly-budget/">How to make a monthly budget on a salary</a>.</p>
+<p class="g-cta"><a class="btn" href="/budget-planner/">Make your budget</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>The monthly set-aside comes from the same calculation as the <a href="/budget-planner/">budget planner</a>, which divides each yearly cost by 12. The month-by-month table adds the set-aside each month and takes away the bills due that month. The family and amounts are an example; school fees vary a lot by city and school. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "How to Plan for School Fees and Other Yearly Costs (With Monthly Set-Aside) | Salarist", "How to plan for school fees and yearly costs", body, "School fees and yearly costs")
 
 def guides_index():
     gmap = {g[0]: g for g in GUIDES}
@@ -2474,6 +2843,7 @@ def main():
     write("/budget-planner/", budget_page())
     if CAR_LIVE: write("/company-car-lease-vs-loan/", car_page())
     if EMI_LIVE: write("/emi-calculator/", emi_page())
+    if SIP_LIVE: write("/sip-calculator/", sip_page())
     write("/guides/", guides_index())
     write("/tools/", tools_index())
     write("/guides/rent-vs-buy/", guide_rentbuy())
@@ -2488,9 +2858,12 @@ def main():
     write("/guides/company-car-perquisite-value-2026/", guide_perk())
     write("/guides/best-months-for-a-week-long-break-2027/", guide_months())
     write("/guides/long-weekends-2027-six-day-week/", guide_sixday())
+    write("/guides/how-part-payments-cut-your-home-loan/", guide_emi())
+    write("/guides/car-lease-new-tax-regime/", guide_car_newregime())
+    write("/guides/plan-for-school-fees-and-yearly-costs/", guide_yearly_costs())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime

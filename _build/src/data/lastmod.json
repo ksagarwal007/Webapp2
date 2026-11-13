@@ -1,7 +1,7 @@
 {
  "/": {
   "date": "2026-11-13",
-  "hash": "5960a935b03452e6"
+  "hash": "2b7921c40d5c1533"
  },
  "/about/": {
   "date": "2026-11-13",
@@ -9,11 +9,11 @@
  },
  "/budget-planner/": {
   "date": "2026-11-13",
-  "hash": "8a21771bb295f819"
+  "hash": "809b3785573dd61a"
  },
  "/company-car-lease-vs-loan/": {
   "date": "2026-11-13",
-  "hash": "cb5676b6d984ce9c"
+  "hash": "af373f173f465b2d"
  },
  "/contact/": {
   "date": "2026-11-13",
@@ -25,63 +25,75 @@
  },
  "/emi-calculator/": {
   "date": "2026-11-13",
-  "hash": "8c1c7d014121bd10"
+  "hash": "7d194cb8578ddf44"
  },
  "/guides/": {
   "date": "2026-11-13",
-  "hash": "5cebe42c5e4f7e74"
+  "hash": "ed9bd5a5ad348877"
  },
  "/guides/best-months-for-a-week-long-break-2027/": {
   "date": "2026-11-13",
-  "hash": "b7562ffdbfade219"
+  "hash": "636637c63142c7a9"
  },
  "/guides/budget-on-50000-1-lakh-2-lakh-salary/": {
   "date": "2026-11-13",
-  "hash": "f06658c5a1112c2c"
+  "hash": "f24966b57862a8cb"
+ },
+ "/guides/car-lease-new-tax-regime/": {
+  "date": "2026-11-13",
+  "hash": "ef55481ec9f52eb9"
  },
  "/guides/company-car-lease-vs-car-loan/": {
   "date": "2026-11-13",
-  "hash": "bc6243a5270109d3"
+  "hash": "5072945a3b86bdc8"
  },
  "/guides/company-car-perquisite-value-2026/": {
   "date": "2026-11-13",
-  "hash": "47c8f3c696494e79"
+  "hash": "5c1849ec6cd1518f"
+ },
+ "/guides/how-part-payments-cut-your-home-loan/": {
+  "date": "2026-11-13",
+  "hash": "1ee8a2dc7f734331"
  },
  "/guides/hra-vs-home-loan-tax-benefits/": {
   "date": "2026-11-13",
-  "hash": "7d65daf47904967e"
+  "hash": "a781e141a0f97821"
  },
  "/guides/long-weekends-2027-six-day-week/": {
   "date": "2026-11-13",
-  "hash": "49bf66595961d619"
+  "hash": "3b53dbb48dd5cc59"
  },
  "/guides/long-weekends-2027/": {
   "date": "2026-11-13",
-  "hash": "a4d17bbf5881eaa3"
+  "hash": "e42ff0b9030f02f2"
  },
  "/guides/monthly-budget/": {
   "date": "2026-11-13",
-  "hash": "c1304554db4634db"
+  "hash": "ee264f1177df9a5c"
+ },
+ "/guides/plan-for-school-fees-and-yearly-costs/": {
+  "date": "2026-11-13",
+  "hash": "abb87ee7ee48ab21"
  },
  "/guides/prepay-home-loan-or-invest/": {
   "date": "2026-11-13",
-  "hash": "42e8abd91a3ded51"
+  "hash": "d0b950a77243f0b1"
  },
  "/guides/rent-vs-buy/": {
   "date": "2026-11-13",
-  "hash": "9dba48fc78a8b7c2"
+  "hash": "1fa203d46781b5f7"
  },
  "/guides/restricted-holidays-2027/": {
   "date": "2026-11-13",
-  "hash": "419793f657ae0a7f"
+  "hash": "7fdf100b85e2bb7a"
  },
  "/guides/under-construction-vs-ready-to-move/": {
   "date": "2026-11-13",
-  "hash": "e5b84f7e1c8e02a4"
+  "hash": "f3a3bdac0673feb4"
  },
  "/leave-planner-2027/": {
   "date": "2026-11-13",
-  "hash": "e94f104cda70f2f8"
+  "hash": "76a0f1970e23ba8d"
  },
  "/methodology/": {
   "date": "2026-11-13",
@@ -89,7 +101,7 @@
  },
  "/prepay-vs-invest/": {
   "date": "2026-11-13",
-  "hash": "bdb4ff8bd7bb61f4"
+  "hash": "aa1aa0c71a79fb5c"
  },
  "/privacy/": {
   "date": "2026-11-13",
@@ -97,7 +109,11 @@
  },
  "/rent-vs-buy/": {
   "date": "2026-11-13",
-  "hash": "dc1ffda137903997"
+  "hash": "7f077ddb9ebb5ce4"
+ },
+ "/sip-calculator/": {
+  "date": "2026-11-13",
+  "hash": "555094a9e27100f1"
  },
  "/terms/": {
   "date": "2026-11-13",
@@ -105,6 +121,6 @@
  },
  "/tools/": {
   "date": "2026-11-13",
-  "hash": "123f68fd9b32e8fe"
+  "hash": "4108b08a2a7ce698"
  }
 }

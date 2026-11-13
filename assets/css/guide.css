@@ -44,3 +44,4 @@
 .g-by .g-meta{margin:2px 0 0;gap:2px 10px;font-size:13.5px}
 
 @media (max-width:640px){.g-stack thead{display:none}.g-stack tr{display:block;border-bottom:1px solid var(--line);padding:10px 0}.g-stack th,.g-stack td{display:block;border:0;padding:3px 0;width:auto!important;white-space:normal!important}.g-stack td[data-l]::before{content:attr(data-l);display:block;font-size:12px;color:var(--muted);font-weight:700}}
+.g-yc td.neg{color:var(--loss);font-weight:700}
