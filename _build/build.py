@@ -5,7 +5,7 @@ import hashlib, json, os, re, shutil, subprocess, html as H
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC, DIST = os.path.join(ROOT, "src"), os.path.join(ROOT, "dist")
 SITE = "https://salarist.in"
-VERIFIED = "2026-11-12"; VERIFIED_TXT = "12 Nov 2026"
+VERIFIED = "2026-11-12"; VERIFIED_TXT = "12 Nov 2026"; TAX_YEAR = "2026-27"
 
 def rd(p): return open(os.path.join(SRC, p), encoding="utf-8").read()
 def ver(p): return hashlib.sha1(open(os.path.join(SRC, p), "rb").read()).hexdigest()[:8]
@@ -131,11 +131,11 @@ def home():
                         '<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">New</span></a>')
     body = body.replace('<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">Jan 2027</span></a>', '<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">New</span></a>')
     body = body.replace('<a class="ask" href="/rent-vs-buy/">Rent or buy? <span class="soon">Jan 2027</span></a>', '<a class="ask" href="/rent-vs-buy/">Rent or buy? <span class="soon">New</span></a>')
-    body = body.replace('<span class="st"><b>Coming January 2027</b></span>\n      </a>\n      <a class="tool" href="/ctc-to-in-hand/">', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>\n      </a>\n      <a class="tool" href="/ctc-to-in-hand/">', 1)
+    body = body.replace('<span class="st"><b>Coming January 2027</b></span>\n      </a>\n      <a class="tool" href="/ctc-to-in-hand/">', f'<span class="st"><b class="live">Live</b> · tax year {TAX_YEAR}</span>\n      </a>\n      <a class="tool" href="/ctc-to-in-hand/">', 1)
     for u in ("/ctc-to-in-hand/",):
         body = body.replace(f'<a class="ask" href="{u}">', '<a class="ask" href="#tools">')
     body = body.replace('<span class="st"><b>Launching soon</b> · next up</span>', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>')
-    body = body.replace('<span class="st"><b>Coming January 2027</b></span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', f'<span class="st"><b class="live">Live</b> · verified {VERIFIED_TXT}</span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', 1)
+    body = body.replace('<span class="st"><b>Coming January 2027</b></span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', f'<span class="st"><b class="live">Live</b> · tax year {TAX_YEAR}</span>\n      </a>\n      <a class="tool" href="/rent-vs-buy/">', 1)
     # Tools that aren't built yet are not links (no dead links for Google or visitors)
     def unlink(m):
         return '<div class="tool off">' + m.group(2) + "</div>"
@@ -272,7 +272,7 @@ def leave_planner():
   <div><h2>Best value: 1 to 3 days of leave</h2><p class="lead" style="font-size:15px">The most days off for each day of leave, based on your settings.</p><ul class="brks" id="lpValue"></ul></div>
   <div><h2>Long weekends with no leave</h2><p class="lead" style="font-size:15px">Holidays that already touch a weekend.</p><ul class="brks" id="lpLong"></ul></div>
 </div></section>
-
+{related("/leave-planner-2027/")}
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
@@ -363,7 +363,7 @@ def prepay_page():
   <p class="eyebrow">Loans</p>
   <h1>Prepay your home loan or invest the extra?</h1>
   <p class="lead">Every extra rupee can close your loan sooner or grow in the market. We run both choices month by month, with the same money going in either way, include the tax rules for your regime, and show which one leaves you richer.</p>
-  {badges("Tax rules verified on " + VERIFIED_TXT)}
+  {badges("Tax rules for tax year " + TAX_YEAR)}
 </div></section>
 
 <section style="padding-top:0"><div class="wrap lp">
@@ -409,6 +409,7 @@ def prepay_page():
     <h2 class="list-h">Where your money went</h2>
     <div class="money" id="pvMoney"></div>
     <p class="hint" id="pvMoneyNote"></p>
+    <a class="next" id="pvNext" href="/rent-vs-buy/"><span class="k">Your next decision</span><b>Haven't bought yet? Check whether renting and investing leaves you richer</b><span class="h">Opens Rent or Buy with your rate, tenure and tax details filled in.</span></a>
     <h2 class="list-h">Assumptions</h2>
     <ul class="notes" id="pvNotes"></ul>
   </div>
@@ -420,7 +421,7 @@ def prepay_page():
   <div class="modes tabs2" role="tablist" aria-label="Choose which calculation to show"><button type="button" role="tab" data-tab="prepay" aria-selected="true"><b>Prepay, then invest</b></button><button type="button" role="tab" data-tab="invest" aria-selected="false"><b>Invest the extra</b></button></div>
   <div class="tbl-wrap calc-wrap" id="pvTable"></div>
 </div></section>
-
+{related("/prepay-vs-invest/")}
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
@@ -455,7 +456,7 @@ def prepay_page():
   </ul>
 
   <h2 id="sources">Sources</h2>
-  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: Income-tax Act, 2025 (section 22 on interest on borrowed capital for house property) and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026 for tax year 2026-27. Verified on {VERIFIED_TXT}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: Income-tax Act, 2025 (section 22 on interest on borrowed capital for house property) and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026. Checked for tax year {TAX_YEAR}; we re-check after every Union Budget. Read <a href="/methodology/">how we check our numbers</a>.</p>
 
   <h2>Frequently asked questions</h2>
   {faq_html(faqs)}
@@ -490,10 +491,19 @@ STAMP_PORTALS = [  # official state stamps and registration portals with duty ca
     ("Uttar Pradesh", "https://igrsup.gov.in/")]
 STATE_OPTS = "".join(f'<option value="{u}">{n}</option>' for n, u in STAMP_PORTALS)
 
+TOOL_CARDS = {
+    "/leave-planner-2027/": ("Leave Planner 2027", "Turn your leave into the longest breaks of 2027, around official holidays."),
+    "/prepay-vs-invest/": ("Prepay or Invest", "Should extra money go into your home loan or into investments? After tax."),
+    "/rent-vs-buy/": ("Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax."),
+}
+def related(path):
+    cards = "".join(f'<a class="rel" href="{u}"><b>{n}</b><span>{d}</span></a>' for u, (n, d) in TOOL_CARDS.items() if u != path)
+    return f'<section style="padding-top:0"><div class="wrap"><h2 class="list-h">More decisions you can check</h2><div class="rels">{cards}</div></div></section>'
+
 def rentbuy_page():
     faqs = [
         ("Is it better to rent or buy a home in India?",
-         "It depends mostly on three numbers: how fast home prices grow where you're buying, how long you'll stay, and the return you'd earn by investing the money you don't put into the home. In big Indian cities, rent is often only 2% to 3% of the home's price a year, which usually makes renting and investing cheaper unless prices grow fast or you stay a long time. The calculator shows the home price growth you need for buying to win."),
+         "It depends mostly on three numbers: how fast home prices grow where you're buying, how long you'll stay, and the return you'd earn by investing the money you don't put into the home. In big Indian cities, a year's rent is usually a small share of the home's price, which often makes renting and investing cheaper unless prices grow fast or you stay a long time. The calculator shows the home price growth you need for buying to win."),
         ("How does the calculator compare renting and buying fairly?",
          "Both choices use the same money. At the start, the buyer pays the down payment, stamp duty, registration and other costs, and the renter invests that money instead. Every month after that, whichever choice costs less invests the difference. At the end we assume you sell the home, pay selling costs, tax and any loan left, and compare what each choice leaves you with."),
         ("What if I plan to keep the home and never sell?",
@@ -521,7 +531,7 @@ def rentbuy_page():
   <p class="eyebrow">Home</p>
   <h1>Rent or buy a home: which leaves you richer?</h1>
   <p class="lead">Buying feels like building an asset, and renting feels like money gone. We put both on the same footing: same money in, month by month, with stamp duty, EMIs, upkeep, rent, tax and the sale at the end, and show which one leaves you with more.</p>
-  {badges("Tax rules verified on " + VERIFIED_TXT)}
+  {badges("Tax rules for tax year " + TAX_YEAR)}
 </div></section>
 
 <section style="padding-top:0"><div class="wrap lp rb">
@@ -562,10 +572,10 @@ def rentbuy_page():
     <p class="grp-h">At the end of your stay</p>
     <div><span class="lbl" id="endLbl">What happens to the home?</span>
       <div class="seg row" role="group" aria-labelledby="endLbl"><button type="button" data-end="sell">I sell it</button><button type="button" data-end="keep">I keep it</button></div>
-      <p class="hint">Keep it: we count the home at its market value, with no selling costs or tax.</p></div>
+      <p class="hint">Keep it: we count the home at its market value, with no selling costs or tax, minus any loan still owed.</p></div>
     <div id="rb-sell-box" style="display:flex;flex-direction:column;gap:18px">
       {num("sell", "Selling costs", "% of price", 0, 5, 0.25, money=False)}
-      <label class="chk" for="rb-reinvest" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="rb-reinvest"><span>I'll put the gain into another home (no tax on it under section 82, earlier section 54)</span></label>
+      <label class="chk" for="rb-reinvest" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="rb-reinvest"><span>I'll put the gain into another home (no tax on up to ₹10 crore of gain under section 82, earlier section 54)</span></label>
     </div>
     <p class="grp-h">Tax</p>
     <div><span class="lbl" id="regLbl">Your tax regime</span>
@@ -614,6 +624,7 @@ def rentbuy_page():
     <h2 class="list-h">Where your money went</h2>
     <div class="money" id="rbMoney"></div>
     <p class="hint" id="rbMoneyNote"></p>
+    <a class="next" id="rbNext" href="/prepay-vs-invest/"><span class="k">Your next decision</span><b>Buying with a loan? See whether to prepay it or invest the extra</b><span class="h">Opens Prepay or Invest with your loan, rate and tax details filled in.</span></a>
     <h2 class="list-h">Assumptions</h2>
     <ul class="notes" id="rbNotes"></ul>
   </div>
@@ -625,7 +636,7 @@ def rentbuy_page():
   <div class="modes tabs2" role="tablist" aria-label="Choose which calculation to show"><button type="button" role="tab" data-tab="buy" aria-selected="true"><b>Buy</b></button><button type="button" role="tab" data-tab="rent" aria-selected="false"><b>Rent and invest</b></button></div>
   <div class="tbl-wrap calc-wrap" id="rbTable"></div>
 </div></section>
-
+{related("/rent-vs-buy/")}
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
@@ -653,7 +664,7 @@ def rentbuy_page():
   <p>We leave out surcharge, construction delays (add them to the years until possession), GST on an under-construction home unless you include it in other buying costs, and the cost of furnishing a rented home.</p>
 
   <h2 id="sources">Sources</h2>
-  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: Income-tax Act, 2025 (sections 22, 82 and 123), the Income-tax Rules, 2026 (HRA), and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026 for tax year 2026-27. Verified on {VERIFIED_TXT}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: Income-tax Act, 2025 (sections 22, 82 and 123), the Income-tax Rules, 2026 (HRA), and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026. Checked for tax year {TAX_YEAR}; we re-check after every Union Budget. Read <a href="/methodology/">how we check our numbers</a>.</p>
 
   <h2>Frequently asked questions</h2>
   {faq_html(faqs)}
@@ -692,7 +703,7 @@ PAGES = {
 <p>Salarist builds free decision tools for salaried people in India: when to take leave, whether to prepay a loan or invest, whether to rent or buy, and what your salary really becomes after tax.</p>
 <h2>What we promise</h2>
 <ul><li><strong>Plain answers.</strong> Each tool ends in a clear verdict, with the working shown.</li>
-<li><strong>Official numbers.</strong> Tax slabs, interest rates and holidays come from official sources, with the date we last checked them. <a href="/methodology/">How we check our numbers</a>.</li>
+<li><strong>Official numbers.</strong> Tax slabs, interest rates and holidays come from official sources, labelled with the tax year or date they apply to. <a href="/methodology/">How we check our numbers</a>.</li>
 <li><strong>Privacy.</strong> Calculations run in your browser. We don't ask you to sign up and we don't store what you enter.</li></ul>
 <h2>How Salarist is funded</h2>
 <p>The tools are free. We plan to show a small number of ads and some clearly labelled sponsored links, for example to travel or investment platforms. Sponsors never change what a tool calculates or recommends.</p>
@@ -700,7 +711,7 @@ PAGES = {
 <p>Salarist gives estimates and comparisons to help you decide. It isn't tax, legal or financial advice. See our <a href="/disclaimer/">disclaimer</a>.</p>
 <p>Questions or corrections: <a href="/contact/">contact us</a>.</p>'''),
 "/methodology/": ("How we check our numbers", "How we check our numbers — Salarist methodology", "The official sources behind Salarist's tax slabs, interest rates and holiday lists, how often we verify them, and how to report an error.", "How we check our numbers", '''
-<p>Money decisions are only as good as the figures behind them. Every rate, slab and date on Salarist comes from an official source, carries the date we last verified it, and links to where it came from.</p>
+<p>Money decisions are only as good as the figures behind them. Every rate, slab and date on Salarist comes from an official source, says which tax year or official order it follows, and links to where it came from.</p>
 <h2>Our sources</h2>
 <ul><li><strong>Income tax:</strong> the Income-tax Act, 2025, the annual Finance Act and Union Budget documents, and the Income Tax Department.</li>
 <li><strong>Small savings rates:</strong> quarterly office memoranda from the Ministry of Finance (Department of Economic Affairs).</li>
@@ -708,7 +719,7 @@ PAGES = {
 <h2>How we verify</h2>
 <ul><li>We check each figure against the source document before it goes on the site, never from memory or old articles.</li>
 <li>All tools read from one shared set of figures, so a correction reaches every page at once.</li>
-<li>Each tool shows a “verified on” date. If a source changes, we update the figure and the date together.</li></ul>
+<li>Tax tools say which tax year their rules are for, and other tools say which official order or date their figures come from. We re-check everything after each Union Budget and whenever a source changes, and update the label with the figures.</li></ul>
 <h2>When we recheck</h2>
 <ul><li>Tax: after every Union Budget and Finance Act.</li><li>Small savings rates: every quarter, when the Ministry of Finance announces them.</li><li>Holidays: when the yearly DoPT order is issued, and if any date is changed.</li></ul>
 <h2>Terms we use</h2>
@@ -748,7 +759,7 @@ PAGES = {
 <p>We may update these terms. The date at the top shows the latest version. These terms are governed by the laws of India.</p>'''),
 "/disclaimer/": ("Disclaimer", "Disclaimer — Salarist", "Salarist's tools give estimates for information only and are not tax, legal or financial advice.", "Disclaimer", '''
 <p>Salarist provides calculators and decision tools for general information. They are <strong>not tax, legal, investment or financial advice</strong>, and Salarist is not a registered adviser.</p>
-<ul><li>Results are estimates based on the figures you enter and the official rates we show, with their verified dates. Your actual outcome can differ.</li>
+<ul><li>Results are estimates based on the figures you enter and the official rates we show, for the tax year or date stated. Your actual outcome can differ.</li>
 <li>Holiday lists follow official orders. Your employer's holiday policy decides the leave you can actually take, and some festival dates depend on the moon and can shift.</li>
 <li>Tax results simplify some rules. For your own return, use the Income Tax Department's tools or consult a chartered accountant.</li>
 <li>Investment returns are never guaranteed. Past or assumed returns don't predict future ones.</li></ul>

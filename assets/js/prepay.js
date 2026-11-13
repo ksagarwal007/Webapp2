@@ -226,6 +226,7 @@
       "Your investments grow at a steady " + S.ret + "% a year. Real returns go up and down.",
       "Inflation isn't included. It affects both choices in the same way.",
       "No prepayment charges. Banks can't charge them on floating-rate home loans taken by individuals. On a fixed-rate loan, check your loan terms."];
+    $("pvNext").href = "/rent-vs-buy/?" + new URLSearchParams({ rate: S.rate, tenure: S.years, ret: S.ret, kind: S.kind, regime: S.regime, slab: S.slab }).toString();
     $("pvNotes").innerHTML = base.concat(notes).map(function (t) { return "<li>" + t + "</li>"; }).join("");
   }
 

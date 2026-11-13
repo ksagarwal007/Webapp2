@@ -206,3 +206,16 @@ table.calc thead th:first-child{left:0;z-index:2}
 .helper summary{min-height:44px;display:flex;align-items:center;font-size:14px;font-weight:600;color:var(--brand);cursor:pointer}
 .helper[open]{padding-bottom:14px}
 #rb-stateLink{font-weight:700}
+/* Phone sliders: a swipe up or down scrolls the page instead of moving the slider */
+input[type=range]{touch-action:pan-y}
+/* Next decision and related tools */
+.next{display:flex;flex-direction:column;gap:4px;margin-top:22px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:var(--r-sm);background:var(--s1);color:var(--text);text-decoration:none}
+.next[hidden]{display:none}
+.next:hover{border-color:var(--brand)}
+.next .k{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--brand)}
+.next b{font-size:16px}
+.next .h{font-size:13px;color:var(--muted)}
+.rels{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:10px}
+.rel{display:flex;flex-direction:column;gap:4px;padding:16px 18px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--s1);color:var(--text);text-decoration:none}
+.rel:hover{border-color:var(--brand)}
+.rel span{font-size:14px;color:var(--muted)}

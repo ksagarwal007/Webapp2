@@ -287,6 +287,8 @@
     }).join("");
     $("rbTable").innerHTML = table(sim, tabWhich);
     document.querySelectorAll("[data-tab]").forEach(function (b) { b.setAttribute("aria-selected", b.getAttribute("data-tab") === tabWhich ? "true" : "false"); });
+    var nq = new URLSearchParams({ P: Math.max(100000, Math.round(sim.loan)), rate: S.rate, years: S.tenure, ret: S.ret, kind: S.kind, regime: S.regime, slab: S.slab });
+    var nx = $("rbNext"); nx.hidden = sim.loan < 100000; nx.href = "/prepay-vs-invest/?" + nq.toString();
     $("rbNotes").innerHTML = notes().map(function (t) { return "<li>" + t + "</li>"; }).join("");
   }
   function notes() {

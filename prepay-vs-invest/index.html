@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="/assets/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/assets/css/site.css?v=0288bb7e">
-<link rel="stylesheet" href="/assets/css/tool.css?v=a6cf83bd">
+<link rel="stylesheet" href="/assets/css/tool.css?v=4460c61b">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Salarist">
 <meta property="og:locale" content="en_IN">
@@ -59,7 +59,7 @@
   <p class="eyebrow">Loans</p>
   <h1>Prepay your home loan or invest the extra?</h1>
   <p class="lead">Every extra rupee can close your loan sooner or grow in the market. We run both choices month by month, with the same money going in either way, include the tax rules for your regime, and show which one leaves you richer.</p>
-  <div class="badges"><span class="badge priv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>Private: calculated on your device. Nothing is stored or sent.</span><span class="badge ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Tax rules verified on 12 Nov 2026 · <a href="#sources">Sources</a></span></div>
+  <div class="badges"><span class="badge priv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>Private: calculated on your device. Nothing is stored or sent.</span><span class="badge ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Tax rules for tax year 2026-27 · <a href="#sources">Sources</a></span></div>
 </div></section>
 
 <section style="padding-top:0"><div class="wrap lp">
@@ -117,6 +117,7 @@
     <h2 class="list-h">Where your money went</h2>
     <div class="money" id="pvMoney"></div>
     <p class="hint" id="pvMoneyNote"></p>
+    <a class="next" id="pvNext" href="/rent-vs-buy/"><span class="k">Your next decision</span><b>Haven't bought yet? Check whether renting and investing leaves you richer</b><span class="h">Opens Rent or Buy with your rate, tenure and tax details filled in.</span></a>
     <h2 class="list-h">Assumptions</h2>
     <ul class="notes" id="pvNotes"></ul>
   </div>
@@ -128,7 +129,7 @@
   <div class="modes tabs2" role="tablist" aria-label="Choose which calculation to show"><button type="button" role="tab" data-tab="prepay" aria-selected="true"><b>Prepay, then invest</b></button><button type="button" role="tab" data-tab="invest" aria-selected="false"><b>Invest the extra</b></button></div>
   <div class="tbl-wrap calc-wrap" id="pvTable"></div>
 </div></section>
-
+<section style="padding-top:0"><div class="wrap"><h2 class="list-h">More decisions you can check</h2><div class="rels"><a class="rel" href="/leave-planner-2027/"><b>Leave Planner 2027</b><span>Turn your leave into the longest breaks of 2027, around official holidays.</span></a><a class="rel" href="/rent-vs-buy/"><b>Rent or Buy</b><span>Owning against renting and investing the difference, after stamp duty and tax.</span></a></div></div></section>
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
@@ -163,7 +164,7 @@
   </ul>
 
   <h2 id="sources">Sources</h2>
-  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: Income-tax Act, 2025 (section 22 on interest on borrowed capital for house property) and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026 for tax year 2026-27. Verified on 12 Nov 2026. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <p><a href="https://www.incometax.gov.in/" rel="noopener">Income Tax Department</a>: Income-tax Act, 2025 (section 22 on interest on borrowed capital for house property) and the Finance (No. 2) Act, 2024 rates for capital gains, unchanged by Budget 2026. Checked for tax year 2026-27; we re-check after every Union Budget. Read <a href="/methodology/">how we check our numbers</a>.</p>
 
   <h2>Frequently asked questions</h2>
   <div class="faq"><details><summary>Is it better to prepay a home loan or invest?</summary><p>It depends mainly on three things: your loan's interest rate, the return you expect after tax, and whether you get a tax deduction on the interest. If your investments can beat the loan's effective interest rate after tax, investing usually wins over the long run. If not, prepaying wins, and it's guaranteed.</p></details><details><summary>Does prepaying make sense under the new tax regime?</summary><p>Under the new regime you get no deduction for interest on a self-occupied home, so every rupee of interest you avoid by prepaying is a real saving. That makes prepaying relatively more attractive than under the old regime.</p></details><details><summary>How does the old regime change the answer?</summary><p>Under the old regime you can deduct up to ₹2,00,000 of home loan interest a year on a self-occupied home (section 22 of the Income-tax Act, 2025, earlier section 24(b)). Prepaying reduces your interest, so it also reduces this tax saving. The calculator includes that lost saving.</p></details><details><summary>Should I reduce my EMI or my tenure when I prepay?</summary><p>This calculator assumes you keep the same EMI and shorten the tenure, which saves the most interest. Once the loan closes, it assumes you invest your EMI and the extra amount every month until the original end date, so both choices are compared over the same period.</p></details><details><summary>How are investment returns taxed in the calculator?</summary><p>Equity mutual fund gains are taxed at 12.5% above ₹1,25,000, plus 4% cess, when you sell at the end. Debt fund gains are taxed at your slab rate when you sell (for units bought on or after 1 April 2023). FD interest is taxed every year at your slab rate, so FD money grows at the after-tax rate.</p></details><details><summary>Is the result guaranteed?</summary><p>No. Prepaying gives a certain saving, while market returns are not guaranteed and can be lower than you expect, especially over short periods. Use the breakeven return to judge how much risk you're taking: if you need a high return for investing to win, prepaying is the safer choice.</p></details></div>
@@ -198,6 +199,6 @@
   </div>
 </footer>
 <script src="/assets/js/site.js?v=bf672db1" defer></script>
-<script src="/assets/js/prepay.js?v=ebe9f616" defer></script>
+<script src="/assets/js/prepay.js?v=0a9ddcf5" defer></script>
 </body>
 </html>
