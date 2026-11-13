@@ -27,7 +27,9 @@ SIP_LIVE = True   # set False to build without the SIP calculator
 if SIP_LIVE: LIVE_TOOLS.append(("/sip-calculator/", "SIP Calculator"))
 GRATUITY_LIVE = True   # set False to build without the gratuity calculator
 if GRATUITY_LIVE: LIVE_TOOLS.append(("/gratuity-calculator/", "Gratuity Calculator"))
-QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/gratuity-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
+SECTIONS_LIVE = True   # set False to build without the section finder
+if SECTIONS_LIVE: LIVE_TOOLS.append(("/income-tax-section-finder/", "Section Finder"))
+QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/gratuity-calculator/", "/income-tax-section-finder/"]   # simple calculators: shown as chips, not big cards or menu items
 MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/tools/", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
@@ -57,6 +59,7 @@ SEO = {
     "/budget-planner/": ("Monthly Budget Planner for Salaried Indians", "See what's really left each month on your salary: yearly costs as monthly set-asides, savings rate, EMI load and emergency fund. Free and private."),
     "/company-car-lease-vs-loan/": ("Car Lease vs Car Loan Calculator for India (2026-27)", "Lease a car through your company or buy it on a loan? Compare both after tax, insurance, fuel and resale, with the 2026 perquisite values. Free."),
     "/emi-calculator/": ("EMI Calculator with Part-Payments and Rate Changes", "Work out your EMI, then plan part-payments of any amount at any time and rate changes. See the interest saved and when the loan closes. Free."),
+    "/income-tax-section-finder/": ("Income Tax Section Finder: 1961 Act to 2025 Act", "Find the new section number for 80C, 80D, HRA, 24(b), 87A, Form 16 and more under the Income-tax Act, 2025. Checked against the official text."),
     "/gratuity-calculator/": ("Gratuity Calculator under the New Labour Codes", "Work out your gratuity under the new labour codes: the amount, when you become eligible, how much is tax-free and what staying longer adds. Free."),
     "/sip-calculator/": ("SIP Calculator with Step-Up, Goals and Existing Portfolio", "See what your SIP could grow to, or the SIP you need for a goal, with a yearly step-up and your existing portfolio. After tax and inflation. Free."),
     "/guides/rent-vs-buy/": ("Rent or Buy a Home in India? How to Decide, With Example", "How to compare renting and buying a home in India, what each number in the calculator means and what changes the answer, with a worked example."),
@@ -77,6 +80,9 @@ SEO = {
     "/guides/how-much-sip-do-you-need/": ("How Much SIP Do You Need? Plan a Goal With Step-Up", None),
     "/guides/step-up-sip/": ("Step-Up SIP: How a 10% Yearly Increase Adds Up", None),
     "/guides/how-mutual-fund-gains-are-taxed/": ("Mutual Fund Tax on Selling: Equity and Debt (2026-27)", None),
+    "/guides/gratuity-new-labour-codes/": ("Gratuity Calculation Under the New Labour Codes (Example)", "How gratuity works under the labour codes: the formula, the new wage rule, how years are counted, when you qualify and the ₹20 lakh tax-free limit."),
+    "/guides/is-rent-really-dead-money/": ("Is Rent Really Dead Money? What Buying Costs You", "Rent isn't the only money you don't get back. Interest, stamp duty, upkeep and selling costs, compared with rent over 12 years."),
+    "/guides/prepay-home-loan-early-or-later/": ("Prepay Home Loan Early or Later? What Timing Saves", "What ₹2 lakh prepaid in year 1, 5, 8, 12 or 16 of a home loan saves, why earlier always saves more, and the real reasons to wait."),
 }
 TITLE_MAX, DESC_MAX = 60, 160
 def check_seo():
@@ -510,7 +516,7 @@ def prepay_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>Not sure how to read the result?</b> Read our guide, <a href="/guides/prepay-home-loan-or-invest/">Prepay your home loan or invest?</a>, worked through one borrower's numbers.</p>
+  <p class="g-callout"><b>Not sure how to read the result?</b> Read our guide, <a href="/guides/prepay-home-loan-or-invest/">Prepay your home loan or invest?</a>, worked through one borrower's numbers. Also read: <a href="/guides/prepay-home-loan-early-or-later/">Prepay now or later? Why the timing matters</a>.</p>
   <h2>How the calculator works</h2>
   <p>Both choices start with the same loan and the same extra money, and run month by month until your loan's original end date.</p>
   <ul><li><strong>Prepay:</strong> the extra goes into the loan every month. Your EMI stays the same, so the loan closes sooner. From then on, your EMI and the extra are invested every month until the original end date.</li>
@@ -731,7 +737,7 @@ def rentbuy_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/rent-vs-buy/">Rent or buy a home in India? How to decide</a>. It walks through every number on this page with a worked example. Also read: <a href="/guides/under-construction-vs-ready-to-move/">Under construction or ready to move?</a> and <a href="/guides/hra-vs-home-loan-tax-benefits/">HRA or home loan tax benefits?</a></p>
+  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/rent-vs-buy/">Rent or buy a home in India? How to decide</a>. It walks through every number on this page with a worked example. Also read: <a href="/guides/is-rent-really-dead-money/">Is rent really dead money?</a>, <a href="/guides/under-construction-vs-ready-to-move/">Under construction or ready to move?</a> and <a href="/guides/hra-vs-home-loan-tax-benefits/">HRA or home loan tax benefits?</a></p>
   <h2>How the calculator works</h2>
   <p>Both choices start with the same money and run month by month for as long as you plan to stay.</p>
   <ul><li><strong>Buy:</strong> you pay the down payment, stamp duty, registration and other costs at the start. Every month you pay the EMI and the owner's costs. At the end you sell, pay selling costs and tax on the gain, and repay any loan left.</li>
@@ -1114,6 +1120,86 @@ SP_TIPS = [
      "Downloads a small CSV file with everything you entered. Use Load my SIP plan to bring it back later and update it. The PDF and Excel reports are for reading; the plan file is for loading back here."),
 ]
 
+def sections_page():
+    faqs = [
+        ("Which Act applies to my income: the 1961 Act or the 2025 Act?",
+         "It depends on when you earned the income. Income earned up to 31 March 2026 (financial year 2025-26) is still taxed under the Income-tax Act, 1961, and you file that return in 2026 using the old section numbers. Income earned from 1 April 2026 falls under the Income-tax Act, 2025, as \"tax year 2026-27\"."),
+        ("Did the tax rates or deduction limits change with the new Act?",
+         "No. The Income-tax Act, 2025 rewrote and renumbered the law but didn't change tax rates. Limits like ₹1.5 lakh for 80C (now section 123), ₹25,000 for health insurance (now 126) and ₹2 lakh for home loan interest (now 22) are the same. The Income Tax Department says the new Act imposes no new tax."),
+        ("What happened to section 80C?",
+         "It's now section 123. The list of what qualifies (PPF, EPF, ELSS, life insurance, home loan principal, tuition fees and so on) moved to Schedule XV. The ₹1.5 lakh limit is unchanged, and it's still available only under the old tax regime."),
+        ("Where did HRA and LTA go?",
+         "House rent allowance (old section 10(13A)) is now Schedule III, Table S. No. 11, with the calculation in rule 279 of the Income-tax Rules, 2026. LTA (old 10(5)) is Schedule III, Table S. No. 8. Both are still available only under the old regime. One change: the 50% \"metro\" HRA rate now also applies to Hyderabad, Pune, Ahmedabad and Bengaluru."),
+        ("Why are gratuity and leave encashment now in section 19?",
+         "The new Act moved most salary-related exemptions into one table in section 19, \"Deductions from salaries\". Gratuity (old 10(10)) is at S. Nos. 3 to 6, leave encashment (old 10(10AA)) at S. Nos. 13 and 14, and the standard deduction (old 16(ia)) at S. No. 2. The tax treatment works the same way as before."),
+        ("What is \"tax year\"?",
+         "The new Act replaces \"previous year\" and \"assessment year\" with a single term, \"tax year\": the financial year in which you earn the income. Income earned from 1 April 2026 to 31 March 2027 is tax year 2026-27, and it's assessed after that year ends, as before."),
+        ("Which of these can I use under the new tax regime?",
+         "Under the new regime (section 202, earlier 115BAC), you can't claim most deductions in sections 122 to 154 (old 80C to 80U), HRA, LTA, professional tax or interest on a home you live in. You can still claim the standard deduction (₹75,000), your employer's NPS contribution (section 124, old 80CCD(2)), gratuity and leave encashment exemptions, and the rebate up to ₹12 lakh. Use the \"Works in the new regime\" filter to see them."),
+    ("Is this list complete?",
+         "No. We list about 60 sections that matter to salaried people, each checked against the section text on the Income Tax Department's website. The new Act has 536 sections. For anything else, use the department's own mapping utility on incometaxindia.gov.in."),
+    ]
+    tries = ["80C", "HRA", "24(b)", "80D", "87A", "Form 16", "gratuity", "115BAC"]
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your tax</p>
+  <h1>Income tax section finder: old sections to the new Act</h1>
+  <p class="lead">From 1 April 2026, almost every income tax section has a new number. Type an old section like 80C or a word like HRA, and see where it is in the Income-tax Act, 2025.</p>
+  {badges("Checked against incometaxindia.gov.in")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap sf">
+  <div class="card sf-box">
+    <label class="lbl" for="sfQ" id="sfQLbl">Old section number or what you're looking for</label>
+    <div class="sf-in"><input id="sfQ" type="search" autocomplete="off" spellcheck="false" placeholder="e.g. 80C, HRA, home loan, Form 16"><button type="button" class="btn-sm btn-ghost" id="sfClear" hidden>Clear</button></div>
+    <p class="hint">Try: {" ".join(f'<a href="#" data-try="{t}">{t}</a>' for t in tries)}. You can also type a new section number, like 123.</p>
+    <div class="sf-chips" id="sfChips" role="group" aria-label="Show sections about"></div>
+    <div class="sf-regs" role="group" aria-labelledby="sfRegLbl"><span class="lbl" id="sfRegLbl">Tax regime</span><div class="seg row"><button type="button" data-f="any">Any</button><button type="button" data-f="new">Works in the new regime</button><button type="button" data-f="old">Old regime only</button></div></div>
+  </div>
+  <div class="sf-when">
+    <div><b>Income up to 31 March 2026</b><span>Income-tax Act, 1961: the old numbers. Your return for 2025-26, filed in 2026, still uses them.</span></div>
+    <div><b>Income from 1 April 2026</b><span>Income-tax Act, 2025: the new numbers, for tax year 2026-27 onwards.</span></div>
+  </div>
+  <p class="hint" id="sfCount" aria-live="polite"></p>
+  <div class="sf-list" id="sfList"></div>
+  <div class="actions sf-tools">
+    <button type="button" class="btn-sm" id="sfShare">Copy link to this search</button>
+  </div>
+  <p class="status" id="sfStatus" role="status"></p>
+</div></section>
+{related("/income-tax-section-finder/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <h2>How to read the new section numbers</h2>
+  <ul>
+    <li><strong>Plain numbers.</strong> The new Act has no lettered sections like 80C or 80CCD(1B). Deductions are sections 122 to 154.</li>
+    <li><strong>Tables and schedules.</strong> Many rules now sit in a table inside a section, or in a schedule at the end of the Act. \"19(1), Table S. No. 2\" means serial number 2 of the table in section 19(1).</li>
+    <li><strong>Same benefits.</strong> Limits and conditions carried over. What changed is where they're written.</li>
+    <li><strong>Forms renumbered too.</strong> Form 16 is now Form 130 and Form 12BB is Form 124.</li>
+    <li><strong>Old or new regime.</strong> Each section shows whether you can use it under both tax regimes or only the old one. Tap the label for what it means. Under the new regime (section 202), most deductions, HRA, LTA, professional tax and interest on a home you live in aren't allowed; the standard deduction and your employer's NPS contribution are.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Every mapping, and which regime each one applies under (section 202(2)), was checked against the section text of the Income-tax Act, 2025 (as amended by the Finance Act, 2026) on the <a href="https://www.incometaxindia.gov.in/" rel="noopener">Income Tax Department's website</a>, on 14 November 2026, along with the department's FAQs on the transition and on Forms 124 and 130. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+"""
+    graph = [{"@type": "WebApplication", "name": "Income Tax Section Finder", "url": SITE + "/income-tax-section-finder/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Find the Income-tax Act, 2025 section for any common Income-tax Act, 1961 section, such as 80C, 80D, HRA and 24(b).", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "sf", SF_TIPS)
+    return layout("/income-tax-section-finder/", "Income Tax Section Finder: 1961 Act to 2025 Act",
+                  "Find the new section number for 80C, 80D, HRA, 24(b), 87A, Form 16 and more under the Income-tax Act, 2025. Checked against the official text.",
+                  body, crumbs=[("/", "Home"), ("/income-tax-section-finder/", "Section Finder")], graph=graph,
+                  css=("tool.css",), js=("sections.js",), og="og-income-tax-section-finder.png", og_title="Income tax section finder: old sections to the new Act")
+
+SF_TIPS = [
+    ("""<label class="lbl" for="sfQ" id="sfQLbl">Old section number or what you're looking for</label>""", "searching",
+     "Type an old section (80C, 10(13A), 24(b)), a new one (123), a form (Form 16) or plain words (health insurance, home loan). Brackets and spaces don't matter."),
+]
+
 def gratuity_page():
     faqs = [
         ("How is gratuity calculated?",
@@ -1125,7 +1211,7 @@ def gratuity_page():
         ("What changed with the new labour codes?",
          "From 21 November 2025, gratuity is under section 53 of the Code on Social Security, 2020. Two changes matter most. Fixed-term employees now qualify after 1 year. And \"wages\" has a new definition: if your allowances (everything other than basic, DA and retaining allowance) are more than half your total pay, the excess counts as wages. So wages are at least half your total pay, which raises gratuity for anyone whose basic is a small part of their pay."),
         ("Is my gratuity taxed?",
-         "Gratuity up to ₹20 lakh over your whole career is tax-free for private-sector employees, under section 19 of the Income-tax Act, 2025 (earlier section 10(10) of the 1961 Act). This applies under both the old and new tax regimes. Anything above the limit is added to your salary for the year and taxed at your slab rate. Gratuity for central and state government employees is fully tax-free."),
+         "Gratuity up to ₹20 lakh over your whole career is tax-free for private-sector employees, under section 19 of the Income-tax Act, 2025 (earlier section 10(10) of the 1961 Act). This applies under both the old and new tax regimes. Anything above the limit is added to your salary for the year and taxed at your slab rate. Gratuity for central and state government employees is fully tax-free. One open point: for employees covered by gratuity law, the tax rule still refers to the old Payment of Gratuity Act, 1972, so it hasn't been clarified whether the extra gratuity from the new wage rule is fully tax-free. We show it as tax-free, up to the limit."),
         ("Does service before 21 November 2025 count under the new wage rule?",
          "This hasn't been settled clearly yet. Your service before that date still counts towards your years. What's unclear is whether the wider definition of wages applies to gratuity for those earlier years. We show your gratuity under both the old rule (basic + DA) and the labour codes, so you can see the range. Check with your employer how they're paying it."),
         ("What if my employer isn't covered by the Code?",
@@ -1193,6 +1279,7 @@ def gratuity_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>New to gratuity?</b> Read our guide, <a href="/guides/gratuity-new-labour-codes/">Gratuity under the new labour codes</a>, worked through one employee's numbers.</p>
   <h2>How the calculator works</h2>
   <ul>
     <li><strong>Years counted:</strong> your completed years, plus one more if the part-year is over six months.</li>
@@ -1202,7 +1289,7 @@ def gratuity_page():
     <li><strong>Stay longer:</strong> the next date your counted years go up, and what that adds.</li>
   </ul>
   <h2 id="sources">Sources</h2>
-  <p>Gratuity: section 53 of the <a href="https://labour.gov.in/" rel="noopener">Code on Social Security, 2020</a>, in force from 21 November 2025. Tax: section 19 of the <a href="https://www.incometaxindia.gov.in/" rel="noopener">Income-tax Act, 2025</a> (Table, S. No. 3: death-cum-retirement gratuity), which replaces section 10(10) of the 1961 Act. Checked for tax year {TAX_YEAR}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <p>Gratuity: section 53 of the <a href="https://labour.gov.in/" rel="noopener">Code on Social Security, 2020</a>, in force from 21 November 2025. Tax: section 19 of the <a href="https://www.incometaxindia.gov.in/" rel="noopener">Income-tax Act, 2025</a> (Table: S. No. 3 for government employees, S. No. 5 for employees covered by gratuity law, S. No. 6 for others), which replaces section 10(10) of the 1961 Act. Checked for tax year {TAX_YEAR}. Read <a href="/methodology/">how we check our numbers</a>.</p>
   <h2>Frequently asked questions</h2>
   {faq_html(faqs)}
 </div></section>
@@ -1338,7 +1425,7 @@ def emi_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to part-payments?</b> Read our guide, <a href="/guides/how-part-payments-cut-your-home-loan/">How part-payments cut your home loan</a>, worked through one ₹50 lakh loan.</p>
+  <p class="g-callout"><b>New to part-payments?</b> Read our guide, <a href="/guides/how-part-payments-cut-your-home-loan/">How part-payments cut your home loan</a>, worked through one ₹50 lakh loan. Also read: <a href="/guides/prepay-home-loan-early-or-later/">Prepay now or later? Why the timing matters</a>.</p>
   <h2>How the calculator works</h2>
   <p>Each month, interest is charged on the loan still left, at the rate for that month. Your EMI pays that interest first, and the rest reduces the loan. This is the reducing-balance method banks use for home, car and personal loans.</p>
   <ul>
@@ -1596,6 +1683,15 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/plan-for-school-fees-and-yearly-costs/", "How to plan for school fees and other yearly costs",
      "List your yearly costs, turn them into one monthly set-aside, give them their own account and time it right, with an example family's month-by-month plan.",
      "2026-11-13", "guide-yearly-costs", "Your money"),
+    ("/guides/gratuity-new-labour-codes/", "Gratuity under the new labour codes: how much you'll get, with an example",
+     "How gratuity is worked out under the labour codes, what counts as wages now, how your years are counted, when you qualify and how much is tax-free, worked through one employee's numbers.",
+     "2026-11-14", "guide-gratuity", "Your pay"),
+    ("/guides/is-rent-really-dead-money/", "Is rent really dead money? What buying costs that you never get back",
+     "Rent is money you don't get back, but so is most of what a buyer spends: interest, stamp duty, upkeep and selling costs. How the two compare over 12 years.",
+     "2026-11-14", "guide-rent-dead-money", "Your home"),
+    ("/guides/prepay-home-loan-early-or-later/", "Prepay your home loan now or later? Why the timing matters",
+     "What a ₹2 lakh part-payment saves in year 1, 5, 8, 12 or 16 of a home loan, why earlier always saves more, and the real reasons to wait.",
+     "2026-11-14", "guide-prepay-timing", "Your loans"),
     ("/guides/how-much-sip-do-you-need/", "How much SIP do you need? Plan a goal with a step-up",
      "Turn a goal into a monthly SIP: put a number on it, add inflation, work out the SIP, and see how a step-up, an existing portfolio and returns change it.",
      "2026-11-14", "guide-sip-goal", "Your investments"),
@@ -2644,18 +2740,19 @@ def catalog():
         ("Your time off", [("/leave-planner-2027/", "Leave Planner 2027", "Turn your leave into the longest breaks of 2027, around central, state or your company's holidays.", True, "",
                             ["/guides/long-weekends-2027/", "/guides/restricted-holidays-2027/", "/guides/best-months-for-a-week-long-break-2027/", "/guides/long-weekends-2027-six-day-week/"])]),
         ("Your pay", [("/ctc-to-in-hand/", "CTC to in-hand, and your hike", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", []),
-                      ("/gratuity-calculator/", "Gratuity Calculator", "Your gratuity under the new labour codes, how much is tax-free, and what staying longer adds.", L("/gratuity-calculator/"), "Coming soon", [])]),
-        ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/"]),
+                      ("/gratuity-calculator/", "Gratuity Calculator", "Your gratuity under the new labour codes, how much is tax-free, and what staying longer adds.", L("/gratuity-calculator/"), "Coming soon", ["/guides/gratuity-new-labour-codes/"])]),
+        ("Your tax", [("/income-tax-section-finder/", "Income Tax Section Finder", "Old section numbers like 80C, HRA and 24(b), and where they are in the Income-tax Act, 2025.", L("/income-tax-section-finder/"), "Coming soon", [])]),
+        ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/", "/guides/prepay-home-loan-early-or-later/"]),
                         ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", ["/guides/how-part-payments-cut-your-home-loan/"])]),
         ("Your investments", [("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", ["/guides/how-much-sip-do-you-need/", "/guides/step-up-sip/", "/guides/how-mutual-fund-gains-are-taxed/"])]),
         ("Your home", [("/rent-vs-buy/", "Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax.", True, "",
-                        ["/guides/rent-vs-buy/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/"])]),
+                        ["/guides/rent-vs-buy/", "/guides/is-rent-really-dead-money/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/"])]),
         ("Your money", [("/budget-planner/", "Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides.", True, "",
                          ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/", "/guides/plan-for-school-fees-and-yearly-costs/"])]),
         ("Your car", [("/company-car-lease-vs-loan/", "Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.", L("/company-car-lease-vs-loan/"), "Coming soon",
                        ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/"])]),
     ]
-QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + ["FD, PPF and RD"] + (["Gratuity"] if not GRATUITY_LIVE else []) + ["Old vs new regime", "HRA exemption", "Vehicle ownership cost", "Old-to-new section finder"]
+QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + ["FD, PPF and RD"] + (["Gratuity"] if not GRATUITY_LIVE else []) + ["Old vs new regime", "HRA exemption", "Vehicle ownership cost"] + (["Old-to-new section finder"] if not SECTIONS_LIVE else [])
 
 def quick_chips():
     live = "".join(f'<a class="qchip" href="{u}">{n}</a>' for u, n in LIVE_TOOLS if u in QUICK_TOOLS)
@@ -2673,7 +2770,7 @@ def _gslug(path): return path.strip("/").split("/")[-1]
 def tools_index():
     gtitle = {g[0]: g[1] for g in GUIDES}
     icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
-    IC = {"Your investments": "I_GROW", "Your time off": "I_CAL", "Your pay": "I_PAY", "Your loans": "I_LOAN", "Your home": "I_HOME", "Your money": "I_WALLET", "Your car": "I_CAR"}
+    IC = {"Your investments": "I_GROW", "Your time off": "I_CAL", "Your pay": "I_PAY", "Your loans": "I_LOAN", "Your home": "I_HOME", "Your money": "I_WALLET", "Your car": "I_CAR", "Your tax": "I_TAX"}
     cards = ""
     for grp, items in sorted(catalog(), key=lambda g: not all(x[3] for x in g[1])):
         for p, n, d, live, st, gl in items:
@@ -3030,6 +3127,189 @@ def guide_sip_step():
 """
     return article(path, "x", "Step-up SIP", body, "Step-up SIP")
 
+def guide_gratuity():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_gratuity_numbers.js")]))
+    B, N, S1, S2, E6, E19, F, P4, T = G["base"], G["next"], G["sep1"], G["sep2"], G["earlier6"], G["earlier19"], G["fixed"], G["perm4"], G["table"]
+    path = "/guides/gratuity-new-labour-codes/"
+    rows = "".join(f"<tr><th scope=\"row\">{t['pct']}% of pay ({_inr(t['basic'])})</th><td data-l=\"Old rule: basic + DA\">{_inr(t['old'])}</td><td data-l=\"Labour codes\"><strong>{_inr(t['now'])}</strong></td><td data-l=\"Difference\">{'+' + _inr(t['now'] - t['old']) if t['now'] > t['old'] else 'None'}</td></tr>" for t in T)
+    toc = [("short-answer", "The short answer"), ("formula", "The formula"), ("wages", "What counts as wages now"), ("example", "Neha's gratuity, worked out"),
+           ("years", "How your years are counted"), ("eligible", "When you qualify"), ("tax", "How much is tax-free"), ("check", "Before you resign: a checklist"), ("method", "Sources")]
+    body = guide_head(path, "Gratuity is the lump sum your employer pays when you leave after years of service. The labour codes that took effect on 21 November 2025 changed what counts as wages, which raises gratuity for many salaried people. Here's how to work out yours, with one employee's numbers.",
+                      "A briefcase beside coin stacks that grow with each year of service").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Gratuity is 15 days' wages for every year you've worked: <strong>monthly wages × 15 ÷ 26 × years</strong>. Under the labour codes, your wages for gratuity are at least half your total pay, even if your basic is lower. For Neha, with a ₹50,000 basic in a ₹1.2 lakh salary and 7 years 8 months of service, that's <strong>{_inr(B['grat'])}</strong>, against {_inr(B['gratOld'])} under the old basic-only rule.</p>
+<p class="g-cta"><a class="btn" href="/gratuity-calculator/">Work out your gratuity</a></p>
+
+<h2 id="formula">The formula</h2>
+<p>Under section 53 of the Code on Social Security, 2020, gratuity is:</p>
+<p class="g-formula"><strong>Last drawn monthly wages × 15 ÷ 26 × years of service</strong></p>
+<p>The 26 is the number of working days in a month, so 15 ÷ 26 is 15 days' pay. The most an employer has to pay is ₹20 lakh, though some pay more under their own policy.</p>
+
+<h2 id="wages">What counts as wages now</h2>
+<p>Wages for gratuity are your basic pay plus dearness allowance (DA). The change is a floor: if your other allowances (HRA, special allowance, conveyance and so on) add up to more than half your total pay, the excess is counted as wages too. In practice, <strong>your wages for gratuity are the higher of your basic + DA, or half your total pay</strong>.</p>
+<p>So the lower your basic as a share of your pay, the more the new rule adds. For a ₹1.2 lakh monthly salary and 8 years of service:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Basic + DA</th><th scope="col">Old rule: basic + DA</th><th scope="col">Labour codes</th><th scope="col">Difference</th></tr></thead><tbody>{rows}</tbody></table></div>
+<p>If your basic is already half your pay or more, nothing changes.</p>
+
+<h2 id="example">Neha's gratuity, worked out</h2>
+<p>Neha joined on 1 March 2019 and is leaving on 14 November 2026. Her basic is ₹50,000 and her total monthly pay is ₹1,20,000.</p>
+<ol class="g-check">
+  <li><strong>Service:</strong> 7 years, 8 months and 13 days. The part-year is more than six months, so it counts as <strong>8 years</strong>.</li>
+  <li><strong>Wages:</strong> her basic (₹50,000) is less than half her pay (₹60,000), so her wages for gratuity are <strong>₹60,000</strong>.</li>
+  <li><strong>Gratuity:</strong> ₹60,000 × 15 ÷ 26 × 8 = <strong>{_inr(B['grat'])}</strong>.</li>
+  <li><strong>Under the old rule</strong> it would have been ₹50,000 × 15 ÷ 26 × 8 = {_inr(B['gratOld'])}, so the new rule adds {_inr(B['grat'] - B['gratOld'])}.</li>
+</ol>
+
+<h2 id="years">How your years are counted</h2>
+<p>A part-year of <strong>more than six months</strong> counts as a full year. That makes the exact date you leave matter:</p>
+<ul>
+  <li>Had Neha left on 1 September 2026 (exactly 7 years 6 months), she'd get {_inr(S1['grat'])}, for 7 years.</li>
+  <li>Leaving one day later, on 2 September, her service counts as 8 years: {_inr(S2['grat'])}, about {_inr(S2['grat'] - S1['grat'])} more.</li>
+  <li>From today, her next step-up is on {_date(N['date'])}. Staying until then adds about {_inr(N['gain'])}.</li>
+</ul>
+<p>If you're planning to resign, check how close you are to the next half-year. The <a href="/gratuity-calculator/">gratuity calculator</a> shows the date and the amount.</p>
+
+<h2 id="eligible">When you qualify</h2>
+<ul>
+  <li><strong>Permanent employees</strong> need 5 years of continuous service. Rounding doesn't help here: 4 years 8 months isn't 5 years. Someone who joined on 1 March 2022 qualifies on {_date(P4['eligibleOn'])}.</li>
+  <li><strong>Fixed-term (contract) employees</strong> qualify after just 1 year, a change made by the labour codes. A fixed-term employee on Neha's pay with 1 year 8 months of service would get {_inr(F['grat'])}.</li>
+  <li><strong>On death or disablement</strong>, gratuity is paid whatever the length of service.</li>
+</ul>
+
+<h2 id="tax">How much is tax-free</h2>
+<p>For private-sector employees, gratuity is tax-free up to <strong>₹20 lakh over your whole career</strong>, not per job, under section 19 of the Income-tax Act, 2025 (earlier section 10(10) of the 1961 Act). This applies under both the old and new tax regimes. Gratuity for central and state government employees is fully tax-free.</p>
+<p>That's why the calculator asks for the gratuity you've received earlier. If Neha had already received ₹6 lakh tax-free from a past job, ₹14 lakh of her limit would be left, and her {_inr(B['grat'])} would still be fully tax-free. If she'd already had ₹19 lakh, only {_inr(E19['exempt'])} would be tax-free and {_inr(E19['taxable'])} would be added to her salary and taxed at her slab rate.</p>
+<p class="g-note"><strong>One open point.</strong> For employees covered by gratuity law, the tax rule (section 19, Table S. No. 5) still refers to the Payment of Gratuity Act, 1972, which the Code replaced. It hasn't been clarified whether the extra gratuity from the new wage rule is fully tax-free. We treat it as tax-free up to the limit; if your gratuity is large, ask your employer how they'll report it.</p>
+
+<h2 id="check">Before you resign: a checklist</h2>
+<ol class="g-check">
+  <li>Find your exact joining date and your basic + DA on your latest payslip.</li>
+  <li>Work out your total monthly pay (leave out bonus and your employer's PF).</li>
+  <li>Check whether a few more weeks would take you past a half-year mark.</li>
+  <li>Add up any gratuity you've received from past employers, for the tax-free limit.</li>
+  <li>Ask HR whether they've paid gratuity on the new wage definition. Some are still working this out for service before 21 November 2025.</li>
+</ol>
+<p>Then put your numbers into the <a href="/gratuity-calculator/">gratuity calculator</a>. If you're switching jobs, the <a href="/budget-planner/">budget planner</a> helps plan for the gap.</p>
+
+<h2 id="method">Sources</h2>
+<p>Gratuity rules: section 53 of the Code on Social Security, 2020 (<a href="https://labour.gov.in/" rel="noopener">Ministry of Labour and Employment</a>), in force from 21 November 2025. Tax: section 19 of the Income-tax Act, 2025, Table S. Nos. 3 to 6, checked on the <a href="https://www.incometaxindia.gov.in/" rel="noopener">Income Tax Department's website</a> for tax year {TAX_YEAR}. All amounts come from the <a href="/gratuity-calculator/">gratuity calculator</a>. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. It isn't legal or tax advice; your employer's policy and your employment contract also matter.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Gratuity under the new labour codes", body, "Gratuity under the labour codes")
+
+def guide_rent_dead():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_rent_dead_numbers.js")]))
+    b, g8, bw = G["base"], G["grow8"], G["buyWins"]
+    path = "/guides/is-rent-really-dead-money/"
+    toc = [("short-answer", "The short answer"), ("rent", "What the renter never gets back"), ("buy", "What the buyer never gets back"), ("gain", "What the buyer gets back"),
+           ("result", "Who ends up ahead"), ("when", "When buying does win"), ("method", "How these numbers were worked out")]
+    sunk_rows = "".join(f"<tr><th scope=\"row\">{n}</th><td data-l=\"Amount\">{_L(v)}</td></tr>" for n, v in [
+        ("Interest on the home loan", b["interest"]), ("Stamp duty, registration and other buying costs", b["upfrontCosts"]), ("Maintenance, property tax and insurance", b["own"]),
+        ("Selling costs (1%)", b["sellCost"]), ("Capital gains tax on selling", b["propTax"])])
+    body = guide_head(path, "\"Why pay rent when an EMI builds an asset?\" is the most common argument for buying a home. But buying has costs you never get back too. Here's how they compare over 12 years, worked out with the Salarist Rent or Buy calculator.",
+                      "A balance weighing a house against a pile of rupee notes").replace("TYPE_LINE", "")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Rent is money you don't get back, but so is most of what a buyer spends in the early years: loan interest, stamp duty, upkeep and, at the end, selling costs and tax. In our example, over 12 years the renter pays <strong>{_L(b['rentPaid'])}</strong> in rent; the buyer pays <strong>{_L(b['buySunk'])}</strong> in costs that don't come back. Whether buying wins depends on how much the home's value grows, and on what the renter does with the money they don't put into the home.</p>
+<p class="g-cta"><a class="btn" href="/rent-vs-buy/">Check your own numbers</a></p>
+
+<h2 id="rent">What the renter never gets back</h2>
+<p>Arjun can rent a flat for ₹24,000 a month, or buy a similar one for ₹90 lakh with a ₹72 lakh loan at 8.5% for 20 years. Rent rises 5% a year. Over 12 years, he'd pay <strong>{_L(b['rentPaid'])}</strong> in rent. That's the "dead money".</p>
+
+<h2 id="buy">What the buyer never gets back</h2>
+<p>If he buys, his EMI is {_inr(b['emi'])} a month. In the first year, {_L(b['y1Interest'])} of the {_L(b['y1Emi'])} he pays in EMIs is interest; only the rest repays the loan. Over 12 years, the costs he won't get back add up like this:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Cost</th><th scope="col">Amount over 12 years</th></tr></thead><tbody>{sunk_rows}
+<tr><th scope="row"><strong>Total</strong></th><td data-l="Amount"><strong>{_L(b['buySunk'])}</strong></td></tr></tbody></table></div>
+<p>That's about {b['buySunk'] / b['rentPaid']:.1f} times the rent. Interest alone is more than all the rent he'd pay.</p>
+
+<h2 id="gain">What the buyer gets back</h2>
+<p>The buyer's money isn't all spent, of course. The down payment and the loan he's repaid are in the home, and the home grows in value. At 6% a year, Arjun's flat would be worth about {_L(b['home'])} after 12 years, a rise of {_L(b['gainOnHome'])}.</p>
+<p>The renter's money isn't idle either. The ₹26.1 lakh the buyer puts in on day one (down payment plus costs), and the gap each month between the EMI and the rent, can be invested instead. That's the half of the comparison the "rent is dead money" argument leaves out.</p>
+
+<h2 id="result">Who ends up ahead</h2>
+<p>Putting it all together, with the renter's savings earning 12% a year in equity funds:</p>
+<ul>
+  <li><strong>With home prices growing 6% a year,</strong> the renter ends up about <strong>{_L(b['diff'])}</strong> ahead after 12 years.</li>
+  <li><strong>With prices growing 8% a year,</strong> the renter is still about {_L(g8['diff'])} ahead.</li>
+  <li><strong>Buying breaks even</strong> when prices grow about {b['be']['rate']:.1f}% a year.</li>
+</ul>
+
+<h2 id="when">When buying does win</h2>
+<p>Buying comes out ahead when you stay longer, the home grows faster or your investments would earn less. If Arjun keeps the flat for 15 years, prices grow 8% a year and his investments would earn 10%, buying puts him about <strong>{_L(-bw['diff'])}</strong> ahead.</p>
+<p>And some reasons to buy aren't in the numbers at all: not having to move, making the home your own, and the forced saving that EMIs bring. So rent isn't dead money, and neither is buying a mistake. They're two ways of paying for a roof, and the cheaper one depends on your numbers.</p>
+<p>Try yours in the <a href="/rent-vs-buy/">Rent or Buy calculator</a>, and read the full worked example in <a href="/guides/rent-vs-buy/">Rent or buy a home in India?</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>All figures come from the <a href="/rent-vs-buy/">Rent or Buy calculator</a>, with Arjun's numbers from our main guide: ₹90 lakh flat, ₹18 lakh down payment, 7% stamp duty, 8.5% loan for 20 years, ₹48,000 a year in owner's costs, sold after 12 years with 1% selling costs and capital gains tax for tax year {TAX_YEAR}, new tax regime. Growth and returns are assumptions, not predictions. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't investment or financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Is rent really dead money?", body, "Is rent dead money?")
+
+def guide_prepay_timing():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_prepay_timing_numbers.js")]))
+    W, SH = G["when"], G["share"]
+    w = {x["y"]: x for x in W}; sh = {x["y"]: x for x in SH}
+    path = "/guides/prepay-home-loan-early-or-later/"
+    rows = "".join(f"<tr><th scope=\"row\">Year {x['y']}</th><td data-l=\"Interest saved\"><strong>{_L(x['saved'])}</strong></td><td data-l=\"Loan ends earlier by\">{x['months']} months</td><td data-l=\"Saved per ₹1 prepaid\">₹{x['perRupee']:.2f}</td></tr>" for x in W)
+    share_rows = "".join(f"<tr><th scope=\"row\">Year {x['y']}</th><td data-l=\"Interest\">{_L(x['interest'])}</td><td data-l=\"Principal\">{_L(x['principal'])}</td><td data-l=\"Share that's interest\">{round(x['pct'] * 100)}%</td></tr>" for x in SH)
+    toc = [("short-answer", "The short answer"), ("heavy", "Why early EMIs are mostly interest"), ("table", "₹2 lakh, prepaid in different years"), ("why", "Why earlier saves more"),
+           ("wait", "Is there any reason to wait?"), ("tax", "If you claim the home loan deduction"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Some people wait for the \"interest-heavy years\" to pass before they prepay, others rush to prepay in year one. Here's what the timing of a part-payment actually changes, worked out with the Salarist EMI calculator on a ₹50 lakh loan.",
+                      "A calendar with an early month circled and a shrinking loan bar").replace("TYPE_LINE", "")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>The earlier you prepay, the more you save. ₹2 lakh prepaid in the first year of a ₹50 lakh, 20-year loan at 8.5% saves about <strong>{_L(w[1]['saved'])}</strong> in interest and ends the loan {w[1]['months']} months early. The same ₹2 lakh in year 12 saves about {_L(w[12]['saved'])}. There's no benefit in waiting for the interest-heavy years to pass; they're the reason to prepay sooner.</p>
+<p class="g-cta"><a class="btn" href="/emi-calculator/">Try a part-payment</a></p>
+
+<h2 id="heavy">Why early EMIs are mostly interest</h2>
+<p>Each month, the bank charges interest on what you still owe, and the rest of your EMI repays the loan. At the start you owe the most, so most of the EMI is interest. On this loan, with an EMI of {_inr(G['emi'])}:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Year of the loan</th><th scope="col">Interest paid</th><th scope="col">Principal repaid</th><th scope="col">Share that's interest</th></tr></thead><tbody>{share_rows}</tbody></table></div>
+
+<h2 id="table">₹2 lakh, prepaid in different years</h2>
+<p>Here's what a single ₹2 lakh part-payment does, depending on when you make it. You keep paying the same EMI, so the loan simply ends sooner:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Prepaid in</th><th scope="col">Interest saved</th><th scope="col">Loan ends earlier by</th><th scope="col">Saved per ₹1 prepaid</th></tr></thead><tbody>{rows}</tbody></table></div>
+<p>If you ask the bank to lower your EMI instead and keep the end date, you save less: about {_L(w[1]['savedEmi'])} for a year-1 part-payment.</p>
+
+<h2 id="why">Why earlier saves more</h2>
+<p>Every rupee you prepay stops being charged 8.5% interest, for as long as the loan would have run. Prepay in year 1 and that saving runs for almost 20 years; prepay in year 16 and it runs for about 4. The "return" on a part-payment is always your loan rate. What changes is how many years it works for you.</p>
+<p>That's also why "interest-heavy years" isn't a reason to wait. The interest is heavy because the balance is large, and a part-payment reduces exactly that balance.</p>
+
+<h2 id="wait">Is there any reason to wait?</h2>
+<p>A few, and none of them is the interest schedule:</p>
+<ul>
+  <li><strong>An emergency fund comes first.</strong> Money in your loan is hard to get back. Keep 4 to 6 months of expenses aside before you prepay.</li>
+  <li><strong>Costlier debt comes first.</strong> Clear credit card dues or a personal loan before you prepay a home loan.</li>
+  <li><strong>Investing might do better.</strong> If you'd invest the money for the long term and expect to earn more than your loan rate after tax, investing can come out ahead. The <a href="/prepay-vs-invest/">Prepay or Invest calculator</a> compares the two.</li>
+</ul>
+
+<h2 id="tax">If you claim the home loan deduction</h2>
+<p>Under the old tax regime, you can deduct up to ₹2 lakh a year of interest on a home you live in, under section 22 of the Income-tax Act, 2025 (old section 24(b)). In the early years this loan's interest is well above ₹2 lakh (about {_L(sh[1]['interest'])} in year 1), so prepaying doesn't reduce your deduction at all: you still claim the full ₹2 lakh. Later, once yearly interest drops below ₹2 lakh (around year 15 on this loan), every rupee of interest you save also trims the deduction a little. That's one more reason earlier is better. Under the new regime there's no deduction for a home you live in, so it doesn't matter.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>All figures come from the <a href="/emi-calculator/">EMI calculator</a>: a ₹50 lakh loan at 8.5% for 20 years, with the first EMI in December 2026 and a ₹2 lakh part-payment made right after the first EMI of the year shown, keeping the EMI the same. The rate is assumed not to change. Read the full <a href="/guides/how-part-payments-cut-your-home-loan/">guide to part-payments</a> and <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't financial advice. Check your loan's prepayment terms with your lender.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Prepay your home loan early or later?", body, "Prepay early or later?")
+
 def guide_mf_tax():
     import subprocess
     G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_sip_numbers.js")]))
@@ -3207,6 +3487,7 @@ def main():
     if EMI_LIVE: write("/emi-calculator/", emi_page())
     if SIP_LIVE: write("/sip-calculator/", sip_page())
     if GRATUITY_LIVE: write("/gratuity-calculator/", gratuity_page())
+    if SECTIONS_LIVE: write("/income-tax-section-finder/", sections_page())
     write("/guides/", guides_index())
     write("/tools/", tools_index())
     write("/guides/rent-vs-buy/", guide_rentbuy())
@@ -3227,9 +3508,12 @@ def main():
     write("/guides/how-much-sip-do-you-need/", guide_sip_goal())
     write("/guides/step-up-sip/", guide_sip_step())
     write("/guides/how-mutual-fund-gains-are-taxed/", guide_mf_tax())
+    write("/guides/gratuity-new-labour-codes/", guide_gratuity())
+    write("/guides/is-rent-really-dead-money/", guide_rent_dead())
+    write("/guides/prepay-home-loan-early-or-later/", guide_prepay_timing())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime

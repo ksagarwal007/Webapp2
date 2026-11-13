@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A balance weighing a house against a pile of rupee notes">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+  <rect x="790" y="300" width="20" height="420" rx="10" fill="#FFFFFF"/>
+  <path d="M700 760 h200 l-40 -40 h-120 z" fill="#FFFFFF"/>
+  <rect x="380" y="300" width="840" height="18" rx="9" fill="#FFFFFF" transform="rotate(-4 800 309)"/>
+  <circle cx="800" cy="300" r="26" fill="#FFD27A"/>
+  <g transform="translate(400 120)">
+    <path d="M0 140 L120 40 L240 140 Z" fill="#FFD27A"/>
+    <rect x="30" y="140" width="180" height="140" rx="8" fill="#FFFFFF"/>
+    <rect x="100" y="200" width="44" height="80" rx="6" fill="#1F5FE0"/>
+  </g>
+  <g transform="translate(1010 140) rotate(-4)">
+    <rect x="0" y="120" width="220" height="44" rx="8" fill="#9FE3B8"/>
+    <rect x="10" y="76" width="220" height="44" rx="8" fill="#BDF0CF"/>
+    <rect x="-6" y="32" width="220" height="44" rx="8" fill="#9FE3B8"/>
+    <circle cx="110" cy="54" r="12" fill="#0B2A6B" opacity=".25"/><circle cx="120" cy="98" r="12" fill="#0B2A6B" opacity=".25"/><circle cx="110" cy="142" r="12" fill="#0B2A6B" opacity=".25"/>
+  </g>
+</svg>

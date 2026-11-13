@@ -142,6 +142,7 @@
         "A part-year of more than six months counts as a full year.",
       "Wages are basic + DA (and retaining allowance). If your other allowances are more than half your total pay, the excess counts as wages, so wages are at least half of total pay. We use the total monthly pay you enter for this.",
       "How service before 21 November 2025 is treated under the new wage rule is still being clarified. Some employers use the old basic + DA for those years; we show both figures.",
+      "For employees covered by gratuity law, the tax rule (section 19 of the Income-tax Act, 2025, Table S. No. 5) still refers to the Payment of Gratuity Act, 1972, which the Code replaced. Whether the extra gratuity from the new wage rule is fully tax-free hasn't been clarified. We show it as tax-free, up to the limit.",
       "The ₹20 lakh tax-free limit is for your whole career, across all employers, under section 19 of the Income-tax Act, 2025 (earlier section 10(10)). It applies under both tax regimes. Taxable gratuity is added to your salary and taxed at your slab rate."];
     return n;
   }

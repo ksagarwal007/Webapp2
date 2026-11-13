@@ -1,7 +1,7 @@
 {
  "/": {
   "date": "2026-11-14",
-  "hash": "683126bbb50b40df"
+  "hash": "67a5e58d89c8bbc0"
  },
  "/about/": {
   "date": "2026-11-14",
@@ -25,15 +25,15 @@
  },
  "/emi-calculator/": {
   "date": "2026-11-14",
-  "hash": "bfcdc4647e476559"
+  "hash": "ec0cfabacd537765"
  },
  "/gratuity-calculator/": {
   "date": "2026-11-14",
-  "hash": "29d8915a979ac70f"
+  "hash": "e8d48ea8260bed40"
  },
  "/guides/": {
   "date": "2026-11-14",
-  "hash": "2b69e192445170a3"
+  "hash": "f5b1740eab0a4897"
  },
  "/guides/best-months-for-a-week-long-break-2027/": {
   "date": "2026-11-14",
@@ -55,6 +55,10 @@
   "date": "2026-11-14",
   "hash": "1ae2e487cf27726d"
  },
+ "/guides/gratuity-new-labour-codes/": {
+  "date": "2026-11-14",
+  "hash": "45acdbcbc0f599d2"
+ },
  "/guides/how-much-sip-do-you-need/": {
   "date": "2026-11-14",
   "hash": "db04299d02e25f9a"
@@ -71,6 +75,10 @@
   "date": "2026-11-14",
   "hash": "b364b0233afcf284"
  },
+ "/guides/is-rent-really-dead-money/": {
+  "date": "2026-11-14",
+  "hash": "465525b21c9ba42b"
+ },
  "/guides/long-weekends-2027-six-day-week/": {
   "date": "2026-11-14",
   "hash": "b3c5011e9c196a7c"
@@ -86,6 +94,10 @@
  "/guides/plan-for-school-fees-and-yearly-costs/": {
   "date": "2026-11-14",
   "hash": "48d240e5d5f792ae"
+ },
+ "/guides/prepay-home-loan-early-or-later/": {
+  "date": "2026-11-14",
+  "hash": "c6eda9ecdf2ed015"
  },
  "/guides/prepay-home-loan-or-invest/": {
   "date": "2026-11-14",
@@ -107,6 +119,10 @@
   "date": "2026-11-14",
   "hash": "70872dc3506a1738"
  },
+ "/income-tax-section-finder/": {
+  "date": "2026-11-14",
+  "hash": "df4bf0bb14cd4b38"
+ },
  "/leave-planner-2027/": {
   "date": "2026-11-14",
   "hash": "3e3b5714b527e057"
@@ -117,7 +133,7 @@
  },
  "/prepay-vs-invest/": {
   "date": "2026-11-14",
-  "hash": "50073cdadc4fd2f7"
+  "hash": "432d56b6ce704f88"
  },
  "/privacy/": {
   "date": "2026-11-13",
@@ -125,7 +141,7 @@
  },
  "/rent-vs-buy/": {
   "date": "2026-11-14",
-  "hash": "b923ea4842a85968"
+  "hash": "c5eb01d74d103fb7"
  },
  "/sip-calculator/": {
   "date": "2026-11-14",
@@ -137,6 +153,6 @@
  },
  "/tools/": {
   "date": "2026-11-14",
-  "hash": "6d5b40082a16f9fe"
+  "hash": "b62b640e33ca7060"
  }
 }
