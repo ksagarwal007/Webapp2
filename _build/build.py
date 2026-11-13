@@ -438,6 +438,7 @@ def prepay_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>Not sure how to read the result?</b> Read our guide, <a href="/guides/prepay-home-loan-or-invest/">Prepay your home loan or invest?</a>, worked through one borrower's numbers.</p>
   <h2>How the calculator works</h2>
   <p>Both choices start with the same loan and the same extra money, and run month by month until your loan's original end date.</p>
   <ul><li><strong>Prepay:</strong> the extra goes into the loan every month. Your EMI stays the same, so the loan closes sooner. From then on, your EMI and the extra are invested every month until the original end date.</li>
@@ -655,7 +656,7 @@ def rentbuy_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/rent-vs-buy/">Rent or buy a home in India? How to decide</a>. It walks through every number on this page with a worked example.</p>
+  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/rent-vs-buy/">Rent or buy a home in India? How to decide</a>. It walks through every number on this page with a worked example. Also read: <a href="/guides/under-construction-vs-ready-to-move/">Under construction or ready to move?</a> and <a href="/guides/hra-vs-home-loan-tax-benefits/">HRA or home loan tax benefits?</a></p>
   <h2>How the calculator works</h2>
   <p>Both choices start with the same money and run month by month for as long as you plan to stay.</p>
   <ul><li><strong>Buy:</strong> you pay the down payment, stamp duty, registration and other costs at the start. Every month you pay the EMI and the owner's costs. At the end you sell, pay selling costs and tax on the gain, and repay any loan left.</li>
@@ -900,6 +901,15 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/monthly-budget/", "How to make a monthly budget on a salary in India, with a worked example",
      "A simple way to budget on a salary: start from in-hand pay, turn yearly costs into monthly set-asides, save first and build an emergency fund, worked through one family's numbers.",
      "2026-11-13", "guide-budget-planner", "Your money"),
+    ("/guides/prepay-home-loan-or-invest/", "Prepay your home loan or invest? How to decide, with a worked example",
+     "How to compare prepaying a home loan with investing the money, after tax, what each number in the Prepay or Invest calculator means, and what changes the answer.",
+     "2026-11-13", "guide-prepay-vs-invest", "Your loan"),
+    ("/guides/under-construction-vs-ready-to-move/", "Under construction or ready to move? The real cost of waiting for your flat",
+     "What rent plus pre-EMI interest really costs while your flat is being built, what each year of delay adds, and how much cheaper an under-construction flat needs to be.",
+     "2026-11-13", "guide-under-construction", "Your home"),
+    ("/guides/hra-vs-home-loan-tax-benefits/", "HRA or home loan tax benefits: which saves more under the old regime?",
+     "How HRA exemption and home loan deductions work under the old regime, which saves more in a worked example, and whether tax should decide if you rent or buy.",
+     "2026-11-13", "guide-hra-vs-home-loan", "Your home"),
 ]
 def _L(v):
     a = abs(v); s = "−" if v < 0 else ""
@@ -947,7 +957,7 @@ def guide_rentbuy():
   <p class="eyebrow">Guide · {section}</p>
   <h1>{title}</h1>
   <p class="lead">Buying feels like building an asset and renting feels like money gone. Both feelings are only half right. This guide shows how to compare the two honestly, using one salaried buyer's numbers, and what it takes for buying to come out ahead.</p>
-  <p class="g-meta"><span>By Salarist</span><span>Published <time datetime="{pub}">{_date(pub)}</time></span><span>Written for tax year {TAX_YEAR}</span><span>READ_MIN min read</span></p>
+  <div class="g-by"><img src="/assets/img/icon-192.png" width="44" height="44" alt=""><div><p class="g-by-n">By <a href="/about/">Salarist</a></p><p class="g-meta"><span>Published <time datetime="{pub}">{_date(pub)}</time></span><span>Written for tax year {TAX_YEAR}</span><span>READ_MIN min read</span></p></div></div>
 </header>
 <figure class="wrap g-hero">{_pic(img, hero_alt, eager=True)}</figure>
 <div class="wrap g-body prose">
@@ -1094,7 +1104,7 @@ def guide_head(path, lead, hero_alt):
   <p class="eyebrow">Guide · {section}</p>
   <h1>{title}</h1>
   <p class="lead">{lead}</p>
-  <p class="g-meta"><span>By Salarist</span><span>Published <time datetime="{pub}">{_date(pub)}</time></span>TYPE_LINE<span>READ_MIN min read</span></p>
+  <div class="g-by"><img src="/assets/img/icon-192.png" width="44" height="44" alt=""><div><p class="g-by-n">By <a href="/about/">Salarist</a></p><p class="g-meta"><span>Published <time datetime="{pub}">{_date(pub)}</time></span>TYPE_LINE<span>READ_MIN min read</span></p></div></div>
 </header>
 <figure class="wrap g-hero">{_pic(img, hero_alt, eager=True)}</figure>"""
 
@@ -1116,7 +1126,7 @@ def guide_leave():
            ("plans", "Two ready-made plans for the year"), ("restricted", "Use your restricted holidays well"), ("your-list", "If your company's list is different"),
            ("tips", "Before you apply"), ("method", "How these dates were worked out")]
     body = guide_head(path, "Eleven of India's 2027 central government holidays fall on a weekday, and several sit right next to a weekend. With a little planning, a handful of leave days turns into breaks of a week or more. Here's every holiday, every long weekend, and the smartest ways to use your leave.",
-                      "A calendar with a nine-day break highlighted, a sun and an aeroplane").replace("TYPE_LINE", "<span>Holidays as per the DoPT order of 16 July 2026</span>")
+                      "A calendar with a nine-day break highlighted, a sun and an aeroplane").replace("TYPE_LINE", "<span>DoPT holiday list of 16 Jul 2026</span>")
     body += f"""
 <div class="wrap g-body prose">
 {toc_html(toc)}
@@ -1287,6 +1297,193 @@ def guide_budget():
 """
     return article(path, "How to Make a Monthly Budget on a Salary in India (Worked Example) | Salarist", "Make a monthly budget on a salary", body, "Monthly budget")
 
+def guide_prepay():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_prepay_numbers.js")]))
+    A, R = G["rohan"], G["results"]
+    b = R["base"]
+    path = "/guides/prepay-home-loan-or-invest/"
+    def verdict(r): return ("Investing wins by " if r["diff"] > 0 else "Prepaying wins by ") + _L(abs(r["diff"]))
+    yrs = lambda m: f"{m / 12:.1f}".rstrip("0").rstrip(".")
+    tool_link = "/prepay-vs-invest/?" + "&".join(f"{k}={v}" for k, v in A.items() if k != "claim")
+    flips = [("Return of 10% a year instead of 12%", R["ret10"]), ("Return of 8% a year", R["ret8"]),
+             ("He'd use a fixed deposit at 7%", R["fd"]), ("He'd use a debt fund at 7.5%", R["debt"]),
+             ("His loan rate is 9.5%, not 8.5%", R["rate95"]), ("He files under the old regime and claims interest", R["old"]),
+             ("He has ₹30,000 a month spare, not ₹15,000", R["extra30"]), ("A one-time ₹5 lakh instead of ₹15,000 a month", R["lump"]),
+             ("Only ₹15 lakh and 5 years left on the loan", R["short"])]
+    be = lambda r: "—" if r["be"] is None else f"{r['be']:.1f}%"
+    flip_rows = "".join(f"<tr><td>{t}</td><td>{verdict(r)}</td><td>{be(r)}</td></tr>" for t, r in flips)
+    toc = [("short-answer", "The short answer"), ("rohan", "Meet Rohan: the example"), ("result", "Rohan's result, line by line"),
+           ("guaranteed", "Why prepaying is a guaranteed return"), ("flips", "What changes the answer"), ("old-regime", "The old regime changes the maths"),
+           ("not-money", "What the numbers can't capture"), ("split", "You don't have to choose just one"), ("checklist", "A checklist before you decide"),
+           ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Got some spare money each month and a home loan? You can pay the loan off faster, or invest the money and let the loan run. Both feel right. This guide shows how to compare them properly, after tax, using one borrower's numbers.",
+                      "A shrinking home loan on one side and growing investments on the other").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Prepaying your home loan earns you a <strong>guaranteed return equal to your loan rate</strong>, with no tax on it. Investing can earn more, but it isn't guaranteed, and the gains are taxed. So the question is simple: <strong>after tax, will your investments beat your loan rate, reliably, for years?</strong></p>
+<p>If you'd invest in equity funds for the long run, investing usually wins at today's loan rates. If you'd only use fixed deposits or debt funds, prepaying usually wins. If you're on the old tax regime and claim home loan interest, investing gets a further edge.</p>
+<p class="g-cta"><a class="btn" href="/prepay-vs-invest/">Check your own numbers</a></p>
+
+<h2 id="rohan">Meet Rohan: the example</h2>
+<p>Rohan is 36 and lives in Bengaluru. He owes <strong>{_inr(A['P'])}</strong> on his home loan at <strong>{A['rate']}%</strong>, with <strong>{A['years']} years</strong> left, so his EMI is {_inr(b['emi'])}. After a raise, he has <strong>{_inr(A['extra'])} a month</strong> spare. He's on the new tax regime with a 30% top slab, and if he invests, it'll be equity mutual funds, where he expects about 12% a year over the long run. Rohan is an example; use your own numbers in the calculator.</p>
+<p class="g-cta"><a class="btn btn-ghost" href="{tool_link}">Open the calculator with Rohan's numbers</a></p>
+
+<h2 id="result">Rohan's result, line by line</h2>
+<h3>The verdict: {verdict(b)}</h3>
+<p>Both choices put the same money to work every month for {A['years']} years. If Rohan prepays, his loan closes in <strong>{yrs(b['payoffMonths'])} years</strong> instead of {A['years']}; after that, his EMI and the spare {_inr(A['extra'])} both go into equity funds. If he invests from the start, the loan runs its full course while his SIP grows.</p>
+<p>After {A['years']} years and after tax, investing leaves him with <strong>{_L(b['investFinal'])}</strong>, and prepaying with <strong>{_L(b['prepayFinal'])}</strong>.</p>
+<h3>Interest saved by prepaying: {_L(b['saved'])}</h3>
+<p>Prepaying cuts his total interest from {_L(b['investInterest'])} to {_L(b['prepayInterest'])}. That's a real, guaranteed saving, and it's why prepaying feels so good. But it isn't the whole answer: the verdict also counts what the same money would have earned if invested.</p>
+<h3>"Investing wins if your return beats {b['be']:.1f}% a year"</h3>
+<p>This is the breakeven: the yearly investment return at which both choices end level. For Rohan it's {b['be']:.1f}%, a little above his {A['rate']}% loan rate, because investment gains are taxed and loan savings aren't. Ask yourself honestly whether your investments will beat that, year after year.</p>
+
+<h2 id="guaranteed">Why prepaying is a guaranteed return</h2>
+<p>Every rupee you prepay stops costing you {A['rate']}% a year in interest. That's the same as earning {A['rate']}% on it, with no market risk and no tax. Few safe investments match that today, which is why prepaying beats fixed deposits for most borrowers.</p>
+<p>Equity funds have historically done better over long periods, but they go up and down, and some years they fall. The calculator assumes a steady return, so treat its answer as what happens if your expectation comes true.</p>
+
+<h2 id="flips">What changes the answer</h2>
+<p>Here's what happens to Rohan's result when one thing changes and everything else stays the same:</p>
+<div class="g-scroll"><table class="g-tbl g-flip"><thead><tr><th scope="col">If…</th><th scope="col">Result after 15 years</th><th scope="col">Investing wins above</th></tr></thead><tbody>
+<tr class="base"><td>Rohan's numbers as above</td><td>{verdict(b)}</td><td>{b['be']:.1f}%</td></tr>{flip_rows}
+</tbody></table></div>
+<p>The investment return decides most of it. Safe options like FDs and debt funds lose clearly to prepaying, because their returns are close to the loan rate and fully taxed. A higher loan rate helps prepaying, and a shorter remaining loan shrinks the difference to almost nothing.</p>
+
+<h2 id="old-regime">The old regime changes the maths</h2>
+<p>Under the old regime, you can deduct up to ₹2,00,000 a year of interest on a home you live in (section 22 of the Income-tax Act, 2025). Prepaying cuts your interest, so it also cuts this tax saving. For Rohan, switching to the old regime and claiming interest moves the result to <strong>{verdict(R['old'])}</strong>, and the breakeven return drops to <strong>{R['old']['be']:.1f}%</strong>.</p>
+<p>In the first years of a big loan the interest is well above ₹2,00,000 a year, so small prepayments barely touch the deduction at first. The calculator works this out year by year.</p>
+
+<h2 id="not-money">What the numbers can't capture</h2>
+<ul>
+  <li><strong>Reasons to prepay anyway:</strong> being debt-free sooner, a lower EMI burden if your income drops, and peace of mind that no market can take away.</li>
+  <li><strong>Reasons to invest:</strong> money you can reach in an emergency (prepaid money is locked in the house), and a bigger pot if markets do well.</li>
+</ul>
+<p>Check your emergency fund first. Money prepaid into a home loan is hard to get back when you need it.</p>
+
+<h2 id="split">You don't have to choose just one</h2>
+<p>Many people split the money: some into the loan, some into a SIP. It's a sensible hedge when you're unsure about returns. Run the calculator with your full spare amount, then with half, and compare. Also check your loan's terms: most floating-rate home loans for individuals have no prepayment charges, but fixed-rate loans can, so ask your lender.</p>
+
+<h2 id="checklist">A checklist before you decide</h2>
+<ol class="g-check">
+  <li>Is your emergency fund in place (about 6 months of expenses)?</li>
+  <li>What's your loan rate today, and is it fixed or floating?</li>
+  <li>Where would you really invest the money, and what return is realistic after tax?</li>
+  <li>Are you on the old or new tax regime, and do you claim home loan interest?</li>
+  <li>Would you actually keep investing every month, even when markets fall?</li>
+  <li>Does your lender charge for prepayment?</li>
+</ol>
+<p class="g-cta"><a class="btn" href="/prepay-vs-invest/">Run your numbers in the calculator</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>Every figure in this guide comes from the same calculation as the <a href="/prepay-vs-invest/">Prepay or Invest calculator</a>, run on Rohan's inputs. Both choices use the same money each month; when the prepaid loan closes, the EMI and spare money are invested too. Equity fund gains above ₹1,25,000 are taxed at 12.5% plus cess at the end; debt fund gains and FD interest at the slab rate plus cess. The tax rules are for tax year {TAX_YEAR}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This guide is for information and education. It isn't financial, tax or legal advice, and returns aren't guaranteed. For a big decision, consider speaking to a qualified adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Prepay Home Loan or Invest? How to Decide (Worked Example) | Salarist", "Prepay your home loan or invest?", body, "Prepay or invest")
+
+def guide_uc():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_rvb_articles_numbers.js")]))
+    A, U, rd = G["arjun"], G["uc"], G["ready"]
+    path = "/guides/under-construction-vs-ready-to-move/"
+    u3 = U["3"]
+    rows = "".join(f"<tr><td>{y} years</td><td>{_L(u['rentDuring'])}</td><td>{_L(u['interestDuring'])}</td><td>{_L(u['gap'])} less</td></tr>" for y, u in U.items())
+    disc = (1 - G["evenPrice"] / A["price"]) * 100
+    body = guide_head(path, "An under-construction flat is often cheaper on paper. But until you get the keys, you pay interest on the loan and rent on the home you live in, at the same time. Here's how much that really costs, and how much cheaper the flat needs to be to make up for it.",
+                      "A crane over a half-built tower next to a finished home").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+<h2 id="short-answer">The short answer</h2>
+<p>While the home is being built, you pay <strong>pre-EMI interest on the loan and rent</strong> together. For a {_L(A['price'])} flat with possession in 3 years, that's about <strong>{_L(u3['interestDuring'])} of interest and {_L(u3['rentDuring'])} of rent</strong>. To come out level with a ready-to-move flat, the under-construction one needs to be about <strong>{disc:.0f}% cheaper</strong> in this example, and every year of delay makes it worse.</p>
+<p class="g-cta"><a class="btn" href="/rent-vs-buy/">Compare your options</a></p>
+
+<h2 id="example">The example</h2>
+<p>We use the same buyer as our <a href="/guides/rent-vs-buy/">main rent or buy guide</a>: Arjun in Pune, looking at a {_L(A['price'])} flat with 20% down and a loan at {A['rate']}% for {A['tenure']} years. He pays {_inr(A['rent'])} a month in rent today and plans to stay {A['stay']} years. We compare buying the flat ready to move in with buying it under construction at the same price.</p>
+
+<h2 id="cost">What the wait costs</h2>
+<p>With the full loan paid out at the start, here's what Arjun pays before possession, and how much less he ends up with after {A['stay']} years than if he'd bought ready to move in:</p>
+<div class="g-scroll"><table class="g-tbl g-flip"><thead><tr><th scope="col">Possession in</th><th scope="col">Rent while it's built</th><th scope="col">Pre-EMI interest</th><th scope="col">Ends up with</th></tr></thead><tbody>{rows}</tbody></table></div>
+<p>Each extra year of waiting costs him roughly another {_L((U['5']['gap'] - U['2']['gap']) / 3)} by the end. That's why a builder's delay hurts so much: you keep paying rent and interest, and the EMI that actually reduces the loan starts later.</p>
+
+<h2 id="discount">How much cheaper should it be?</h2>
+<p>For Arjun's numbers, an under-construction flat with possession in 3 years needs to cost about <strong>{_L(G['evenPrice'])}</strong>, roughly {disc:.0f}% less than the ready flat, for buying it to come out as well as buying ready. If the discount is smaller, the ready flat is the better buy on money alone.</p>
+<p>Your figure will differ with your rent, loan rate and the years to possession. Choose "Under construction" in the calculator and try different prices.</p>
+
+<h2 id="also">Other things to weigh</h2>
+<ul>
+  <li><strong>Delays.</strong> Add a year or two to the builder's date when you run the numbers. Check the project's registration and progress on your state's RERA website.</li>
+  <li><strong>GST.</strong> Under-construction homes attract GST, which a ready home with a completion certificate doesn't. Ask the builder for the full cost sheet and put the GST in "Other buying costs".</li>
+  <li><strong>Loan paid out in stages.</strong> Many loans are paid out as construction progresses, so early interest is lower than our full-payout assumption. Ask your lender for the schedule.</li>
+  <li><strong>Tax, old regime only.</strong> Interest paid before the year of possession can be claimed in five equal parts from that year, within the ₹2,00,000 yearly limit. If possession comes more than five years after the loan year, the limit drops to ₹30,000.</li>
+  <li><strong>The upside.</strong> A new flat, a better choice of units, and sometimes faster price growth in a new area.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>All figures come from the <a href="/rent-vs-buy/">Rent or Buy calculator</a>, run on Arjun's inputs: prices grow 6% a year, he'd invest the difference in equity funds at 12%, the full loan is paid out at the start with interest-only payments until possession, and he rents until he moves in. The "how much cheaper" figure keeps the down payment at 20% and stamp duty at 7% of the lower price. Tax rules are for tax year {TAX_YEAR}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't financial, tax or legal advice. For a big decision, consider speaking to a qualified adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "Under Construction vs Ready to Move: The Real Cost of Waiting | Salarist", "Under construction or ready to move?", body, "Under construction vs ready")
+
+def guide_hra():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_rvb_articles_numbers.js")]))
+    A, h = G["arjun"], G["hra"]
+    path = "/guides/hra-vs-home-loan-tax-benefits/"
+    r0, r1, s30 = h["room0"], h["room150"], h["slab30"]
+    body = guide_head(path, "Renters can claim HRA. Home buyers can claim home loan interest and principal. Both only work under the old tax regime, and both shrink your tax bill. So which saves more, and should tax decide whether you rent or buy?",
+                      "Two tax forms compared: one for rent and one for a home").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+<h2 id="short-answer">The short answer</h2>
+<p>For a typical salaried buyer, the two benefits are <strong>close in size</strong>. In our example, HRA saves the renter <strong>{_inr(r0['rentRefund1'])}</strong> in the first year, and home loan interest saves the buyer <strong>{_inr(r0['buyRefund1'])}</strong>. Over 12 years the gap hardly changes the rent or buy answer. So <strong>don't let tax decide</strong>: price growth, your stay and what you'd invest matter far more.</p>
+<p>Both benefits exist only under the old regime. Under the new regime, neither renters nor buyers of a home they live in get them.</p>
+<p class="g-cta"><a class="btn" href="/rent-vs-buy/">Compare with your numbers</a></p>
+
+<h2 id="hra">How HRA exemption works</h2>
+<p>If your salary includes HRA and you pay rent, part of the HRA is tax-free. The exempt amount is the <strong>lowest</strong> of three:</p>
+<ol>
+  <li>The HRA you actually receive.</li>
+  <li>Rent paid minus 10% of your basic salary.</li>
+  <li>50% of basic salary in Delhi, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad, Pune or Ahmedabad, or 40% anywhere else.</li>
+</ol>
+<p>Arjun earns a basic salary of ₹60,000 a month with ₹30,000 HRA and pays {_inr(A['rent'])} rent in Pune. Rent minus 10% of basic is ₹18,000, the lowest of the three, so <strong>{_inr(G['hraExempt1'])} a year</strong> is tax-free. At his 20% slab plus cess, that saves {_inr(r0['rentRefund1'])} in tax.</p>
+
+<h2 id="loan">How home loan tax benefits work</h2>
+<ul>
+  <li><strong>Interest:</strong> up to ₹2,00,000 a year on a home you live in (section 22 of the Income-tax Act, 2025, earlier section 24(b)).</li>
+  <li><strong>Principal, stamp duty and registration:</strong> within the ₹1,50,000 yearly limit of section 123 (earlier section 80C), shared with PF, PPF, ELSS, life insurance and more.</li>
+</ul>
+<p>In Arjun's first year, he pays {_inr(r0['int1'])} of interest, so he claims the full ₹2,00,000 and saves {_inr(r0['buyRefund1'])}. The ₹1,50,000 limit is usually already used up by PF; if it is, principal adds nothing. If he had the whole ₹1,50,000 free, his first-year saving would rise to {_inr(r1['buyRefund1'])}.</p>
+
+<h2 id="compare">Side by side</h2>
+<div class="g-scroll"><table class="g-tbl g-flip"><thead><tr><th scope="col">Arjun, old regime</th><th scope="col">Renting (HRA)</th><th scope="col">Buying (home loan)</th></tr></thead><tbody>
+<tr><td>Tax saved, year 1 (20% slab)</td><td>{_inr(r0['rentRefund1'])}</td><td>{_inr(r0['buyRefund1'])}</td></tr>
+<tr><td>Tax saved, year 1, with ₹1.5 lakh limit free</td><td>{_inr(r1['rentRefund1'])}</td><td>{_inr(r1['buyRefund1'])}</td></tr>
+<tr><td>Tax saved, year 1, at the 30% slab</td><td>{_inr(s30['rentRefund1'])}</td><td>{_inr(s30['buyRefund1'])}</td></tr>
+<tr><td>Tax saved over 12 years (20% slab)</td><td>{_L(r0['rentRefunds'])}</td><td>{_L(r0['buyRefunds'])}</td></tr>
+</tbody></table></div>
+<p>HRA grows over time because rent and salary rise, while the home loan benefit stays capped at ₹2,00,000 of interest. That's why, over 12 years, HRA saves Arjun more in total.</p>
+
+<h2 id="answer">Does tax change the rent or buy answer?</h2>
+<p>Barely. For Arjun, renting wins by {_L(h['newRegime'])} under the new regime and by {_L(h['oldRegime'])} under the old one. The benefits help both sides, so they mostly cancel out. The things that do move the answer are home price growth, how long you'll stay and the return on what you'd invest. Our <a href="/guides/rent-vs-buy/">rent or buy guide</a> walks through those.</p>
+<p>One more thing: the old regime only pays off if your deductions are large enough to beat the new regime's lower rates. Check both before you assume HRA or home loan benefits help you at all.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>All figures come from the <a href="/rent-vs-buy/">Rent or Buy calculator</a> on Arjun's inputs, under the old regime. HRA uses the three-way rule above, with basic salary and HRA rising in line with rent. Home loan interest is capped at ₹2,00,000 a year; principal, stamp duty and registration count only within the room left in the ₹1,50,000 limit. Tax is at the slab rate plus 4% cess. HRA cities and limits are as listed in the Income-tax Rules, 2026, for tax year {TAX_YEAR}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't tax, financial or legal advice. For your own return, consider speaking to a qualified adviser.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "HRA vs Home Loan Tax Benefits: Which Saves More? (Old Regime) | Salarist", "HRA or home loan tax benefits?", body, "HRA vs home loan")
+
 def guides_index():
     cards = "".join(
         f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>'
@@ -1400,11 +1597,25 @@ def main():
     write("/guides/rent-vs-buy/", guide_rentbuy())
     write("/guides/long-weekends-2027/", guide_leave())
     write("/guides/monthly-budget/", guide_budget())
+    write("/guides/prepay-home-loan-or-invest/", guide_prepay())
+    write("/guides/under-construction-vs-ready-to-move/", guide_uc())
+    write("/guides/hra-vs-home-loan-tax-benefits/", guide_hra())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9")] + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7")] + [(p, "0.3") for p in PAGES]
+    # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
+    # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
+    import hashlib, datetime
+    lm_file = os.path.join(SRC, "data", "lastmod.json")
+    lm = json.load(open(lm_file)) if os.path.exists(lm_file) else {}
+    today = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30))).date().isoformat()
+    for u, _ in urls:
+        html = open(os.path.join(DIST, u.strip("/"), "index.html") if u != "/" else os.path.join(DIST, "index.html"), encoding="utf-8").read()
+        h = hashlib.sha256(re.sub(r"\?v=[0-9a-f]+", "", html).encode()).hexdigest()[:16]
+        if lm.get(u, {}).get("hash") != h: lm[u] = {"hash": h, "date": today}
+    json.dump(lm, open(lm_file, "w"), indent=1, sort_keys=True)
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
-        f"  <url><loc>{SITE}{u}</loc><lastmod>{VERIFIED}</lastmod><priority>{pr}</priority></url>\n" for u, pr in urls) + "</urlset>\n"
+        f"  <url><loc>{SITE}{u}</loc><lastmod>{lm[u]['date']}</lastmod><priority>{pr}</priority></url>\n" for u, pr in urls) + "</urlset>\n"
     open(os.path.join(DIST, "sitemap.xml"), "w").write(sm)
     print("built", sum(len(fs) for _, _, fs in os.walk(DIST)), "files")
 

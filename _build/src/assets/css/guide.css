@@ -2,7 +2,7 @@
 .guide .g-head{padding-top:28px;max-width:860px}
 .guide .g-head h1{font-size:clamp(30px,4.6vw,46px);font-weight:800;letter-spacing:-.02em;line-height:1.12;margin:6px 0 14px}
 .g-meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;color:var(--muted);margin:16px 0 0}
-.g-meta span+span::before{content:"·";margin-right:16px;color:var(--line)}
+.g-meta span:not(:last-child)::after{content:"·";margin-left:10px;color:var(--muted)}
 .g-hero{margin:24px auto 8px;max-width:1100px}
 .g-hero img{display:block;width:100%;height:auto;border-radius:var(--r-card);aspect-ratio:16/9}
 .g-body{max-width:760px}
@@ -34,3 +34,10 @@
 .g-body p,.g-body li,.g-body td{color:var(--text);font-size:17px;line-height:1.7}
 .g-body .g-toc li{font-size:15px}
 .g-body .g-note{font-size:14px;color:var(--muted)}
+
+.g-by{display:flex;align-items:flex-start;gap:12px;margin:20px 0 0}
+.g-by img{border-radius:12px;flex:none}
+.g-by-n{margin:0;font-weight:700;font-size:15px}
+.g-by-n a{color:var(--text);text-decoration:none}
+.g-by-n a:hover{color:var(--brand)}
+.g-by .g-meta{margin:2px 0 0;gap:2px 10px;font-size:13.5px}
