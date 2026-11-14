@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A timeline of years of service with the half-year mark highlighted">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+  <path d="M220 520 H 1380" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" opacity=".5"/>
+  <g fill="#FFFFFF"><circle cx="300" cy="520" r="26"/><circle cx="520" cy="520" r="26"/><circle cx="740" cy="520" r="26"/><circle cx="960" cy="520" r="26"/></g>
+  <path d="M960 520 H 1180" stroke="#FFD27A" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="1180" cy="520" r="26" fill="#FFD27A"/>
+  <rect x="1060" y="340" width="240" height="110" rx="22" fill="#FFFFFF"/>
+  <path d="M1160 450 l20 40 l20 -40 z" fill="#FFFFFF"/>
+  <rect x="1100" y="380" width="160" height="30" rx="10" fill="#1F5FE0"/>
+  <g fill="#FFD27A" stroke="#0E1726" stroke-opacity=".18" stroke-width="4">
+    <ellipse cx="1180" cy="700" rx="70" ry="20"/><ellipse cx="1180" cy="660" rx="70" ry="20"/><ellipse cx="1180" cy="620" rx="70" ry="20"/>
+  </g>
+</svg>

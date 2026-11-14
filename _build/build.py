@@ -29,7 +29,9 @@ GRATUITY_LIVE = True   # set False to build without the gratuity calculator
 if GRATUITY_LIVE: LIVE_TOOLS.append(("/gratuity-calculator/", "Gratuity Calculator"))
 SECTIONS_LIVE = True   # set False to build without the section finder
 if SECTIONS_LIVE: LIVE_TOOLS.append(("/income-tax-section-finder/", "Section Finder"))
-QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/gratuity-calculator/", "/income-tax-section-finder/"]   # simple calculators: shown as chips, not big cards or menu items
+DEPOSITS_LIVE = True   # set False to build without the FD, PPF and RD calculator
+if DEPOSITS_LIVE: LIVE_TOOLS.append(("/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator"))
+QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/fd-ppf-rd-calculator/", "/gratuity-calculator/", "/income-tax-section-finder/"]   # simple calculators: shown as chips, not big cards or menu items
 MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/tools/", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
@@ -59,6 +61,7 @@ SEO = {
     "/budget-planner/": ("Monthly Budget Planner for Salaried Indians", "See what's really left each month on your salary: yearly costs as monthly set-asides, savings rate, EMI load and emergency fund. Free and private."),
     "/company-car-lease-vs-loan/": ("Car Lease vs Car Loan Calculator for India (2026-27)", "Lease a car through your company or buy it on a loan? Compare both after tax, insurance, fuel and resale, with the 2026 perquisite values. Free."),
     "/emi-calculator/": ("EMI Calculator with Part-Payments and Rate Changes", "Work out your EMI, then plan part-payments of any amount at any time and rate changes. See the interest saved and when the loan closes. Free."),
+    "/fd-ppf-rd-calculator/": ("FD, PPF and RD Calculator: Maturity After Tax and TDS", "Work out FD, RD and PPF maturity, the tax on your interest and whether your bank will deduct TDS. Compare all three for the same saving. Free."),
     "/income-tax-section-finder/": ("Income Tax Section Finder: 1961 Act to 2025 Act", "Find the new section number for 80C, 80D, HRA, 24(b), 87A, Form 16 and more under the Income-tax Act, 2025. Checked against the official text."),
     "/gratuity-calculator/": ("Gratuity Calculator under the New Labour Codes", "Work out your gratuity under the new labour codes: the amount, when you become eligible, how much is tax-free and what staying longer adds. Free."),
     "/sip-calculator/": ("SIP Calculator with Step-Up, Goals and Existing Portfolio", "See what your SIP could grow to, or the SIP you need for a goal, with a yearly step-up and your existing portfolio. After tax and inflation. Free."),
@@ -80,6 +83,9 @@ SEO = {
     "/guides/how-much-sip-do-you-need/": ("How Much SIP Do You Need? Plan a Goal With Step-Up", None),
     "/guides/step-up-sip/": ("Step-Up SIP: How a 10% Yearly Increase Adds Up", None),
     "/guides/how-mutual-fund-gains-are-taxed/": ("Mutual Fund Tax on Selling: Equity and Debt (2026-27)", None),
+    "/guides/new-income-tax-section-numbers/": ("New Income Tax Section Numbers: 80C, HRA, 24(b) Now", "80C is now section 123, 24(b) is 22, HRA is in Schedule III. The sections salaried people use most under the Income-tax Act, 2025, with regime."),
+    "/guides/gratuity-six-month-rule-when-to-resign/": ("When to Resign: The Six-Month Gratuity Rule", "A part-year of more than six months counts as a full year for gratuity. How one day can add a year's gratuity, and how to time your exit."),
+    "/guides/are-your-sips-on-track/": ("Are Your SIPs on Track? A Yearly Check in 5 Steps", "How to check once a year if your SIPs will reach your goal, and what to do if you're behind or ahead, with one investor's numbers."),
     "/guides/gratuity-new-labour-codes/": ("Gratuity Calculation Under the New Labour Codes (Example)", "How gratuity works under the labour codes: the formula, the new wage rule, how years are counted, when you qualify and the ₹20 lakh tax-free limit."),
     "/guides/is-rent-really-dead-money/": ("Is Rent Really Dead Money? What Buying Costs You", "Rent isn't the only money you don't get back. Interest, stamp duty, upkeep and selling costs, compared with rent over 12 years."),
     "/guides/prepay-home-loan-early-or-later/": ("Prepay Home Loan Early or Later? What Timing Saves", "What ₹2 lakh prepaid in year 1, 5, 8, 12 or 16 of a home loan saves, why earlier always saves more, and the real reasons to wait."),
@@ -1072,7 +1078,7 @@ def sip_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>Planning a goal?</b> Read our guide, <a href="/guides/how-much-sip-do-you-need/">How much SIP do you need?</a>, worked through one parent's numbers. Also read: <a href="/guides/step-up-sip/">Step-up SIP</a> and <a href="/guides/how-mutual-fund-gains-are-taxed/">How mutual fund gains are taxed</a>.</p>
+  <p class="g-callout"><b>Planning a goal?</b> Read our guide, <a href="/guides/how-much-sip-do-you-need/">How much SIP do you need?</a>, worked through one parent's numbers. Also read: <a href="/guides/step-up-sip/">Step-up SIP</a> <a href="/guides/how-mutual-fund-gains-are-taxed/">How mutual fund gains are taxed</a> and <a href="/guides/are-your-sips-on-track/">Are your SIPs on track?</a></p>
   <h2>How the calculator works</h2>
   <ul>
     <li><strong>Each SIP</strong> goes in at the start of the month and grows at the return you choose until the end. Returns compound monthly so that a year gives exactly that rate.</li>
@@ -1118,6 +1124,159 @@ SP_TIPS = [
      "Prices rise over time, so ₹1 crore in 20 years buys much less than ₹1 crore today. We divide by inflation to show the value in today's rupees."),
     ("""<button type="button" class="btn-sm" id="spSaveBtn">Save my SIP plan</button>""", "saving your plan",
      "Downloads a small CSV file with everything you entered. Use Load my SIP plan to bring it back later and update it. The PDF and Excel reports are for reading; the plan file is for loading back here."),
+]
+
+def deposits_page():
+    faqs = [
+        ("Is FD interest tax-free up to ₹50,000?",
+         "No. FD and RD interest is taxable from the first rupee, at your slab rate. ₹50,000 (₹1 lakh for senior citizens) is only the limit above which your bank deducts TDS, under section 393(1) of the Income-tax Act, 2025 (old section 194A). If your interest is below it, the bank doesn't deduct anything, but you still add the interest to your income and pay tax on it when you file your return."),
+        ("How does TDS on FD interest work?",
+         "Each bank adds up the interest on all your FDs and RDs with it for the year. If the total is more than ₹50,000 (₹1 lakh for senior citizens), it deducts 10% of the whole interest, not just the part above the limit. TDS isn't an extra tax: it's credited against the tax you owe. If your slab is higher than 10%, you pay the rest when you file; if your total income is below the taxable limit, you get it back as a refund, or you can give the bank Form 121 (old Form 15G or 15H) so it doesn't deduct TDS at all."),
+        ("Does savings account interest count towards the ₹50,000?",
+         "No. Banks don't deduct TDS on savings account interest, and it doesn't count towards the ₹50,000 limit, which covers only fixed and recurring deposits. But savings account interest is still taxable income. Under the old regime you can deduct up to ₹10,000 of it a year under section 153(2)(a) (old 80TTA); senior citizens get up to ₹50,000 of all bank and post office interest under section 153(2)(b) (old 80TTB). The new regime has neither deduction."),
+        ("Do I pay tax on a cumulative FD every year or at maturity?",
+         "Interest on a cumulative (reinvested) FD builds up every year, and banks report and deduct TDS on it year by year. The calculator shows the interest and tax for each year of the deposit, so you can add each year's interest to your return."),
+        ("Is PPF better than an FD?",
+         "For long-term saving, often yes, because PPF interest is tax-free while FD interest is taxed at your slab. At a 30% slab, a 7% FD earns about 4.8% after tax, against PPF's tax-free 7.1%. But PPF locks your money for 15 years (with limited withdrawals and loans), takes at most ₹1.5 lakh a year, and its rate is reset every quarter. Use the comparison to see the same yearly saving in all three."),
+        ("When should I deposit in PPF?",
+         "By the 5th of the month. PPF interest is worked out on the lowest balance between the 5th and the end of each month, so money deposited after the 5th earns nothing that month. Depositing your full yearly amount by 5 April earns the most: on ₹1.5 lakh a year for 15 years, about ₹1.2 lakh more than spreading it monthly."),
+        ("What is the PPF interest rate now?",
+         "7.1% a year for October to December 2026. The Ministry of Finance sets small savings rates every quarter; it kept them unchanged on 30 September 2026. We'll update the calculator when the rate changes."),
+        ("Does a tax-saver FD save tax under the new regime?",
+         "No. A 5-year tax-saver FD with a scheduled bank counts under section 123 (old 80C), up to ₹1.5 lakh a year, but only under the old regime. Its interest is taxed like any FD's, and you can't break it before 5 years."),
+    ]
+    def num(k, label, hint="", money=True, pre="₹", lid=None):
+        idattr = f' id="{lid}"' if lid else ""
+        box = f'<div class="numin"><span>{pre}</span><input id="dp-{k}" type="text" inputmode="{"numeric" if money else "decimal"}" autocomplete="off"></div>'
+        return (f'<div class="fld"><div class="row1"><label for="dp-{k}"{idattr}>{label}</label><span class="w" id="dp-{k}-w"></span></div>{box}'
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def small(k, label, unit):
+        return f'<div class="fld"><label for="dp-{k}" class="lbl" style="margin:0 0 6px">{label}</label><div class="numin"><input id="dp-{k}" type="text" inputmode="decimal" autocomplete="off"><span>{unit}</span></div></div>'
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your investments</p>
+  <h1>FD, PPF and RD calculator, after tax</h1>
+  <p class="lead">See what your fixed deposit, recurring deposit or PPF grows to, how much tax you'll pay on the interest, and whether your bank will deduct TDS. Then compare all three for the same saving.</p>
+  {badges("PPF rate for Oct–Dec 2026 · Tax rules for tax year " + TAX_YEAR)}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb dp">
+  <div class="card lp-setup" aria-label="Your deposit">
+    <div><span class="lbl" id="modeLbl">Calculate</span>
+      <div class="seg row" role="group" aria-labelledby="modeLbl"><button type="button" data-mode="fd">Fixed deposit</button><button type="button" data-mode="rd">Recurring deposit</button><button type="button" data-mode="ppf">PPF</button></div></div>
+
+    <div id="dp-fd">
+      {num("amt", "Amount you deposit")}
+      <div class="two">{small("fdRate", "Interest rate", "% a year")}<div></div></div>
+      <p class="hint">Your bank's rate for this tenure. Senior citizens usually get about 0.5% more.</p>
+      <div class="two">{small("fdY", "Tenure", "years")}{small("fdM", "and", "months")}</div>
+      <div><span class="lbl" id="payLbl">Interest</span>
+        <div class="seg row" role="group" aria-labelledby="payLbl"><button type="button" data-payout="reinvest">Reinvested</button><button type="button" data-payout="quarterly">Paid quarterly</button><button type="button" data-payout="monthly">Paid monthly</button></div>
+        <p class="hint">Reinvested (cumulative) FDs compound every quarter. Monthly payouts are a little lower than a third of the quarterly interest, because you get the money sooner.</p></div>
+      <label class="chk" for="dp-taxSaver" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="dp-taxSaver"><span>It's a 5-year tax-saver FD</span></label>
+    </div>
+
+    <div id="dp-rd" hidden>
+      {num("inst", "Monthly instalment")}
+      <div class="two">{small("rdRate", "Interest rate", "% a year")}<div></div></div>
+      <p class="hint">Your bank's RD rate. The post office 5-year RD pays 6.7% (Oct–Dec 2026).</p>
+      <div class="two">{small("rdY", "Tenure", "years")}{small("rdM", "and", "months")}</div>
+    </div>
+
+    <div id="dp-ppf" hidden>
+      {num("yearly", "Yearly deposit", "Between ₹500 and ₹1,50,000 a year.")}
+      <div class="two">{small("ppfRate", "Interest rate", "% a year")}<div></div></div>
+      <p class="hint">7.1% for October to December 2026. The government resets it every quarter.</p>
+      <div><span class="lbl" id="whenLbl">When you deposit</span>
+        <div class="seg row" role="group" aria-labelledby="whenLbl"><button type="button" data-when="april">All by 5 April</button><button type="button" data-when="monthly">Monthly, by the 5th</button></div></div>
+      <div><span class="lbl" id="extLbl">Keep it going after 15 years?</span>
+        <div class="seg row" role="group" aria-labelledby="extLbl"><button type="button" data-ext="0">No, close at 15</button><button type="button" data-ext="5">5 more years</button><button type="button" data-ext="10">10 more years</button></div></div>
+      <label class="chk" id="dp-stopBox" for="dp-stopAfter15" style="border:0;grid-template-columns:22px 1fr" hidden><input type="checkbox" id="dp-stopAfter15"><span>Stop depositing after 15 years (the balance keeps earning)</span></label>
+    </div>
+
+    <h3 class="sub">Your tax</h3>
+    <div><span class="lbl" id="regLbl">Tax regime</span>
+      <div class="seg row" role="group" aria-labelledby="regLbl"><button type="button" data-regime="new">New (default)</button><button type="button" data-regime="old">Old</button></div></div>
+    <div class="two">{small("slab", "Your tax slab", "%")}{small("infl", "Inflation", "% a year")}</div>
+    <p class="hint">Your highest slab rate: 0, 5, 10, 15, 20, 25 or 30% under the new regime. Interest is added to your income and taxed at this rate.</p>
+    <label class="chk" id="dp-seniorBox" for="dp-senior" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="dp-senior"><span>I'm a senior citizen (60 or older)</span></label>
+    <div id="dp-otherBox">{num("other", "Other FD and RD interest at the same bank, a year", "Optional. The ₹50,000 TDS limit counts all your FDs and RDs at one bank together, so add the yearly interest from your other deposits there. Leave out savings account interest: it doesn't count.", lid="dp-otherLbl")}</div>
+  </div>
+
+  <div>
+    <div class="verdict" id="dpVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="dpPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="dpXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="dpShare">Copy share link</button>
+    </div>
+    <p class="status" id="dpStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">You put in</div><div class="n" id="dpPut">—</div><div class="h">Your deposits</div></div>
+      <div class="stat"><div class="l">Interest</div><div class="n" id="dpInt">—</div><div class="h">Before tax</div></div>
+      <div class="stat"><div class="l">Tax on interest</div><div class="n" id="dpTax">—</div><div class="h" id="dpTaxH"></div></div>
+      <div class="stat"><div class="l">In today's money</div><div class="n" id="dpReal">—</div><div class="h">After tax and inflation</div></div>
+    </div>
+    <p class="g-callout dp-tds" id="dpTds"></p>
+    <div class="g-note" id="dpExtra" hidden></div>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">Value by year</h2>
+      <p class="hint" style="margin:0 0 10px">Before tax.</p>
+      <div id="dpChart"></div>
+      <div class="legend2"><span><i style="background:var(--brand)"></i>With interest</span><span><i style="background:var(--leave)"></i>You put in</span></div>
+    </div>
+    <h2 class="list-h" id="dpCmpLbl">The same saving in FD, RD and PPF</h2>
+    <div class="two">{num("cYearly", "Yearly saving", money=True)}{small("cYears", "For", "years")}</div>
+    <div class="sens" id="dpCmp"></div>
+    <p class="hint" id="dpCmpNote"></p>
+    <a class="next" href="/sip-calculator/"><span class="k">Saving for 10 years or more?</span><b>See what the same money could do in a SIP</b><span class="h">Equity funds can earn more than deposits over long periods, with more ups and downs.</span></a>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Year by year</h2>
+  <div class="tbl-wrap calc-wrap" id="dpTable"></div>
+</div></section>
+{related("/fd-ppf-rd-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>FD:</strong> interest compounds every quarter if it's reinvested, as banks do; a part-quarter at the end earns simple interest. Monthly payouts are the quarterly interest, discounted.</li>
+    <li><strong>RD:</strong> each instalment earns interest compounded quarterly for the months it stays in.</li>
+    <li><strong>PPF:</strong> interest on the lowest balance between the 5th and the end of each month, credited every March.</li>
+    <li><strong>Tax:</strong> FD and RD interest is added to your income each year and taxed at your slab, plus 4% cess. PPF interest is tax-free.</li>
+    <li><strong>TDS:</strong> shown separately. It isn't extra tax; it's credited against what you owe.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>PPF and post office RD rates: Ministry of Finance memorandum of 30 September 2026, rates for October to December 2026. TDS: section 393(1), Table S. No. 5(ii), and section 393(4) of the Income-tax Act, 2025. Deductions: section 123 with Schedule XV, and section 153, checked on the <a href="https://www.incometaxindia.gov.in/" rel="noopener">Income Tax Department's website</a> for tax year {TAX_YEAR}. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="dpBar" hidden><span id="dpBarT"></span><button type="button" class="btn-sm pri" id="dpBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "FD, PPF and RD Calculator", "url": SITE + "/fd-ppf-rd-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "FD, RD and PPF maturity after tax, with TDS explained and a side-by-side comparison of the same saving in all three.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "dp", DP_TIPS)
+    return layout("/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator: Maturity After Tax and TDS",
+                  "Work out FD, RD and PPF maturity, the tax on your interest and whether your bank will deduct TDS. Compare all three for the same saving. Free.",
+                  body, crumbs=[("/", "Home"), ("/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator")], graph=graph,
+                  css=("tool.css",), js=("deposits.js",), og="og-fd-ppf-rd-calculator.png", og_title="FD, PPF and RD calculator, after tax")
+
+DP_TIPS = [
+    ("""<label for="dp-other" id="dp-otherLbl">Other FD and RD interest at the same bank, a year</label>""", "other interest at the same bank",
+     "Banks check the ₹50,000 TDS limit (₹1 lakh for senior citizens) against all your fixed and recurring deposits with them, across branches. Interest from other banks and from your savings account doesn't count towards it."),
+    ("""<span class="lbl" id="regLbl">Tax regime</span>""", "tax regime",
+     "Interest is taxed at your slab in both regimes. The old regime adds two things: PPF and 5-year tax-saver FD deposits count under section 123 (old 80C), and senior citizens can deduct up to ₹50,000 of interest a year (section 153(2)(b), old 80TTB)."),
+    ("""<div class="l">Tax on interest</div>""", "tax on interest",
+     "Interest is taxable from the first rupee at your slab, whether or not the bank deducts TDS. ₹50,000 is only the TDS limit, not a tax-free limit."),
+    ("""<span class="lbl" id="whenLbl">When you deposit</span>""", "PPF deposit timing",
+     "PPF pays interest on the lowest balance between the 5th and the end of each month. Money deposited after the 5th earns nothing for that month, so depositing by 5 April earns the most."),
+    ("""<h2 class="list-h" id="dpCmpLbl">The same saving in FD, RD and PPF</h2>""", "the comparison",
+     "Puts the same yearly amount into each, for the same years, using your FD, RD and PPF rates. FD and RD interest is taxed each year at your slab; PPF is tax-free. A new FD each year, an RD of a twelfth each month."),
 ]
 
 def sections_page():
@@ -1170,6 +1329,7 @@ def sections_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>Want the main ones in one place?</b> Read <a href="/guides/new-income-tax-section-numbers/">New income tax section numbers</a>: 80C, HRA, 24(b), Form 16 and more, with regime.</p>
   <h2>How to read the new section numbers</h2>
   <ul>
     <li><strong>Plain numbers.</strong> The new Act has no lettered sections like 80C or 80CCD(1B). Deductions are sections 122 to 154.</li>
@@ -1279,7 +1439,7 @@ def gratuity_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to gratuity?</b> Read our guide, <a href="/guides/gratuity-new-labour-codes/">Gratuity under the new labour codes</a>, worked through one employee's numbers.</p>
+  <p class="g-callout"><b>New to gratuity?</b> Read our guide, <a href="/guides/gratuity-new-labour-codes/">Gratuity under the new labour codes</a>, worked through one employee's numbers. Planning to resign? Read <a href="/guides/gratuity-six-month-rule-when-to-resign/">When to resign: the six-month rule</a>.</p>
   <h2>How the calculator works</h2>
   <ul>
     <li><strong>Years counted:</strong> your completed years, plus one more if the part-year is over six months.</li>
@@ -1683,6 +1843,15 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/plan-for-school-fees-and-yearly-costs/", "How to plan for school fees and other yearly costs",
      "List your yearly costs, turn them into one monthly set-aside, give them their own account and time it right, with an example family's month-by-month plan.",
      "2026-11-13", "guide-yearly-costs", "Your money"),
+    ("/guides/new-income-tax-section-numbers/", "New income tax section numbers: what 80C, HRA and 24(b) are called now",
+     "The Income-tax Act, 2025 renumbered almost every section. The ones salaried people use most, their new numbers, and whether they work under the new regime.",
+     "2026-11-14", "guide-section-finder", "Your tax"),
+    ("/guides/gratuity-six-month-rule-when-to-resign/", "When to resign: how the six-month rule changes your gratuity",
+     "A part-year of more than six months counts as a full year for gratuity, so your last working day can be worth a year's gratuity. How to time your exit.",
+     "2026-11-14", "guide-gratuity-resign", "Your pay"),
+    ("/guides/are-your-sips-on-track/", "Already investing? How to check if your SIPs are on track for your goal",
+     "A once-a-year check: what your funds are worth, what SIP you need from now, and what to do if you're behind or ahead. With one investor's numbers.",
+     "2026-11-14", "guide-sip-on-track", "Your investments"),
     ("/guides/gratuity-new-labour-codes/", "Gratuity under the new labour codes: how much you'll get, with an example",
      "How gratuity is worked out under the labour codes, what counts as wages now, how your years are counted, when you qualify and how much is tax-free, worked through one employee's numbers.",
      "2026-11-14", "guide-gratuity", "Your pay"),
@@ -2740,11 +2909,12 @@ def catalog():
         ("Your time off", [("/leave-planner-2027/", "Leave Planner 2027", "Turn your leave into the longest breaks of 2027, around central, state or your company's holidays.", True, "",
                             ["/guides/long-weekends-2027/", "/guides/restricted-holidays-2027/", "/guides/best-months-for-a-week-long-break-2027/", "/guides/long-weekends-2027-six-day-week/"])]),
         ("Your pay", [("/ctc-to-in-hand/", "CTC to in-hand, and your hike", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", []),
-                      ("/gratuity-calculator/", "Gratuity Calculator", "Your gratuity under the new labour codes, how much is tax-free, and what staying longer adds.", L("/gratuity-calculator/"), "Coming soon", ["/guides/gratuity-new-labour-codes/"])]),
-        ("Your tax", [("/income-tax-section-finder/", "Income Tax Section Finder", "Old section numbers like 80C, HRA and 24(b), and where they are in the Income-tax Act, 2025.", L("/income-tax-section-finder/"), "Coming soon", [])]),
+                      ("/gratuity-calculator/", "Gratuity Calculator", "Your gratuity under the new labour codes, how much is tax-free, and what staying longer adds.", L("/gratuity-calculator/"), "Coming soon", ["/guides/gratuity-new-labour-codes/", "/guides/gratuity-six-month-rule-when-to-resign/"])]),
+        ("Your tax", [("/income-tax-section-finder/", "Income Tax Section Finder", "Old section numbers like 80C, HRA and 24(b), and where they are in the Income-tax Act, 2025.", L("/income-tax-section-finder/"), "Coming soon", ["/guides/new-income-tax-section-numbers/"])]),
         ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/", "/guides/prepay-home-loan-early-or-later/"]),
                         ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", ["/guides/how-part-payments-cut-your-home-loan/"])]),
-        ("Your investments", [("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", ["/guides/how-much-sip-do-you-need/", "/guides/step-up-sip/", "/guides/how-mutual-fund-gains-are-taxed/"])]),
+        ("Your investments", [("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", ["/guides/how-much-sip-do-you-need/", "/guides/step-up-sip/", "/guides/are-your-sips-on-track/", "/guides/how-mutual-fund-gains-are-taxed/"]),
+                              ("/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator", "What your FD, RD or PPF grows to after tax, whether TDS applies, and all three compared.", L("/fd-ppf-rd-calculator/"), "Coming soon", [])]),
         ("Your home", [("/rent-vs-buy/", "Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax.", True, "",
                         ["/guides/rent-vs-buy/", "/guides/is-rent-really-dead-money/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/"])]),
         ("Your money", [("/budget-planner/", "Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides.", True, "",
@@ -2752,7 +2922,7 @@ def catalog():
         ("Your car", [("/company-car-lease-vs-loan/", "Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.", L("/company-car-lease-vs-loan/"), "Coming soon",
                        ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/"])]),
     ]
-QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + ["FD, PPF and RD"] + (["Gratuity"] if not GRATUITY_LIVE else []) + ["Old vs new regime", "HRA exemption", "Vehicle ownership cost"] + (["Old-to-new section finder"] if not SECTIONS_LIVE else [])
+QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + (["FD, PPF and RD"] if not DEPOSITS_LIVE else []) + (["Gratuity"] if not GRATUITY_LIVE else []) + ["Old vs new regime", "HRA exemption", "Vehicle ownership cost"] + (["Old-to-new section finder"] if not SECTIONS_LIVE else [])
 
 def quick_chips():
     live = "".join(f'<a class="qchip" href="{u}">{n}</a>' for u, n in LIVE_TOOLS if u in QUICK_TOOLS)
@@ -3310,6 +3480,191 @@ def guide_prepay_timing():
 """
     return article(path, "x", "Prepay your home loan early or later?", body, "Prepay early or later?")
 
+def guide_sections():
+    import subprocess
+    D = json.loads(subprocess.check_output(["node", "-e", "const S=require('./src/assets/js/sections.js');process.stdout.write(JSON.stringify(S.DATA.map(r=>Object.assign({lab:S.reg(r)[1]},r))))"], cwd=ROOT))
+    by = {r["o"]: r for r in D}
+    path = "/guides/new-income-tax-section-numbers/"
+    def tbl(keys):
+        rows = "".join(f"<tr><th scope=\"row\">{H.escape(by[k]['o'])}</th><td data-l=\"New section\"><strong>{H.escape(by[k]['n'])}</strong></td><td data-l=\"What it covers\">{H.escape(by[k]['t'])}</td><td data-l=\"Regime\">{H.escape(by[k]['lab'])}</td></tr>" for k in keys)
+        return f'<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Old section (1961 Act)</th><th scope="col">New section (2025 Act)</th><th scope="col">What it covers</th><th scope="col">Regime</th></tr></thead><tbody>{rows}</tbody></table></div>'
+    toc = [("short-answer", "The short answer"), ("which", "Which Act applies to you"), ("salary", "Salary"), ("deductions", "Deductions"), ("home", "Home loan and house property"),
+           ("tax", "Rebate and regime"), ("gains", "Capital gains"), ("forms", "Returns and forms"), ("read", "How to read the new numbers"), ("method", "Sources")]
+    body = guide_head(path, "From 1 April 2026, the Income-tax Act, 2025 replaced the 1961 Act, and almost every section got a new number. Here are the ones salaried people use most, what they're called now, and whether they work under the new regime.",
+                      "Two documents, an old section number pointing to a new one").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>The rules mostly stayed the same; the numbers changed. <strong>80C is now section 123</strong>, <strong>80D is 126</strong>, the <strong>home loan interest deduction (24(b)) is 22</strong>, <strong>HRA is in Schedule III</strong>, and <strong>Form 16 is now Form 130</strong>. The limits you know (₹1.5 lakh, ₹25,000, ₹2 lakh) haven't changed.</p>
+<p class="g-cta"><a class="btn" href="/income-tax-section-finder/">Look up any section</a></p>
+
+<h2 id="which">Which Act applies to you</h2>
+<ul>
+  <li><strong>Income earned up to 31 March 2026</strong> (financial year 2025-26) is taxed under the 1961 Act. The return you file in 2026 for that year still uses the old numbers.</li>
+  <li><strong>Income earned from 1 April 2026</strong> is under the 2025 Act, as "tax year 2026-27". Your employer's TDS, investment declarations and next year's Form 130 use the new numbers.</li>
+</ul>
+
+<h2 id="salary">Salary</h2>
+<p>Most salary exemptions moved into two places: the table in section 19 (deductions from salary) and Schedule III (exempt allowances).</p>
+{tbl(["16(ia)", "16(iii)", "10(13A)", "10(5)", "10(14)", "10(10)", "10(10AA)", "17(2)", "192"])}
+
+<h2 id="deductions">Deductions</h2>
+<p>The old Chapter VI-A deductions (80C to 80U) are now sections 122 to 154, all plain numbers. Under the new regime you can't claim most of them; the exception that matters most is your employer's NPS contribution.</p>
+{tbl(["80C", "80CCD(1B)", "80CCD(2)", "80D", "80E", "80G", "80GG", "80TTA", "80TTB"])}
+
+<h2 id="home">Home loan and house property</h2>
+{tbl(["24(b)", "24(a)", "80EEA"])}
+<p>Comparing the regimes for a home loan? The <a href="/guides/hra-vs-home-loan-tax-benefits/">HRA or home loan tax benefits</a> guide works through it.</p>
+
+<h2 id="tax">Rebate and regime</h2>
+{tbl(["87A", "115BAC"])}
+
+<h2 id="gains">Capital gains</h2>
+{tbl(["111A", "112A", "54"])}
+
+<h2 id="forms">Returns and forms</h2>
+{tbl(["139(1)", "139(8A)", "234B", "Form 16", "Form 12BB", "Form 15G / 15H"])}
+
+<h2 id="read">How to read the new numbers</h2>
+<ul>
+  <li><strong>No more letters.</strong> There's no 80CCD(1B) or 10(13A); every section is a plain number, often with a table inside it.</li>
+  <li><strong>"19(1), Table S. No. 2"</strong> means serial number 2 in the table in section 19(1). That's the standard deduction.</li>
+  <li><strong>Schedules</strong> at the end of the Act hold lists that used to sit inside sections: Schedule III for exempt allowances like HRA and LTA, Schedule XV for what counts under section 123.</li>
+  <li><strong>The new regime is section 202.</strong> Its sub-section (2) lists what you can't claim under it.</li>
+</ul>
+<p>For anything not in these tables, use the <a href="/income-tax-section-finder/">section finder</a>. It covers about 60 sections, each with what it means under each regime.</p>
+
+<h2 id="method">Sources</h2>
+<p>Every mapping here comes from the Salarist section finder, which was checked against the section text of the Income-tax Act, 2025 on the <a href="https://www.incometaxindia.gov.in/" rel="noopener">Income Tax Department's website</a>, including section 202(2) for what applies under the new regime. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. It isn't tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "New income tax section numbers", body, "New section numbers")
+
+def guide_gratuity_resign():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_gratuity_resign_numbers.js")]))
+    J10, J11, Y4, Y5, NC, CV = G["jul10"], G["jul11"], G["y4m11"], G["y5"], G["notCovered"], G["covered"]
+    path = "/guides/gratuity-six-month-rule-when-to-resign/"
+    toc = [("short-answer", "The short answer"), ("rule", "The six-month rule"), ("example", "Rahul's numbers"), ("five", "The five-year rule doesn't round"),
+           ("date", "Which date counts"), ("covered", "When the rule doesn't apply"), ("plan", "How to time your exit"), ("method", "Sources")]
+    body = guide_head(path, "Gratuity counts a part-year of more than six months as a full year. So the date you leave can be worth a whole year's gratuity. Here's how the rule works, with one employee's numbers from the Salarist gratuity calculator.",
+                      "A timeline of years of service with the half-year mark highlighted").replace("TYPE_LINE", "")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>If you're past a full year of service by <strong>more than six months</strong>, the part-year counts as a whole year. For Rahul, leaving on 10 July 2026 means {_inr(J10['grat'])} in gratuity; leaving one day later, on 11 July, means <strong>{_inr(J11['grat'])}</strong>. One extra day is worth {_inr(J11['grat'] - J10['grat'])}.</p>
+<p class="g-cta"><a class="btn" href="/gratuity-calculator/">Find your next step-up date</a></p>
+
+<h2 id="rule">The six-month rule</h2>
+<p>Gratuity is 15 days' wages for every year of service: monthly wages × 15 ÷ 26 × years. Under the Code on Social Security, 2020, a year is counted for every completed year <strong>and for any part-year of more than six months</strong>. So:</p>
+<ul>
+  <li>6 years and 6 months counts as 6 years.</li>
+  <li>6 years, 6 months and 1 day counts as 7 years.</li>
+  <li>6 years and 11 months also counts as 7 years, so there's nothing more to gain by staying until the 7-year mark itself.</li>
+</ul>
+
+<h2 id="example">Rahul's numbers</h2>
+<p>Rahul joined on 10 January 2020. His basic is ₹40,000 and his total pay is ₹1,00,000 a month, so under the labour codes his wages for gratuity are half his pay: ₹50,000. Each counted year is worth {_inr(G['perYear'])}.</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Last working day</th><th scope="col">Service</th><th scope="col">Years counted</th><th scope="col">Gratuity</th></tr></thead><tbody>
+<tr><th scope="row">10 July 2026</th><td data-l="Service">6 years 6 months</td><td data-l="Years counted">{J10['yrs']}</td><td data-l="Gratuity">{_inr(J10['grat'])}</td></tr>
+<tr><th scope="row">11 July 2026</th><td data-l="Service">6 years 6 months 1 day</td><td data-l="Years counted"><strong>{J11['yrs']}</strong></td><td data-l="Gratuity"><strong>{_inr(J11['grat'])}</strong></td></tr>
+<tr><th scope="row">9 January 2027</th><td data-l="Service">6 years 11 months 30 days</td><td data-l="Years counted">{G['jan9']['yrs']}</td><td data-l="Gratuity">{_inr(G['jan9']['grat'])}</td></tr>
+</tbody></table></div>
+<p>If Rahul is resigning anyway, a last day of 11 July or later gets him the extra year. Staying on to January adds nothing more.</p>
+
+<h2 id="five">The five-year rule doesn't round</h2>
+<p>Permanent employees need <strong>5 years of continuous service</strong> to get gratuity at all, and here the six-month rule doesn't help. Someone who joined on 10 January 2022 and leaves on 31 December 2026, at 4 years 11 months, gets nothing. Staying until 10 January 2027 gets them {_inr(Y5['grat'])}.</p>
+<p>Fixed-term employees qualify after 1 year, and gratuity is always paid on death or disablement, whatever the length of service.</p>
+
+<h2 id="date">Which date counts</h2>
+<p>Your service runs until your <strong>last working day</strong>, the date your employment actually ends, not the day you hand in your resignation. Your notice period counts as service. If you're negotiating an early release, check what it does to your service first.</p>
+
+<h2 id="covered">When the rule doesn't apply</h2>
+<p>The six-month rule is part of the Code, which covers establishments with 10 or more employees. If your employer isn't covered, gratuity depends on its own policy, which often counts only completed years. For Rahul, leaving on 31 December 2026 would mean {_inr(CV['grat'])} from a covered employer, or about {_inr(NC['grat'])} from one that counts completed years on his basic pay.</p>
+
+<h2 id="plan">How to time your exit</h2>
+<ol class="g-check">
+  <li>Find your exact joining date (it's on your appointment letter).</li>
+  <li>Work out when you next pass a half-year mark. The <a href="/gratuity-calculator/">gratuity calculator</a> shows the date and what it adds.</li>
+  <li>Check that your notice period ends after that date, or ask for a last working day that does.</li>
+  <li>If you're close to 5 years, make sure your last day is on or after your 5-year anniversary.</li>
+  <li>Ask HR how they count service, especially for years before 21 November 2025.</li>
+</ol>
+<p>Read the full guide, <a href="/guides/gratuity-new-labour-codes/">Gratuity under the new labour codes</a>, for how wages are counted and how much is tax-free.</p>
+
+<h2 id="method">Sources</h2>
+<p>Gratuity rules: section 53 of the Code on Social Security, 2020 (<a href="https://labour.gov.in/" rel="noopener">Ministry of Labour and Employment</a>), in force from 21 November 2025. All amounts come from the <a href="/gratuity-calculator/">gratuity calculator</a>. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. It isn't legal advice; your employer's policy and your contract also matter.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "When to resign: the six-month gratuity rule", body, "Gratuity six-month rule")
+
+def guide_sip_track():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_sip_track_numbers.js")]))
+    B, T, A = G["behind"], G["onTrack"], G["ahead"]
+    path = "/guides/are-your-sips-on-track/"
+    toc = [("short-answer", "The short answer"), ("plan", "Karan's plan"), ("check", "The check, three years in"), ("behind", "If you're behind"),
+           ("ahead", "If you're ahead"), ("steps", "Your yearly check in five steps"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Starting a SIP for a goal is the easy part. Checking once a year whether it's still on course is what gets you there. Here's how to do it with the Salarist SIP calculator, using one investor's numbers three years in.",
+                      "A rising path with a checkpoint flag on the way to a goal").replace("TYPE_LINE", "")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Once a year, enter what your investments are worth today and what you've put in, then ask the calculator what monthly SIP you need from now to reach your goal. If it's more than you're investing, you're behind; if it's less, you're ahead. For Karan, after a bad year for markets, the answer was <strong>{_inr(B['need'])}</strong> a month against the {_inr(G['sipNow'])} he planned: about {_inr(B['extra'])} more.</p>
+<p class="g-cta"><a class="btn" href="/sip-calculator/">Check your SIPs</a></p>
+
+<h2 id="plan">Karan's plan</h2>
+<p>Three years ago, Karan set a goal of <strong>₹1 crore in 15 years</strong>. Assuming 12% a year from equity funds and a 10% step-up every year, he needed {_inr(G['planSip'])} a month, so that's what he started with. After three step-ups, his SIP is now {_inr(G['sipNow'])}. In those three years he's put in {_L(G['invested'])}, and if returns had been exactly 12%, his funds would be worth about {_L(G['plan3'])}.</p>
+
+<h2 id="check">The check, three years in</h2>
+<p>Returns are never exactly 12% a year, so his portfolio could be anywhere. Here's what the check says in three cases, with 12 years left:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Portfolio today</th><th scope="col">If he carries on as planned</th><th scope="col">SIP needed from now</th></tr></thead><tbody>
+<tr><th scope="row">Behind: {_L(B['value'])}</th><td data-l="If he carries on">{_L(B['keep'])}</td><td data-l="SIP needed"><strong>{_inr(B['need'])}</strong></td></tr>
+<tr><th scope="row">On track: {_L(T['value'])}</th><td data-l="If he carries on">{_L(T['keep'])}</td><td data-l="SIP needed">{_inr(T['need'])}</td></tr>
+<tr><th scope="row">Ahead: {_L(A['value'])}</th><td data-l="If he carries on">{_L(A['keep'])}</td><td data-l="SIP needed">{_inr(A['need'])}</td></tr>
+</tbody></table></div>
+<p>The "SIP needed" is the monthly amount from now on, still rising 10% a year, that reaches ₹1 crore at 12% a year. Compare it with his current {_inr(G['sipNow'])}.</p>
+
+<h2 id="behind">If you're behind</h2>
+<p>A fall in the market makes the check look worse, but it doesn't mean the plan has failed. Karan has three ways to close the gap of about {_L(10000000 - B['keep'])}:</p>
+<ul>
+  <li><strong>Invest a little more:</strong> about {_inr(B['extra'])} a month on top of his SIP, still stepping up 10% a year.</li>
+  <li><strong>Give it one more year:</strong> carrying on as planned for 13 years instead of 12 would get him about {_L(B['yrs13'])}.</li>
+  <li><strong>Wait and re-check next year:</strong> if returns are above 12% from here, the gap closes on its own. That's a reasonable choice if you're only slightly behind, but don't wait several years.</li>
+</ul>
+<p>What not to do: stop your SIP after a fall. That's when each SIP buys more units.</p>
+
+<h2 id="ahead">If you're ahead</h2>
+<p>If the SIP needed is less than you're investing, you're ahead. That's no reason to cut back: returns could be lower in later years. Keep going, and treat the cushion as protection against a bad patch close to your goal.</p>
+
+<h2 id="steps">Your yearly check in five steps</h2>
+<ol class="g-check">
+  <li><strong>Note two numbers</strong> from your fund statement or app: what your funds for this goal are worth today, and what you've put in so far.</li>
+  <li><strong>Open the <a href="/sip-calculator/">SIP calculator</a></strong>, choose "I already invest" and enter both numbers.</li>
+  <li><strong>Switch to goal mode</strong>, enter your goal and the years left, and keep your step-up the same.</li>
+  <li><strong>Compare</strong> the SIP it shows with what you invest now. More means you're behind; less means you're ahead.</li>
+  <li><strong>Save your plan</strong> with "Save SIP plan" so next year you only need to update the two numbers.</li>
+</ol>
+<p>New to goal planning? Start with <a href="/guides/how-much-sip-do-you-need/">How much SIP do you need?</a></p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>All figures come from the <a href="/sip-calculator/">SIP calculator</a>: SIPs at the start of each month, returns compounding at 12% a year, a 10% step-up every 12 months, and values before tax. The three portfolio values are examples, not forecasts. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information and education. It isn't investment advice. Mutual fund investments are subject to market risks.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Are your SIPs on track?", body, "SIPs on track?")
+
 def guide_mf_tax():
     import subprocess
     G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_sip_numbers.js")]))
@@ -3488,6 +3843,7 @@ def main():
     if SIP_LIVE: write("/sip-calculator/", sip_page())
     if GRATUITY_LIVE: write("/gratuity-calculator/", gratuity_page())
     if SECTIONS_LIVE: write("/income-tax-section-finder/", sections_page())
+    if DEPOSITS_LIVE: write("/fd-ppf-rd-calculator/", deposits_page())
     write("/guides/", guides_index())
     write("/tools/", tools_index())
     write("/guides/rent-vs-buy/", guide_rentbuy())
@@ -3509,11 +3865,14 @@ def main():
     write("/guides/step-up-sip/", guide_sip_step())
     write("/guides/how-mutual-fund-gains-are-taxed/", guide_mf_tax())
     write("/guides/gratuity-new-labour-codes/", guide_gratuity())
+    write("/guides/new-income-tax-section-numbers/", guide_sections())
+    write("/guides/gratuity-six-month-rule-when-to-resign/", guide_gratuity_resign())
+    write("/guides/are-your-sips-on-track/", guide_sip_track())
     write("/guides/is-rent-really-dead-money/", guide_rent_dead())
     write("/guides/prepay-home-loan-early-or-later/", guide_prepay_timing())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime

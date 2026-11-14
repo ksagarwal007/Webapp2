@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A rising path with a checkpoint flag on the way to a goal">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+  <path d="M220 740 C 520 700, 760 560, 1000 430 S 1300 230, 1400 190" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-dasharray="2 34" opacity=".7"/>
+  <path d="M220 740 C 520 700, 700 590, 860 510" fill="none" stroke="#FFD27A" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="860" cy="510" r="30" fill="#FFD27A"/>
+  <rect x="852" y="330" width="14" height="180" rx="7" fill="#FFFFFF"/>
+  <path d="M866 340 h120 l-30 40 l30 40 h-120 z" fill="#FFFFFF"/>
+  <g transform="translate(1330 120)"><circle r="70" fill="#FFFFFF"/><circle r="44" fill="none" stroke="#1F5FE0" stroke-width="14"/><circle r="14" fill="#1F5FE0"/></g>
+</svg>
