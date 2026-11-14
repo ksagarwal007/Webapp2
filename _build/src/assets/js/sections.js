@@ -20,9 +20,9 @@
     /* Deductions */
     { p: 4, o: "80C", r: "old", n: "123 (with Schedule XV)", t: "PPF, EPF, ELSS, life insurance, home loan principal, tuition fees and more", g: "deductions", k: "80c ppf epf elss lic tuition principal sukanya nsc 150000", d: "Up to ₹1.5 lakh a year. The list of eligible items is in Schedule XV.", u: ["/sip-calculator/", "SIP Calculator"] },
     { o: "80CCC", r: "old", n: "123 (Schedule XV)", t: "Pension plan of LIC or another insurer", g: "deductions", k: "80ccc pension annuity", d: "Counts within the ₹1.5 lakh limit." },
-    { o: "80CCD(1)", r: "old", n: "123 (Schedule XV, para 1(y))", t: "Your own NPS contribution, up to 10% of salary", g: "deductions", k: "nps 80ccd1 pension", d: "Counts within the ₹1.5 lakh limit." },
-    { p: 4, o: "80CCD(1B)", r: "old", n: "124(3)", t: "Extra ₹50,000 for your own NPS contribution", g: "deductions", k: "nps 80ccd1b 50000 additional", d: "Over and above ₹1.5 lakh." },
-    { o: "80CCD(2)", r: "both", n: "124(1) and 124(2)", t: "Employer's NPS contribution", g: "deductions", k: "nps employer 80ccd2 14%", d: "Up to 14% of salary under the new regime, 10% under the old (14% for government employers)." },
+    { o: "80CCD(1)", r: "old", n: "123 (Schedule XV, para 1(y))", t: "Your own NPS contribution, up to 10% of salary", g: "deductions", k: "nps 80ccd1 pension", d: "Counts within the ₹1.5 lakh limit.", u: ["/nps-calculator/", "NPS Calculator"] },
+    { p: 4, o: "80CCD(1B)", r: "old", n: "124(3)", t: "Extra ₹50,000 for your own NPS contribution", g: "deductions", k: "nps 80ccd1b 50000 additional", d: "Over and above ₹1.5 lakh.", u: ["/nps-calculator/", "NPS Calculator"] },
+    { o: "80CCD(2)", r: "both", n: "124(1) and 124(2)", t: "Employer's NPS contribution", g: "deductions", k: "nps employer 80ccd2 14%", d: "Up to 14% of salary under the new regime, 10% under the old (14% for government employers).", u: ["/nps-calculator/", "NPS Calculator"] },
     { p: 4, o: "80D", r: "old", n: "126", t: "Health insurance premium and health check-ups", g: "deductions", k: "80d health insurance mediclaim parents preventive", d: "₹25,000 for your family, ₹25,000 more for parents (₹50,000 each for senior citizens)." },
     { o: "80DD", r: "old", n: "127", t: "Care of a dependant with disability", g: "deductions", k: "80dd disability dependant", d: "₹75,000, or ₹1,25,000 for severe disability." },
     { o: "80DDB", r: "old", n: "128", t: "Treatment of specified illnesses", g: "deductions", k: "80ddb medical treatment disease", d: "Up to ₹40,000, less any insurance payout." },
@@ -32,8 +32,8 @@
     { o: "80G", r: "old", n: "133", t: "Donations to charities and relief funds", g: "deductions", k: "80g donation charity", d: "Only donations made as money count." },
     { o: "80GG", r: "old", n: "134", t: "Rent paid when you don't get HRA", g: "deductions", k: "80gg rent no hra self employed", d: "Up to ₹5,000 a month." },
     { o: "80GGC", r: "old", n: "137", t: "Contributions to political parties", g: "deductions", k: "80ggc political party", d: "" },
-    { o: "80TTA", r: "old", n: "153(2)(a)", t: "Savings account interest", g: "deductions", k: "80tta savings bank interest 10000", d: "Up to ₹10,000." },
-    { o: "80TTB", r: "old", n: "153(2)(b)", t: "Interest on deposits for senior citizens", g: "deductions", k: "80ttb senior citizen fd interest 50000", d: "Up to ₹50,000." },
+    { o: "80TTA", r: "old", n: "153(2)(a)", t: "Savings account interest", g: "deductions", k: "80tta savings bank interest 10000", d: "Up to ₹10,000.", u: ["/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator"] },
+    { o: "80TTB", r: "old", n: "153(2)(b)", t: "Interest on deposits for senior citizens", g: "deductions", k: "80ttb senior citizen fd interest 50000", d: "Up to ₹50,000.", u: ["/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator"] },
     { o: "80U", r: "old", n: "154", t: "Taxpayer with a disability", g: "deductions", k: "80u disability", d: "₹75,000, or ₹1,25,000 for severe disability." },
     /* Tax and regime */
     { p: 4, o: "87A", r: "diff", n: "156", t: "Tax rebate", g: "tax", k: "87a rebate 12 lakh 60000 zero tax", d: "New regime: no tax up to ₹12 lakh of taxable income. Old regime: up to ₹12,500, if income is ₹5 lakh or less." },
@@ -63,11 +63,11 @@
     { o: "234A", n: "423", t: "Interest for filing your return late", g: "returns", k: "234a interest late return", d: "1% a month on the tax due." },
     { o: "234B", n: "424", t: "Interest for not paying enough advance tax", g: "returns", k: "234b interest advance tax shortfall", d: "1% a month." },
     { o: "234C", n: "425", t: "Interest for paying advance tax late", g: "returns", k: "234c interest deferment instalment", d: "" },
-    { o: "194A, 194I and other TDS", n: "393", t: "TDS on interest, rent and other payments", g: "returns", k: "194a 194i 194ia tds interest rent property", d: "All non-salary TDS is now in one section, with a table." },
+    { o: "194A, 194I and other TDS", n: "393", t: "TDS on interest, rent and other payments", g: "returns", k: "194a 194i 194ia tds interest rent property", d: "All non-salary TDS is now in one section, with a table.", u: ["/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator"] },
     /* Forms */
     { p: 4, o: "Form 16", n: "Form 130", t: "Salary TDS certificate from your employer", g: "forms", k: "form 16 tds certificate", d: "" },
     { o: "Form 12BB", n: "Form 124", t: "Investment declaration to your employer", g: "forms", k: "12bb declaration hra lta proof", d: "Filed under section 392(5)(b)." },
-    { o: "Form 15G / 15H", n: "Form 121", t: "Declaration for no TDS on interest", g: "forms", k: "15g 15h no tds", d: "One form now, under section 393(6)." },
+    { o: "Form 15G / 15H", n: "Form 121", t: "Declaration for no TDS on interest", g: "forms", k: "15g 15h no tds", d: "One form now, under section 393(6).", u: ["/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator"] },
   ];
   var REG = {
     both: ["both", "Both regimes", "You can use this whether you pay tax under the new regime (the default) or the old one."],

@@ -52,7 +52,7 @@
     x.lineWidth = 1.5;
     for (var k = 0; k <= 4; k++) { var v = mn + span * k / 4, yy = py(v); x.strokeStyle = C.line; x.beginPath(); x.moveTo(X + pl, yy); x.lineTo(X + W, yy); x.stroke(); T(x, sp.short(v), X + pl - 14, yy + 8, 20, 600, C.muted, "right"); }
     var yrs = n / 12, step = yrs > 20 ? 5 : yrs > 8 ? 2 : 1;
-    for (var t = 0; t <= yrs + 1e-9; t += step) T(x, "Yr " + t, px(t * 12), Y + H, 20, 600, C.muted, "center");
+    for (var t = 0; t <= yrs + 1e-9; t += step) T(x, sp.chartAge0 !== undefined ? String(sp.chartAge0 + t) : "Yr " + t, px(t * 12), Y + H, 20, 600, C.muted, "center");
     if (mn < 0 && mx > 0) { x.setLineDash([8, 8]); x.strokeStyle = C.muted; x.beginPath(); x.moveTo(X + pl, py(0)); x.lineTo(X + W, py(0)); x.stroke(); x.setLineDash([]); T(x, "₹0", X + pl + 10, py(0) - 10, 18, 600, C.muted); }
     if (ch.vline && ch.vline.m < n) { var vm = ch.vline.m; x.setLineDash([6, 6]); x.strokeStyle = C.amber; x.beginPath(); x.moveTo(px(vm), Y); x.lineTo(px(vm), Y + H - pb); x.stroke(); x.setLineDash([]); T(x, ch.vline.label, px(vm), Y - 10, 18, 700, C.amber, vm / n > 0.7 ? "right" : "center"); }
     ser.slice().reverse().forEach(function (s) { x.beginPath(); for (var i = 0; i <= n; i++) { if (i) x.lineTo(px(i), py(s.data[i])); else x.moveTo(px(i), py(s.data[i])); } x.strokeStyle = col(s.color); x.lineWidth = 5; x.lineJoin = "round"; x.stroke(); });
@@ -259,8 +259,8 @@
     sum.push([], [{ v: DISCLAIMER, s: 7 }], [{ v: "Free, private money tools for salaried India: salarist.in", s: 3 }]);
     var HEAD = 26, cats = sp.chartYears, ch = [[{ v: sp.chartTitle, s: 4 }], [{ v: sp.chartNote + " At each year end, in ₹ lakh.", s: 7 }]];
     while (ch.length < HEAD - 1) ch.push([]);
-    ch.push([{ v: "Year", s: 1 }].concat(sp.chart.series.map(function (s) { return { v: s.name, s: 10 }; })));
-    var serVals = sp.chart.series.map(function (s) { return cats.map(function (y) { return Math.round(s.data[Math.min(y * 12, s.data.length - 1)] / 1000) / 100; }); });
+    ch.push([{ v: sp.chartXLabel || "Year", s: 1 }].concat(sp.chart.series.map(function (s) { return { v: s.name, s: 10 }; })));
+    var serVals = sp.chart.series.map(function (s) { return cats.map(function (y, i) { return Math.round(s.data[Math.min(i * 12, s.data.length - 1)] / 1000) / 100; }); });
     cats.forEach(function (c, i) { ch.push([c].concat(serVals.map(function (v) { return { v: v[i], s: 11 }; }))); });
     var names = ["Summary", "Chart"], sheets = [sheet(sum, [46, 26, 22]), sheet(ch, [12, 22, 22], 0, true)];
     function tbl(cols, rows) { return [cols.map(function (t, i) { return { v: t, s: i ? 10 : 1 }; })].concat(rows.map(function (r) { return r.map(function (v, i) { return i ? money(v) : v; }); })); }

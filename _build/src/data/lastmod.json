@@ -1,7 +1,7 @@
 {
  "/": {
   "date": "2026-11-14",
-  "hash": "8fc0c514c51bff84"
+  "hash": "b0aadff0a6a444ae"
  },
  "/about/": {
   "date": "2026-11-14",
@@ -9,11 +9,15 @@
  },
  "/budget-planner/": {
   "date": "2026-11-14",
-  "hash": "8754dc5b19ce9b40"
+  "hash": "04d77fb32f99c643"
+ },
+ "/car-ownership-cost/": {
+  "date": "2026-11-14",
+  "hash": "26621caed5bfb6d4"
  },
  "/company-car-lease-vs-loan/": {
   "date": "2026-11-14",
-  "hash": "00b1c252f232dc27"
+  "hash": "e3d67e3be9c665d0"
  },
  "/contact/": {
   "date": "2026-11-13",
@@ -25,131 +29,207 @@
  },
  "/emi-calculator/": {
   "date": "2026-11-14",
-  "hash": "ec0cfabacd537765"
+  "hash": "d14740032d225999"
+ },
+ "/epf-calculator/": {
+  "date": "2026-11-14",
+  "hash": "f04560b5cfc2ec70"
+ },
+ "/eps-pension-calculator/": {
+  "date": "2026-11-14",
+  "hash": "85a75afdcfe3f7ed"
  },
  "/fd-ppf-rd-calculator/": {
   "date": "2026-11-14",
-  "hash": "9be6ee33bb99fae1"
+  "hash": "b09dd9e4c57f892a"
  },
  "/gratuity-calculator/": {
   "date": "2026-11-14",
-  "hash": "5a64df4f382d58bc"
+  "hash": "fdbb418a2e568e7f"
  },
  "/guides/": {
   "date": "2026-11-14",
-  "hash": "b0e774616dd3b578"
+  "hash": "3ee3d402e7d81b80"
+ },
+ "/guides/25x-rule-retirement-india/": {
+  "date": "2026-11-14",
+  "hash": "218f9548af165968"
  },
  "/guides/are-your-sips-on-track/": {
   "date": "2026-11-14",
-  "hash": "31a2479861452bb9"
+  "hash": "d0c6ce09e3e42527"
  },
  "/guides/best-months-for-a-week-long-break-2027/": {
   "date": "2026-11-14",
-  "hash": "dc45490c661cc51e"
+  "hash": "8d959c4464b7a2bb"
  },
  "/guides/budget-on-50000-1-lakh-2-lakh-salary/": {
   "date": "2026-11-14",
-  "hash": "f6075f0c7066d4f8"
+  "hash": "e8fc70bb215ccceb"
  },
  "/guides/car-lease-new-tax-regime/": {
   "date": "2026-11-14",
-  "hash": "c72ede4c92a46a25"
+  "hash": "eb04cd8998a5141a"
  },
  "/guides/company-car-lease-vs-car-loan/": {
   "date": "2026-11-14",
-  "hash": "aad9af1a84bd1940"
+  "hash": "52df7317cc8b20cd"
  },
  "/guides/company-car-perquisite-value-2026/": {
   "date": "2026-11-14",
-  "hash": "1ae2e487cf27726d"
+  "hash": "3094c70b4a7bf647"
+ },
+ "/guides/employer-nps-14-percent-new-regime/": {
+  "date": "2026-11-14",
+  "hash": "770ee6ba58c181f3"
+ },
+ "/guides/epf-wage-ceiling-25000/": {
+  "date": "2026-11-14",
+  "hash": "a8d9cddbfc2e9b1f"
+ },
+ "/guides/eps-pension-explained/": {
+  "date": "2026-11-14",
+  "hash": "918a77e52021b5b7"
+ },
+ "/guides/fd-interest-tax-below-50000/": {
+  "date": "2026-11-14",
+  "hash": "35847caadf96c261"
+ },
+ "/guides/fd-rd-or-ppf/": {
+  "date": "2026-11-14",
+  "hash": "295b7076f39ea534"
  },
  "/guides/gratuity-new-labour-codes/": {
   "date": "2026-11-14",
-  "hash": "45acdbcbc0f599d2"
+  "hash": "3b6489031af8bdf6"
  },
  "/guides/gratuity-six-month-rule-when-to-resign/": {
   "date": "2026-11-14",
-  "hash": "2df396a0778cb40f"
+  "hash": "8b44adda9b0d8ed4"
+ },
+ "/guides/how-much-do-you-need-to-retire/": {
+  "date": "2026-11-14",
+  "hash": "f92569f30a9fcacb"
+ },
+ "/guides/how-much-epf-at-58/": {
+  "date": "2026-11-14",
+  "hash": "0d48659f42d23c36"
  },
  "/guides/how-much-sip-do-you-need/": {
   "date": "2026-11-14",
-  "hash": "db04299d02e25f9a"
+  "hash": "cce1b5cc38cebff5"
  },
  "/guides/how-mutual-fund-gains-are-taxed/": {
   "date": "2026-11-14",
-  "hash": "18fd2907f3c58557"
+  "hash": "99a5119dfa3128b0"
  },
  "/guides/how-part-payments-cut-your-home-loan/": {
   "date": "2026-11-14",
-  "hash": "040ebfaf7f2a060e"
+  "hash": "c6e48f5c6ac73d99"
  },
  "/guides/hra-vs-home-loan-tax-benefits/": {
   "date": "2026-11-14",
-  "hash": "b364b0233afcf284"
+  "hash": "37d72318041d1342"
+ },
+ "/guides/is-gratuity-taxable-20-lakh-limit/": {
+  "date": "2026-11-14",
+  "hash": "7c130a3f97da3975"
  },
  "/guides/is-rent-really-dead-money/": {
   "date": "2026-11-14",
-  "hash": "465525b21c9ba42b"
+  "hash": "5473bfca77822f08"
  },
  "/guides/long-weekends-2027-six-day-week/": {
   "date": "2026-11-14",
-  "hash": "b3c5011e9c196a7c"
+  "hash": "78dcbe14f1b1878f"
  },
  "/guides/long-weekends-2027/": {
   "date": "2026-11-14",
-  "hash": "af6b224ba6b3f824"
+  "hash": "e7d9372dc4659b4c"
  },
  "/guides/monthly-budget/": {
   "date": "2026-11-14",
-  "hash": "483d4055ab385fa1"
+  "hash": "e1500f431aebae4a"
  },
  "/guides/new-income-tax-section-numbers/": {
   "date": "2026-11-14",
-  "hash": "75bcdfeea39f114e"
+  "hash": "8a73c86b90c07fa9"
+ },
+ "/guides/nps-80-percent-withdrawal-tax/": {
+  "date": "2026-11-14",
+  "hash": "789f5c8aaf7acdf2"
+ },
+ "/guides/nps-new-exit-rules/": {
+  "date": "2026-11-14",
+  "hash": "e865ce21fa8269eb"
+ },
+ "/guides/nps-vs-ppf-vs-epf/": {
+  "date": "2026-11-14",
+  "hash": "06f60a6ec434a675"
+ },
+ "/guides/petrol-cng-or-ev-cost-per-km/": {
+  "date": "2026-11-14",
+  "hash": "91d25f59ade9bad6"
  },
  "/guides/plan-for-school-fees-and-yearly-costs/": {
   "date": "2026-11-14",
-  "hash": "48d240e5d5f792ae"
+  "hash": "17f6ed4bc73d023d"
+ },
+ "/guides/ppf-deposit-by-5-april/": {
+  "date": "2026-11-14",
+  "hash": "5ed2460360407332"
  },
  "/guides/prepay-home-loan-early-or-later/": {
   "date": "2026-11-14",
-  "hash": "c6eda9ecdf2ed015"
+  "hash": "34d296a4bf8eb380"
  },
  "/guides/prepay-home-loan-or-invest/": {
   "date": "2026-11-14",
-  "hash": "fa68b33fb38b3a79"
+  "hash": "f2083be78148b6f4"
  },
  "/guides/rent-vs-buy/": {
   "date": "2026-11-14",
-  "hash": "a6ca997bbea9cc20"
+  "hash": "91834b3f398f5aa4"
  },
  "/guides/restricted-holidays-2027/": {
   "date": "2026-11-14",
-  "hash": "3369a77b0b2750d4"
+  "hash": "76696aa1f9b21f72"
+ },
+ "/guides/sip-or-lump-sum-bonus/": {
+  "date": "2026-11-14",
+  "hash": "a96f37da0779d2d7"
  },
  "/guides/step-up-sip/": {
   "date": "2026-11-14",
-  "hash": "56a72579724fac02"
+  "hash": "45bce4449ea0ed82"
+ },
+ "/guides/transfer-pf-dont-withdraw/": {
+  "date": "2026-11-14",
+  "hash": "0d1f635bba56f37c"
  },
  "/guides/under-construction-vs-ready-to-move/": {
   "date": "2026-11-14",
-  "hash": "70872dc3506a1738"
+  "hash": "9a1080df6a876acd"
  },
  "/income-tax-section-finder/": {
   "date": "2026-11-14",
-  "hash": "b8eb8b3ad469ca4c"
+  "hash": "f4d12f46b21ace80"
  },
  "/leave-planner-2027/": {
   "date": "2026-11-14",
-  "hash": "3e3b5714b527e057"
+  "hash": "85170dc3294665d9"
  },
  "/methodology/": {
   "date": "2026-11-13",
   "hash": "dabed5df016bd2ed"
  },
+ "/nps-calculator/": {
+  "date": "2026-11-14",
+  "hash": "7429a3f6e23722ae"
+ },
  "/prepay-vs-invest/": {
   "date": "2026-11-14",
-  "hash": "432d56b6ce704f88"
+  "hash": "dca1a988f62bcc07"
  },
  "/privacy/": {
   "date": "2026-11-13",
@@ -157,11 +237,15 @@
  },
  "/rent-vs-buy/": {
   "date": "2026-11-14",
-  "hash": "c5eb01d74d103fb7"
+  "hash": "e2aa007b12a47b34"
+ },
+ "/retirement-planner/": {
+  "date": "2026-11-14",
+  "hash": "bfb56c5c1c48432c"
  },
  "/sip-calculator/": {
   "date": "2026-11-14",
-  "hash": "2f6bd2f1ad875a5a"
+  "hash": "bfe15f064f405791"
  },
  "/terms/": {
   "date": "2026-11-13",
@@ -169,6 +253,6 @@
  },
  "/tools/": {
   "date": "2026-11-14",
-  "hash": "e352d87f6870728d"
+  "hash": "260d3e229ccadf30"
  }
 }

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A bank receipt with a TDS stamp next to a tax form">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+  <g transform="translate(360 170)"><rect width="400" height="560" rx="26" fill="#FFFFFF"/>
+    <rect x="50" y="60" width="220" height="34" rx="10" fill="#0B2A6B" opacity=".35"/>
+    <g fill="#0B2A6B" opacity=".18"><rect x="50" y="140" width="300" height="18" rx="9"/><rect x="50" y="185" width="260" height="18" rx="9"/><rect x="50" y="230" width="280" height="18" rx="9"/><rect x="50" y="275" width="220" height="18" rx="9"/></g>
+    <g transform="rotate(-12 220 420)"><rect x="90" y="360" width="250" height="120" rx="18" fill="none" stroke="#1F5FE0" stroke-width="12"/><rect x="130" y="400" width="170" height="40" rx="10" fill="#1F5FE0"/></g></g>
+  <g transform="translate(860 240)"><rect width="380" height="460" rx="26" fill="#FFFFFF" opacity=".9"/>
+    <rect x="40" y="50" width="160" height="34" rx="10" fill="#FFD27A"/>
+    <g fill="#0B2A6B" opacity=".18"><rect x="40" y="130" width="300" height="18" rx="9"/><rect x="40" y="175" width="300" height="18" rx="9"/><rect x="40" y="220" width="200" height="18" rx="9"/></g>
+    <rect x="40" y="300" width="300" height="100" rx="16" fill="#FFD27A" opacity=".55"/></g>
+</svg>

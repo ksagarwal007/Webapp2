@@ -358,3 +358,30 @@ button.sf-reg{cursor:pointer;font:600 12px var(--ff);line-height:1.4}
 .dp .sens .sv .h{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 .dp-tds b{display:block;margin-bottom:2px}
 #dpExtra p{margin:0 0 6px}#dpExtra p:last-child{margin:0}
+.co .lp-setup{min-width:0}.co .two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.co .numin input{min-width:0;width:100%}
+@media (max-width:900px){.co .two{grid-template-columns:minmax(0,1fr)}}
+.co .lp-setup h3.sub{font-size:15px;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.co .sens .sv .h{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.co .sens{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+#coParts .tot td{border-top:2px solid var(--line)}
+.two>*{min-width:0}.numin input{min-width:0}
+#coParts table.calc{min-width:0}#coParts table.calc th[scope=row]{white-space:normal}
+#coParts+h2{margin-top:32px}
+.co .sens .sv .n{font-family:var(--ff);font-size:14px}
+#coParts table.calc th[scope=row]{min-width:110px}#coParts table.calc th,#coParts table.calc td{padding:10px 8px}
+.np .lp-setup{min-width:0}.np .np-plan:not([hidden]),.np .np-emp:not([hidden]){display:flex;flex-direction:column;gap:24px}
+.np .np-plan .fld .hint,.co .fld .hint{margin-bottom:0}
+.np .lp-setup h3.sub{font-size:15px;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.np .sens .sv .h{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+#npSplit table.calc{min-width:0}#npSplit table.calc th[scope=row]{white-space:normal;min-width:150px}
+#npSplit+h2{margin-top:32px}
+.np .stats.np-emp:not([hidden]),.np .stats.np-plan:not([hidden]){display:grid}
+.epx .lp-setup{min-width:0}.epx .lp-setup h3.sub{font-size:15px;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.epx .sens .sv .h{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+#epSplit table.calc{min-width:0}#epSplit table.calc th[scope=row]{white-space:normal;min-width:150px}#epSplit+h2{margin-top:32px}
+.rpx .lp-setup{min-width:0}.rpx .lp-setup h3.sub{font-size:15px;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.rpx .sens .sv .h{display:block;font-size:12px;color:var(--muted);margin-top:2px}.rpx .sens{grid-template-columns:repeat(2,minmax(0,1fr))}
+#rpHave table.calc{min-width:0}#rpHave table.calc th[scope=row]{white-space:normal;min-width:150px}#rpHave+h2{margin-top:32px}
+.esx .lp-setup{min-width:0}.esx .lp-setup h3.sub{font-size:15px;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.esx .sens .sv .h{display:block;font-size:12px;color:var(--muted);margin-top:2px}.esx .sens{grid-template-columns:repeat(2,minmax(0,1fr))}
+#esPeriods table.calc{min-width:0}#esPeriods table.calc th[scope=row]{white-space:normal;min-width:150px}

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Twenty-five small stacks of coins in a grid">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+  <g fill="#FFFFFF" opacity=".85">
+    <rect x="560" y="230" width="70" height="60" rx="14"/>
+    <rect x="660" y="230" width="70" height="60" rx="14"/>
+    <rect x="760" y="230" width="70" height="60" rx="14"/>
+    <rect x="860" y="230" width="70" height="60" rx="14"/>
+    <rect x="960" y="230" width="70" height="60" rx="14"/>
+    <rect x="560" y="325" width="70" height="60" rx="14"/>
+    <rect x="660" y="325" width="70" height="60" rx="14"/>
+    <rect x="760" y="325" width="70" height="60" rx="14"/>
+    <rect x="860" y="325" width="70" height="60" rx="14"/>
+    <rect x="960" y="325" width="70" height="60" rx="14"/>
+    <rect x="560" y="420" width="70" height="60" rx="14"/>
+    <rect x="660" y="420" width="70" height="60" rx="14"/>
+    <rect x="760" y="420" width="70" height="60" rx="14"/>
+    <rect x="860" y="420" width="70" height="60" rx="14"/>
+    <rect x="960" y="420" width="70" height="60" rx="14"/>
+    <rect x="560" y="515" width="70" height="60" rx="14"/>
+    <rect x="660" y="515" width="70" height="60" rx="14"/>
+    <rect x="760" y="515" width="70" height="60" rx="14"/>
+    <rect x="860" y="515" width="70" height="60" rx="14"/>
+    <rect x="960" y="515" width="70" height="60" rx="14"/>
+    <rect x="560" y="610" width="70" height="60" rx="14"/>
+    <rect x="660" y="610" width="70" height="60" rx="14"/>
+    <rect x="760" y="610" width="70" height="60" rx="14"/>
+    <rect x="860" y="610" width="70" height="60" rx="14"/>
+    <rect x="960" y="610" width="70" height="60" rx="14"/>
+  </g>
+  <rect x="960" y="610" width="70" height="60" rx="14" fill="#FFD27A"/>
+</svg>

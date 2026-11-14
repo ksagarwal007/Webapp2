@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A gift box of coins split into small, growing stacks">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+  <g transform="translate(330 300)"><rect width="300" height="260" rx="26" fill="#FFFFFF"/><rect x="-20" y="-50" width="340" height="70" rx="18" fill="#FFD27A"/>
+    <rect x="130" y="-50" width="40" height="310" fill="#1F5FE0" opacity=".85"/></g>
+  <path d="M680 430 h120" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round"/><path d="M770 395 l40 35 l-40 35" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#FFD27A" stroke="#0E1726" stroke-opacity=".18" stroke-width="3">
+    <rect x="860" y="520" width="44" height="40" rx="8"/><rect x="914" y="500" width="44" height="60" rx="8"/><rect x="968" y="480" width="44" height="80" rx="8"/><rect x="1022" y="460" width="44" height="100" rx="8"/>
+    <rect x="1076" y="440" width="44" height="120" rx="8"/><rect x="1130" y="420" width="44" height="140" rx="8"/><rect x="1184" y="400" width="44" height="160" rx="8"/><rect x="1238" y="380" width="44" height="180" rx="8"/></g>
+</svg>
