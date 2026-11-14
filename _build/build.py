@@ -5481,31 +5481,59 @@ def guide_mf_tax():
 """
     return article(path, "x", "How mutual fund gains are taxed", body, "Mutual fund tax")
 
+TOPICS = [("retire", "Retirement and pension"), ("invest", "Investing"), ("home", "Home and loans"), ("tax", "Tax"), ("car", "Car"), ("money", "Budget and leave")]
+TOOL_TOPIC = {"/epf-calculator/": "retire", "/eps-pension-calculator/": "retire", "/nps-calculator/": "retire", "/retirement-planner/": "retire", "/gratuity-calculator/": "retire",
+              "/sip-calculator/": "invest", "/fd-ppf-rd-calculator/": "invest", "/rent-vs-buy/": "home", "/prepay-vs-invest/": "home", "/emi-calculator/": "home",
+              "/income-tax-section-finder/": "tax", "/company-car-lease-vs-loan/": "car", "/car-ownership-cost/": "car", "/budget-planner/": "money", "/leave-planner-2027/": "money"}
+# Guides listed under more than one tool appear once on /guides/, under the tool they belong to most.
+GUIDE_HOME = {"/guides/nps-vs-ppf-vs-epf/": "/nps-calculator/", "/guides/eps-pension-explained/": "/eps-pension-calculator/",
+              "/guides/epf-wage-ceiling-25000/": "/epf-calculator/", "/guides/transfer-pf-dont-withdraw/": "/epf-calculator/"}
+TAX_WORDS = ("tax", "tds", "regime", "section", "perquisite", "hra", "80c")
+
 def guides_index():
     gmap = {g[0]: g for g in GUIDES}
-    def card(g):
+    tools = [(tp, n, [x for x in gl if x in gmap]) for grp, items in catalog() for tp, n, d, live, st, gl in items if live]
+    home = {}
+    for tp, n, gl in tools:
+        for x in gl: home.setdefault(x, tp)
+    home.update({k: v for k, v in GUIDE_HOME.items() if k in gmap})
+    mains = {gl[0] for tp, n, gl in tools if gl}
+    def card(g, tool_name):
         p, t, ds, d, im, sec = g
-        return f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>'
+        tp = home.get(p); topics = {TOOL_TOPIC.get(tp, "money")}
+        if any(w in (t + " " + ds).lower() for w in TAX_WORDS): topics.add("tax")
+        badge = '<span class="gx-main">Start here</span>' if p in mains else ""
+        return (f'<a class="g-card" href="{p}" data-date="{d}" data-topics="{" ".join(sorted(topics))}" data-main="{1 if p in mains else 0}" data-text="{H.escape((t + " " + ds + " " + tool_name).lower())}">'
+                f'{_pic(im, "")}<span class="k">{badge}{tool_name} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>')
     secs, used = "", set()
-    for grp, items in catalog():
-        for tp, n, d, live, st, gl in items:
-            gs = [gmap[x] for x in gl if x in gmap]
-            if not gs or not live: continue
-            used.update(x[0] for x in gs)
-            secs += (f'<h2 class="list-h" id="{_gslug(tp)}" style="margin:36px 0 6px;scroll-margin-top:90px">{n}</h2>'
-                     f'<p class="hint" style="margin:0 0 14px">{len(gs)} guide{"s" if len(gs) != 1 else ""} · <a href="{tp}">Open the {n} tool</a></p><div class="g-cards">' + "".join(card(g) for g in gs) + "</div>")
+    for tp, n, gl in tools:
+        gs = [gmap[x] for x in gl if home.get(x) == tp and x not in used]
+        gs.sort(key=lambda g: g[0] not in mains)
+        if not gs: continue
+        used.update(g[0] for g in gs)
+        secs += (f'<div class="gx-sec" data-topic="{TOOL_TOPIC.get(tp, "money")}"><h2 class="list-h" id="{_gslug(tp)}" style="margin:36px 0 6px;scroll-margin-top:90px">{n}</h2>'
+                 f'<p class="hint" style="margin:0 0 14px">{len(gs)} guide{"s" if len(gs) != 1 else ""} · <a href="{tp}">Open the {n} tool</a></p><div class="g-cards">'
+                 + "".join(card(g, n) for g in gs) + "</div>"
+                 + (f'<button type="button" class="btn-sm gx-more" hidden>Show all {len(gs)} guides</button>' if len(gs) > 3 else "") + "</div>")
     rest = [g for g in GUIDES if g[0] not in used]
-    if rest: secs += '<h2 class="list-h" style="margin:36px 0 14px">More guides</h2><div class="g-cards">' + "".join(card(g) for g in rest) + "</div>"
+    if rest: secs += '<div class="gx-sec" data-topic="money"><h2 class="list-h" style="margin:36px 0 14px">More guides</h2><div class="g-cards">' + "".join(card(g, g[5]) for g in rest) + "</div></div>"
+    chips = '<button type="button" class="gx-chip" data-t="all" aria-pressed="true">All</button>' + "".join(f'<button type="button" class="gx-chip" data-t="{k}" aria-pressed="false">{v}</button>' for k, v in TOPICS)
+    n_all = len(GUIDES)
     body = (f'<section class="tool-hero"><div class="wrap"><p class="eyebrow">Guides</p><h1>Guides to the big money decisions</h1>'
-            f'<p class="lead">Each guide walks through one decision with a worked example and explains every number the matching tool shows, grouped here by tool. Written for tax year {TAX_YEAR}.</p></div></section>'
-            f'<section style="padding-top:0"><div class="wrap">{secs}</div></section>')
+            f'<p class="lead">{n_all} plain-English guides, each with a worked example from the matching tool. Search, pick a topic, or browse by tool. Written for tax year {TAX_YEAR}.</p>'
+            f'<div class="gx-bar"><label class="gx-search"><span class="sr-only">Search guides</span><input id="gxQ" type="search" placeholder="Search guides: gratuity, 80C, pension, job change…" autocomplete="off"></label>'
+            f'<div class="gx-chips" role="group" aria-label="Topics">{chips}</div>'
+            f'<div class="gx-row"><span id="gxCount" class="hint" aria-live="polite">{n_all} guides</span>'
+            f'<label class="gx-sort">Show <select id="gxSort" class="sel"><option value="tool">By tool</option><option value="new">Newest first</option><option value="main">Start-here guides only</option></select></label></div></div>'
+            f'</div></section>'
+            f'<section style="padding-top:0"><div class="wrap"><div id="gxTools">{secs}</div><div id="gxFlat" class="g-cards" hidden></div>'
+            f'<p id="gxNone" class="hint" hidden>No guides match. Try a shorter word, or <a href="/tools/">browse the tools</a>.</p></div></section>')
     graph = [{"@type": "CollectionPage", "name": "Salarist guides", "url": SITE + "/guides/", "inLanguage": "en-IN",
               "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": SITE + g[0], "name": g[1]} for i, g in enumerate(GUIDES)]}}]
     return layout("/guides/", "Guides to Salaried Money Decisions in India | Salarist",
-                  "Plain-English guides with worked examples for the money and leave decisions salaried Indians face: leave, loans, home, budget and car.",
-                  body, crumbs=[("/", "Home"), ("/guides/", "Guides")], graph=graph, css=("tool.css", "guide.css"), og="og-home.png")
+                  "Plain-English guides with worked examples for salaried Indians: tax, EPF and pension, retirement, investing, home loans, car and leave.",
+                  body, crumbs=[("/", "Home"), ("/guides/", "Guides")], graph=graph, css=("tool.css", "guide.css"), js=("guides.js",), og="og-home.png")
 
-# ---------------- Text pages ----------------
 def text_page(path, name, title, desc, h1, html_body, updated=True, eyebrow="Salarist"):
     body = f'<div class="wrap page"><p class="eyebrow">{eyebrow}</p><h1>{h1}</h1>' + (f'<p class="updated">Last updated {VERIFIED_TXT}</p>' if updated else "") + f'<div class="prose">{html_body}</div></div>'
     return layout(path, title, desc, body, crumbs=[("/", "Home"), (path, name)])
