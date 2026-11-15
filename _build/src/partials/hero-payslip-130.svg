@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A payslip with new section numbers beside each line">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="160" r="64"/></g>
+  <rect x="470" y="170" width="460" height="580" rx="26" fill="#FFFFFF"/><g fill="#0B2A6B" opacity=".2"><rect x="520" y="240" width="220" height="24" rx="10"/><rect x="520" y="320" width="300" height="18" rx="9"/><rect x="520" y="380" width="260" height="18" rx="9"/><rect x="520" y="440" width="320" height="18" rx="9"/><rect x="520" y="500" width="240" height="18" rx="9"/></g>
+  <rect x="520" y="600" width="360" height="70" rx="14" fill="#FFD27A"/>
+  <g fill="#FFD27A"><rect x="980" y="310" width="150" height="42" rx="21"/><rect x="980" y="370" width="120" height="42" rx="21"/><rect x="980" y="430" width="170" height="42" rx="21"/><rect x="980" y="490" width="130" height="42" rx="21"/></g>
+</svg>

@@ -57,6 +57,11 @@
     if (ch.vline && ch.vline.m < n) { var vm = ch.vline.m; x.setLineDash([6, 6]); x.strokeStyle = C.amber; x.beginPath(); x.moveTo(px(vm), Y); x.lineTo(px(vm), Y + H - pb); x.stroke(); x.setLineDash([]); T(x, ch.vline.label, px(vm), Y - 10, 18, 700, C.amber, vm / n > 0.7 ? "right" : "center"); }
     ser.slice().reverse().forEach(function (s) { x.beginPath(); for (var i = 0; i <= n; i++) { if (i) x.lineTo(px(i), py(s.data[i])); else x.moveTo(px(i), py(s.data[i])); } x.strokeStyle = col(s.color); x.lineWidth = 5; x.lineJoin = "round"; x.stroke(); });
     if (ch.cross) { x.beginPath(); x.arc(px(ch.cross.m), py(ser[0].data[ch.cross.m]), 10, 0, 7); x.fillStyle = C.green; x.fill(); }
+    /* Numbered points (optional): sp.chartPoints = [{m (data index), v (value), color, label}] */
+    (sp.chartPoints || []).forEach(function (pt, i) {
+      var cx = px(pt.m), cy = py(pt.v); x.beginPath(); x.arc(cx, cy, 16, 0, 7); x.fillStyle = col(pt.color || "blue"); x.fill(); x.lineWidth = 3; x.strokeStyle = C.white; x.stroke();
+      T(x, String(i + 1), cx, cy + 7, 19, 800, C.white, "center");
+    });
   }
   function tablePages(pages, sp, tb, startY) {
     var cols = tb.cols, W = PW - 2 * M, cw = W / cols.length, p = pages[pages.length - 1], y = startY, title = tb.title;
@@ -102,6 +107,16 @@
     chart(x, sp, M, y, W, chartH); y += chartH + 40;
     var lx = M; sp.chart.series.map(function (s) { return [col(s.color), s.name]; }).concat(sp.chart.cross ? [[C.green, sp.chart.cross.label]] : [])
       .forEach(function (it) { R(x, lx, y - 20, 24, 24, 6, it[0]); lx += 36; lx += T(x, it[1], lx, y, 20, 600, C.muted) + 36; });
+    if (sp.chartPoints && sp.chartPoints.length) {   /* what each numbered point means, under the chart (new page if needed) */
+      y += 50;
+      if (y + sp.chartPoints.length * 92 > PH - 140) { p = newPage(); pages.push(p); x = p.x; y = header(p, sp); T(x, "What the numbered points on the chart mean", M, y, 26, 800, C.ink); y += 56; }
+      sp.chartPoints.forEach(function (pt, i) {
+        if (y + 110 > PH - 140) { p = newPage(); pages.push(p); x = p.x; y = header(p, sp); }
+        x.beginPath(); x.arc(M + 16, y - 7, 16, 0, 7); x.fillStyle = col(pt.color || "blue"); x.fill(); T(x, String(i + 1), M + 16, y, 19, 800, C.white, "center");
+        T(x, pt.label, M + 50, y, 22, 800, C.ink);
+        y = wrap(x, pt.text, M + 50, y + 34, W - 50, 21, 400, C.muted, 30) + 18;
+      });
+    }
     /* money + tables */
     p = newPage(); pages.push(p); x = p.x; y = header(p, sp);
     T(x, sp.money.title || "Where your money went", M, y, 34, 800, C.ink); y += 40;

@@ -13,8 +13,8 @@
 <link rel="icon" href="/assets/img/icon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/assets/css/site.css?v=554b1bef">
-<link rel="stylesheet" href="/assets/css/tool.css?v=6507bafc">
+<link rel="stylesheet" href="/assets/css/site.css?v=6b2881e1">
+<link rel="stylesheet" href="/assets/css/tool.css?v=cccc73ac">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Salarist">
 <meta property="og:locale" content="en_IN">
@@ -81,7 +81,7 @@
     <div><span class="lbl" id="ucLbl">When do you get the home?</span>
       <div class="seg row" role="group" aria-labelledby="ucLbl"><button type="button" data-uc="0">Ready to move in</button><button type="button" data-uc="1">Under construction</button></div></div>
     <div class="adv" id="rb-uc-box" hidden>
-      <div class="fld"><div class="row1"><label for="rb-possess">Years until possession</label><span class="tipw"><button type="button" class="tip" aria-expanded="false" aria-controls="rb-tip8" aria-label="What is possession?"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg></button><span class="tipb" id="rb-tip8" role="note" hidden>Until you get the keys, you pay only interest on the loan (often called pre-EMI) and you still pay rent. The full EMI starts at possession.</span></span><span class="w" id="rb-possess-w"></span></div><div class="numin"><input id="rb-possess" type="number" inputmode="decimal" min="0.5" max="7" step="0.5"><span>years</span></div><input type="range" id="rb-possess-r" min="0.5" max="7" step="0.5" aria-label="Years until possession"><p class="hint">You pay interest only (pre-EMI) and keep renting until then. Builders often run late: try a year or two more.</p></div>
+      <div class="fld"><div class="row1"><label for="rb-possess">Years until possession</label><span class="tipw"><button type="button" class="tip" aria-expanded="false" aria-controls="rb-tip8" aria-label="What is possession?"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg></button><span class="tipb" id="rb-tip8" role="note" hidden>Until you get the keys, you pay only interest on the loan (often called pre-EMI) and you still pay rent. The full EMI starts at possession. <a href="/guides/under-construction-vs-ready-to-move/">Read: Under construction or ready to move?</a></span></span><span class="w" id="rb-possess-w"></span></div><div class="numin"><input id="rb-possess" type="number" inputmode="decimal" min="0.5" max="7" step="0.5"><span>years</span></div><input type="range" id="rb-possess-r" min="0.5" max="7" step="0.5" aria-label="Years until possession"><p class="hint">You pay interest only (pre-EMI) and keep renting until then. Builders often run late: try a year or two more.</p></div>
     </div>
     <div class="fld"><div class="row1"><label for="rb-own">Owner's costs each year</label><span class="w" id="rb-own-w"></span></div><div class="numin"><span>₹</span><input id="rb-own" type="text" inputmode="numeric" autocomplete="off"></div><p class="hint">Maintenance, property tax and repairs together, from the day you move in.</p></div>
     <div class="fld"><div class="row1"><label for="rb-ownUp">Owner's costs rise</label><span class="w" id="rb-ownUp-w"></span></div><div class="numin"><input id="rb-ownUp" type="number" inputmode="decimal" min="0" max="15" step="0.5"><span>% a year</span></div><input type="range" id="rb-ownUp-r" min="0" max="15" step="0.5" aria-label="Owner's costs rise"></div>
@@ -106,7 +106,7 @@
       <label class="chk" for="rb-reinvest" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="rb-reinvest"><span>I'll put the gain into another home (no tax on up to ₹10 crore of gain under section 82, earlier section 54)</span></label>
     </div>
     <p class="grp-h">Tax</p>
-    <div><span class="lbl" id="regLbl">Your tax regime</span><span class="tipw"><button type="button" class="tip" aria-expanded="false" aria-controls="rb-tip6" aria-label="What is the tax regime?"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg></button><span class="tipb" id="rb-tip6" role="note" hidden>New regime: lower tax rates, but no HRA exemption and no home loan deductions for a home you live in. Old regime: higher rates, but you can claim both. Pick the one you file under.</span></span>
+    <div><span class="lbl" id="regLbl">Your tax regime</span><span class="tipw"><button type="button" class="tip" aria-expanded="false" aria-controls="rb-tip6" aria-label="What is the tax regime?"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg></button><span class="tipb" id="rb-tip6" role="note" hidden>New regime: lower tax rates, but no HRA exemption and no home loan deductions for a home you live in. Old regime: higher rates, but you can claim both. Pick the one you file under. <a href="/guides/hra-vs-home-loan-tax-benefits/">Read: HRA vs home loan tax benefits</a></span></span>
       <div class="seg row" role="group" aria-labelledby="regLbl"><button type="button" data-regime="new">New regime</button><button type="button" data-regime="old">Old regime</button></div></div>
     <div class="fld"><label class="lbl" for="rb-slab" style="margin:0">Your income tax slab</label>
       <select id="rb-slab" class="sel"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option><option value="25">25%</option><option value="30">30%</option></select></div>
@@ -230,5 +230,6 @@
 </footer>
 <script src="/assets/js/site.js?v=e759f452" defer></script>
 <script src="/assets/js/rent-buy.js?v=f85a986d" defer></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c5b41b4a07ba4334a073ca4cb9b7019c"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

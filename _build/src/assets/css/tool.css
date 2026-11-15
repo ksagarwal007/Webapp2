@@ -385,3 +385,24 @@ button.sf-reg{cursor:pointer;font:600 12px var(--ff);line-height:1.4}
 .esx .lp-setup{min-width:0}.esx .lp-setup h3.sub{font-size:15px;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line)}
 .esx .sens .sv .h{display:block;font-size:12px;color:var(--muted);margin-top:2px}.esx .sens{grid-template-columns:repeat(2,minmax(0,1fr))}
 #esPeriods table.calc{min-width:0}#esPeriods table.calc th[scope=row]{white-space:normal;min-width:150px}
+.fsx .lp-setup{min-width:0}.fsx .lp-setup h3.sub{font-size:15px;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.fsx .sens .sv .h{display:block;font-size:12px;color:var(--muted);margin-top:2px}.fsx .sens{grid-template-columns:repeat(2,minmax(0,1fr))}
+.fsx svg .bar1{fill:var(--brand)}.fsx svg .bar2{fill:var(--brand);opacity:.45}
+#fsTable table.calc{min-width:0}#fsTable table.calc th[scope=row]{white-space:normal;min-width:170px}
+/* Phones and tablets (15 Nov): sliders hidden, so scrolling past them can't change a value. Every slider has a typed field or −/+ buttons next to it. */
+@media (hover:none) and (pointer:coarse){input[type=range]{display:none}}
+.fs-break{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}.fs-box{padding:16px}.fs-box h3{margin:0 0 6px;font-size:15px}
+.fs-box .calcline{margin:0 0 8px;font-size:15px}.fs-box .split{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 8px;font-size:14px}.fs-box .hint{margin:4px 0}
+.fs-box ul.lim{list-style:none;margin:4px 0 0;padding:0;font-size:13px}.fs-box ul.lim li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-top:1px solid var(--line);color:var(--muted)}
+.fs-box ul.lim li b{white-space:nowrap;font-weight:600}.fs-box ul.lim li.on{color:var(--text)}.fs-box ul.lim li.on b{color:var(--brand);font-weight:700}
+.fs-more{border-top:1px solid var(--line);padding-top:12px}.fs-more summary{cursor:pointer;font-weight:600;font-size:14px}.fs-more[open] summary{margin-bottom:12px}.fs-more .fld{margin-top:14px}
+@media (max-width:720px){.fs-break{grid-template-columns:1fr}}
+.tix .lp-setup{min-width:0}.tix .lp-setup h3.sub{font-size:15px;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.tix .sens{grid-template-columns:repeat(2,minmax(0,1fr))}#tiParts table.calc{min-width:0}#tiParts table.calc th[scope=row]{white-space:normal;min-width:170px}
+.ti-chartwrap{position:relative}.ti-ev{cursor:pointer;outline:none}.ti-ev .hit{fill:transparent}.ti-ev .dot{stroke:var(--s1);stroke-width:2}.ti-ev .dot.drop{fill:var(--brand)}.ti-ev .dot.peak{fill:var(--leave)}
+.ti-ev:hover .dot,.ti-ev:focus .dot{r:8}.ti-ev .evn{font-size:10px;font-weight:700;fill:var(--text)}
+.ti-tip{position:absolute;z-index:3;width:240px;padding:10px 12px;background:var(--text);color:var(--bg,#fff);border-radius:10px;font-size:12.5px;line-height:1.45;box-shadow:0 6px 20px rgba(0,0,0,.18);pointer-events:none}
+.ti-events{margin:6px 0 0;padding:0;list-style:none;font-size:13px;color:var(--muted)}.ti-events li{padding:8px 10px;border-top:1px solid var(--line);border-radius:8px}.ti-events li b{color:var(--text)}
+.ti-events li .dd{color:var(--brand);font-weight:700}.ti-events li.on{background:var(--s2,rgba(31,95,224,.06))}
+.ti-ev .dot.slide{fill:var(--s1);stroke:var(--brand);stroke-width:3}
+.syx .lp-setup{min-width:0}.syx .sens{grid-template-columns:repeat(2,minmax(0,1fr))}

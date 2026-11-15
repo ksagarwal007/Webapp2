@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A calendar with a 2 circled and a hand holding a letter">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/></g>
+  <rect x="420" y="220" width="480" height="460" rx="28" fill="#FFFFFF"/><rect x="420" y="220" width="480" height="80" rx="28" fill="#1F5FE0"/><rect x="420" y="270" width="480" height="30" fill="#1F5FE0"/>
+  <text x="660" y="560" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="200" fill="#0B2A6B" opacity=".55">2</text><circle cx="660" cy="490" r="120" fill="none" stroke="#FFD27A" stroke-width="18"/>
+  <rect x="1000" y="380" width="300" height="200" rx="18" fill="#FFD27A"/><path d="M1000 390 L1150 500 L1300 390" fill="none" stroke="#FFFFFF" stroke-width="14"/>
+</svg>

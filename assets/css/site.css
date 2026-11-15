@@ -248,3 +248,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;color:var(--muted);f
 .tool.tl h3{margin:0;font-size:18px}.tool.tl h3 a{color:var(--text);text-decoration:none}.tool.tl h3 a:hover{color:var(--brand)}.tool.tl .tl-g{font-size:13px}.tool.off{opacity:.75}
 .tool.tl .tl-g ul{margin:6px 0 8px;padding-left:18px}.tool.tl .tl-g li{margin:4px 0;line-height:1.4}.tool.tl .tl-g a.more{font-size:13px;font-weight:700}
 .pop-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pop-tools .pop{padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--s1);color:var(--text);text-decoration:none;font-size:14px;font-weight:600}.pop-tools .pop:hover{border-color:var(--brand);color:var(--brand)}
+/* Whole tool card clickable (15 Nov): the title link stretches over the card; guide links stay clickable above it. */
+.tool.tl{position:relative;cursor:pointer;transition:border-color .15s,box-shadow .15s}.tool.tl h3 a::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}
+.tool.tl .tl-g{position:relative;z-index:2;cursor:auto}.tool.tl:hover{border-color:var(--brand);box-shadow:0 4px 18px rgba(31,95,224,.12)}.tool.tl:hover h3 a{color:var(--brand)}
+.tool.tl h3 a:focus-visible{outline:none}.tool.tl:focus-within{border-color:var(--brand)}

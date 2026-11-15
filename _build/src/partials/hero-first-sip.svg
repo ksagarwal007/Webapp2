@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A small seedling next to a tall tree">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+  <rect x="480" y="560" width="20" height="120" rx="8" fill="#FFFFFF"/><ellipse cx="460" cy="550" rx="44" ry="24" fill="#FFD27A"/><ellipse cx="520" cy="530" rx="44" ry="24" fill="#FFD27A"/>
+  <rect x="980" y="380" width="44" height="300" rx="14" fill="#FFFFFF" opacity=".85"/><circle cx="1002" cy="330" r="160" fill="#FFFFFF" opacity=".35"/><circle cx="1002" cy="330" r="110" fill="#FFD27A" opacity=".8"/>
+</svg>

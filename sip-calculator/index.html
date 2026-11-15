@@ -13,8 +13,8 @@
 <link rel="icon" href="/assets/img/icon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/assets/css/site.css?v=554b1bef">
-<link rel="stylesheet" href="/assets/css/tool.css?v=6507bafc">
+<link rel="stylesheet" href="/assets/css/site.css?v=6b2881e1">
+<link rel="stylesheet" href="/assets/css/tool.css?v=cccc73ac">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Salarist">
 <meta property="og:locale" content="en_IN">
@@ -77,7 +77,7 @@
       <div class="fld"><div class="row1"><label for="sp-target">Your goal</label><span class="w" id="sp-target-w"></span></div><div class="numin"><span>₹</span><input id="sp-target" type="text" inputmode="numeric" autocomplete="off"></div><p class="hint">The amount you want at the end, such as ₹1 crore for a child's education.</p></div>
       <label class="chk" for="sp-today" style="border:0;grid-template-columns:22px 1fr"><input type="checkbox" id="sp-today"><span>This amount is in today's money (we'll add inflation)</span></label>
     </div>
-    <div class="fld"><div class="row1"><label for="sp-step">Step-up every year</label><span class="tipw"><button type="button" class="tip" aria-expanded="false" aria-controls="sp-tip2" aria-label="What is step-up?"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg></button><span class="tipb" id="sp-tip2" role="note" hidden>Raises your SIP by this percentage every 12 months. If your SIP is ₹10,000 with a 10% step-up, it becomes ₹11,000 in year 2 and ₹12,100 in year 3.</span></span><span class="w" id="sp-step-w"></span></div><div class="numin"><input id="sp-step" type="number" inputmode="decimal" min="0" max="25" step="1"><span>%</span></div><input type="range" id="sp-step-r" min="0" max="25" step="1" aria-label="Step-up every year"><p class="hint">Raise your SIP by this much each year, for example with your pay rise. 0 keeps it the same.</p></div>
+    <div class="fld"><div class="row1"><label for="sp-step">Step-up every year</label><span class="tipw"><button type="button" class="tip" aria-expanded="false" aria-controls="sp-tip2" aria-label="What is step-up?"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg></button><span class="tipb" id="sp-tip2" role="note" hidden>Raises your SIP by this percentage every 12 months. If your SIP is ₹10,000 with a 10% step-up, it becomes ₹11,000 in year 2 and ₹12,100 in year 3. <a href="/guides/step-up-sip/">Read: Step-up SIP</a></span></span><span class="w" id="sp-step-w"></span></div><div class="numin"><input id="sp-step" type="number" inputmode="decimal" min="0" max="25" step="1"><span>%</span></div><input type="range" id="sp-step-r" min="0" max="25" step="1" aria-label="Step-up every year"><p class="hint">Raise your SIP by this much each year, for example with your pay rise. 0 keeps it the same.</p></div>
     <div class="fld"><div class="row1"><label for="sp-lump" id="sp-lumpLbl">Lump sum at the start</label><span class="w" id="sp-lump-w"></span></div><div class="numin"><span>₹</span><input id="sp-lump" type="text" inputmode="numeric" autocomplete="off"></div><p class="hint" id="sp-lumpHint"></p></div>
     <div class="fld key"><div class="row1"><label for="sp-years">How long</label><span class="w" id="sp-years-w"></span></div><div class="numin"><input id="sp-years" type="number" inputmode="decimal" min="1" max="40" step="1"><span>years</span></div><input type="range" id="sp-years-r" min="1" max="40" step="1" aria-label="How long"></div>
     <div class="fld"><div class="row1"><label for="sp-ret">Expected return</label><span class="tipw"><button type="button" class="tip" aria-expanded="false" aria-controls="sp-tip3" aria-label="What is the expected return?"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg></button><span class="tipb" id="sp-tip3" role="note" hidden>The average yearly return you expect over the whole period. Equity funds swing a lot from year to year; use a cautious long-term figure and check the what-if boxes.</span></span><span class="w" id="sp-ret-w"></span></div><div class="numin"><input id="sp-ret" type="number" inputmode="decimal" min="1" max="18" step="0.5"><span>% a year</span></div><input type="range" id="sp-ret-r" min="1" max="18" step="0.5" aria-label="Expected return"><p class="hint">Use a cautious figure. Returns aren't guaranteed.</p></div>
@@ -171,5 +171,6 @@
 </footer>
 <script src="/assets/js/site.js?v=e759f452" defer></script>
 <script src="/assets/js/sip.js?v=280d7952" defer></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "c5b41b4a07ba4334a073ca4cb9b7019c"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

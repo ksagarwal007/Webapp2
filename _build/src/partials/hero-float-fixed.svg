@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Two lines, one flat and one wavy">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="160" r="64"/></g>
+  <rect x="360" y="700" width="900" height="14" rx="7" fill="#FFFFFF" opacity=".5"/><rect x="360" y="200" width="14" height="514" rx="7" fill="#FFFFFF" opacity=".5"/>
+  <path d="M400 380 H1220" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round"/>
+  <path d="M400 520 Q520 440 640 520 T880 500 T1120 420 L1220 400" fill="none" stroke="#FFD27A" stroke-width="20" stroke-linecap="round"/>
+</svg>

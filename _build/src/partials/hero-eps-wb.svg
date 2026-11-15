@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A fork in a path: a coin on one side, a certificate on the other">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+  <path d="M800 700 L800 520 L560 330 M800 520 L1040 330" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+  <circle cx="530" cy="280" r="70" fill="#FFD27A"/>
+  <g transform="translate(960 190)"><rect width="190" height="140" rx="16" fill="#FFFFFF"/><rect x="25" y="30" width="140" height="16" rx="8" fill="#0B2A6B" opacity=".3"/><rect x="25" y="62" width="110" height="14" rx="7" fill="#0B2A6B" opacity=".18"/><circle cx="150" cy="105" r="18" fill="#1F5FE0" opacity=".6"/></g>
+</svg>

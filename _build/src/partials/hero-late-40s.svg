@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A clock at a quarter past, with a rising line">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/></g>
+  <circle cx="560" cy="440" r="210" fill="#FFFFFF"/><circle cx="560" cy="440" r="14" fill="#0B2A6B"/><rect x="552" y="290" width="16" height="160" rx="8" fill="#0B2A6B"/><rect x="560" y="432" width="120" height="16" rx="8" fill="#0B2A6B" opacity=".7"/>
+  <path d="M860 700 L1000 620 L1120 560 L1250 400 L1340 280" fill="none" stroke="#FFD27A" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><circle cx="1340" cy="280" r="26" fill="#FFD27A"/>
+</svg>

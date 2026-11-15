@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A calendar with days turning into coins">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+  <g transform="translate(400 240)"><rect width="380" height="380" rx="24" fill="#FFFFFF" opacity=".9"/><rect width="380" height="70" rx="24" fill="#1F5FE0" opacity=".55"/>
+  <g fill="#0B2A6B" opacity=".18"><rect x="40" y="110" width="80" height="60" rx="10"/><rect x="150" y="110" width="80" height="60" rx="10"/><rect x="260" y="110" width="80" height="60" rx="10"/><rect x="40" y="200" width="80" height="60" rx="10"/><rect x="150" y="200" width="80" height="60" rx="10"/></g></g>
+  <g fill="#FFD27A"><circle cx="980" cy="360" r="56"/><circle cx="1080" cy="470" r="56"/><circle cx="960" cy="560" r="56"/></g>
+</svg>

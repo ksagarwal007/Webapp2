@@ -49,6 +49,8 @@
     return { date: target, days: Math.round((target - l) / 864e5), gain: after.grat - base.grat, after: after };
   }
   if (typeof module !== "undefined" && module.exports) { module.exports = { service: service, counted: counted, wagesNew: wagesNew, calc: calc, nextStep: nextStep, CAP: CAP }; return; }
+  window.SalaristGratuity = { service: service, counted: counted, wagesNew: wagesNew, calc: calc, nextStep: nextStep, CAP: CAP };
+  if (!document.getElementById("grVerdict")) return;  /* core only (used by the settlement calculator) */
 
   /* ---------- UI ---------- */
   var $ = function (id) { return document.getElementById(id); };

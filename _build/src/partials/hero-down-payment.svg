@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A house with a large first block and smaller loan blocks">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/></g>
+  <path d="M420 430 L640 250 L860 430 Z" fill="#FFFFFF"/><rect x="460" y="430" width="360" height="270" rx="14" fill="#FFFFFF"/><rect x="600" y="560" width="80" height="140" rx="8" fill="#0B2A6B" opacity=".35"/>
+  <rect x="960" y="420" width="120" height="280" rx="16" fill="#FFD27A"/><rect x="1100" y="520" width="90" height="180" rx="16" fill="#FFFFFF" opacity=".45"/><rect x="1210" y="590" width="90" height="110" rx="16" fill="#FFFFFF" opacity=".3"/>
+</svg>
