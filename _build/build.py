@@ -31,14 +31,15 @@ HOLD = {
     # Batch B2, about 26 Nov: retirement timing, deposits, Sukanya, first salary, rent or buy, lease by slab
     "b2": ["/guides/retire-at-50-55-or-60/", "/guides/eps-pension-50-58-or-60/", "/guides/cumulative-fd-or-monthly-payout/", "/guides/low-basic-salary-gratuity/",
            "/guides/sukanya-samriddhi-or-sip/", "/guides/sukanya-samriddhi-at-maturity/", "/guides/first-salary-budget/",
-           "/guides/rent-or-buy-by-age-and-moving-cities/", "/guides/car-lease-20-percent-slab-and-ev/"],
+           "/guides/rent-or-buy-by-age-and-moving-cities/", "/guides/car-lease-20-percent-slab-and-ev/",
+           "/guides/budgeting-with-a-bonus/", "/guides/prepay-with-bonus-or-invest/"],
     # Batch C1, about 29 Nov: SIPs, loans and cars
     "c1": ["/guides/first-sip-on-first-salary/", "/guides/sip-lower-return/", "/guides/home-loan-down-payment/", "/guides/part-pay-car-or-personal-loan/",
            "/guides/car-loan-or-cash/", "/guides/ev-worth-it-1000-km-a-month/", "/guides/new-or-used-car/", "/guides/car-lease-job-change-buy-back-or-hand-back/"],
     # Batch C2, about 3 Dec: later-life money, Sukanya, home and family
     "c2": ["/guides/retirement-planning-in-your-40s/", "/guides/three-bucket-retirement-plan/", "/guides/open-sukanya-samriddhi-account/",
            "/guides/sukanya-samriddhi-two-daughters/", "/guides/revive-sukanya-samriddhi-account/", "/guides/keep-or-sell-your-home/",
-           "/guides/double-income-family-budget/"],
+           "/guides/double-income-family-budget/", "/guides/eps-family-pension/", "/guides/laddering-term-insurance/"],
 }
 RELEASED = {"b1"}   # b1 released 19 Nov
 HELD = {p for b, ps in HOLD.items() if b not in RELEASED for p in ps}
@@ -124,6 +125,11 @@ SEO = {
     "/guides/how-much-sip-do-you-need/": ("How Much SIP Do You Need? Plan a Goal With Step-Up", None),
     "/guides/step-up-sip/": ("Step-Up SIP: How a 10% Yearly Increase Adds Up", None),
     "/guides/how-mutual-fund-gains-are-taxed/": ("Mutual Fund Tax on Selling: Equity and Debt (2026-27)", None),
+    "/guides/working-hours-new-labour-codes/": ("New Working Hours Rules in India: 48-Hour Week Explained", "Did working hours change? The 48-hour week, 12-hour days and 4-day week under the new labour codes, office jobs, and overtime pay."),
+    "/guides/eps-family-pension/": ("EPS Family Pension: Widow and Children's Pension", "EPS family pension under EPS 2026: what the spouse and children get, a worked example, the 50% rule after a pensioner's death, and claims."),
+    "/guides/budgeting-with-a-bonus/": ("How to Budget When Your Pay Includes a Bonus", "Budgeting with variable pay or a yearly bonus: plan on fixed pay, tax on the bonus, and a simple split for using it well."),
+    "/guides/prepay-with-bonus-or-invest/": ("Prepay Home Loan With Bonus or Invest It?", "Use your bonus to prepay your home loan or invest? A worked ₹40 lakh example, the return that decides it, once or every year."),
+    "/guides/laddering-term-insurance/": ("Term Insurance Laddering: One Policy or Two?", "Laddering term insurance: how your cover need falls as loans end, splitting cover into two policies, and when it's worth it."),
     "/guides/rent-or-buy-by-age-and-moving-cities/": ("Rent or Buy a Home? How Long You'll Stay Decides", "Rent or buy by age and length of stay: how fast prices must rise for buying to win, and what to do if you might move cities."),
     "/guides/keep-or-sell-your-home/": ("Keep or Sell Your Home When You Move Cities?", "Moving cities? Selling vs keeping and renting out your home, 10 years on, with capital gains tax and section 82 reinvestment."),
     "/guides/double-income-family-budget/": ("Double-Income Family Budget: How to Split Costs", "Budgeting for a double-income family: proportional cost split, living on one income, emergency fund, insurance and tax for two."),
@@ -493,7 +499,7 @@ def leave_planner():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>Want the full picture?</b> Read our guide, <a href="/guides/long-weekends-2027/">Long weekends 2027 in India</a>: every holiday, every long weekend and two ready-made leave plans. Also read: <a href="/guides/restricted-holidays-2027/">Restricted holidays 2027: which two to pick</a>, <a href="/guides/best-months-for-a-week-long-break-2027/">the best months for a week-long break</a> and <a href="/guides/long-weekends-2027-six-day-week/">long weekends for six-day weeks</a>.</p>
+  <p class="g-callout"><b>Want the full picture?</b> Read our guide, <a href="/guides/long-weekends-2027/">Long weekends 2027 in India</a>: every holiday, every long weekend and two ready-made leave plans. Also read: <a href="/guides/restricted-holidays-2027/">Restricted holidays 2027: which two to pick</a>, <a href="/guides/best-months-for-a-week-long-break-2027/">the best months for a week-long break</a> and <a href="/guides/long-weekends-2027-six-day-week/">long weekends for six-day weeks</a>. Heard about 12-hour days? Read <a href="/guides/working-hours-new-labour-codes/">Did India change your working hours?</a></p>
   <h2>How the leave planner works</h2>
   <p>The planner marks every day of {data["year"]} as a weekly off, a holiday or a working day, using your weekly off and your company's holidays.</p>
   <ul><li><strong>Plan a break:</strong> choose how many days off in a row you want, and optionally a month. The planner checks every possible start date and shows the dates that need the fewest leave days.</li>
@@ -644,7 +650,7 @@ def prepay_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>Not sure how to read the result?</b> Read our guide, <a href="/guides/prepay-home-loan-or-invest/">Prepay your home loan or invest?</a>, worked through one borrower's numbers. Also read: <a href="/guides/prepay-home-loan-early-or-later/">Prepay now or later? Why the timing matters</a>.</p>
+  <p class="g-callout"><b>Not sure how to read the result?</b> Read our guide, <a href="/guides/prepay-home-loan-or-invest/">Prepay your home loan or invest?</a>, worked through one borrower's numbers. Also read: <a href="/guides/prepay-home-loan-early-or-later/">Prepay now or later? Why the timing matters</a>. Got a bonus? Read <a href="/guides/prepay-with-bonus-or-invest/">Prepay with your bonus or invest it?</a></p>
   <h2>How the calculator works</h2>
   <p>Both choices start with the same loan and the same extra money, and run month by month until your loan's original end date.</p>
   <ul><li><strong>Prepay:</strong> the extra goes into the loan every month. Your EMI stays the same, so the loan closes sooner. From then on, your EMI and the extra are invested every month until the original end date.</li>
@@ -1198,7 +1204,7 @@ def budget_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to budgeting?</b> Read our guide, <a href="/guides/monthly-budget/">How to make a monthly budget on a salary in India</a>, worked through one family's numbers. Also read: <a href="/guides/budget-on-50000-1-lakh-2-lakh-salary/">Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month</a> and <a href="/guides/plan-for-school-fees-and-yearly-costs/">How to plan for school fees and other yearly costs</a>. Just started working? Read <a href="/guides/first-salary-budget/">Your first salary budget</a>. Two incomes? Read <a href="/guides/double-income-family-budget/">A double-income family budget</a>.</p>
+  <p class="g-callout"><b>New to budgeting?</b> Read our guide, <a href="/guides/monthly-budget/">How to make a monthly budget on a salary in India</a>, worked through one family's numbers. Also read: <a href="/guides/budget-on-50000-1-lakh-2-lakh-salary/">Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month</a> and <a href="/guides/plan-for-school-fees-and-yearly-costs/">How to plan for school fees and other yearly costs</a>. Just started working? Read <a href="/guides/first-salary-budget/">Your first salary budget</a>. Two incomes? Read <a href="/guides/double-income-family-budget/">A double-income family budget</a>. Paid a big bonus? Read <a href="/guides/budgeting-with-a-bonus/">Budgeting with a big bonus</a>.</p>
   <h2>How the planner works</h2>
   <ul>
     <li><strong>Everything becomes monthly.</strong> Monthly amounts stay as they are, yearly amounts are divided by 12, and daily amounts are multiplied by 365 and divided by 12.</li>
@@ -1902,7 +1908,7 @@ def eps_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/eps-pension-calculation-example/">Your EPS pension, worked out</a>. Under 10 years? <a href="/guides/eps-withdrawal-benefit-or-scheme-certificate/">Withdrawal benefit or scheme certificate?</a> Opted for pension on actual wages? Read <a href="/guides/eps-higher-pension/">EPS higher pension</a>. Wondering why it's so small? Read <a href="/guides/why-eps-pension-is-low/">Why your EPS pension is low</a>.</p>
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/eps-pension-calculation-example/">Your EPS pension, worked out</a>. Under 10 years? <a href="/guides/eps-withdrawal-benefit-or-scheme-certificate/">Withdrawal benefit or scheme certificate?</a> Opted for pension on actual wages? Read <a href="/guides/eps-higher-pension/">EPS higher pension</a>. Wondering why it's so small? Read <a href="/guides/why-eps-pension-is-low/">Why your EPS pension is low</a>. Thinking about your family? Read <a href="/guides/eps-family-pension/">EPS family pension</a>.</p>
   <p class="g-callout"><b>New to EPS?</b> Read <a href="/guides/eps-pension-explained/">EPS explained: your EPF pension, job changes and how to claim it</a>. Also read: <a href="/guides/transfer-pf-dont-withdraw/">Changed jobs? Transfer your PF, don't withdraw it</a>.</p>
   <h2>How the calculator works</h2>
   <ul>
@@ -2174,7 +2180,7 @@ def term_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/how-much-term-insurance-do-you-need/">How much term insurance do you need? One family's numbers</a>. Also read: <a href="/guides/is-employer-group-cover-enough/">Is your employer's group cover enough?</a> Saving tax on it? Read <a href="/guides/term-insurance-tax-new-regime/">Term insurance and tax under the new regime</a>. Bank offering loan insurance? Read <a href="/guides/home-loan-insurance-vs-term-plan/">Home loan insurance vs a term plan</a>.</p>
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/how-much-term-insurance-do-you-need/">How much term insurance do you need? One family's numbers</a>. Also read: <a href="/guides/is-employer-group-cover-enough/">Is your employer's group cover enough?</a> Saving tax on it? Read <a href="/guides/term-insurance-tax-new-regime/">Term insurance and tax under the new regime</a>. Bank offering loan insurance? Read <a href="/guides/home-loan-insurance-vs-term-plan/">Home loan insurance vs a term plan</a>. Loans ending early? Read <a href="/guides/laddering-term-insurance/">Laddering term insurance</a>.</p>
   <h2>How the calculator works</h2>
   <ul>
     <li><strong>Support:</strong> your family's monthly expenses without you, less your spouse's income, rising with inflation, for the years you set. Worked out as the lump sum that, earning the return you set, pays them each year.</li>
@@ -3193,6 +3199,21 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/plan-for-school-fees-and-yearly-costs/", "How to plan for school fees and other yearly costs",
      "List your yearly costs, turn them into one monthly set-aside, give them their own account and time it right, with an example family's month-by-month plan.",
      "2026-11-13", "guide-yearly-costs", "Your money"),
+    ("/guides/working-hours-new-labour-codes/", "Did India change your working hours? What the new rules actually say",
+     "The 48-hour week, 12-hour days and the four-day week under the new labour codes: what's true, what isn't, what applies to office jobs, and overtime pay.",
+     "2026-11-19", "guide-work-hours", "Your pay"),
+    ("/guides/eps-family-pension/", "EPS family pension: what your spouse and children get",
+     "What EPS pays a member's family under EPS 2026: the spouse's pension, children's and orphan pensions, one family's numbers, and how to claim.",
+     "2026-11-19", "guide-eps-family", "Your investments"),
+    ("/guides/budgeting-with-a-bonus/", "How to budget when part of your pay is a bonus",
+     "Budget on fixed pay, know what a bonus is worth after tax, and a simple plan for using it: goals, investing and something to enjoy.",
+     "2026-11-19", "guide-bonus-budget", "Your money"),
+    ("/guides/prepay-with-bonus-or-invest/", "Should you prepay your home loan with your bonus, or invest it?",
+     "A ₹3 lakh bonus against a ₹40 lakh home loan: prepay or invest, once or every year, the return that decides it, and how to choose.",
+     "2026-11-19", "guide-prepay-bonus", "Your home"),
+    ("/guides/laddering-term-insurance/", "Should you split your term insurance into two policies?",
+     "How your cover need changes with age, splitting it into two term policies that end at different ages, and when laddering is worth it.",
+     "2026-11-19", "guide-ladder", "Your money"),
     ("/guides/rent-or-buy-by-age-and-moving-cities/", "Rent or buy a home? Why how long you'll stay matters more than your age",
      "Whether buying beats renting depends on how long you'll stay: how fast prices must rise for buying to win, what that means in your 20s, 30s and 40s, and if you might move.",
      "2026-11-17", "guide-rent-age", "Your home"),
@@ -4466,26 +4487,26 @@ def _catalog():
     L = lambda p: any(u == p for u, _ in LIVE_TOOLS)
     return [
         ("Your time off", [("/leave-planner-2027/", "Leave Planner 2027", "Turn your leave into the longest breaks of 2027, around central, state or your company's holidays.", True, "",
-                            ["/guides/long-weekends-2027/", "/guides/restricted-holidays-2027/", "/guides/best-months-for-a-week-long-break-2027/", "/guides/long-weekends-2027-six-day-week/"])]),
+                            ["/guides/long-weekends-2027/", "/guides/restricted-holidays-2027/", "/guides/best-months-for-a-week-long-break-2027/", "/guides/long-weekends-2027-six-day-week/", "/guides/working-hours-new-labour-codes/"])]),
         ("Your pay", [("/ctc-to-in-hand/", "CTC to In-hand", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", []),
                       ("/salary-hike-calculator/", "Salary Hike Calculator", "What your hike really adds to your monthly take-home after tax and PF, and how two offers compare.", False, "After the 1 Feb 2027 Budget", []),
                       ("/full-and-final-settlement/", "Full and Final Settlement", "What you get when you leave: last salary, leave encashment, gratuity, notice recovery and when it's due.", L("/full-and-final-settlement/"), "Coming soon", ["/guides/full-and-final-settlement-explained/", "/guides/transfer-pf-dont-withdraw/", "/guides/leave-encashment-tax-on-resignation/", "/guides/notice-period-buyout/", "/guides/two-employers-one-year-tax/", "/guides/bonus-when-you-resign/", "/guides/settlement-not-paid-on-time/"]),
                       ("/gratuity-calculator/", "Gratuity Calculator", "Your gratuity under the new labour codes, how much is tax-free, and what staying longer adds.", L("/gratuity-calculator/"), "Coming soon", ["/guides/gratuity-new-labour-codes/", "/guides/gratuity-six-month-rule-when-to-resign/", "/guides/gratuity-fixed-term-employees/", "/guides/is-gratuity-taxable-20-lakh-limit/", "/guides/low-basic-salary-gratuity/"])]),
         ("Your tax", [("/income-tax-section-finder/", "Income Tax Section Finder", "Old section numbers like 80C, HRA and 24(b), and where they are in the Income-tax Act, 2025.", L("/income-tax-section-finder/"), "Coming soon", ["/guides/new-income-tax-section-numbers/", "/guides/tax-year-explained/", "/guides/payslip-form-130-new-section-numbers/"])]),
-        ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/", "/guides/prepay-home-loan-early-or-later/"]),
+        ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/", "/guides/prepay-home-loan-early-or-later/", "/guides/prepay-with-bonus-or-invest/"]),
                         ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", ["/guides/how-part-payments-cut-your-home-loan/", "/guides/home-loan-rate-rise-emi-or-tenure/", "/guides/part-pay-car-or-personal-loan/", "/guides/floating-or-fixed-home-loan/"])]),
         ("Your investments", [("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", ["/guides/how-much-sip-do-you-need/", "/guides/step-up-sip/", "/guides/are-your-sips-on-track/", "/guides/how-mutual-fund-gains-are-taxed/", "/guides/sip-or-lump-sum-bonus/", "/guides/sip-lower-return/", "/guides/first-sip-on-first-salary/"]),
                               ("/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator", "What your FD, RD or PPF grows to after tax, whether TDS applies, and all three compared.", L("/fd-ppf-rd-calculator/"), "Coming soon", ["/guides/fd-rd-or-ppf/", "/guides/fd-interest-tax-below-50000/", "/guides/ppf-deposit-by-5-april/", "/guides/form-121-stop-tds-fd-interest/", "/guides/cumulative-fd-or-monthly-payout/", "/guides/ppf-after-15-years/", "/guides/fd-for-senior-citizens-tds-and-tax/"]),
                               ("/sukanya-samriddhi-calculator/", "Sukanya Samriddhi Calculator", "What your daughter's account grows to at 8.2%, tax-free, with an education withdrawal and PPF compared.", L("/sukanya-samriddhi-calculator/"), "Coming soon", ["/guides/sukanya-samriddhi-explained/", "/guides/sukanya-samriddhi-or-sip/", "/guides/sukanya-samriddhi-at-maturity/", "/guides/open-sukanya-samriddhi-account/", "/guides/sukanya-samriddhi-two-daughters/", "/guides/revive-sukanya-samriddhi-account/"]),
                               ("/nps-calculator/", "NPS Calculator", "Your NPS at 60 under the new exit rules: lump sum, the taxed part and your pension. Plus employer NPS tax saving.", L("/nps-calculator/"), "Coming soon", ["/guides/nps-new-exit-rules/", "/guides/employer-nps-14-percent-new-regime/", "/guides/nps-80-percent-withdrawal-tax/", "/guides/nps-vs-ppf-vs-epf/"]),
                               ("/epf-calculator/", "EPF Calculator", "Your PF at retirement, what you and your employer put in, and your EPS pension, with the ₹25,000 wage ceiling.", L("/epf-calculator/"), "Coming soon", ["/guides/how-much-epf-at-58/", "/guides/eps-pension-explained/", "/guides/epf-wage-ceiling-25000/", "/guides/transfer-pf-dont-withdraw/", "/guides/vpf-worth-it/", "/guides/nps-vs-ppf-vs-epf/", "/guides/epf-withdrawal-rules-2026/"]),
-                              ("/eps-pension-calculator/", "EPS Pension Calculator", "Your EPS pension for each wage-ceiling period, at any age from 50 to 60, or your withdrawal benefit under 10 years.", L("/eps-pension-calculator/"), "Coming soon", ["/guides/eps-pension-calculation-example/", "/guides/eps-pension-explained/", "/guides/eps-withdrawal-benefit-or-scheme-certificate/", "/guides/transfer-pf-dont-withdraw/", "/guides/epf-wage-ceiling-25000/", "/guides/eps-pension-50-58-or-60/", "/guides/eps-higher-pension/", "/guides/why-eps-pension-is-low/"]),
+                              ("/eps-pension-calculator/", "EPS Pension Calculator", "Your EPS pension for each wage-ceiling period, at any age from 50 to 60, or your withdrawal benefit under 10 years.", L("/eps-pension-calculator/"), "Coming soon", ["/guides/eps-pension-calculation-example/", "/guides/eps-pension-explained/", "/guides/eps-withdrawal-benefit-or-scheme-certificate/", "/guides/transfer-pf-dont-withdraw/", "/guides/epf-wage-ceiling-25000/", "/guides/eps-pension-50-58-or-60/", "/guides/eps-higher-pension/", "/guides/why-eps-pension-is-low/", "/guides/eps-family-pension/"]),
                               ("/retirement-planner/", "Retirement Planner", "How much you need to retire, what your EPF, NPS, SIPs and FDs add up to, and the extra SIP to close the gap.", L("/retirement-planner/"), "Coming soon", ["/guides/how-much-do-you-need-to-retire/", "/guides/25x-rule-retirement-india/", "/guides/nps-vs-ppf-vs-epf/", "/guides/retire-at-50-55-or-60/", "/guides/how-long-will-retirement-savings-last/", "/guides/retirement-planning-in-your-40s/", "/guides/three-bucket-retirement-plan/"])]),
         ("Your home", [("/rent-vs-buy/", "Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax.", True, "",
                         ["/guides/rent-vs-buy/", "/guides/is-rent-really-dead-money/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/", "/guides/home-loan-down-payment/", "/guides/rent-or-buy-by-age-and-moving-cities/", "/guides/keep-or-sell-your-home/"])]),
         ("Your money", [("/budget-planner/", "Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides.", True, "",
-                         ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/", "/guides/plan-for-school-fees-and-yearly-costs/", "/guides/first-salary-budget/", "/guides/double-income-family-budget/"]),
-                        ("/term-insurance-calculator/", "Term Insurance Calculator", "How much cover your family would need, and until what age: support, loans and goals, less what you have.", L("/term-insurance-calculator/"), "Coming soon", ["/guides/how-much-term-insurance-do-you-need/", "/guides/is-employer-group-cover-enough/", "/guides/term-insurance-until-60-or-70/", "/guides/term-insurance-tax-new-regime/", "/guides/home-loan-insurance-vs-term-plan/"])]),
+                         ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/", "/guides/plan-for-school-fees-and-yearly-costs/", "/guides/first-salary-budget/", "/guides/double-income-family-budget/", "/guides/budgeting-with-a-bonus/"]),
+                        ("/term-insurance-calculator/", "Term Insurance Calculator", "How much cover your family would need, and until what age: support, loans and goals, less what you have.", L("/term-insurance-calculator/"), "Coming soon", ["/guides/how-much-term-insurance-do-you-need/", "/guides/is-employer-group-cover-enough/", "/guides/term-insurance-until-60-or-70/", "/guides/term-insurance-tax-new-regime/", "/guides/home-loan-insurance-vs-term-plan/", "/guides/laddering-term-insurance/"])]),
         ("Your car", [("/company-car-lease-vs-loan/", "Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.", L("/company-car-lease-vs-loan/"), "Coming soon",
                        ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/", "/guides/car-lease-20-percent-slab-and-ev/", "/guides/car-lease-job-change-buy-back-or-hand-back/"]),
                       ("/car-ownership-cost/", "Car Ownership Cost", "What a petrol, diesel, CNG or electric car really costs per month and per km, after resale. Compare two.", L("/car-ownership-cost/"), "Coming soon", ["/guides/petrol-cng-or-ev-cost-per-km/", "/guides/ev-worth-it-1000-km-a-month/", "/guides/car-loan-or-cash/", "/guides/new-or-used-car/", "/guides/government-ev-rule-should-you-switch/"])]),
@@ -8875,6 +8896,259 @@ def guide_lease_exit():
 """
     return article(path, "x", "Changing jobs with a company car lease?", body, "Car lease and a job change")
 
+def _b14(): return _num("guide_batch14_numbers.js")
+
+def guide_eps_family():
+    F = _b14()["fam"]
+    path = "/guides/eps-family-pension/"
+    toc = [("short-answer", "The short answer"), ("who", "Who gets what"), ("example", "One family's numbers"), ("after", "If the member was already drawing a pension"), ("claim", "How the family claims it"), ("method", "Sources")]
+    body = guide_head(path, "EPS isn't only a pension for you: if a member dies, the scheme pays a monthly pension to the spouse and children too, even after just one month of contributions. Here's what each person gets under EPS 2026.",
+                      "A family of three under a protective arc").replace("TYPE_LINE", "<span>EPS 2026, paragraph 15</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>If a member dies while working, the spouse gets the pension the member would have received had they retired that day, never less than ₹1,000 a month, for life. Up to two children also get 25% of that each until they turn 25. A member who dies at 45 after 20 years leaves the family about <strong>{_inr(F['family'])} a month</strong>: {_inr(F['widow'])} for the spouse and {_inr(F['child'])} for each child.</p>
+<p class="g-cta"><a class="btn" href="/eps-pension-calculator/">Work out the member's pension</a></p>
+
+<h2 id="who">Who gets what</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Who</th><th scope="col">Monthly pension</th><th scope="col">Paid until</th></tr></thead><tbody>
+<tr><th scope="row">Spouse (widow or widower)</th><td data-l="Monthly pension">The member's pension as if they had retired on the day of death; at least ₹1,000</td><td data-l="Paid until">Life, or remarriage</td></tr>
+<tr><th scope="row">Each child, up to two at a time</th><td data-l="Monthly pension">25% of the spouse's pension, at least ₹250, on top of it</td><td data-l="Paid until">Age 25 (for life if disabled)</td></tr>
+<tr><th scope="row">Each orphan, up to two at a time</th><td data-l="Monthly pension">75% of the spouse's pension, at least ₹750</td><td data-l="Paid until">Age 25 (longer if disabled)</td></tr>
+</tbody></table></div>
+<ul>
+  <li><strong>No 10-year rule:</strong> for a death in service, one month's contribution is enough. The scheme sets higher minimums for short service.</li>
+  <li>With no spouse or children, the pension can go to a nominee or dependent parents.</li>
+</ul>
+
+<h2 id="example">One family's numbers</h2>
+<p>A member dies in service in 2028, aged 45, after 20 years: 8 years before September 2014 (counted at ₹6,500), 12 years to September 2026 (₹15,000) and 2 years after (₹25,000).</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col"></th><th scope="col">A month</th></tr></thead><tbody>
+<tr><th scope="row">Spouse</th><td data-l="A month">{_inr(F['widow'])}</td></tr>
+<tr><th scope="row">Two children, each</th><td data-l="A month">{_inr(F['child'])}</td></tr>
+<tr><th scope="row">Family in all, while both children are under 25</th><td data-l="A month">{_inr(F['family'])}</td></tr>
+<tr><th scope="row">If there were no spouse: each of two orphans</th><td data-l="A month">{_inr(F['orphan'])}</td></tr>
+</tbody></table></div>
+<p>That's a help, not a replacement for a salary. Term insurance is what covers the gap. See <a href="/guides/how-much-term-insurance-do-you-need/">How much term insurance do you need?</a></p>
+
+<h2 id="after">If the member was already drawing a pension</h2>
+<p>When a pensioner dies, the spouse gets <strong>50% of the pension</strong> the member was receiving, at least ₹1,000. On a pension of {_inr(F['pensioner'])}, that's {_inr(F['spouseAfter'])} a month. Children under 25 get their 25% share as above.</p>
+
+<h2 id="claim">How the family claims it</h2>
+<ol class="g-check">
+  <li>Apply on the EPFO portal or at the EPFO office with the pension claim form (Form 10D under the old scheme), the death certificate and bank details.</li>
+  <li>Claim the EPF balance and the EDLI insurance payout at the same time; they're separate.</li>
+  <li>Keep nominations up to date in the member's UAN profile: it makes all three claims faster.</li>
+</ol>
+<p>Read also <a href="/guides/eps-pension-explained/">EPS explained</a> and <a href="/guides/why-eps-pension-is-low/">Why your EPS pension is low</a>.</p>
+
+<h2 id="method">Sources</h2>
+<p>Employees' Pension Scheme, 2026 (G.S.R. 527(E), 29 June 2026), paragraph 15: spouse pension on death in service, 15(2)(a)(i); 50% on a pensioner's death, 15(2)(a)(iii); ₹1,000 minimum, 15(2)(a)(v); children's pension, 15(3); orphan pension, 15(4); one month's contribution, 15(1)(a) (gazette text via Lakshmikumaran &amp; Sridharan). Member's pension worked out with the pension formula, as in the <a href="/eps-pension-calculator/">EPS pension calculator</a>. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. EPFO's records decide the amount.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "EPS family pension", body, "EPS family pension")
+
+def guide_bonus_budget():
+    B = _b14()["bonus"]; S = B["split"]
+    path = "/guides/budgeting-with-a-bonus/"
+    toc = [("short-answer", "The short answer"), ("monthly", "Budget on fixed pay"), ("tax", "What the bonus is really worth"), ("split", "A plan for the bonus"), ("tips", "Tips"), ("method", "How this was worked out")]
+    body = guide_head(path, "When part of your pay arrives once a year, it's easy to spend it twice. Here's how to build your monthly budget around fixed pay, and a simple plan for the bonus when it lands.",
+                      "A calendar with one month holding a gift").replace("TYPE_LINE", "<span>Budget planner</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Run your monthly budget on fixed pay only, and treat the bonus as a one-off. Decide its use before it arrives: half for goals or debt, 30% invested, 20% to enjoy. On a ₹3 lakh bonus over ₹18 lakh fixed pay, tax takes about {_inr(B['taxBonus'])}, leaving {_inr(B['net'])} to plan.</p>
+<p class="g-cta"><a class="btn" href="/budget-planner/">Make your budget</a></p>
+
+<h2 id="monthly">Budget on fixed pay</h2>
+<ul>
+  <li>Variable pay depends on targets and the company's year; counting on it monthly means a bad year breaks the budget.</li>
+  <li>Fixed costs (rent, EMIs, school fees) should fit inside fixed pay with room to save.</li>
+  <li>Yearly costs, like insurance premiums and fees, are better set aside monthly. See <a href="/guides/plan-for-school-fees-and-yearly-costs/">How to plan for school fees and yearly costs</a>.</li>
+</ul>
+
+<h2 id="tax">What the bonus is really worth</h2>
+<p>A bonus is taxed as salary, at your highest slab: on top of ₹18 lakh, a ₹3 lakh bonus costs about {_inr(B['taxBonus'])} in tax under the new regime, an effective {B['rate']:.0f}%. Your employer usually deducts most of it the month it's paid, so the credit is smaller than the letter says.</p>
+
+<h2 id="split">A plan for the bonus</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Share</th><th scope="col">Amount</th><th scope="col">Use it for</th></tr></thead><tbody>
+<tr><th scope="row">50% goals</th><td data-l="Amount">{_inr(S['goals'])}</td><td data-l="Use it for">Credit card or personal loan first, then the emergency fund, then a big goal</td></tr>
+<tr><th scope="row">30% invest</th><td data-l="Amount">{_inr(S['invest'])}</td><td data-l="Use it for">Long-term investments, or a home loan part-payment</td></tr>
+<tr><th scope="row">20% enjoy</th><td data-l="Amount">{_inr(S['enjoy'])}</td><td data-l="Use it for">Something you've wanted, guilt-free</td></tr>
+</tbody></table></div>
+<p>Weighing a home loan part-payment against investing? See <a href="/guides/prepay-with-bonus-or-invest/">Prepay with your bonus or invest it?</a> and <a href="/guides/sip-or-lump-sum-bonus/">SIP or lump sum with your bonus</a>.</p>
+
+<h2 id="tips">Tips</h2>
+<ul>
+  <li><strong>Don't upgrade your lifestyle on a bonus:</strong> a new EMI lasts longer than the bonus does.</li>
+  <li><strong>Joining or retention bonus?</strong> Keep it until the clawback period ends. See <a href="/guides/bonus-when-you-resign/">Bonus when you resign</a>.</li>
+  <li><strong>Old regime?</strong> A bonus can fill your ₹1.5 lakh deduction limit or NPS before 31 March.</li>
+</ul>
+
+<h2 id="method">How this was worked out</h2>
+<p>New regime for tax year 2026-27: section 202 rates, ₹75,000 standard deduction, 4% cess (as in our NPS calculator's code); tax on ₹21 lakh less tax on ₹18 lakh. The 50/30/20 split is a suggestion, not a rule. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Budgeting with a big bonus", body, "Budget a bonus")
+
+def guide_prepay_bonus():
+    P = _b14()["prepay"]; O, OF, Y, YF = P["once"], P["onceFd"], P["yearly"], P["yearlyFd"]
+    path = "/guides/prepay-with-bonus-or-invest/"
+    toc = [("short-answer", "The short answer"), ("once", "One bonus"), ("yearly", "Every year's bonus"), ("decide", "How to decide"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Bonus in hand and a home loan running: pay it down, or invest the money? It comes down to one comparison: your loan rate against what the money would earn after tax.",
+                      "A coin choosing between a house and a growth chart").replace("TYPE_LINE", "<span>Prepay or invest</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>On a home loan at 8.5%, investing comes out ahead only if the money earns more than about <strong>{O['be']:.1f}% a year</strong> after tax. Equity at 12% clears that: a ₹3 lakh bonus invested beats prepaying by about {_L(O['diff'])} over the loan. Money you'd keep in FDs doesn't: prepaying wins by about {_L(-OF['diff'])}.</p>
+<p class="g-cta"><a class="btn" href="/prepay-vs-invest/">Run your own numbers</a></p>
+
+<h2 id="once">One bonus</h2>
+<p>₹40 lakh home loan, 8.5%, 15 years, new regime. A ₹3 lakh bonus, either prepaid now or invested:</p>
+<ul>
+  <li><strong>Prepaid:</strong> saves about {_L(O['saved'])} of interest and ends the loan {O['monthsCut']} months sooner.</li>
+  <li><strong>Invested in equity at 12%:</strong> about {_L(O['diff'])} better off by the end, after tax on the gains.</li>
+  <li><strong>Invested in FDs at 7%:</strong> about {_L(-OF['diff'])} worse off than prepaying.</li>
+</ul>
+
+<h2 id="yearly">Every year's bonus</h2>
+<p>Do it every year (₹3 lakh a year, about ₹25,000 a month) and the loan ends {Y['monthsCut']} months early, saving about {_L(Y['saved'])} of interest. Investing it in equity instead leaves you about {_L(Y['diff'])} ahead; in FDs, about {_L(-YF['diff'])} behind.</p>
+
+<h2 id="decide">How to decide</h2>
+<ul>
+  <li><strong>Prepay</strong> if you'd otherwise keep the money in FDs or a savings account, if the EMI strains your budget, or if being debt-free soon matters to you.</li>
+  <li><strong>Invest</strong> if it will stay in equity for 10 years or more and market falls won't make you sell.</li>
+  <li><strong>Split it:</strong> many people prepay half and invest half.</li>
+  <li><strong>Old regime?</strong> Interest up to ₹2 lakh a year is deductible, which lowers the loan's real cost and tilts towards investing.</li>
+</ul>
+<p>Read also <a href="/guides/prepay-home-loan-or-invest/">Prepay your home loan or invest?</a> and <a href="/guides/budgeting-with-a-bonus/">Budgeting with a big bonus</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/prepay-vs-invest/">Prepay or Invest calculator</a>'s own code: the ₹40 lakh loan from its main guide (8.5%, 15 years); once the loan ends, the EMI is invested; equity at 12% with 12.5% tax on gains above ₹1.25 lakh; FDs at 7% taxed at 30% plus cess; new regime. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Equity returns aren't guaranteed; the loan saving is.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Prepay with your bonus or invest it?", body, "Prepay a bonus")
+
+def guide_ladder():
+    L = _b14()["ladder"]; S = L["single"]; O = {o["X"]: o for o in L["options"]}; best = O[50]; N = {n["age"]: n["cover"] for n in L["needAt"]}
+    path = "/guides/laddering-term-insurance/"
+    toc = [("short-answer", "The short answer"), ("need", "How the need changes"), ("ladder", "One policy or two"), ("worth", "Is it worth it?"), ("method", "How these numbers were worked out")]
+    saved = (1 - best["cy"] / L["singleCy"]) * 100
+    body = guide_head(path, "Your family needs the most cover while loans are big and children are young. Laddering means buying two policies that end at different ages, so you stop paying for cover you no longer need.",
+                      "Two bars of cover, one ending earlier").replace("TYPE_LINE", "<span>Term insurance</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Instead of one ₹{S['cover']/1e7:.2f} crore policy to 60, the calculator's example family could buy ₹{best['A']/1e7:.2f} crore to 60 plus ₹{best['B']/1e5:.0f} lakh to 50, when their home loan ends. That's about {saved:.0f}% less cover to pay for over the years, with the same protection when it matters most. Compare quotes: the saving is real but smaller than people expect.</p>
+<p class="g-cta"><a class="btn" href="/term-insurance-calculator/">See how your need changes</a></p>
+
+<h2 id="need">How the need changes</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Age</th><th scope="col">Cover needed</th></tr></thead><tbody>
+{"".join(f'<tr><th scope="row">{a}</th><td data-l="Cover needed">{_L(N[a]) if N[a] < 1e7 else "₹" + format(N[a]/1e7, ".2f") + " Cr"}</td></tr>' for a in (32, 40, 47, 50, 55, 59))}
+</tbody></table></div>
+<p>It rises at first with inflation, peaks in the late 40s, then falls as the loan is repaid, goals are met and fewer years of support are left.</p>
+
+<h2 id="ladder">One policy or two</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Plan</th><th scope="col">Policies</th><th scope="col">Cover paid for (crore-years)</th></tr></thead><tbody>
+<tr><th scope="row">One policy</th><td data-l="Policies">₹{S['cover']/1e7:.2f} Cr to 60</td><td data-l="Cover paid for">{L['singleCy']/1e7:.1f}</td></tr>
+{"".join(f'<tr><th scope="row">Two, split at {x}</th><td data-l="Policies">₹{O[x]["A"]/1e7:.2f} Cr to 60 + {_L(O[x]["B"]) if O[x]["B"] < 1e7 else "₹" + format(O[x]["B"]/1e7, ".2f") + " Cr"} to {x}</td><td data-l="Cover paid for">{O[x]["cy"]/1e7:.1f}</td></tr>' for x in (48, 50, 55))}
+</tbody></table></div>
+<p>"Crore-years" is cover multiplied by years: a rough guide to what you pay for, since premiums rise with both.</p>
+
+<h2 id="worth">Is it worth it?</h2>
+<ul>
+  <li><strong>Yes, when</strong> a big loan ends well before your support years do, or children will be independent much earlier.</li>
+  <li><strong>Less so</strong> for small covers: each policy has its own costs, and premiums per lakh are often lower on bigger covers.</li>
+  <li><strong>Alternatives:</strong> some insurers offer decreasing-cover options in one policy; compare.</li>
+  <li><strong>Buy both at once:</strong> a second policy bought later costs more, and needs fresh medical checks.</li>
+</ul>
+<p>Read also <a href="/guides/term-insurance-until-60-or-70/">Term cover until 60 or 70?</a> and <a href="/guides/home-loan-insurance-vs-term-plan/">Home loan insurance vs a term plan</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/term-insurance-calculator/">term insurance calculator</a>'s own code, with its default family (age 32, ₹50,000 a month expenses, 28 years of support, ₹40 lakh of loans over 18 years, education and other goals). Each policy is rounded up as the calculator does; the policy to 60 covers the highest need from the split age onwards. No premium figures: insurers price differently. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Should you split your term cover into two policies?", body, "Laddering term cover")
+
+def guide_work_hours():
+    path = "/guides/working-hours-new-labour-codes/"
+    ot_rate = 25000 / 208
+    toc = [("short-answer", "The short answer"), ("table", "Hours a day, by days a week"), ("myths", "What's not true"), ("office", "If you work in an office"), ("overtime", "Overtime pay, worked out"), ("check", "What to check at work"), ("method", "Sources")]
+    body = guide_head(path, "Heard that India now allows 12-hour workdays, or a 72-hour week? The weekly limit hasn't changed: it's still 48 hours. What changed is how those hours can be spread across the week. Here's what the rules actually say.",
+                      "A clock beside a calendar week with four and five working days").replace("TYPE_LINE", "<span>New labour codes</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Under the new labour codes, in force since 21 November 2025, the normal working week is still capped at <strong>48 hours</strong>. Employers can now arrange those hours as 8 a day over six days, about 9.5 over five, or up to 12 over four, with three days off. Work beyond the limit is overtime, paid at <strong>twice your normal rate</strong>, and only with your consent.</p>
+<p class="g-cta"><a class="btn" href="/leave-planner-2027/">Plan your days off for 2027</a></p>
+
+<h2 id="table">Hours a day, by days a week</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Days a week</th><th scope="col">Hours a day, at most</th><th scope="col">Days off</th></tr></thead><tbody>
+<tr><th scope="row">6</th><td>8</td><td>1</td></tr>
+<tr><th scope="row">5</th><td>About 9.5</td><td>2</td></tr>
+<tr><th scope="row">4</th><td>12, including breaks</td><td>3</td></tr>
+</tbody></table></div>
+<p>All three add up to the same 48-hour week. The four-day week is allowed, not required: the Labour Ministry has said it's an option employers may offer.</p>
+
+<h2 id="myths">What's not true</h2>
+<ul>
+  <li><strong>"Everyone now works 12 hours a day."</strong> No. 12 hours is allowed only in a four-day week, and it includes breaks.</li>
+  <li><strong>"The week is now 72 hours."</strong> No. The government's fact-check unit called this claim misleading: the cap is 48 hours a week.</li>
+  <li><strong>"Overtime can be forced."</strong> No. Overtime needs your consent and is paid at double the normal rate, up to 144 hours a quarter under the central rules of May 2026.</li>
+</ul>
+
+<h2 id="office">If you work in an office</h2>
+<ul>
+  <li>The code's hours and overtime rules are for "workers". That excludes people in managerial or administrative roles, and supervisors earning more than ₹18,000 a month, which covers many corporate and IT jobs.</li>
+  <li>Shops, offices and IT companies are usually also governed by their <strong>state's shops and establishments law</strong>, and several states changed theirs in 2026.</li>
+  <li><strong>Delhi:</strong> up to 10 hours a day, and up to 60 hours a week including overtime (from the date the state notifies).</li>
+  <li><strong>Gujarat and Andhra Pradesh:</strong> up to 10 hours a day, but still 48 hours a week.</li>
+  <li>Your appointment letter, now required under the codes, should state your working hours.</li>
+</ul>
+
+<h2 id="overtime">Overtime pay, worked out</h2>
+<p>A common way to work out the hourly rate is monthly wages ÷ (26 days × 8 hours). For a worker on ₹25,000 a month:</p>
+<ul>
+  <li>Normal rate: about {_inr(ot_rate)} an hour.</li>
+  <li>Overtime rate (double): about {_inr(ot_rate * 2)} an hour.</li>
+  <li>10 hours of overtime in a month: about {_inr(ot_rate * 2 * 10)} extra, taxed as salary.</li>
+</ul>
+<p>"Wages" here means basic pay plus DA, as the labour codes define it. See <a href="/guides/low-basic-salary-gratuity/">Low basic salary? How the 50% wage rule raises your gratuity</a>.</p>
+
+<h2 id="check">What to check at work</h2>
+<ol class="g-check">
+  <li>Your appointment letter: working hours, days a week, and whether overtime applies to your role.</li>
+  <li>If moving to a four-day week: hours per day, breaks, and that pay stays the same.</li>
+  <li>Overtime: asked for your consent, recorded, and paid at double the rate.</li>
+  <li>Leaving the job? Your dues are owed within 2 working days. See <a href="/guides/settlement-not-paid-on-time/">Settlement not paid on time?</a></li>
+</ol>
+
+<h2 id="method">Sources</h2>
+<p>Occupational Safety, Health and Working Conditions Code, 2020 (in force 21 November 2025): sections 25 to 27 on daily and weekly hours and overtime, and the definition of "worker"; Occupational Safety, Health and Working Conditions (Central) Rules, notified 8 May 2026. Labour Ministry clarification on the four-day week (People Matters, NewsX); PIB fact check on the 72-hour claim (Business Standard); Tribune/ANI on 12, 9.5 and 8-hour days. State changes: Delhi Shops and Establishments (Amendment) Act, 2026 (SCC Online, SGCMS, AscentHR); Gujarat (India Briefing); Andhra Pradesh (Khaitan &amp; Co). Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not legal advice. Your state's rules and your contract decide your hours.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Did India change your working hours?", body, "Working hours")
+
 def guide_mf_tax():
     import subprocess
     G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_sip_numbers.js")]))
@@ -9128,6 +9402,11 @@ def main():
     write("/guides/gratuity-new-labour-codes/", guide_gratuity())
     write("/guides/new-income-tax-section-numbers/", guide_sections())
     write("/guides/fd-rd-or-ppf/", guide_fd_main())
+    write("/guides/working-hours-new-labour-codes/", guide_work_hours())
+    write("/guides/eps-family-pension/", guide_eps_family())
+    write("/guides/budgeting-with-a-bonus/", guide_bonus_budget())
+    write("/guides/prepay-with-bonus-or-invest/", guide_prepay_bonus())
+    write("/guides/laddering-term-insurance/", guide_ladder())
     write("/guides/rent-or-buy-by-age-and-moving-cities/", guide_rent_buy_age())
     write("/guides/keep-or-sell-your-home/", guide_keep_sell())
     write("/guides/double-income-family-budget/", guide_dual_income())
@@ -9201,7 +9480,7 @@ def main():
     write("/guides/prepay-home-loan-early-or-later/", guide_prepay_timing())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime

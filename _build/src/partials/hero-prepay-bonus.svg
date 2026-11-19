@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A coin choosing between a house and a growth chart">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="160" r="64"/></g>
+  <path d="M340 470 L480 360 L620 470 Z" fill="#FFFFFF"/><rect x="365" y="470" width="230" height="200" fill="#FFFFFF"/><rect x="455" y="560" width="50" height="110" fill="#0B2A6B" opacity=".35"/>
+  <circle cx="800" cy="420" r="80" fill="#FFD27A"/><circle cx="800" cy="420" r="50" fill="none" stroke="#0B2A6B" stroke-opacity=".3" stroke-width="12"/>
+  <path d="M690 470 L640 500 M910 470 L960 500" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+  <rect x="990" y="370" width="290" height="300" rx="20" fill="#FFFFFF" opacity=".9"/><path d="M1030 620 L1100 560 L1160 590 L1240 450" fill="none" stroke="#1F5FE0" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

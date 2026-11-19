@@ -53,7 +53,7 @@
  },
  "/guides/": {
   "date": "2026-11-19",
-  "hash": "5df9ef3c48d5d714"
+  "hash": "1172e382294d471c"
  },
  "/guides/25x-rule-retirement-india/": {
   "date": "2026-11-15",
@@ -327,13 +327,17 @@
   "date": "2026-11-15",
   "hash": "226e4b9a616016a7"
  },
+ "/guides/working-hours-new-labour-codes/": {
+  "date": "2026-11-19",
+  "hash": "9237efb688b1aa7a"
+ },
  "/income-tax-section-finder/": {
   "date": "2026-11-15",
   "hash": "2d621e186469ebfb"
  },
  "/leave-planner-2027/": {
-  "date": "2026-11-15",
-  "hash": "64cd2d2905159eb3"
+  "date": "2026-11-19",
+  "hash": "7368a5201a487d5a"
  },
  "/methodology/": {
   "date": "2026-11-15",
@@ -377,6 +381,6 @@
  },
  "/tools/": {
   "date": "2026-11-19",
-  "hash": "05e1e32ba5b621cf"
+  "hash": "6c97e748082f44d1"
  }
 }
