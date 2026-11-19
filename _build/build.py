@@ -46,11 +46,17 @@ HOLD = {
     # Batch T2 (agreed 19 Nov): the best day to resign tool (N1) with its guides, released together.
     # Batch T3 (19 Nov): the FIRE calculator (N11, on the shared SWP engine) with its guides, released together.
     # Batch T4 (19 Nov): the SWP calculator (N12, quick) with its guides, released together.
+    # Batch T5 (19 Nov): the job offer comparator (N2) with its guides, released together.
+    # Batch E1 (19 Nov): news-led guide on the EPF withdrawal changes approved by the CBT on 19 Nov 2026; pushed on its own.
+    "e1": ["/guides/epf-withdrawal-changes-november-2026/"],
+    # Batch T6 (19 Nov): did your hike beat inflation? (N9) with its guides, released together.
+    "t6": ["/salary-hike-vs-inflation/", "/guides/did-your-hike-beat-inflation/", "/guides/real-salary-hike-after-inflation/", "/guides/personal-inflation-rate/", "/guides/hike-take-home-after-tax/", "/guides/what-hike-to-ask-for/", "/guides/real-pay-growth-since-you-started/"],
+    "t5": ["/job-offer-comparator/", "/guides/compare-job-offers-worked-example/", "/guides/higher-ctc-less-in-hand/", "/guides/switch-jobs-before-5-years-gratuity/", "/guides/value-variable-pay-job-offer/", "/guides/office-days-commute-cost/", "/guides/joining-bonus-stock-job-offer/"],
     "t4": ["/swp-calculator/", "/guides/swp-monthly-income-explained/", "/guides/swp-vs-fd-monthly-income/", "/guides/how-swp-is-taxed/", "/guides/safe-swp-withdrawal-rate/", "/guides/should-swp-rise-with-inflation/", "/guides/annuity-or-swp/"],
     "t3": ["/fire-calculator/", "/guides/fire-number-india/", "/guides/retire-at-45-bridge-epf-nps/", "/guides/is-25x-enough-early-retirement/", "/guides/lean-fat-coast-fire/", "/guides/savings-rate-early-retirement/", "/guides/epf-nps-if-you-retire-early/"],
     "t2": ["/best-day-to-resign/", "/guides/when-to-resign-best-last-day/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/joining-bonus-clawback/", "/guides/when-to-hand-in-notice/", "/guides/use-or-encash-leave-before-resigning/", "/guides/wait-for-bonus-or-join-now/"],
 }
-RELEASED = {"b1", "t1"}   # b1 released 19 Nov; t1 released 19 Nov
+RELEASED = {"b1", "t1", "e1"}   # b1, t1 and e1 released 19 Nov
 # Review builds only: SALARIST_PREVIEW=t1 python3 build.py builds a held batch too (never push such a build).
 RELEASED |= {b for b in os.environ.get("SALARIST_PREVIEW", "").split(",") if b}
 HELD = {p for b, ps in HOLD.items() if b not in RELEASED for p in ps}
@@ -82,6 +88,10 @@ FNF_LIVE = True   # set False to build without the full and final settlement cal
 if FNF_LIVE: LIVE_TOOLS.append(("/full-and-final-settlement/", "Full and Final Settlement"))
 TERM_LIVE = True   # set False to build without the term insurance calculator (in review)
 if TERM_LIVE: LIVE_TOOLS.append(("/term-insurance-calculator/", "Term Insurance Calculator"))
+JO_LIVE = "t5" in RELEASED   # job offer comparator: goes live with batch T5
+if JO_LIVE: LIVE_TOOLS.append(("/job-offer-comparator/", "Job Offer Comparator"))
+HV_LIVE = "t6" in RELEASED   # did your hike beat inflation?: goes live with batch T6
+if HV_LIVE: LIVE_TOOLS.append(("/salary-hike-vs-inflation/", "Did Your Hike Beat Inflation?"))
 SWPC_LIVE = "t4" in RELEASED   # SWP calculator: goes live with batch T4
 if SWPC_LIVE: LIVE_TOOLS.append(("/swp-calculator/", "SWP Calculator"))
 # SWP additions to existing tools (N12; agreed 19 Nov): ship with batch T4, so they appear only when the SWP calculator is live.
@@ -169,6 +179,18 @@ SEO = {
     "/guides/safe-swp-withdrawal-rate/": ("Safe SWP Withdrawal Rate in India: How Much a Month?", "How much can you withdraw monthly without running out? ₹1 crore for 20, 30 or 40 years by return and yearly rise, and a safe rate for India."),
     "/guides/should-swp-rise-with-inflation/": ("Fixed or Rising SWP: Should Withdrawals Beat Inflation?", "Should your monthly SWP rise with inflation? ₹1 crore with a fixed vs 5% and 6% rising withdrawal: how long it lasts and what it's worth."),
     "/guides/annuity-or-swp/": ("Annuity or SWP for Retirement Income: Which Is Better?", "Annuity or SWP for a monthly pension? ₹1 crore compared after tax: lifetime income vs rising withdrawals, and when to mix the two."),
+    "/guides/did-your-hike-beat-inflation/": ("Did Your Salary Hike Beat Inflation? One Raise, Checked", "A 7% hike against India's CPI for the exact months: real raise, what's left at today's prices, after tax and against your own costs."),
+    "/guides/real-salary-hike-after-inflation/": ("Real Salary Hike After Inflation: How to Work It Out", "Your real raise is your hike after the rise in prices. The formula, why you divide, and hikes from 3% to 15% against 2026 inflation."),
+    "/guides/personal-inflation-rate/": ("Personal Inflation Rate: Rent, Fees and EMIs", "Work out your own inflation rate: how rent, school fees, food and a fixed EMI change it compared with the official CPI, with one example."),
+    "/guides/hike-take-home-after-tax/": ("Why Take-Home Rises Less Than Your Salary Hike", "A 7% hike in gross pay is less in take-home. Tax slabs, the ₹12 lakh rebate edge and marginal relief, at four pay levels."),
+    "/guides/what-hike-to-ask-for/": ("What Salary Hike Should You Ask For? Start With Inflation", "The hike you need to keep up with prices next year, what a real raise on top takes, and why a later start date costs you."),
+    "/guides/real-pay-growth-since-you-started/": ("Real Pay Growth Since Your First Job, After Inflation", "Grow your starting pay with each year's CPI inflation to see how much of your pay growth is real. One career since 2019-20."),
+    "/guides/compare-job-offers-worked-example/": ("How to Compare Two Job Offers: One Switch, Worked Out", "Is the new job offer really worth more? In-hand pay, PF, gratuity, variable pay, stock and commute compared over three years."),
+    "/guides/higher-ctc-less-in-hand/": ("Higher CTC but Less In-Hand Salary? Here's Why", "Why a job offer with a higher CTC can mean less in-hand salary: employer PF, gratuity, variable pay at target, with an example."),
+    "/guides/switch-jobs-before-5-years-gratuity/": ("Switching Jobs Before 5 Years? What It Costs in Gratuity", "Changing jobs before 5 years means no gratuity. What one person gives up at 4.5 years, what waiting costs, and your options."),
+    "/guides/value-variable-pay-job-offer/": ("How to Value Variable Pay in a Job Offer", "Variable pay in a job offer is quoted at 100% of target. How to value it realistically, with one offer at 100%, 70% and 50%."),
+    "/guides/office-days-commute-cost/": ("5 Days in the Office: What the Commute Really Costs You", "What five office days a week cost in hours and money, how to value commute time, and when it outweighs a pay rise."),
+    "/guides/joining-bonus-stock-job-offer/": ("Joining Bonus and Stock in a Job Offer: Real Value", "What a joining bonus and ESOPs or RSUs are really worth in a job offer: tax, clawbacks, vesting, and the offer without them."),
     "/guides/salary-under-new-labour-codes/": ("New Labour Codes and Your Salary: Take-Home, PF, Gratuity", "What the 50% wage rule does to your take-home, PF, tax and gratuity, worked through one ₹15.2 lakh salary and three kinds of restructuring."),
     "/guides/take-home-fell-ctc-same/": ("Take-Home Salary Reduced but CTC Same? Here's Why", "Your salary was restructured for the labour codes and take-home fell. Where the money went, rupee by rupee, and when it shouldn't fall."),
     "/guides/basic-pay-50-percent-rule/": ("Basic Salary 50% of CTC Rule: What the Law Says", "Must basic pay be 50% of CTC under the labour codes? The Code on Wages rule, what counts as wages, what doesn't, and two examples."),
@@ -179,7 +201,7 @@ SEO = {
     "/guides/eps-family-pension/": ("EPS Family Pension: Widow and Children's Pension", "EPS family pension under EPS 2026: what the spouse and children get, a worked example, the 50% rule after a pensioner's death, and claims."),
     "/guides/budgeting-with-a-bonus/": ("How to Budget When Your Pay Includes a Bonus", "Budgeting with variable pay or a yearly bonus: plan on fixed pay, tax on the bonus, and a simple split for using it well."),
     "/guides/prepay-with-bonus-or-invest/": ("Prepay Home Loan With Bonus or Invest It?", "Use your bonus to prepay your home loan or invest? A worked ₹40 lakh example, the return that decides it, once or every year."),
-    "/guides/laddering-term-insurance/": ("Term Insurance Laddering: One Policy or Two?", "Laddering term insurance: how your cover need falls as loans end, splitting cover into two policies, and when it's worth it."),
+    "/guides/laddering-term-insurance/": ("Term Insurance Laddering: One Policy or Two?", "Two term policies or one? Premiums compared for one family, why the bigger policy must run longer, and when cover past 60 is worth it."),
     "/guides/rent-or-buy-by-age-and-moving-cities/": ("Rent or Buy a Home? How Long You'll Stay Decides", "Rent or buy by age and length of stay: how fast prices must rise for buying to win, and what to do if you might move cities."),
     "/guides/keep-or-sell-your-home/": ("Keep or Sell Your Home When You Move Cities?", "Moving cities? Selling vs keeping and renting out your home, 10 years on, with capital gains tax and section 82 reinvestment."),
     "/guides/double-income-family-budget/": ("Double-Income Family Budget: How to Split Costs", "Budgeting for a double-income family: proportional cost split, living on one income, emergency fund, insurance and tax for two."),
@@ -201,6 +223,7 @@ SEO = {
     "/guides/term-insurance-tax-new-regime/": ("Term Insurance Tax Benefits Under the New Regime", "Term insurance and tax in 2026-27: premium deduction in the old regime only, tax-free payout in both, maturity rules and 0% GST."),
     "/guides/sukanya-samriddhi-at-maturity/": ("Sukanya Samriddhi Maturity: What to Do With It", "Sukanya Samriddhi at maturity: when it pays out, no interest after 21 years, withdrawals at 18, and where to put the money next."),
     "/guides/floating-or-fixed-home-loan/": ("Floating or Fixed Home Loan: Which Is Better?", "Floating vs fixed home loan rates compared on ₹50 lakh: four scenarios, the rate rise it takes for fixed to win, and your rights."),
+    "/guides/epf-withdrawal-changes-november-2026/": ("EPF Withdrawal Changes 2026: 90% Limit, 2-Month Wait, SWP", "EPFO's board approved 90% EPF withdrawals, a 2-month wait after a job loss and monthly payouts for retirees. What changes, and when."),
     "/guides/epf-withdrawal-rules-2026/": ("EPF Withdrawal Rules 2026: 25% Minimum and 12 Months", "EPF Scheme 2026 withdrawal rules: three categories, the 25% minimum balance, 12 months' membership, tax, and what withdrawing costs."),
     "/guides/tax-year-explained/": ("Tax Year Explained: Income-tax Act 2025", "Tax year replaces previous year and assessment year under the Income-tax Act 2025: side-by-side table, the 2026-27 mix-up, and forms."),
     "/guides/payslip-form-130-new-section-numbers/": ("Form 130 and Your Payslip: New Section Numbers", "Form 16 is now Form 130. Payslip items with old and new section numbers, forms that changed, and what to check in your Form 130."),
@@ -776,6 +799,8 @@ TOOL_CARDS = {
 }
 if SIP_LIVE: TOOL_CARDS["/sip-calculator/"] = ("SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.")
 if EMI_LIVE: TOOL_CARDS["/emi-calculator/"] = ("EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.")
+if HV_LIVE: TOOL_CARDS["/salary-hike-vs-inflation/"] = ("Did Your Hike Beat Inflation?", "Your raise against official CPI, in today's money and after tax, or against your own rent, fees and EMIs.")
+if JO_LIVE: TOOL_CARDS["/job-offer-comparator/"] = ("Job Offer Comparator", "Is the new offer really worth more? Take-home, PF, gratuity, bonus, stock and commute, side by side.")
 if FIRE_LIVE: TOOL_CARDS["/fire-calculator/"] = ("FIRE Calculator", "When can you stop working? Your FIRE number and age, with EPF and NPS unlocking at 58 and 60.")
 if RD_LIVE: TOOL_CARDS["/best-day-to-resign/"] = ("Best Day to Resign", "The last working day that leaves you with the most: gratuity, bonus, RSUs and leave, against the new job's pay.")
 if LC_LIVE: TOOL_CARDS["/labour-codes-salary-calculator/"] = ("Labour Codes and Your Salary", "Does your basic pass the 50% wage rule? Your take-home, PF, tax and gratuity before and after.")
@@ -795,8 +820,10 @@ RELATED = {
     "/term-insurance-calculator/": ["/retirement-planner/", "/emi-calculator/", "/budget-planner/", "/sukanya-samriddhi-calculator/"],
     "/fire-calculator/": ["/retirement-planner/", "/swp-calculator/", "/sip-calculator/", "/nps-calculator/", "/epf-calculator/"],
     "/swp-calculator/": ["/fire-calculator/", "/retirement-planner/", "/fd-ppf-rd-calculator/", "/sip-calculator/"],
-    "/best-day-to-resign/": ["/full-and-final-settlement/", "/gratuity-calculator/", "/budget-planner/", "/labour-codes-salary-calculator/"],
-    "/labour-codes-salary-calculator/": ["/gratuity-calculator/", "/epf-calculator/", "/budget-planner/", "/full-and-final-settlement/"],
+    "/salary-hike-vs-inflation/": ["/job-offer-comparator/", "/budget-planner/", "/labour-codes-salary-calculator/", "/sip-calculator/"],
+    "/job-offer-comparator/": ["/salary-hike-vs-inflation/", "/best-day-to-resign/", "/labour-codes-salary-calculator/", "/gratuity-calculator/", "/budget-planner/"],
+    "/best-day-to-resign/": ["/job-offer-comparator/", "/full-and-final-settlement/", "/gratuity-calculator/", "/budget-planner/", "/labour-codes-salary-calculator/"],
+    "/labour-codes-salary-calculator/": ["/job-offer-comparator/", "/salary-hike-vs-inflation/", "/gratuity-calculator/", "/epf-calculator/", "/budget-planner/", "/full-and-final-settlement/"],
     "/full-and-final-settlement/": ["/best-day-to-resign/", "/gratuity-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/budget-planner/"],
     "/income-tax-section-finder/": ["/nps-calculator/", "/gratuity-calculator/", "/fd-ppf-rd-calculator/", "/company-car-lease-vs-loan/"],
     "/car-ownership-cost/": ["/company-car-lease-vs-loan/", "/emi-calculator/", "/budget-planner/"],
@@ -1072,6 +1099,14 @@ TIP_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="
 # When a guide is approved, add it here wherever a field or result it explains has a tooltip. check_guide_links() makes sure
 # every guide listed under a tool is linked from that tool's page.
 TIP_GUIDES = {
+    ("hv", "own spending"): ("/guides/personal-inflation-rate/", "Your own inflation rate"),
+    ("hv", "after tax"): ("/guides/hike-take-home-after-tax/", "Why take-home rises less than your hike"),
+    ("hv", "real raise"): ("/guides/real-salary-hike-after-inflation/", "What a real raise is"),
+    ("hv", "next hike"): ("/guides/what-hike-to-ask-for/", "What hike to ask for"),
+    ("hv", "since you started"): ("/guides/real-pay-growth-since-you-started/", "Real pay growth since you started"),
+    ("jo", "variable pay"): ("/guides/value-variable-pay-job-offer/", "How to value variable pay"),
+    ("jo", "commute cost"): ("/guides/office-days-commute-cost/", "What five office days really cost"),
+    ("jo", "joining bonus"): ("/guides/joining-bonus-stock-job-offer/", "Joining bonus and stock in an offer"),
     ("sw", "tax type"): ("/guides/how-swp-is-taxed/", "How SWP withdrawals are taxed"),
     ("sw", "how much you can take"): ("/guides/safe-swp-withdrawal-rate/", "How much can you safely withdraw?"),
     ("sw", "yearly rise"): ("/guides/should-swp-rise-with-inflation/", "Should your SWP rise with inflation?"),
@@ -1720,7 +1755,7 @@ def epf_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to EPF and EPS?</b> Read our guide, <a href="/guides/how-much-epf-at-58/">How much will your EPF be at 58?</a> Also read: <a href="/guides/eps-pension-explained/">EPS explained: job changes and claims</a> , <a href="/guides/epf-wage-ceiling-25000/">The ₹25,000 wage ceiling</a>, <a href="/guides/transfer-pf-dont-withdraw/">Changed jobs? Transfer your PF</a> and <a href="/guides/vpf-worth-it/">Is VPF worth it?</a> Need money now? Read <a href="/guides/epf-withdrawal-rules-2026/">EPF withdrawal rules 2026</a>.</p>
+  <p class="g-callout"><b>New to EPF and EPS?</b> Read our guide, <a href="/guides/how-much-epf-at-58/">How much will your EPF be at 58?</a> Also read: <a href="/guides/eps-pension-explained/">EPS explained: job changes and claims</a> , <a href="/guides/epf-wage-ceiling-25000/">The ₹25,000 wage ceiling</a>, <a href="/guides/transfer-pf-dont-withdraw/">Changed jobs? Transfer your PF</a> and <a href="/guides/vpf-worth-it/">Is VPF worth it?</a> Need money now? Read <a href="/guides/epf-withdrawal-rules-2026/">EPF withdrawal rules 2026</a> and <a href="/guides/epf-withdrawal-changes-november-2026/">what the November 2026 changes mean</a>.</p>
   <h2>How the calculator works</h2>
   <ul>
     <li><strong>Contributions:</strong> you put in 12% of PF wages plus any VPF. Your employer puts in 12%; if you're in EPS, 8.33% of wages up to ₹25,000 goes to EPS and the rest to your EPF. With PF on capped wages, both are worked out on wages up to ₹25,000.</li>
@@ -2464,7 +2499,7 @@ def fire_page():
         ("Is 25 times my yearly expenses enough in India?",
          "Often not, if you retire early. The 25× rule comes from US data with lower inflation. With 6% inflation in India and 40 or more years to fund, the calculator usually finds 27× to 35×. It works out your own number from your spending, inflation and returns, year by year, instead of using a fixed multiple."),
         ("Why does the calculator treat EPF and NPS separately?",
-         "Because you can't spend them right away. NPS stays invested until 60, when up to 80% can be taken as a lump sum and the rest buys a pension. EPF keeps earning interest until 58 if you leave it; you can also take it out 12 months after you stop working. Until then, your other investments have to pay the bills: that's the bridge."),
+         "Because you can't spend them right away. NPS stays invested until 60, when up to 80% can be taken as a lump sum and the rest buys a pension. EPF keeps earning interest until 58 if you leave it; you can also take it out 12 months after you stop working (2 months under a change approved in November 2026, once notified). Until then, your other investments have to pay the bills: that's the bridge."),
         ("Should I take my EPF out early?",
          "You can, a year after you stop working, but you lose the 8.25% it earns (tax-free on contributions within the limits). The calculator lets you choose; taking it early rarely helps unless your other investments are short."),
         ("What are Lean, Fat and Coast FIRE?",
@@ -2751,6 +2786,322 @@ SW_TIPS = [
      "Your first year's withdrawals minus the tax on the gains in them, as a monthly amount. Early on, most of each withdrawal is your own money coming back, so tax is low."),
     ("""<h2 class="list-h" id="swSafeH">How much you can take</h2>""", "how much you can take",
      "The largest monthly withdrawal, rising each year by the percentage you set, that lasts 20, 30 or 40 years at your return. The yearly percentage is the first year's withdrawals as a share of the amount."),
+]
+
+def jo_page():
+    faqs = [
+        ("How do I compare two job offers properly?",
+         "Compare what each job actually puts in your hands and your savings, not the CTC. CTC includes employer PF, gratuity and variable pay at 100%, which you may not get. The comparator works out monthly take-home after tax, adds PF, gratuity, stock and joining bonus, takes off commute costs, and shows the total over the years you expect to stay."),
+        ("Why does a higher CTC sometimes mean less in hand?",
+         "Because of how it's made up: a bigger share in variable pay, employer PF on full basic, gratuity and insurance all count in CTC but not in your monthly take-home. Tax also rises with pay. The comparator shows in-hand pay for each, side by side."),
+        ("What happens to my gratuity if I switch?",
+         "Gratuity is paid only after 5 years with one employer (1 year on a fixed-term contract). Leave at 4.5 years and you get none, and it starts from zero at the new job. If you're close to 5 years, joining a few months later can be worth lakhs; the comparator shows how much you'd give up."),
+        ("How should I count variable pay?",
+         "At the payout you realistically expect, not the target. If the company paid 70% of target in the last two years, use 70%. The comparator's what-if shows the result if both pay only 50%."),
+        ("Is a joining bonus really extra money?",
+         "Only if you stay long enough: most have to be repaid if you leave within 12 months. It's also taxed as salary. Count it, but don't let it decide."),
+        ("Should I count commute time?",
+         "If one job has you in the office more, yes. A daily 2-hour commute for 5 days a week is about 480 hours a year. The comparator shows the hours and their cost, and you can put a value on your time to see if the extra pay is still worth it."),
+        ("What about PF on full basic vs capped?",
+         "PF on full basic puts more into your EPF (with your employer's matching 12%) but lowers take-home. Capped PF gives you more cash now. The comparator counts PF as value, since it's your money with 8.25% interest, but shows take-home separately."),
+        ("What does the comparator leave out?",
+         "Health insurance, other benefits, career growth, job security and how much you'd enjoy the work. Weigh those yourself. Taxes follow the new regime; professional tax and surcharge are left out."),
+    ]
+    def pair(k, label, money=True, unit="", hint="", lid=None):
+        idattr = f' id="{lid}"' if lid else ""
+        def one(s):
+            if money: return f'<div><div class="numin"><span>₹</span><input id="jo-{s}-{k}" type="text" inputmode="numeric" autocomplete="off" aria-label="{label}, {"current job" if s == "a" else "new offer"}"></div><span class="w" id="jo-{s}-{k}-w"></span></div>'
+            return f'<div><div class="numin"><input id="jo-{s}-{k}" type="text" inputmode="decimal" autocomplete="off" aria-label="{label}, {"current job" if s == "a" else "new offer"}"><span>{unit}</span></div></div>'
+        return f'<div class="jo-row"><span class="lbl"{idattr}>{label}</span><div class="pair">{one("a")}{one("b")}</div>' + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>"
+    def num(k, label, hint="", lid=None):
+        idattr = f' id="{lid}"' if lid else ""
+        return (f'<div class="fld"><div class="row1"><label for="jo-{k}"{idattr}>{label}</label><span class="w" id="jo-{k}-w"></span></div><div class="numin"><span>₹</span><input id="jo-{k}" type="text" inputmode="numeric" autocomplete="off"></div>'
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def small(k, label, unit, lid=None, hint=""):
+        lab = f'<div class="row1"><label for="jo-{k}" id="{lid}">{label}</label></div>' if lid else f'<label for="jo-{k}" class="lbl" style="margin:0 0 6px">{label}</label>'
+        return f'<div class="fld">{lab}<div class="numin"><input id="jo-{k}" type="text" inputmode="decimal" autocomplete="off"><span>{unit}</span></div>' + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>"
+    head = '<div class="jo-head"><span>Current job</span><span>New offer</span></div>'
+    pfseg = '<div class="jo-row"><span class="lbl" id="jo-pfLbl">PF is worked out on</span><div class="pair">' + "".join(f'<div class="seg row" role="group" aria-label="PF, {"current job" if s == "a" else "new offer"}"><button type="button" data-pf="{s}:full">Full</button><button type="button" data-pf="{s}:capped">Capped</button></div>' for s in ("a", "b")) + "</div></div>"
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Changing jobs</p>
+  <h1>Job offer comparator</h1>
+  <p class="lead">Is the new offer really worth more? Compare your current job and the offer on what you actually get: take-home after tax, PF, gratuity you'd keep or give up, variable pay, joining bonus and stock, and the cost of commuting if you're in the office more.</p>
+  {badges("New regime tax 2026-27 · Gratuity under the labour codes · PF ceiling ₹25,000")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb jox">
+  <div class="card lp-setup" aria-label="The two jobs">
+    <h3 class="sub" style="border:0;padding-top:0;margin-top:0">Fixed pay a month</h3>
+    {head}
+    {pair("basic", "Basic + DA")}
+    {pair("hra", "HRA")}
+    {pair("other", "Other allowances", hint="Special allowance and the rest of fixed monthly pay.")}
+    {pfseg}
+    <h3 class="sub">Variable pay, bonus and stock</h3>
+    {head}
+    {pair("variable", "Variable pay at target, a year", lid="jo-varLbl")}
+    {pair("payout", "Payout you expect", money=False, unit="%")}
+    {pair("bonus", "Joining bonus", hint="Only the new offer's counts (year 1).", lid="jo-bonusLbl")}
+    {pair("stock", "Stock (ESOPs, RSUs) vesting a year")}
+    {pair("hike", "Pay rise each year", money=False, unit="%")}
+    <h3 class="sub">Office or home</h3>
+    <div><span class="lbl" id="jo-wmLbl">Count commute and work-from-home costs</span><div class="seg row" role="group" aria-labelledby="jo-wmLbl"><button type="button" data-wm="on">Yes</button><button type="button" data-wm="off">No</button></div></div>
+    <div id="joWm">
+      {head}
+      {pair("office", "Days in the office a week", money=False, unit="days")}
+      {pair("commute", "Commute cost a day, both ways", lid="jo-comLbl")}
+      {pair("hours", "Commute time a day, both ways", money=False, unit="hours")}
+      {pair("wfhAllow", "Work-from-home allowance a month")}
+      {pair("wfhCost", "Work-from-home costs a month", hint="Extra electricity, internet, a desk: what working from home costs you.")}
+      {num("timeValue", "Value of your time, an hour", "Optional. Puts a money value on commute hours; 0 counts only the hours.", lid="jo-timeLbl")}
+    </div>
+    <h3 class="sub">Switching</h3>
+    <div class="two">{small("done", "Years at your current job", "years", lid="jo-doneLbl")}{small("years", "Compare over", "years", lid="jo-yearsLbl")}</div>
+    {num("claw", "Joining bonus you'd repay to your current employer", "If you'd leave within its clawback period.")}
+    {num("notice", "Notice pay you'd bear", "If you'd leave before serving full notice and the new employer won't buy it out.")}
+  </div>
+
+  <div>
+    <div class="verdict" id="joVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="joPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="joXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="joShare">Copy share link</button>
+    </div>
+    <p class="status" id="joStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">In hand a month</div><div class="n" id="joS1">—</div><div class="h" id="joS1h"></div></div>
+      <div class="stat"><div class="l" id="jo-s2Lbl">Worth more over the period</div><div class="n" id="joS2">—</div><div class="h" id="joS2h"></div></div>
+      <div class="stat"><div class="l">Year 1 difference</div><div class="n" id="joS3">—</div><div class="h" id="joS3h"></div></div>
+      <div class="stat"><div class="l">Commute</div><div class="n" id="joS4">—</div><div class="h" id="joS4h"></div></div>
+    </div>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">What each choice is worth, year by year</h2>
+      <div id="joChart"></div>
+      <p class="hint" style="margin:6px 0 0">Running total of take-home, PF, stock and gratuity, less commute and switching costs. Blue: switch. Amber: stay. Gratuity is added in the year it's paid.</p>
+    </div>
+    <p class="g-callout" id="joRule"></p>
+    <h2 class="list-h">What if</h2>
+    <div class="sens" id="joSens"></div>
+    <a class="next" href="/best-day-to-resign/"><span class="k">Decided to switch?</span><b>Find your best day to resign</b><span class="h">Gratuity, bonus and vesting dates, against the new job's extra pay.</span></a>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>The two jobs in year 1</h2>
+  <div class="tbl-wrap calc-wrap jo-tbl" id="joY1"></div>
+  <h2 id="joCmpH">What each is worth over the period</h2>
+  <div class="tbl-wrap calc-wrap jo-tbl" id="joCmp"></div>
+  <h2>Before you accept</h2>
+  <div class="prose"><ol class="g-check">
+    <li><strong>Get the CTC break-up in writing:</strong> basic, allowances, PF basis, variable pay and its payout history.</li>
+    <li><strong>Read the joining bonus and stock terms:</strong> clawback period, vesting schedule, what happens if you leave.</li>
+    <li><strong>Ask about office days</strong> and whether the policy is likely to change.</li>
+    <li><strong>Check health insurance</strong> and other benefits; the comparator leaves them out.</li>
+    <li><strong>Time your exit</strong> around your gratuity and bonus dates.</li>
+  </ol></div>
+</div></section>
+{related("/job-offer-comparator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/compare-job-offers-worked-example/">Is the new offer really worth more?</a> Bigger CTC, less in hand? Read <a href="/guides/higher-ctc-less-in-hand/">Why a higher CTC can mean less in hand</a>. Near 5 years? Read <a href="/guides/switch-jobs-before-5-years-gratuity/">Switching before 5 years for gratuity</a>.</p>
+  <h2>How the comparator works</h2>
+  <ul>
+    <li><strong>In hand:</strong> fixed pay less your 12% PF and income tax on it (new regime, ₹75,000 standard deduction), as a monthly amount.</li>
+    <li><strong>Over the period:</strong> for each year, take-home after tax (salary, variable pay at the payout you expect, joining bonus in year 1, stock at vest value), plus PF from you and your employer, less commute and work-from-home costs. Pay, variable pay and stock rise each year by the job's pay rise.</li>
+    <li><strong>Gratuity:</strong> 15/26 × wages × years, with wages at least half of pay, paid after 5 years. Staying: gratuity when you leave at the end of the period. Switching: gratuity from your current job now (if you've done 5 years), plus the new job's if the period is 5 years or more.</li>
+    <li><strong>Commute:</strong> office days × 48 weeks × daily cost and time.</li>
+    <li>Health insurance, other benefits, professional tax and surcharge are left out.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Income-tax Act, 2025: section 202 new-regime rates, section 156 rebate, ₹75,000 standard deduction, stock options taxed as a perquisite. Code on Social Security, 2020: gratuity after 5 years, wages under the 50% rule; EPF wage ceiling ₹25,000 from 17 September 2026. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="joBar" hidden><span id="joBarT"></span><button type="button" class="btn-sm pri" id="joBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "Job Offer Comparator", "url": SITE + "/job-offer-comparator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Compares your current job and a new offer on take-home after tax, PF, gratuity, variable pay, joining bonus, stock and commute.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "jo", JO_TIPS)
+    return layout("/job-offer-comparator/", "Job Offer Comparator: Which Offer Pays More?",
+                  "Compare two job offers on take-home after tax, PF, gratuity, variable pay, joining bonus, stock and commute, not just CTC.",
+                  body, crumbs=[("/", "Home"), ("/job-offer-comparator/", "Job Offer Comparator")], graph=graph,
+                  css=("tool.css",), js=("nps.js", "jo.js"), og="og-job-offer-comparator.png", og_title="Which offer really pays more?")
+
+JO_TIPS = [
+    ("""<span class="lbl" id="jo-pfLbl">PF is worked out on</span>""", "PF basis",
+     "From the payslip or offer letter: 12% of your full basic + DA, or ₹3,000 a month (12% of ₹25,000) if it's capped. Full basic means more in EPF, less in hand."),
+    ("""<span class="lbl" id="jo-varLbl">Variable pay at target, a year</span>""", "variable pay",
+     "The yearly performance bonus at 100% of target, as in the offer. Below it, enter the payout you realistically expect: past payouts at the company are the best guide."),
+    ("""<span class="lbl" id="jo-bonusLbl">Joining bonus</span>""", "joining bonus",
+     "A one-time bonus for joining, usually repayable if you leave within a year. Counted in year 1 and taxed as salary."),
+    ("""<span class="lbl" id="jo-comLbl">Commute cost a day, both ways</span>""", "commute cost",
+     "Fuel, parking, cab or metro fare for a day in the office, there and back. The comparator multiplies it by your office days for 48 weeks a year."),
+    ("""<label for="jo-timeValue" id="jo-timeLbl">Value of your time, an hour</label>""", "value of your time",
+     "Optional. What an hour of your time is worth to you; a common guide is your take-home divided by working hours. Leave at 0 to see commute hours without a money value."),
+    ("""<label for="jo-done" id="jo-doneLbl">Years at your current job</label>""", "years at current job",
+     "Used for gratuity: it's paid only after 5 years. Leaving at 4.5 years gives it up, and the count restarts at the new job."),
+    ("""<label for="jo-years" id="jo-yearsLbl">Compare over</label>""", "compare over",
+     "How many years you'd expect to stay at either job. Longer periods give pay rises and gratuity more weight."),
+    ("""<div class="l" id="jo-s2Lbl">Worth more over the period</div>""", "worth more",
+     "The new offer's total over the period minus staying's: take-home after tax, PF, stock and gratuity, less commute, work-from-home and switching costs. Negative means staying is worth more."),
+]
+
+def hv_page():
+    faqs = [
+        ("How do I know if my salary hike beat inflation?",
+         "Compare your hike with how much prices rose over the time your old pay covered, usually the 12 months since your last hike. If your pay went up 7% and prices went up 3.5%, your real raise is (1.07 ÷ 1.035) − 1, about 3.4%. The calculator takes the price rise from the official All India Consumer Price Index (CPI) for the exact months."),
+        ("What is a real raise?",
+         "Your raise after inflation: how much more your pay can buy, not how many more rupees it is. A 5% hike when prices rose 6% is a real pay cut of about 1%."),
+        ("Which inflation figure should I use?",
+         "The headline figure is the All India CPI, published by MoSPI around the 12th of every month. It's an average for all households. Your own costs can rise faster or slower: rent, school fees and food often rise more, while a fixed-rate EMI doesn't rise at all. Use \"Use my own spending\" to see your own rate."),
+        ("What is the current inflation rate in India?",
+         "6.09% for October 2026 (provisional), the year-on-year rise in the All India CPI on the new 2024=100 base, up from 5.54% in September. Food inflation was 8.94%. The calculator is updated each month when MoSPI releases the new figure."),
+        ("Why does my take-home rise less than my gross pay?",
+         "Because income tax rises faster than pay: the extra rupees from a hike are taxed at your highest slab. Near ₹12 lakh, the new regime's rebate ends, so a small hike can bring in tax for the first time. The calculator shows the after-tax raise alongside."),
+        ("What hike should I ask for?",
+         "At least enough to make up for prices since your last hike and the year ahead. The calculator shows the hike you'd need at your next appraisal to keep up, if prices keep rising at the latest rate. Anything above that is a real raise."),
+        ("Is the CPI base change a problem for older comparisons?",
+         "MoSPI moved the CPI to a new base year, 2024=100, from January 2026, with figures linked back to January 2025. For this hike the calculator uses the new series month by month. For the long view since an earlier year it uses each financial year's average inflation, which is how the RBI reports it."),
+        ("What does the calculator leave out?",
+         "PF, bonuses and variable pay, unless you include them in the pay you enter; professional tax and surcharge; and changes in your spending. Tax follows the new regime for tax year 2026-27 for both years."),
+    ]
+    def num(k, label, hint="", lid=None):
+        idattr = f' id="{lid}"' if lid else ""
+        return (f'<div class="fld"><div class="row1"><label for="hv-{k}"{idattr}>{label}</label><span class="w" id="hv-{k}-w"></span></div><div class="numin"><span>₹</span><input id="hv-{k}" type="text" inputmode="numeric" autocomplete="off"></div>'
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def seg(key, label, lid, opts):
+        return f'<div class="fld"><div class="row1"><span class="lbl" id="{lid}">{label}</span></div><div class="seg row" role="group" aria-labelledby="{lid}">' + "".join(f'<button type="button" data-{key}="{v}">{t}</button>' for v, t in opts) + "</div></div>"
+    rows = [("rent", "Rent or housing"), ("school", "School or college fees"), ("food", "Food and groceries"), ("transport", "Fuel and transport"), ("health", "Health"), ("emi", "Loan EMIs"), ("other", "Everything else")]
+    own = "".join(f'<div class="jo-row"><span class="lbl">{lab}</span><div class="pair"><div><div class="numin"><span>₹</span><input id="hv-a-{k}" type="text" inputmode="numeric" autocomplete="off" aria-label="{lab}, a month"></div><span class="w" id="hv-a-{k}-w"></span></div><div><div class="numin"><input id="hv-r-{k}" type="text" inputmode="decimal" autocomplete="off" aria-label="{lab}, price rise a year"><span>%</span></div></div></div></div>' for k, lab in rows)
+    mopts = "".join(f'<option value="{v}">{t}</option>' for v, t in MONTHS_HV)
+    fopts = "".join(f'<option value="{v}">{v}</option>' for v in FYS_HV)
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your pay</p>
+  <h1>Did your hike beat inflation?</h1>
+  <p class="lead">A 7% hike sounds good until prices rise 6%. See your real raise: your new pay against the official price rise (CPI) since your last hike, what's left of it at today's prices, after tax, and against your own rent, fees and EMIs. Plus how your pay has done since you started.</p>
+  {badges("All India CPI to October 2026 · New regime tax 2026-27 · Updated monthly")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb jox hvx">
+  <div class="card lp-setup" aria-label="Your hike">
+    <h3 class="sub" style="border:0;padding-top:0;margin-top:0">Your hike</h3>
+    {num("before", "Pay before the hike, a year", "Gross pay a year (CTC without employer PF and gratuity is fine). Use the same measure for both.", lid="hv-beforeLbl")}
+    {num("after", "Pay after the hike, a year")}
+    <div class="two"><div class="fld"><div class="row1"><label for="hv-start" id="hv-startLbl">New pay started in</label></div><select id="hv-start" class="sel">{mopts}</select></div>
+    <div class="fld"><div class="row1"><label for="hv-gap" id="hv-gapLbl">Months since the last hike</label></div><div class="numin"><input id="hv-gap" type="text" inputmode="numeric" autocomplete="off"><span>months</span></div></div></div>
+    {seg("tax", "Also show the raise after tax", "hv-taxLbl", [("on", "Yes"), ("off", "No")])}
+    <h3 class="sub">Your own prices</h3>
+    {seg("own", "Use my own spending", "hv-ownLbl", [("on", "Yes"), ("off", "No")])}
+    <div id="hvOwn">
+      <p class="hint">What you spend a month on each, and how much its price rose over the period. Pre-filled rises are the official CPI for each group over the last 12 months (October 2026); set your own, like your rent increase or the school's fee rise.</p>
+      <div class="jo-head"><span>Spending a month</span><span>Price rise a year</span></div>
+      {own}
+    </div>
+    <h3 class="sub">Since you started</h3>
+    <div class="two"><div class="fld"><div class="row1"><label for="hv-since" id="hv-sinceLbl">Pay in financial year</label></div><select id="hv-since" class="sel">{fopts}</select></div>
+    {num("startPay", "Pay that year")}</div>
+  </div>
+
+  <div>
+    <div class="verdict" id="hvVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="hvPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="hvXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="hvShare">Copy share link</button>
+    </div>
+    <p class="status" id="hvStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l" id="hv-s1Lbl">Real raise</div><div class="n" id="hvS1">—</div><div class="h" id="hvS1h"></div></div>
+      <div class="stat"><div class="l">Against keeping up</div><div class="n" id="hvS2">—</div><div class="h" id="hvS2h"></div></div>
+      <div class="stat"><div class="l" id="hv-s3Lbl">After tax</div><div class="n" id="hvS3">—</div><div class="h" id="hvS3h"></div></div>
+      <div class="stat"><div class="l" id="hv-s4Lbl">Next hike to keep up</div><div class="n" id="hvS4">—</div><div class="h" id="hvS4h"></div></div>
+    </div>
+    <p class="g-callout" id="hvRule"></p>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px" id="hv-chartLbl">Your pay against prices since you started</h2>
+      <div id="hvChart"></div>
+      <p class="hint" style="margin:6px 0 0">Amber: your starting pay grown with each year's average inflation, the pay that just keeps up. Blue: your pay rising at your average yearly rate from then to now (a straight path between the two amounts you entered).</p>
+      <p class="hint" id="hvLong" style="margin:8px 0 0"></p>
+    </div>
+    <h2 class="list-h">Real raise with a different hike</h2>
+    <div class="sens" id="hvSens"></div>
+    <a class="next" href="/job-offer-comparator/"><span class="k">Hike not enough?</span><b>Compare a job offer properly</b><span class="h">Take-home, PF, gratuity, bonus, stock and commute, side by side.</span></a>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Year by year since you started</h2>
+  <div class="tbl-wrap calc-wrap" id="hvYears"></div>
+  <h2>Prices month by month</h2>
+  <p class="hint">All India CPI (General), Combined, base 2024=100. October 2026 is provisional. Highlighted: the months used for your hike.</p>
+  <div class="tbl-wrap calc-wrap" id="hvCpi"></div>
+  <h2>Before your appraisal talk</h2>
+  <div class="prose"><ol class="g-check">
+    <li><strong>Know your number:</strong> the hike you'd need just to keep up, from this page, and the latest CPI figure.</li>
+    <li><strong>Compare like with like:</strong> fixed pay before and after, not CTC with a variable target you may not get.</li>
+    <li><strong>Check take-home after tax,</strong> especially near ₹12 lakh, where the new regime's rebate ends.</li>
+    <li><strong>Bring market data:</strong> what similar roles pay, not only inflation.</li>
+    <li><strong>Ask about timing:</strong> a hike from April is worth more than the same hike from July.</li>
+  </ol></div>
+</div></section>
+{related("/salary-hike-vs-inflation/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/did-your-hike-beat-inflation/">Did your hike beat inflation?</a> Rent and fees rising faster? Read <a href="/guides/personal-inflation-rate/">Your own inflation rate</a>. Appraisal coming up? Read <a href="/guides/what-hike-to-ask-for/">What hike to ask for</a>.</p>
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>Inflation for this hike:</strong> the change in the All India CPI from the month your old pay started to the month your new pay started. If your new pay starts after the latest figure (October 2026), the missing months are filled at the latest 12-month rate, 6.09%.</li>
+    <li><strong>Real raise:</strong> (1 + hike) ÷ (1 + inflation) − 1.</li>
+    <li><strong>What's left today:</strong> the same, with prices taken to the latest month.</li>
+    <li><strong>After tax:</strong> pay less income tax under the new regime (tax year 2026-27 rates, ₹75,000 standard deduction, rebate up to ₹12 lakh of income), for both years.</li>
+    <li><strong>Your own prices:</strong> each spending line rises at the rate you set; your rate is the average weighted by what you spend.</li>
+    <li><strong>Next hike to keep up:</strong> the hike, 12 months after this one, that would bring your pay back to what it was worth before this hike, if prices keep rising at the latest rate.</li>
+    <li><strong>Since you started:</strong> your starting pay grown with each financial year's average CPI inflation, against your pay now.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Ministry of Statistics and Programme Implementation (MoSPI): press release of the Consumer Price Index on base 2024=100 for October 2026 (12 November 2026), Annexure-IV for monthly indices from January 2025, Annexure-I for groups. Average inflation by financial year: 2015-16 to 2024-25 on the 2012=100 series, 2025-26 (2.1%) from the RBI Annual Report 2025-26; 2026-27 so far worked out from the monthly indices. Tax: Income-tax Act, 2025, section 202 new-regime rates, section 156 rebate. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="hvBar" hidden><span id="hvBarT"></span><button type="button" class="btn-sm pri" id="hvBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "Did Your Hike Beat Inflation?", "url": SITE + "/salary-hike-vs-inflation/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Compares your salary hike with official CPI inflation for the exact months, after tax and against your own spending.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "hv", HV_TIPS)
+    return layout("/salary-hike-vs-inflation/", "Did Your Salary Hike Beat Inflation? Calculator",
+                  "Your salary hike against India's CPI inflation for the exact months: real raise, what's left today, after tax, and against your own costs.",
+                  body, crumbs=[("/", "Home"), ("/salary-hike-vs-inflation/", "Did Your Hike Beat Inflation?")], graph=graph,
+                  css=("tool.css",), js=("nps.js", "hike.js"), og="og-salary-hike-vs-inflation.png", og_title="Did your hike beat inflation?")
+
+MONTHS_HV = [('2026-01', 'January 2026'), ('2026-02', 'February 2026'), ('2026-03', 'March 2026'), ('2026-04', 'April 2026'), ('2026-05', 'May 2026'), ('2026-06', 'June 2026'), ('2026-07', 'July 2026'), ('2026-08', 'August 2026'), ('2026-09', 'September 2026'), ('2026-10', 'October 2026'), ('2026-11', 'November 2026'), ('2026-12', 'December 2026'), ('2027-01', 'January 2027'), ('2027-02', 'February 2027'), ('2027-03', 'March 2027')]
+FYS_HV = ['2014-15', '2015-16', '2016-17', '2017-18', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24', '2024-25', '2025-26']
+
+HV_TIPS = [
+    ("""<label for="hv-before" id="hv-beforeLbl">Pay before the hike, a year</label>""", "pay to compare",
+     "Your fixed gross pay a year before and after the hike. Leave out variable pay you may not get, or include it in both. What matters is comparing the same thing."),
+    ("""<label for="hv-start" id="hv-startLbl">New pay started in</label>""", "start month",
+     "The month the new pay took effect, from your letter (often April). For months after the latest CPI figure, the calculator assumes prices keep rising at the latest 12-month rate."),
+    ("""<label for="hv-gap" id="hv-gapLbl">Months since the last hike</label>""", "months since the last hike",
+     "How long your old pay lasted: usually 12 months. Prices are compared over exactly these months. The CPI on the new base starts in January 2025, so the comparison can't go back further."),
+    ("""<span class="lbl" id="hv-taxLbl">Also show the raise after tax</span>""", "after tax",
+     "Take-home before and after, under the new regime for tax year 2026-27. The raise is taxed at your top slab, so take-home rises by less than gross pay, or more if you cross the rebate the other way."),
+    ("""<span class="lbl" id="hv-ownLbl">Use my own spending</span>""", "own spending",
+     "Official CPI is an average household's basket. Put in what you actually spend and how much each price went up: rent increase, school fee rise. EMIs on a fixed rate don't rise, so they count at 0%."),
+    ("""<label for="hv-since" id="hv-sinceLbl">Pay in financial year</label>""", "since you started",
+     "Any earlier year's pay, like your first job or your pay five years ago. The calculator grows it with each year's average inflation to see what you'd need today just to keep up."),
+    ("""<div class="l" id="hv-s1Lbl">Real raise</div>""", "real raise",
+     "How much more your pay buys: (1 + hike) ÷ (1 + inflation) − 1. Positive means you beat prices; negative means a real pay cut, even with more rupees."),
+    ("""<div class="l" id="hv-s4Lbl">Next hike to keep up</div>""", "next hike",
+     "The hike at your next appraisal, 12 months after this one, that would bring your pay back to what it bought before this hike, if prices keep rising at the latest rate. A useful floor for the conversation."),
 ]
 
 def term_page():
@@ -3917,6 +4268,42 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/annuity-or-swp/", "Annuity or SWP: which pays a better pension?",
      "₹1 crore as an annuity for life or an SWP: monthly income after tax, what each gives and costs you, and why a mix often works best.",
      "2026-11-19", "guide-sw-annuity", "Your investments"),
+    ("/guides/did-your-hike-beat-inflation/", "Did your hike beat inflation? One raise, checked month by month",
+     "One person's 7% hike against the official price index for the exact months: real raise, what's left at today's prices, after tax and against her own costs.",
+     "2026-11-19", "guide-hv-main", "Your pay"),
+    ("/guides/real-salary-hike-after-inflation/", "What is a real raise, and how do you work it out?",
+     "Your hike after taking out the rise in prices: the formula, why you divide instead of subtract, and hikes from 3% to 15% against 2026 inflation.",
+     "2026-11-19", "guide-hv-real", "Your pay"),
+    ("/guides/personal-inflation-rate/", "Your own inflation rate: why rent, fees and EMIs change it",
+     "Official CPI is an average household's. How rent, school fees, food and a fixed EMI change your own inflation, with one person's spending.",
+     "2026-11-19", "guide-hv-own", "Your pay"),
+    ("/guides/hike-take-home-after-tax/", "Why your take-home rises less than your hike",
+     "A 7% hike in gross pay is less in take-home: slabs, the ₹12 lakh rebate edge and marginal relief, with the same hike at four pay levels.",
+     "2026-11-19", "guide-hv-tax", "Your pay"),
+    ("/guides/what-hike-to-ask-for/", "What hike should you ask for? Start with inflation",
+     "The hike you need just to keep up next year, what a real raise on top takes, and why a July start costs more than three months' pay.",
+     "2026-11-19", "guide-hv-ask", "Your pay"),
+    ("/guides/real-pay-growth-since-you-started/", "How has your pay grown since your first job, after inflation?",
+     "Grow your starting pay with each year's inflation to see how much of your pay growth is real. One career since 2019-20, year by year.",
+     "2026-11-19", "guide-hv-long", "Your pay"),
+    ("/guides/compare-job-offers-worked-example/", "Is the new offer really worth more? One switch, worked out",
+     "One person's job switch worked out line by line: in-hand pay, PF, gratuity, variable pay, stock and commute, over three years.",
+     "2026-11-19", "guide-jo-main", "Your pay"),
+    ("/guides/higher-ctc-less-in-hand/", "Why a higher CTC can mean less in hand",
+     "What's inside a CTC that never reaches your bank, and how an offer with a bigger CTC can pay less each month.",
+     "2026-11-19", "guide-jo-ctc", "Your pay"),
+    ("/guides/switch-jobs-before-5-years-gratuity/", "Should you switch jobs before completing 5 years for gratuity?",
+     "Gratuity needs 5 years with one employer. What leaving at 4.5 years gives up, what waiting costs, and how to time the switch.",
+     "2026-11-19", "guide-jo-grat", "Your pay"),
+    ("/guides/value-variable-pay-job-offer/", "How to value variable pay in a job offer",
+     "Variable pay is quoted at target but paid at 60–90%. How to value it, and how much 100%, 70% or 50% payouts move one comparison.",
+     "2026-11-19", "guide-jo-var", "Your pay"),
+    ("/guides/office-days-commute-cost/", "Five days in the office: what the commute really costs",
+     "The hours and money a five-day office week adds, how to value commute time, and when it outweighs a raise.",
+     "2026-11-19", "guide-jo-commute", "Your pay"),
+    ("/guides/joining-bonus-stock-job-offer/", "Joining bonus and stock in a job offer: what are they really worth?",
+     "How much of an offer's lead comes from a joining bonus and stock, and the tax, clawback and vesting strings attached.",
+     "2026-11-19", "guide-jo-bonus", "Your pay"),
     ("/guides/salary-under-new-labour-codes/", "Your salary under the new labour codes: one employee's numbers",
      "What the 50% wage rule does to take-home, PF, tax and gratuity, worked through one ₹15.2 lakh salary under three kinds of restructuring.",
      "2026-11-19", "guide-lc-main", "Your pay"),
@@ -3948,7 +4335,7 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "A ₹3 lakh bonus against a ₹40 lakh home loan: prepay or invest, once or every year, the return that decides it, and how to choose.",
      "2026-11-19", "guide-prepay-bonus", "Your home"),
     ("/guides/laddering-term-insurance/", "Should you split your term insurance into two policies?",
-     "How your cover need changes with age, splitting it into two term policies that end at different ages, and when laddering is worth it.",
+     "Two term policies ending at different ages: when laddering saves on premiums, why the bigger policy must run longer, and cover past 60.",
      "2026-11-19", "guide-ladder", "Your money"),
     ("/guides/rent-or-buy-by-age-and-moving-cities/", "Rent or buy a home? Why how long you'll stay matters more than your age",
      "Whether buying beats renting depends on how long you'll stay: how fast prices must rise for buying to win, what that means in your 20s, 30s and 40s, and if you might move.",
@@ -4013,6 +4400,9 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/floating-or-fixed-home-loan/", "Floating or fixed-rate home loan?",
      "Floating vs fixed home loan on ₹50 lakh: four rate scenarios, the rise it takes for fixed to win, what fixed usually means, and your rights.",
      "2026-11-15", "guide-float-fixed", "Your loans"),
+    ("/guides/epf-withdrawal-changes-november-2026/", "EPF withdrawal rules are changing: what the new decisions mean for you",
+     "EPFO's board has approved 90% withdrawals, a 2-month wait after a job loss and monthly payouts for retirees. What changes, when, and one member's numbers.",
+     "2026-11-19", "guide-epf-news", "Your investments"),
     ("/guides/epf-withdrawal-rules-2026/", "How much of your EPF can you withdraw? The 2026 rules explained",
      "What you can withdraw from EPF under the EPF Scheme, 2026, when, how often, the tax, and what a withdrawal costs your retirement.",
      "2026-11-15", "guide-epf-withdraw", "Your investments"),
@@ -5226,7 +5616,9 @@ def _catalog():
                             ["/guides/long-weekends-2027/", "/guides/restricted-holidays-2027/", "/guides/best-months-for-a-week-long-break-2027/", "/guides/long-weekends-2027-six-day-week/", "/guides/working-hours-new-labour-codes/"])]),
         ("Your pay", [("/labour-codes-salary-calculator/", "Labour Codes and Your Salary", "Does your basic pass the 50% wage rule? Your take-home, PF, tax and gratuity before and after restructuring.", L("/labour-codes-salary-calculator/"), "Coming soon", ["/guides/salary-under-new-labour-codes/", "/guides/take-home-fell-ctc-same/", "/guides/basic-pay-50-percent-rule/", "/guides/higher-basic-more-tax/", "/guides/pf-full-basic-or-capped/", "/guides/bonus-variable-pay-wages-labour-codes/"]),
                       ("/ctc-to-in-hand/", "CTC to In-hand", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", []),
+                      ("/salary-hike-vs-inflation/", "Did Your Hike Beat Inflation?", "Your raise against official CPI, in today's money and after tax, or against your own rent, fees and EMIs.", L("/salary-hike-vs-inflation/"), "Coming soon", ["/guides/did-your-hike-beat-inflation/", "/guides/real-salary-hike-after-inflation/", "/guides/personal-inflation-rate/", "/guides/hike-take-home-after-tax/", "/guides/what-hike-to-ask-for/", "/guides/real-pay-growth-since-you-started/"]),
                       ("/salary-hike-calculator/", "Salary Hike Calculator", "What your hike really adds to your monthly take-home after tax and PF, and how two offers compare.", False, "After the 1 Feb 2027 Budget", []),
+                      ("/job-offer-comparator/", "Job Offer Comparator", "Is the new offer really worth more? Take-home, PF, gratuity, bonus, stock and commute, side by side.", L("/job-offer-comparator/"), "Coming soon", ["/guides/compare-job-offers-worked-example/", "/guides/higher-ctc-less-in-hand/", "/guides/switch-jobs-before-5-years-gratuity/", "/guides/value-variable-pay-job-offer/", "/guides/office-days-commute-cost/", "/guides/joining-bonus-stock-job-offer/"]),
                       ("/best-day-to-resign/", "Best Day to Resign", "The last working day that leaves you with the most: gratuity, bonus, RSUs and leave, against the new job's pay.", L("/best-day-to-resign/"), "Coming soon", ["/guides/when-to-resign-best-last-day/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/joining-bonus-clawback/", "/guides/when-to-hand-in-notice/", "/guides/use-or-encash-leave-before-resigning/", "/guides/wait-for-bonus-or-join-now/"]),
                       ("/full-and-final-settlement/", "Full and Final Settlement", "What you get when you leave: last salary, leave encashment, gratuity, notice recovery and when it's due.", L("/full-and-final-settlement/"), "Coming soon", ["/guides/full-and-final-settlement-explained/", "/guides/transfer-pf-dont-withdraw/", "/guides/leave-encashment-tax-on-resignation/", "/guides/notice-period-buyout/", "/guides/two-employers-one-year-tax/", "/guides/bonus-when-you-resign/", "/guides/settlement-not-paid-on-time/"]),
                       ("/gratuity-calculator/", "Gratuity Calculator", "Your gratuity under the new labour codes, how much is tax-free, and what staying longer adds.", L("/gratuity-calculator/"), "Coming soon", ["/guides/gratuity-new-labour-codes/", "/guides/gratuity-six-month-rule-when-to-resign/", "/guides/gratuity-fixed-term-employees/", "/guides/is-gratuity-taxable-20-lakh-limit/", "/guides/low-basic-salary-gratuity/"])]),
@@ -5239,7 +5631,7 @@ def _catalog():
                               ("/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator", "What your FD, RD or PPF grows to after tax, whether TDS applies, and all three compared.", L("/fd-ppf-rd-calculator/"), "Coming soon", ["/guides/fd-rd-or-ppf/", "/guides/fd-interest-tax-below-50000/", "/guides/ppf-deposit-by-5-april/", "/guides/form-121-stop-tds-fd-interest/", "/guides/cumulative-fd-or-monthly-payout/", "/guides/ppf-after-15-years/", "/guides/fd-for-senior-citizens-tds-and-tax/"]),
                               ("/sukanya-samriddhi-calculator/", "Sukanya Samriddhi Calculator", "What your daughter's account grows to at 8.2%, tax-free, with an education withdrawal and PPF compared.", L("/sukanya-samriddhi-calculator/"), "Coming soon", ["/guides/sukanya-samriddhi-explained/", "/guides/sukanya-samriddhi-or-sip/", "/guides/sukanya-samriddhi-at-maturity/", "/guides/open-sukanya-samriddhi-account/", "/guides/sukanya-samriddhi-two-daughters/", "/guides/revive-sukanya-samriddhi-account/"]),
                               ("/nps-calculator/", "NPS Calculator", "Your NPS at 60 under the new exit rules: lump sum, the taxed part and your pension. Plus employer NPS tax saving.", L("/nps-calculator/"), "Coming soon", ["/guides/nps-new-exit-rules/", "/guides/employer-nps-14-percent-new-regime/", "/guides/nps-80-percent-withdrawal-tax/", "/guides/nps-vs-ppf-vs-epf/"]),
-                              ("/epf-calculator/", "EPF Calculator", "Your PF at retirement, what you and your employer put in, and your EPS pension, with the ₹25,000 wage ceiling.", L("/epf-calculator/"), "Coming soon", ["/guides/how-much-epf-at-58/", "/guides/eps-pension-explained/", "/guides/epf-wage-ceiling-25000/", "/guides/transfer-pf-dont-withdraw/", "/guides/vpf-worth-it/", "/guides/nps-vs-ppf-vs-epf/", "/guides/epf-withdrawal-rules-2026/"]),
+                              ("/epf-calculator/", "EPF Calculator", "Your PF at retirement, what you and your employer put in, and your EPS pension, with the ₹25,000 wage ceiling.", L("/epf-calculator/"), "Coming soon", ["/guides/how-much-epf-at-58/", "/guides/eps-pension-explained/", "/guides/epf-wage-ceiling-25000/", "/guides/transfer-pf-dont-withdraw/", "/guides/vpf-worth-it/", "/guides/nps-vs-ppf-vs-epf/", "/guides/epf-withdrawal-rules-2026/", "/guides/epf-withdrawal-changes-november-2026/"]),
                               ("/eps-pension-calculator/", "EPS Pension Calculator", "Your EPS pension for each wage-ceiling period, at any age from 50 to 60, or your withdrawal benefit under 10 years.", L("/eps-pension-calculator/"), "Coming soon", ["/guides/eps-pension-calculation-example/", "/guides/eps-pension-explained/", "/guides/eps-withdrawal-benefit-or-scheme-certificate/", "/guides/transfer-pf-dont-withdraw/", "/guides/epf-wage-ceiling-25000/", "/guides/eps-pension-50-58-or-60/", "/guides/eps-higher-pension/", "/guides/why-eps-pension-is-low/", "/guides/eps-family-pension/"]),
                               ("/retirement-planner/", "Retirement Planner", "How much you need to retire, what your EPF, NPS, SIPs and FDs add up to, and the extra SIP to close the gap.", L("/retirement-planner/"), "Coming soon", ["/guides/how-much-do-you-need-to-retire/", "/guides/25x-rule-retirement-india/", "/guides/nps-vs-ppf-vs-epf/", "/guides/retire-at-50-55-or-60/", "/guides/how-long-will-retirement-savings-last/", "/guides/retirement-planning-in-your-40s/", "/guides/three-bucket-retirement-plan/"])]),
         ("Your home", [("/rent-vs-buy/", "Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax.", True, "",
@@ -8268,6 +8660,68 @@ def guide_late_40s():
 
 def _b8(): return _num("guide_batch8_numbers.js")
 
+_EPFN = {}
+def _epfn():
+    if not _EPFN: _EPFN.update(_num("guide_epfnews_numbers.js"))
+    return _EPFN
+
+def guide_epf_news():
+    N = _epfn(); w = N["now"]; x = N["next"]; S = N["swp"]
+    path = "/guides/epf-withdrawal-changes-november-2026/"
+    toc = [("short-answer", "The short answer"), ("what", "What was approved"), ("asha", "What it means for Asha"), ("job", "If you lose your job"), ("swp", "Monthly payouts after retiring"), ("when", "When it starts"), ("do", "What to do now"), ("method", "Sources")]
+    body = guide_head(path, "On 19 November 2026, EPFO's board approved three big changes to EPF withdrawals: more of your balance, a shorter wait after a job loss, and regular payouts for retirees. None of them apply yet. Here's what changes, with one member's numbers.",
+                      "An EPF passbook with a smaller part locked").replace("TYPE_LINE", "<span>EPF calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Once notified, you'll be able to withdraw up to 90% of your EPF instead of 75%, take out the whole balance 2 months after losing a job instead of 12, and, on retiring, take your EPF as monthly, quarterly or half-yearly payouts while the rest keeps earning interest. For Asha, 30, with ₹6 lakh in EPF, the most she can withdraw rises from {_L(w['eligible'])} to <strong>{_L(x['eligible'])}</strong>. <strong>Until the changes are notified, today's rules apply.</strong></p>
+<p class="g-cta"><a class="btn" href="/epf-calculator/">See what your EPF grows to</a></p>
+
+<h2 id="what">What was approved</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Rule</th><th scope="col">Today</th><th scope="col">Once notified</th></tr></thead><tbody>
+<tr><th scope="row">Minimum balance you must keep</th><td data-l="Today">25% of your contributions</td><td data-l="Once notified">10%</td></tr>
+<tr><th scope="row">Most you can withdraw (partial)</th><td data-l="Today">75%</td><td data-l="Once notified">90%</td></tr>
+<tr><th scope="row">Full withdrawal after leaving a job</th><td data-l="Today">After 12 months out of work</td><td data-l="Once notified">After 2 months</td></tr>
+<tr><th scope="row">EPS (pension) withdrawal</th><td data-l="Today">After 36 months out of work</td><td data-l="Once notified">Unchanged</td></tr>
+<tr><th scope="row">On retiring</th><td data-l="Today">Lump sum</td><td data-l="Once notified">Lump sum, or payouts monthly, quarterly or half-yearly (your choice)</td></tr>
+</tbody></table></div>
+<p>The decisions were taken at the 240th meeting of the Central Board of Trustees (CBT), chaired by the Labour Minister. The three withdrawal categories (essential needs, housing, special circumstances) and the 12 months' membership needed for partial withdrawals aren't changing. See <a href="/guides/epf-withdrawal-rules-2026/">How much of your EPF can you withdraw?</a></p>
+
+<h2 id="asha">What it means for Asha</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Asha's ₹6 lakh</th><th scope="col">Today</th><th scope="col">Once notified</th></tr></thead><tbody>
+<tr><th scope="row">Must stay in EPF</th><td>{_L(w['min'])}</td><td>{_L(x['min'])}</td></tr>
+<tr><th scope="row">Most she can withdraw</th><td>{_L(w['eligible'])}</td><td>{_L(x['eligible'])}</td></tr>
+<tr><th scope="row">What that amount would have grown to by 58</th><td>{_L(N['cost']['now'])}</td><td>{_L(N['cost']['next'])}</td></tr>
+</tbody></table></div>
+<p>The extra {_L(N['extra'])} she could take out would have grown to about {_L(N['cost']['extra'])} by 58 at 8.25% a year. More access is useful in a real emergency, but every rupee withdrawn stops compounding at one of the best safe rates available.</p>
+
+<h2 id="job">If you lose your job</h2>
+<p>Today, a member who stops working has to wait 12 months to settle the whole EPF balance (partial withdrawals are still allowed). The approved change brings this down to 2 months, close to the old rule before the EPF Scheme, 2026. The pension part (EPS) still needs 36 months out of work, and only with under 10 years of service: see <a href="/guides/eps-withdrawal-benefit-or-scheme-certificate/">Withdrawal benefit or scheme certificate?</a> If you're only changing jobs, transfer, don't withdraw: <a href="/guides/transfer-pf-dont-withdraw/">Changed jobs? Transfer your PF</a>.</p>
+
+<h2 id="swp">Monthly payouts after retiring</h2>
+<p>Today you take your EPF as one lump sum when you retire. Under the approved Systematic Withdrawal Plan (SWP), you could instead take it in instalments while the rest stays in EPF earning interest. It's voluntary, and if the member dies during the payouts, the nominee can take the rest or carry on with the instalments.</p>
+<p>If Asha left her ₹6 lakh untouched, it would be about {_L(N['at58'])} at 58 at 8.25% a year, before any new contributions. As an illustration, that could pay about <strong>{_inr(S['m20'])} a month for 20 years</strong>, or {_inr(S['m25'])} for 25. Taking {_inr(S['w40']['w'])} a month, it would last about {S['w40']['months'] // 12} years. EPFO hasn't yet published how the payouts will be worked out, and the tax treatment depends on an Income-tax Act amendment that's still with the Finance Ministry. Read <a href="/guides/annuity-or-swp/">Annuity or SWP</a> for how payouts compare with a pension.</p>
+
+<h2 id="when">When it starts</h2>
+<p>Not yet. The board's approval doesn't change the rules by itself: the EPF Scheme, 2026 has to be amended and notified first, and the payout option also needs a change in income tax law. No date has been announced. Until then, the 25% minimum balance and the 12-month wait still apply. We'll update this page when the notification is out.</p>
+
+<h2 id="do">What to do now</h2>
+<ol class="g-check">
+  <li><strong>Don't plan around the new limits yet,</strong> if you need money soon: today's 75% and 12-month rules apply.</li>
+  <li><strong>Out of work and waiting?</strong> Partial withdrawals are already allowed; the full balance waits for the notification or 12 months.</li>
+  <li><strong>Near retirement?</strong> Think about how much you'd want as a lump sum and how much as payouts. See <a href="/guides/how-much-epf-at-58/">How much will your EPF be at 58?</a></li>
+</ol>
+
+<h2 id="method">Sources</h2>
+<p>Ministry of Labour and Employment, press release on the 240th meeting of the CBT, EPF (PIB, 19 November 2026): SWP with monthly, quarterly or half-yearly payouts, voluntary, nominee rights, about 6.32 lakh members over 55 with more than ₹5 lakh expected to benefit first; minimum balance 25% to 10%; final withdrawal wait 12 months to 2 months; scheme amendments to be notified after Ministry approval and an Income-tax Act amendment taken up with the Ministry of Finance. EPS 36-month rule unchanged (ETV Bharat). Figures for Asha at 8.25% a year (EPF rate for 2025-26), compounded yearly; payouts worked out with the rate spread evenly over the months, as an illustration only. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. The rules will be confirmed by the notification.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What the EPF withdrawal changes mean for you", body, "EPF withdrawal changes")
+
 def guide_epf_withdraw():
     E = _b8()["epf"]
     path = "/guides/epf-withdrawal-rules-2026/"
@@ -8277,9 +8731,10 @@ def guide_epf_withdraw():
                       "An EPF passbook with a quarter of it locked").replace("TYPE_LINE", "<span>EPF Scheme, 2026</span>")
     body += f"""
 <div class="wrap g-body prose">
+<p class="g-callout"><b>Update, 19 November 2026:</b> EPFO's Central Board of Trustees has approved changes that are <strong>not yet in force</strong>: the minimum balance falls from 25% to 10%, so up to 90% becomes withdrawable (for Asha's ₹6 lakh, {_L(600000 * 0.9)} instead of {_L(E['eligible'])}); the wait for a full withdrawal after leaving a job falls from 12 months to 2; and retirees get the option of monthly, quarterly or half-yearly payouts. They apply only once the scheme amendments are notified. The rules below are the ones that apply today. Read <a href="/guides/epf-withdrawal-changes-november-2026/">What the EPF withdrawal changes mean for you</a>.</p>
 {toc_html(toc)}
 <h2 id="short-answer">The short answer</h2>
-<p>After 12 months of EPF membership, you can take out up to everything above 25% of your balance, for illness, education, marriage, a home, or hardship. With ₹6 lakh in EPF, that's up to <strong>{_L(E['eligible'])}</strong>; {_L(E['min'])} must stay. Leave a job and stay out of work, and the full balance can be withdrawn only after 12 months (it used to be 2).</p>
+<p>After 12 months of EPF membership, you can take out up to everything above 25% of your balance, for illness, education, marriage, a home, or hardship. With ₹6 lakh in EPF, that's up to <strong>{_L(E['eligible'])}</strong>; {_L(E['min'])} must stay. Leave a job and stay out of work, and the full balance can be withdrawn only after 12 months (it used to be 2, and the change approved on 19 November 2026 would bring it back to 2 once notified).</p>
 <p class="g-cta"><a class="btn" href="/epf-calculator/">See what your EPF grows to</a></p>
 
 <h2 id="categories">The three categories</h2>
@@ -9783,43 +10238,83 @@ def guide_prepay_bonus():
 
 def guide_ladder():
     L = _b14()["ladder"]; S = L["single"]; O = {o["X"]: o for o in L["options"]}; best = O[50]; N = {n["age"]: n["cover"] for n in L["needAt"]}
+    P = L["prem"]; ps = P["single"]; sp = {x["name"]: x for x in P["splits"]}; s50 = sp["split50"]; fl = P["flipped"]; fl70 = P["flipped70"]; s70 = P["single70"]; l70 = P["split50to70"]
     path = "/guides/laddering-term-insurance/"
-    toc = [("short-answer", "The short answer"), ("need", "How the need changes"), ("ladder", "One policy or two"), ("worth", "Is it worth it?"), ("method", "How these numbers were worked out")]
+    toc = [("short-answer", "The short answer"), ("need", "How the need changes"), ("ladder", "One policy or two"), ("premiums", "What the premiums look like"),
+           ("flipped", "A big policy that ends early?"), ("past-60", "Cover past 60 for your spouse"), ("worth", "Is it worth it?"), ("method", "How these numbers were worked out")]
     saved = (1 - best["cy"] / L["singleCy"]) * 100
-    body = guide_head(path, "Your family needs the most cover while loans are big and children are young. Laddering means buying two policies that end at different ages, so you stop paying for cover you no longer need.",
+    def pol(x): return " + ".join(f'{_L(q["cover"])} to {q["end"]}' for q in x["pols"])
+    def prow(lab, x, note=""):
+        return (f'<tr><th scope="row">{lab}</th><td data-l="Policies">{pol(x)}</td><td data-l="First year">{_inr(x["yr1"])}</td>'
+                f'<td data-l="Total if you outlive it">{_L(x["total"])}</td><td data-l="In today\'s money">{_L(x["pv"])}</td><td data-l="Gap">{note or "None"}</td></tr>')
+    gapnote = f'{_L(fl["gap"])} short from {fl["gapFrom"]}'
+    body = guide_head(path, "Your family needs the most cover while loans are big and children are young. Laddering means buying two policies that end at different ages, so you stop paying for cover you no longer need. Here's when that saves money, and when it leaves a gap.",
                       "Two bars of cover, one ending earlier").replace("TYPE_LINE", "<span>Term insurance</span>")
     body += f"""
 <div class="wrap g-body prose">
 {toc_html(toc)}
 <h2 id="short-answer">The short answer</h2>
-<p>Instead of one ₹{S['cover']/1e7:.2f} crore policy to 60, the calculator's example family could buy ₹{best['A']/1e7:.2f} crore to 60 plus ₹{best['B']/1e5:.0f} lakh to 50, when their home loan ends. That's about {saved:.0f}% less cover to pay for over the years, with the same protection when it matters most. Compare quotes: the saving is real but smaller than people expect.</p>
+<p>Instead of one {_L(S['cover'])} policy to 60, the calculator's example family could buy {_L(best['A'])} to 60 plus {_L(best['B'])} to 50, when their home loan ends. On indicative premiums, that saves about <strong>{_L(ps['total'] - s50['total'])} over 28 years</strong> ({_L(ps['pv'] - s50['pv'])} in today's money), and the first year actually costs {_inr(s50['yr1'] - ps['yr1'])} more. The split only works when the <em>longer</em> policy is the bigger one. Flip it, with the big policy ending at 50, and the family is {_L(fl['gap'])} short of cover from 50.</p>
 <p class="g-cta"><a class="btn" href="/term-insurance-calculator/">See how your need changes</a></p>
 
 <h2 id="need">How the need changes</h2>
 <div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Age</th><th scope="col">Cover needed</th></tr></thead><tbody>
-{"".join(f'<tr><th scope="row">{a}</th><td data-l="Cover needed">{_L(N[a]) if N[a] < 1e7 else "₹" + format(N[a]/1e7, ".2f") + " Cr"}</td></tr>' for a in (32, 40, 47, 50, 55, 59))}
+{"".join(f'<tr><th scope="row">{a}</th><td data-l="Cover needed">{_L(N[a])}</td></tr>' for a in (32, 40, 47, 50, 55, 59))}
 </tbody></table></div>
-<p>It rises at first with inflation, peaks in the late 40s, then falls as the loan is repaid, goals are met and fewer years of support are left.</p>
+<p>The family: a 32-year-old earning ₹15 lakh a year, ₹50,000 a month of household costs, a spouse and children to support until he'd turn 60, ₹40 lakh of loans over 18 years, and education and wedding goals. The need rises at first with inflation, peaks at 47, then falls as the loan is repaid, goals are met and fewer years of support are left. Notice that it is still {_L(N[50])} at 50 and {_L(N[55])} at 55: household costs don't stop when the loan does.</p>
 
 <h2 id="ladder">One policy or two</h2>
 <div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Plan</th><th scope="col">Policies</th><th scope="col">Cover paid for (crore-years)</th></tr></thead><tbody>
-<tr><th scope="row">One policy</th><td data-l="Policies">₹{S['cover']/1e7:.2f} Cr to 60</td><td data-l="Cover paid for">{L['singleCy']/1e7:.1f}</td></tr>
-{"".join(f'<tr><th scope="row">Two, split at {x}</th><td data-l="Policies">₹{O[x]["A"]/1e7:.2f} Cr to 60 + {_L(O[x]["B"]) if O[x]["B"] < 1e7 else "₹" + format(O[x]["B"]/1e7, ".2f") + " Cr"} to {x}</td><td data-l="Cover paid for">{O[x]["cy"]/1e7:.1f}</td></tr>' for x in (48, 50, 55))}
+<tr><th scope="row">One policy</th><td data-l="Policies">{_L(S['cover'])} to 60</td><td data-l="Cover paid for">{L['singleCy']/1e7:.1f}</td></tr>
+{"".join(f'<tr><th scope="row">Two, split at {x}</th><td data-l="Policies">{_L(O[x]["A"])} to 60 + {_L(O[x]["B"])} to {x}</td><td data-l="Cover paid for">{O[x]["cy"]/1e7:.1f}</td></tr>' for x in (48, 50, 55))}
 </tbody></table></div>
-<p>"Crore-years" is cover multiplied by years: a rough guide to what you pay for, since premiums rise with both.</p>
+<p>The policy to 60 is sized to the highest need from the split age onwards; the short policy tops it up to the peak until then. "Crore-years" is cover multiplied by years. It shows how much less cover you pay for, but not what that costs, because premiums don't rise in a straight line with either.</p>
+
+<h2 id="premiums">What the premiums look like</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Plan</th><th scope="col">Policies</th><th scope="col">First year</th><th scope="col">Total if you outlive it</th><th scope="col">In today's money</th><th scope="col">Gap in cover</th></tr></thead><tbody>
+{prow("One policy", ps)}
+{prow("Two, split at 48", sp["split48"])}
+{prow("Two, split at 50", s50)}
+{prow("Two, split at 55", sp["split55"])}
+{prow("Flipped: big one to 50", fl, gapnote)}
+</tbody></table></div>
+<p class="g-note">Indicative yearly premiums for a healthy non-smoking man of 32, paid every year for the whole term. "In today's money" discounts each year's premium at 7%, the calculator's return. Real quotes differ by insurer, health and riders.</p>
+<p>Three things stand out:</p>
+<ul>
+  <li><strong>The saving is small.</strong> A {saved:.0f}% cut in cover-years becomes about a {(1 - s50['total'] / ps['total']) * 100:.0f}% cut in premiums, because…</li>
+  <li><strong>Bigger covers cost less per lakh.</strong> ₹2 crore costs well under twice ₹1 crore, so two smaller policies lose part of that discount. That's why every split costs more in the first year.</li>
+  <li><strong>Splitting late barely helps.</strong> At 55 the short policy has to be {_L(O[55]['B'])}, and the saving almost disappears.</li>
+</ul>
+
+<h2 id="flipped">A big policy that ends early?</h2>
+<p>A common version of this idea is the other way round: a large policy A to 45 or 50 for the years when parents, spouse and children all depend on you, and a smaller policy B to 60 or beyond, mainly for your spouse. A's premium stops early, and B is cheap because it's small.</p>
+<p>For this family, that's {pol(fl)}. It is the cheapest plan in the table at {_L(fl['total'])}, but only because it covers much less. From 50 the family needs {_L(N[50])} and has {_L(fl['pols'][1]['cover'])}: <strong>{_L(fl['gap'])} short</strong>, and still {_L(N[55] - fl['pols'][1]['cover'])} short at 55.</p>
+<p>This shape works only when most of the need really ends with policy A: for example, if the cover is mainly for a big loan or the children's education, and your spouse earns or your savings would carry the household after that. Run the <a href="/term-insurance-calculator/">calculator</a> with your numbers and look at the need at the age A would end. If B covers that, the flipped split is fine. If it doesn't, the bigger policy has to be the longer one.</p>
+
+<h2 id="past-60">Cover past 60 for your spouse</h2>
+<p>Running a policy to 70 or 75 costs a lot more each year: in one insurer's published table, about 28% more to 70 and 44% more to 75 than to 60, for the same cover. For this family:</p>
+<ul>
+  <li>Taking policy B in the flipped plan to 70 instead of 60 raises its total from {_L(fl['pols'][1]['prem'] * 28)} to {_L(fl70['pols'][1]['prem'] * 38)}, and the {_L(fl['gap'])} gap at 50 is still there.</li>
+  <li>Taking the whole {_L(S['cover'])} to 70 costs {_L(s70['total'])} in total against {_L(ps['total'])} to 60. The split at 50, with the {_L(best['A'])} policy to 70, costs {_L(l70['total'])}.</li>
+</ul>
+<p>By 59 this family's need is down to {_L(N[59])}, because support was planned to 60. Cover past 60 is worth it only if your spouse would have to live on it in retirement, which is the case when your retirement savings aren't yet enough to support them. Read <a href="/guides/term-insurance-until-60-or-70/">Term cover until 60 or 70?</a></p>
+<p>If the aim is that the money goes only to your spouse and children, you don't need a separate policy for that. Name them as nominees, or buy the policy under section 6 of the Married Women's Property Act, 1874, which you choose on the proposal form. The payout is then held in trust for your wife and children: it doesn't form part of your estate, and your creditors can't claim it.</p>
 
 <h2 id="worth">Is it worth it?</h2>
 <ul>
-  <li><strong>Yes, when</strong> a big loan ends well before your support years do, or children will be independent much earlier.</li>
-  <li><strong>Less so</strong> for small covers: each policy has its own costs, and premiums per lakh are often lower on bigger covers.</li>
-  <li><strong>Alternatives:</strong> some insurers offer decreasing-cover options in one policy; compare.</li>
-  <li><strong>Buy both at once:</strong> a second policy bought later costs more, and needs fresh medical checks.</li>
+  <li><strong>Yes, when</strong> a large loan or another big need ends well before your support years do, and the long policy still covers what's left.</li>
+  <li><strong>Less so</strong> for smaller covers, or when the split is late: the per-lakh discount on one large policy eats most of the saving.</li>
+  <li><strong>Never</strong> size the policies from the premium. Size them from the need at each age, then compare the cost of one policy and two.</li>
+  <li><strong>Buy both at once:</strong> a second policy bought later costs more, needs fresh medical checks, and may be refused if your health changes. Tell each insurer about the other policy.</li>
+  <li><strong>Alternatives:</strong> some plans let cover fall in steps, or let you reduce it later. Compare their premiums with two separate policies.</li>
 </ul>
-<p>Read also <a href="/guides/term-insurance-until-60-or-70/">Term cover until 60 or 70?</a> and <a href="/guides/home-loan-insurance-vs-term-plan/">Home loan insurance vs a term plan</a>.</p>
+<p>Read also <a href="/guides/how-much-term-insurance-do-you-need/">How much term insurance do you need?</a> and <a href="/guides/home-loan-insurance-vs-term-plan/">Home loan insurance vs a term plan</a>.</p>
 
 <h2 id="method">How these numbers were worked out</h2>
-<p>From the <a href="/term-insurance-calculator/">term insurance calculator</a>'s own code, with its default family (age 32, ₹50,000 a month expenses, 28 years of support, ₹40 lakh of loans over 18 years, education and other goals). Each policy is rounded up as the calculator does; the policy to 60 covers the highest need from the split age onwards. No premium figures: insurers price differently. Read <a href="/methodology/">how we check our numbers</a>.</p>
-<p class="g-note">This article is for information.</p>
+<p>Cover needed is from the <a href="/term-insurance-calculator/">term insurance calculator</a>'s own code, with its default family (age 32, ₹50,000 a month expenses, 28 years of support, ₹40 lakh of loans over 18 years, education and other goals). Each policy is rounded up as the calculator does.</p>
+<p>Premiums are indicative, built from insurers' published tables as quoted by Ditto Insurance, not quotes. The starting point is ₹1 crore to 60 for a healthy non-smoking man: ICICI Prudential iProtect Smart Plus at ₹12,683 a year at 30 and ₹16,382 at 35, which gives {_inr(P['base60'])} at 32 on a straight line. That is adjusted for cover size using HDFC Life Click 2 Protect Supreme at age 32 (₹50 lakh ₹13,595, ₹1 crore ₹20,950, ₹2 crore ₹36,359, ₹3 crore ₹51,482), and for end age using Axis Max Life Smart Term Plan Plus (to 70 is 27.9% more than to 60, to 75 44.3% more). Cover to 50 is taken as costing 1/1.4 of cover to 60, from Tata AIA's note that cover to 60 costs about 40% more than to 50. End ages 48 and 55 are on the straight line through 50 and 60. Premiums stay level for the whole term. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. It isn't advice to buy any policy. Get quotes for your own age, health and cover before you decide.</p>
+<p class="g-note">Sources: <a href="https://joinditto.in/articles/life-insurance/how-term-insurance-premiums-calculated/" rel="noopener">Ditto: how term premiums are calculated</a> · <a href="https://www.tataaia.com/calculator/term-insurance-calculator.html" rel="noopener">Tata AIA term calculator</a> · <a href="https://www.iciciprulife.com/term-insurance/mwp-act-term-life-insurance-plan.html" rel="noopener">ICICI Pru Life: MWP Act term plans</a></p>
 </div>
 </article>
 {related(path)}
@@ -10707,7 +11202,7 @@ def guide_fi_epfnps():
 <ul>
   <li><strong>Interest until 58:</strong> if you leave work before 55 and don't withdraw, your EPF keeps earning interest until 58, as EPFO has confirmed.</li>
   <li><strong>But that interest is taxable:</strong> interest earned after you stop working is taxed at your slab as other income. With little other income after FI, the tax may be small.</li>
-  <li><strong>Final settlement:</strong> under the EPF Scheme 2026, you can withdraw the whole balance after 12 months out of work. See <a href="/guides/epf-withdrawal-rules-2026/">How much of your EPF can you withdraw?</a></li>
+  <li><strong>Final settlement:</strong> under the EPF Scheme 2026, you can withdraw the whole balance after 12 months out of work. A change approved on 19 November 2026 would cut this to 2 months once notified. See <a href="/guides/epf-withdrawal-rules-2026/">How much of your EPF can you withdraw?</a></li>
   <li><strong>Withdrawals are tax-free</strong> after 5 years of continuous service.</li>
   <li><strong>EPS pension</strong> starts from 50 (reduced) or 58: see <a href="/guides/eps-pension-50-58-or-60/">EPS at 50, 58 or 60</a>.</li>
 </ul>
@@ -11030,6 +11525,553 @@ def guide_sw_annuity():
 """
     return article(path, "x", "Annuity or SWP?", body, "Annuity or SWP")
 
+_T5C = {}
+def _t5():
+    if not _T5C: _T5C.update(_num("guide_t5_numbers.js"))
+    return _T5C
+_T6C = {}
+def _t6():
+    if not _T6C: _T6C.update(_num("guide_t6_numbers.js"))
+    return _T6C
+def _pc(x, d=1):
+    v = x * 100; return ("−" if v < -0.05 else "") + f"{abs(v):.{d}f}%"
+def _spc(x): return ("+" if x >= 0.0005 else "") + _pc(x)
+_MEGHNA = "Meghna, 29, works in Pune, rents a flat and has a daughter in school. Her pay went from ₹12 lakh a year to ₹12.84 lakh from April 2026, a 7% hike. Her last hike was in April 2025. Her first job, in 2019-20, paid ₹6 lakh a year."
+_HV_METHOD = 'From the <a href="/salary-hike-vs-inflation/">hike vs inflation calculator</a>\'s own code with <a href="/guides/did-your-hike-beat-inflation/">Meghna\'s example</a>. Prices: All India CPI (General, Combined), base 2024=100, from MoSPI\'s press release for October 2026 (Annexure-IV; October provisional). Tax: new regime for tax year 2026-27 (section 202 rates, section 156 rebate with marginal relief, ₹75,000 standard deduction), PF left out. Read <a href="/methodology/">how we check our numbers</a>.'
+
+def guide_hv_main():
+    T = _t6(); r = T["main"]; L = r["long"]
+    path = "/guides/did-your-hike-beat-inflation/"
+    toc = [("short-answer", "The short answer"), ("meghna", "Meghna's hike"), ("prices", "How much prices rose"), ("today", "What's left of it today"), ("tax", "After tax"), ("own", "Against her own costs"), ("next", "What to ask for next year"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "A 7% hike feels like a good year. Whether it is depends on how much prices rose while you were on the old pay, and since. Here's one raise, checked against the official price index month by month.",
+                      "A pay bar and a price bar side by side").replace("TYPE_LINE", "<span>Hike vs inflation calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Yes, but only just, and not for long. Meghna's 7% hike beat the {_pc(r['infl'])} rise in prices over the year her old pay covered, a <strong>real raise of {_pc(r['real'])}</strong>. But prices have risen another {_pc(r['sinceStart'])} since April. At October's prices her pay is worth {_pc(-r['left'])} less than before the hike. To keep up by next April, she needs at least {_pc(T['ask']['keep'])}.</p>
+<p class="g-cta"><a class="btn" href="/salary-hike-vs-inflation/">Check your own hike</a></p>
+
+<h2 id="meghna">Meghna's hike</h2>
+<p>{_MEGHNA}</p>
+
+<h2 id="prices">How much prices rose</h2>
+<p>The fair comparison is the price rise over the months her old pay lasted: April 2025 to April 2026. The All India Consumer Price Index (CPI) went from 101.58 to 105.12, up {_pc(r['infl'])}.</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col"></th><th scope="col">A year</th></tr></thead><tbody>
+<tr><th scope="row">Pay before</th><td>{_inr(1200000)}</td></tr>
+<tr><th scope="row">Pay that would just have kept up</th><td>{_inr(r['keep'])}</td></tr>
+<tr><th scope="row">Pay after</th><td>{_inr(1284000)}</td></tr>
+<tr><th scope="row"><b>Ahead of prices</b></th><td>{_inr(1284000 - r['keep'])} ({_inr(r['gapMonth'])} a month)</td></tr>
+</tbody></table></div>
+<p>Her real raise is (1.07 ÷ {1 + r['infl']:.4f}) − 1 = {_pc(r['real'])}. Why divide and not subtract? See <a href="/guides/real-salary-hike-after-inflation/">What a real raise is</a>.</p>
+
+<h2 id="today">What's left of it today</h2>
+<p>Prices didn't stop in April. By October 2026 the index was 110.05, {_pc(r['sinceStart'])} above April, and inflation for October was 6.09%, the highest in two years. Taken to today's prices, her new pay buys {_pc(-r['left'])} less than her old pay did when she got it. The hike has been used up in six months.</p>
+
+<h2 id="tax">After tax</h2>
+<p>At ₹12 lakh she paid no income tax under the new regime: the section 156 rebate covers income up to ₹12 lakh after the ₹75,000 standard deduction. At ₹12.84 lakh she pays {_inr(T['tax'][1]['taxA'])}. Take-home rose {_pc(r['hikeTax'])}, not 7%, so her real raise after tax is {_pc(r['realTax'])}. More in <a href="/guides/hike-take-home-after-tax/">Why take-home rises less than your hike</a>.</p>
+
+<h2 id="own">Against her own costs</h2>
+<p>The CPI is an average household's basket. Meghna spends {_inr(T['own']['spend'])} a month, including ₹25,000 rent and a ₹20,000 EMI that doesn't rise. At the official rise for each group, her own inflation is {_pc(T['own']['yearly'])}. If her rent and her daughter's school fees went up 10%, it's {_pc(T['ownRenter']['yearly'])}, and her real raise shrinks to {_pc(T['ownRenter']['real'])}. See <a href="/guides/personal-inflation-rate/">Your own inflation rate</a>.</p>
+
+<h2 id="next">What to ask for next year</h2>
+<p>To get back to what her pay bought in April 2025, and keep up until April 2027 if prices rise 6.09% a year, she needs a hike of at least <strong>{_pc(T['ask']['keep'])}</strong>. For a 3% real raise, about {_pc(T['ask']['real3'])}. See <a href="/guides/what-hike-to-ask-for/">What hike to ask for</a>. And since 2019-20 her pay has grown {_pc(L['realCagr'])} a year faster than prices: <a href="/guides/real-pay-growth-since-you-started/">how your pay has done since you started</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HV_METHOD}</p>
+<p class="g-note">This article is for information, not financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Did your hike beat inflation?", body, "Hike vs inflation")
+
+def guide_hv_real():
+    T = _t6(); r = T["main"]; H = {x["h"]: x for x in T["hikes"]}
+    path = "/guides/real-salary-hike-after-inflation/"
+    toc = [("short-answer", "The short answer"), ("formula", "How to work it out"), ("table", "Hikes against prices"), ("today", "A raise that fades"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Your pay went up. Did what it buys go up too? That's your real raise: the hike after taking out the rise in prices. Here's how to work it out, with one person's numbers.",
+                      "Two rupee coins, the second one buying less").replace("TYPE_LINE", "<span>Hike vs inflation calculator</span>")
+    rows = "".join(f'<tr><th scope="row">{h}%</th><td data-l="Real raise">{_spc(H[h]["real"])}</td><td data-l="At October prices">{_spc(H[h]["left"])}</td><td data-l="After tax">{_spc(H[h]["realTax"])}</td></tr>' for h in (3, 5, 7, 10, 12, 15))
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>A real raise is how much more your pay can buy: (1 + hike) ÷ (1 + inflation) − 1. For <a href="/guides/did-your-hike-beat-inflation/">Meghna</a>, a 7% hike when prices rose {_pc(r['infl'])} is a real raise of <strong>{_pc(r['real'])}</strong>. A 3% hike would have been a real pay cut of {_pc(-H[3]['real'])}.</p>
+<p class="g-cta"><a class="btn" href="/salary-hike-vs-inflation/">Work out your real raise</a></p>
+
+<h2 id="formula">How to work it out</h2>
+<ol>
+  <li><strong>Your hike:</strong> new pay ÷ old pay − 1. ₹12.84 lakh ÷ ₹12 lakh − 1 = 7%.</li>
+  <li><strong>Inflation over the same months:</strong> the CPI in the month your new pay started ÷ the CPI in the month your old pay started − 1. 105.12 ÷ 101.58 − 1 = {_pc(r['infl'], 2)}.</li>
+  <li><strong>Real raise:</strong> 1.07 ÷ {1 + r['infl']:.4f} − 1 = {_pc(r['real'], 2)}.</li>
+</ol>
+<p>Subtracting (7% − 3.5% = 3.5%) is close when both are small, but it overstates the real raise, and the gap grows when inflation is high. Use the same months for both: a 12-month inflation figure from a different month can be well off when prices are moving fast, as in 2026.</p>
+
+<h2 id="table">Hikes against prices</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Hike from April 2026</th><th scope="col">Real raise</th><th scope="col">At October 2026 prices</th><th scope="col">After tax, real</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+<p>For Meghna's ₹12 lakh pay, with prices up {_pc(r['infl'])} from April 2025 to April 2026 and {_pc(r['sinceStart'])} more by October. After tax, hikes of 7% to 12% end up close: the first rupees above ₹12 lakh lose the rebate. More in <a href="/guides/hike-take-home-after-tax/">Why take-home rises less than your hike</a>.</p>
+
+<h2 id="today">A raise that fades</h2>
+<p>A real raise is measured on the day it starts. Every month after that, prices keep rising while your pay stays put until the next hike. In 2026 prices rose fast: from April to October alone, {_pc(r['sinceStart'])}. That's why the middle column matters: by October, any hike under about 10% from April buys less than the old pay did a year earlier.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HV_METHOD}</p>
+<p class="g-note">This article is for information, not financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What is a real raise?", body, "Real raise")
+
+def guide_hv_own():
+    T = _t6(); r = T["main"]; o, rn, ow, sp, dv = T["own"], T["ownRenter"], T["ownOwner"], T["spend"], T["div"]
+    path = "/guides/personal-inflation-rate/"
+    toc = [("short-answer", "The short answer"), ("basket", "Meghna's spending"), ("rent", "If rent and fees rise 10%"), ("emi", "Why EMIs lower it"), ("yours", "Work out your own"), ("method", "How these numbers were worked out")]
+    names = [("rent", "Rent"), ("school", "School fees"), ("food", "Food and groceries"), ("transport", "Fuel and transport"), ("health", "Health"), ("emi", "Loan EMI"), ("other", "Everything else")]
+    rows = "".join(f'<tr><th scope="row">{lab}</th><td data-l="A month">{_inr(sp[k])}</td><td data-l="Official rise">{dv[k]:.2f}%</td><td data-l="Rent and fees +10%">{(10 if k in ("rent", "school") else dv[k]):.2f}%</td></tr>' for k, lab in names)
+    body = guide_head(path, "The headline inflation figure is an average household's. Yours depends on what you spend on: rent, school fees and food often rise faster, and a fixed EMI doesn't rise at all. Here's how to work out your own rate.",
+                      "Spending bars for rent, fees, food and EMI").replace("TYPE_LINE", "<span>Hike vs inflation calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Your own inflation is the average price rise of what you buy, weighted by how much you spend on each. For <a href="/guides/did-your-hike-beat-inflation/">Meghna</a>, at the official rise for each group, it's {_pc(o['yearly'])}. If her rent and her daughter's school fees went up 10%, it's <strong>{_pc(rn['yearly'])}</strong>, and her 7% hike is a real raise of only {_pc(rn['real'])}, not {_pc(r['real'])}.</p>
+<p class="g-cta"><a class="btn" href="/salary-hike-vs-inflation/">Use your own spending</a></p>
+
+<h2 id="basket">Meghna's spending</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Spending</th><th scope="col">A month</th><th scope="col">Official rise, 12 months</th><th scope="col">If rent and fees rise 10%</th></tr></thead><tbody>
+{rows}
+<tr><th scope="row"><b>Her inflation</b></th><td data-l="A month">{_inr(o['spend'])}</td><td data-l="Official rise">{o['yearly']*100:.2f}%</td><td data-l="Rent and fees +10%">{rn['yearly']*100:.2f}%</td></tr>
+</tbody></table></div>
+<p>"Official rise" is the CPI for each group in October 2026 against October 2025, from MoSPI: housing {dv['rent']:.2f}%, education {dv['school']:.2f}%, food and beverages {dv['food']:.2f}%, transport {dv['transport']:.2f}%, health {dv['health']:.2f}%, and the headline {dv['other']:.2f}% for everything else.</p>
+
+<h2 id="rent">If rent and fees rise 10%</h2>
+<p>The CPI's housing figure is low because it averages all households, most of whom own their home or pay rents that change slowly. A tenant renewing a lease in a big city often sees 5–10%, and private school fees often rise more than 10% a year. Put those in and Meghna's own inflation goes from {_pc(o['yearly'])} to {_pc(rn['yearly'])}. The pay she'd need just to keep up rises to {_L(rn['keep'])}.</p>
+
+<h2 id="emi">Why EMIs lower it</h2>
+<p>A fixed EMI costs the same every month. If Meghna owned her home with a ₹45,000 EMI instead of paying rent, her own inflation would be {_pc(ow['yearly'])}, below the official figure, and her real raise {_pc(ow['real'])}. A floating-rate EMI can rise when rates do, so count it at 0% only while the rate holds.</p>
+
+<h2 id="yours">Work out your own</h2>
+<ol class="g-check">
+  <li><strong>List your monthly spending</strong> in a few groups: rent or EMI, fees, food, fuel and transport, health, the rest.</li>
+  <li><strong>Put in what actually rose:</strong> your rent increase, the school's fee notice, your fuel bill.</li>
+  <li><strong>Use the official figure</strong> for anything you don't know.</li>
+  <li><strong>Weight by spending:</strong> the <a href="/salary-hike-vs-inflation/">calculator</a> does this when you switch on "Use my own spending".</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HV_METHOD} Group rates: MoSPI press release for October 2026, Annexure-I (Combined). Your own rate = Σ (spending × rise) ÷ total spending, over 12 months.</p>
+<p class="g-note">This article is for information, not financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Your own inflation rate", body, "Personal inflation")
+
+def guide_hv_tax():
+    T = _t6(); r = T["main"]; X = {x["p"]: x for x in T["tax"]}; H = {x["h"]: x for x in T["hikes"]}
+    path = "/guides/hike-take-home-after-tax/"
+    toc = [("short-answer", "The short answer"), ("why", "Why it happens"), ("levels", "The same 7% at other pay"), ("rebate", "The ₹12 lakh edge"), ("method", "How these numbers were worked out")]
+    rows = "".join(f'<tr><th scope="row">{_L(p)}</th><td data-l="Tax before">{_inr(X[p]["taxB"])}</td><td data-l="Tax after">{_inr(X[p]["taxA"])}</td><td data-l="Take-home up">{_pc(X[p]["hikeTax"])}</td><td data-l="Real, after tax">{_spc(X[p]["realTax"])}</td></tr>' for p in (800000, 1200000, 2000000, 3000000))
+    body = guide_head(path, "Your letter says 7%. Your bank account says less. Income tax takes a bigger share of the raise than of the rest of your pay, and around ₹12 lakh the effect is sharp. Here's one hike, before and after tax.",
+                      "A payslip with a slice taken out for tax").replace("TYPE_LINE", "<span>Hike vs inflation calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Every extra rupee of a hike is taxed at your highest slab, so take-home rises by less than gross pay. <a href="/guides/did-your-hike-beat-inflation/">Meghna</a>'s 7% hike, from ₹12 lakh to ₹12.84 lakh, raises her take-home by <strong>{_pc(r['hikeTax'])}</strong>: she paid no tax before and pays {_inr(X[1200000]['taxA'])} now. After inflation, her real raise is {_pc(r['realTax'])}, not {_pc(r['real'])}.</p>
+<p class="g-cta"><a class="btn" href="/salary-hike-vs-inflation/">See your hike after tax</a></p>
+
+<h2 id="why">Why it happens</h2>
+<p>Tax slabs don't move with prices. Under the new regime for tax year 2026-27, income above ₹12 lakh (after the ₹75,000 standard deduction) is taxed in slabs of 15% from ₹12 lakh, 20% from ₹16 lakh, 25% from ₹20 lakh and 30% above ₹24 lakh, plus 4% cess. A hike moves part of your pay into a higher slab, or out of the rebate.</p>
+
+<h2 id="levels">The same 7% at other pay</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Pay before</th><th scope="col">Tax before</th><th scope="col">Tax after 7%</th><th scope="col">Take-home up</th><th scope="col">Real, after tax</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+<p>Meghna's example, changing only her pay. Prices up {_pc(r['infl'])} over the year. Below the rebate limit, take-home rises the full 7%; above it, by less.</p>
+
+<h2 id="rebate">The ₹12 lakh edge</h2>
+<p>Up to ₹12 lakh of income after the standard deduction (₹12.75 lakh of salary), the section 156 rebate wipes out the tax. Just above it, marginal relief limits the tax to the income above ₹12 lakh, so it climbs very quickly. That's why, for Meghna, a 10% hike is a real raise of {_pc(H[10]['realTax'])} after tax and 12% only {_pc(H[12]['realTax'])}, both below the {_pc(H[7]['realTax'])} from 7%. When you're near the edge, ask about tax-free parts of pay (employer NPS up to 14% of basic, for example) as well as the headline hike.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HV_METHOD} Take-home = gross pay − income tax; PF, professional tax and surcharge left out.</p>
+<p class="g-note">This article is for information, not tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Why take-home rises less than your hike", body, "Hike after tax")
+
+def guide_hv_ask():
+    T = _t6(); r = T["main"]; A = T["ask"]; J = T["july"]
+    path = "/guides/what-hike-to-ask-for/"
+    toc = [("short-answer", "The short answer"), ("floor", "The floor: keeping up"), ("above", "Asking for a real raise"), ("timing", "When it starts matters"), ("talk", "Making the case"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Inflation gives you a floor for your appraisal: the hike you need just to stand still. Here's how to work it out for next year, with one person's numbers, and why the start date matters too.",
+                      "A speech bubble with a percentage sign").replace("TYPE_LINE", "<span>Hike vs inflation calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Start from the hike that would make up for prices since your last raise and over the year ahead. For <a href="/guides/did-your-hike-beat-inflation/">Meghna</a>, whose pay last changed in April 2026, that's <strong>{_pc(A['keep'])}</strong> from April 2027 if prices keep rising at 6.09% a year. A 3% real raise needs about {_pc(A['real3'])}; 5%, about {_pc(A['real5'])}.</p>
+<p class="g-cta"><a class="btn" href="/salary-hike-vs-inflation/">Find your number</a></p>
+
+<h2 id="floor">The floor: keeping up</h2>
+<p>Her 7% hike in April 2026 covered the {_pc(r['infl'])} rise in prices over the year before, with {_pc(r['real'])} to spare. Since then, prices have risen {_pc(r['sinceStart'])} in six months, and October's inflation was 6.09%. If that rate holds to April 2027, prices will be about {_pc((1 + A['keep']) * 1.07 - 1)} above April 2025. Her pay is 7% above it, so the next hike needs to be about {_pc(A['keep'])} just to buy what her pay bought two years earlier.</p>
+
+<h2 id="above">Asking for a real raise</h2>
+<p>Anything above the floor is a real raise. Multiply, don't add: (1 + {A['keep']:.4f}) × 1.03 − 1 = {_pc(A['real3'])} for 3% more buying power. Market pay for your role, your performance and promotion are what justify going above it; inflation only explains the floor.</p>
+
+<h2 id="timing">When it starts matters</h2>
+<p>A hike that starts in July instead of April is worth less in two ways. Meghna would lose three months of the raise, {_inr(A['lateCost'])} before tax. And her old pay would have covered 15 months of rising prices, {_pc(J['infl'])}, so the same 7% would be a real raise of just {_pc(J['real'])}. If the date slips, ask for it to be backdated, or for a higher figure.</p>
+
+<h2 id="talk">Making the case</h2>
+<ol class="g-check">
+  <li><strong>Know the latest CPI</strong> (MoSPI releases it around the 12th of each month) and the price rise since your last hike.</li>
+  <li><strong>Compare fixed pay,</strong> not CTC with a variable target.</li>
+  <li><strong>Check it after tax,</strong> especially near ₹12 lakh. See <a href="/guides/hike-take-home-after-tax/">Why take-home rises less than your hike</a>.</li>
+  <li><strong>Bring market data</strong> for similar roles. If the gap is big, <a href="/job-offer-comparator/">compare an outside offer</a> properly.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HV_METHOD} Floor = (CPI October 2026 ÷ CPI April 2025) × 1.0609^(6/12) ÷ 1.07 − 1: prices from her old pay's start to October, then 6.09% a year to April 2027, against the 7% she already has.</p>
+<p class="g-note">This article is for information, not career or financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What hike should you ask for?", body, "Hike to ask for")
+
+def guide_hv_long():
+    T = _t6(); L = T["long"]; P = L["path"]
+    path = "/guides/real-pay-growth-since-you-started/"
+    toc = [("short-answer", "The short answer"), ("years", "Year by year"), ("rate", "Her real pay growth"), ("check", "Check your own"), ("method", "How these numbers were worked out")]
+    rows = "".join(f'<tr><th scope="row">{p["fy"]}{" (Apr–Oct)" if p["fy"] == "2026-27" else ""}</th><td data-l="Inflation">{"Start" if p["infl"] is None else format(p["infl"], ".2f") + "%"}</td><td data-l="Pay that keeps up">{_inr(p["keep"])}</td></tr>' for p in P)
+    body = guide_head(path, "Your pay has doubled since your first job. Have prices? Grow your starting pay with each year's inflation and you see how much of your growth is real. Here's one career since 2019-20.",
+                      "Two lines rising over the years, pay above prices").replace("TYPE_LINE", "<span>Hike vs inflation calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p><a href="/guides/did-your-hike-beat-inflation/">Meghna</a>'s first job in 2019-20 paid ₹6 lakh a year. Just to buy the same today, she'd need <strong>{_L(L['need'])}</strong>: prices are up {_pc(L['f'] - 1)}. She earns ₹12.84 lakh, so her pay has grown {_pc(L['cagr'])} a year against {_pc(L['inflCagr'])} inflation, a real {_pc(L['realCagr'])} a year. Her pay today is worth {_L(L['worth'])} in 2019-20 prices.</p>
+<p class="g-cta"><a class="btn" href="/salary-hike-vs-inflation/">Check your pay since you started</a></p>
+
+<h2 id="years">Year by year</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Financial year</th><th scope="col">Average inflation</th><th scope="col">₹6 lakh grown with prices</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+<p>The inflation figures are the average for each financial year, April to March, which is how the RBI reports them. The 2026-27 figure is April to October against the same months of 2025.</p>
+
+<h2 id="rate">Her real pay growth</h2>
+<p>Doubling in seven years sounds like 100% growth, but {_pc(L['f'] - 1)} of it was prices. Her real pay rose {_pc(1284000 / L['need'] - 1)} over the period. Had her pay grown about 5% a year, she'd be roughly where she started in what it buys. The early years of a career, with promotions and job changes, usually bring the fastest real growth; later, hikes close to inflation are common, so it's worth checking.</p>
+
+<h2 id="check">Check your own</h2>
+<ol class="g-check">
+  <li><strong>Find your pay in an earlier year:</strong> an old offer letter, Form 16 or Form 130 for that year.</li>
+  <li><strong>Use the same measure</strong> as today: fixed gross pay, or CTC both times.</li>
+  <li><strong>Put both into the <a href="/salary-hike-vs-inflation/">calculator</a></strong> under "Since you started".</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/salary-hike-vs-inflation/">hike vs inflation calculator</a>'s own code. Average CPI inflation by financial year: 2020-21 to 2024-25 on the 2012=100 series (6.16%, 5.51%, 6.65%, 5.40%, 4.60%); 2025-26 2.1% from the RBI Annual Report 2025-26; 2026-27 so far from MoSPI's monthly indices on the 2024=100 series. Growth rates are compound averages over 7 years. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "How has your pay done since you started?", body, "Real pay growth")
+
+
+_NIKHIL = "Nikhil, 31, has been at his company for 4.5 years: ₹1.2 lakh a month gross (basic ₹50,000), PF on full basic, ₹1.5 lakh variable pay that usually pays out 80%, 2 office days a week. The offer: ₹1.5 lakh a month (basic ₹60,000), PF capped at ₹25,000, ₹2 lakh variable (expected 70%), a ₹1.5 lakh joining bonus, ₹1 lakh of stock a year, and 5 office days."
+
+def guide_jo_main():
+    T = _t5(); m = T["main"]; a, b = m["A1"], m["B1"]; st, sw = m["stay"], m["sw"]
+    path = "/guides/compare-job-offers-worked-example/"
+    toc = [("short-answer", "The short answer"), ("nikhil", "Nikhil's choice"), ("month", "In hand each month"), ("three", "Over three years"), ("catch", "The catches"), ("decide", "How he decides"), ("method", "How these numbers were worked out")]
+    def row(lab, x, y): return f'<tr><th scope="row">{lab}</th><td>{_inr(x)}</td><td>{_inr(y)}</td></tr>'
+    body = guide_head(path, "A 25% higher salary looks like an easy yes. But take-home, PF, gratuity, variable pay, stock and the commute all change too. Here's one real-looking switch, worked out line by line.",
+                      "Two offer letters side by side on a balance").replace("TYPE_LINE", "<span>Job offer comparator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Compare what each job puts in your hands and your savings, not the CTC. For Nikhil, the offer is worth about <strong>{_L(m['diff'])} more over 3 years</strong> and {_inr(b['monthly'] - a['monthly'])} more in hand each month. But it costs him {round((b['hours'] - a['hours']))} more hours of commuting a year, and leaving now gives up {_L(m['gAt5'])} of gratuity that's six months away.</p>
+<p class="g-cta"><a class="btn" href="/job-offer-comparator/">Compare your offer</a></p>
+
+<h2 id="nikhil">Nikhil's choice</h2>
+<p>{_NIKHIL}</p>
+
+<h2 id="month">In hand each month</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Year 1, a month</th><th scope="col">Now</th><th scope="col">Offer</th></tr></thead><tbody>
+{row("Gross pay", a['gross'], b['gross'])}{row("Your PF", a['own'], b['own'])}{row("Income tax on fixed pay", a['gross'] - a['own'] - a['monthly'], b['gross'] - b['own'] - b['monthly'])}{row("<b>In hand</b>", a['monthly'], b['monthly'])}
+</tbody></table></div>
+<p>The offer pays ₹30,000 more gross; tax takes part of it, and capped PF gives some back. More on why CTC and in-hand pay differ in <a href="/guides/higher-ctc-less-in-hand/">Why a higher CTC can mean less in hand</a>.</p>
+
+<h2 id="three">Over three years</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Over 3 years</th><th scope="col">Stay</th><th scope="col">Switch</th></tr></thead><tbody>
+{row("Take-home after tax (salary, variable, bonus)", st['cash'], sw['cash'] - 300000)}{row("Stock that vests", 0, 300000)}{row("PF, his + employer's", st['pf'], sw['pf'])}{row("Gratuity", st['grat'], sw['grat'])}{row("Commute and work-from-home costs", -st['costs'], -sw['costs'])}{row("<b>What it's worth</b>", st['total'], sw['total'])}
+</tbody></table></div>
+
+<h2 id="catch">The catches</h2>
+<ul>
+  <li><strong>Gratuity:</strong> at 4.5 years he gets none if he leaves now; at 5 years it's {_L(m['gAt5'])}. See <a href="/guides/switch-jobs-before-5-years-gratuity/">Switching before 5 years</a>.</li>
+  <li><strong>Variable pay:</strong> counted at 70%, not the ₹2 lakh target. See <a href="/guides/value-variable-pay-job-offer/">How to value variable pay</a>.</li>
+  <li><strong>Commute:</strong> 480 hours a year instead of 144. Valued at ₹500 an hour, the offer's lead shrinks to {_inr(T['time500'])}. See <a href="/guides/office-days-commute-cost/">What five office days really cost</a>.</li>
+  <li><strong>Joining bonus and stock:</strong> without them the offer leads by only {_L(T['neither'])}. See <a href="/guides/joining-bonus-stock-job-offer/">Joining bonus and stock</a>.</li>
+</ul>
+
+<h2 id="decide">How he decides</h2>
+<ol class="g-check">
+  <li><strong>Ask to join in 6 months</strong>, after his 5-year mark, or ask the new employer to cover the gratuity in the joining bonus.</li>
+  <li><strong>Negotiate office days</strong> or a commute allowance.</li>
+  <li><strong>Pick his last day</strong> with the <a href="/best-day-to-resign/">best day to resign</a> tool.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/job-offer-comparator/">job offer comparator</a>'s own code: new-regime tax for tax year 2026-27 (₹75,000 standard deduction) on salary, expected variable pay, joining bonus and stock; PF 12% each, counted as value; gratuity after 5 years with wages at least half of pay; pay rises 8% now and 7% at the offer; commute over 48 weeks a year. Health insurance and other benefits left out. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not career or financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Is the new offer really worth more?", body, "Compare job offers")
+
+def guide_jo_ctc():
+    T = _t5(); m = T["main"]; al = T["alt"]; a = m["A1"]; b2 = al["B1"]
+    path = "/guides/higher-ctc-less-in-hand/"
+    toc = [("short-answer", "The short answer"), ("what", "What's inside a CTC"), ("example", "Two offers, one CTC trap"), ("ask", "What to ask for"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "An offer with a bigger CTC can still leave you with less money each month. Here's what's inside a CTC that never reaches your bank account, and how one offer's structure turns ₹2.8 lakh more on paper into less in hand.",
+                      "A big CTC number shrinking to a smaller in-hand amount").replace("TYPE_LINE", "<span>Job offer comparator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>CTC counts things you don't get monthly: employer PF, gratuity, variable pay at 100% and sometimes insurance. A bigger share of those means a bigger CTC without more in hand. With the same ₹1.2 lakh gross as Nikhil's current job but PF on a higher basic, a second offer with a CTC of {_L(T['ctcAlt'])} (vs his {_L(T['ctcA'])}) pays <strong>{_inr(a['monthly'] - b2['monthly'])} less in hand</strong> each month.</p>
+<p class="g-cta"><a class="btn" href="/job-offer-comparator/">Check your offer's in-hand pay</a></p>
+
+<h2 id="what">What's inside a CTC</h2>
+<ul>
+  <li><strong>Gross pay:</strong> basic, HRA and allowances. The only part that reaches you monthly, after your PF and tax.</li>
+  <li><strong>Employer PF:</strong> 12% of basic (or of ₹25,000 if capped). Yours, but in EPF, not your bank.</li>
+  <li><strong>Gratuity:</strong> about 4.8% of wages, paid only after 5 years.</li>
+  <li><strong>Variable pay at target:</strong> often paid at 60–90%, once a year.</li>
+  <li><strong>Insurance, meal cards and other benefits</strong>, at the employer's cost.</li>
+</ul>
+
+<h2 id="example">Two offers, one CTC trap</h2>
+<p>{_NIKHIL}</p>
+<p>His real offer has a CTC of {_L(T['ctcB'])} (vs {_L(T['ctcA'])} now) and pays {_inr(m['B1']['monthly'] - a['monthly'])} more in hand. Now imagine a second offer: the same ₹1.2 lakh gross as today, but basic of ₹70,000 with PF on it, and ₹4 lakh variable pay (expected 60%), no joining bonus or stock. Its CTC is {_L(T['ctcAlt'])}, higher than his current one, yet:</p>
+<ul>
+  <li><strong>In hand:</strong> {_inr(b2['monthly'])} a month vs {_inr(a['monthly'])} now, because his own PF rises to ₹8,400.</li>
+  <li><strong>Over 3 years:</strong> staying is worth {_L(-al['diff'])} more, once the gratuity he'd give up and the extra commute are counted.</li>
+</ul>
+<p>More PF isn't bad (it's savings), but it isn't spending money. See <a href="/guides/pf-full-basic-or-capped/">PF on full basic or capped?</a></p>
+
+<h2 id="ask">What to ask for</h2>
+<ol class="g-check">
+  <li><strong>The full break-up:</strong> monthly gross, PF basis, gratuity, variable at target, benefits.</li>
+  <li><strong>Variable pay history:</strong> what it paid out in the last two years.</li>
+  <li><strong>Compare in-hand and total value,</strong> not CTC, in the <a href="/job-offer-comparator/">comparator</a>.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/job-offer-comparator/">job offer comparator</a>'s own code with <a href="/guides/compare-job-offers-worked-example/">Nikhil's example</a>. CTC here = 12 × (gross + employer PF) + variable pay at target + gratuity at 15/26 of a month's wages a year. New-regime tax for tax year 2026-27. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Why a higher CTC can mean less in hand", body, "Higher CTC, less in hand")
+
+def guide_jo_grat():
+    T = _t5(); m = T["main"]; a, b = m["A1"], m["B1"]
+    path = "/guides/switch-jobs-before-5-years-gratuity/"
+    missed = 6 * (b["monthly"] - a["monthly"]); pfkept = 6 * ((a["own"] + a["emp"]) - (b["own"] + b["emp"]))
+    toc = [("short-answer", "The short answer"), ("rule", "The 5-year rule"), ("nikhil", "Nikhil at 4.5 years"), ("options", "Your options"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Gratuity is paid only after 5 years with one employer. Switch at 4 years and 7 months and you walk away with nothing; a few months later, it can be lakhs. Here's how to weigh it against a better offer.",
+                      "A calendar at four and a half years with a gratuity box waiting at five").replace("TYPE_LINE", "<span>Job offer comparator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>If you're within a few months of 5 years, waiting usually pays. Nikhil, at 4.5 years, would get <strong>{_L(m['gAt5'])}</strong> of gratuity by staying 6 more months. Waiting costs him about {_inr(missed)} of extra take-home, but he keeps {_inr(pfkept)} more in PF, so he's roughly {_inr(m['gAt5'] - missed + pfkept)} ahead, if the new employer will wait.</p>
+<p class="g-cta"><a class="btn" href="/job-offer-comparator/">See what you'd give up</a></p>
+
+<h2 id="rule">The 5-year rule</h2>
+<ul>
+  <li>Gratuity is paid after 5 years of continuous service (1 year for fixed-term employees), under the Code on Social Security.</li>
+  <li>Once you qualify, each part-year of more than 6 months counts as a full year. See <a href="/guides/gratuity-six-month-rule-when-to-resign/">the six-month rule</a>.</li>
+  <li>Service counts to your last working day, including notice. So you can resign before 5 years if your last day falls after it.</li>
+  <li>At a new employer, the count starts again from zero.</li>
+</ul>
+
+<h2 id="nikhil">Nikhil at 4.5 years</h2>
+<p>{_NIKHIL}</p>
+<ul>
+  <li><strong>Leave now:</strong> no gratuity.</li>
+  <li><strong>Leave at 5 years:</strong> 15/26 × ₹60,000 wages × 5 years = {_inr(m['gAt5'])} (wages are at least half his ₹1.2 lakh pay under the labour codes).</li>
+  <li><strong>Cost of waiting 6 months:</strong> {_inr(b['monthly'] - a['monthly'])} a month less in hand = {_inr(missed)}, partly offset by {_inr(pfkept)} more PF.</li>
+</ul>
+
+<h2 id="options">Your options</h2>
+<ol class="g-check">
+  <li><strong>Ask for a later joining date.</strong> Many employers will wait 2–3 months for the right person.</li>
+  <li><strong>Resign early, leave late:</strong> with 60 days' notice, resign two months before your 5-year date. See <a href="/guides/when-to-hand-in-notice/">When to hand in your notice</a>.</li>
+  <li><strong>Ask the new employer to cover it</strong> in a joining bonus.</li>
+  <li><strong>Check the exact date</strong> with the <a href="/best-day-to-resign/">best day to resign</a> tool.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/job-offer-comparator/">job offer comparator</a>'s own code with <a href="/guides/compare-job-offers-worked-example/">Nikhil's example</a>: gratuity 15/26 × wages × years, wages at least half of pay; cost of waiting = 6 months of the year-1 in-hand difference; PF 12% each. Code on Social Security, 2020. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Switch before 5 years for gratuity?", body, "Gratuity before switching")
+
+def guide_jo_var():
+    T = _t5(); P = {x["p"]: x["diff"] for x in T["payout"]}
+    path = "/guides/value-variable-pay-job-offer/"
+    toc = [("short-answer", "The short answer"), ("why", "Why target isn't what you get"), ("nikhil", "Nikhil's offer at 100%, 70% and 50%"), ("estimate", "How to estimate the payout"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Variable pay in an offer is quoted at 100% of target. What you actually get depends on your rating and the company's year. Here's how to value it, and how much it moves one real comparison.",
+                      "A bar at target and a shorter bar at the expected payout").replace("TYPE_LINE", "<span>Job offer comparator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Count variable pay at the payout you realistically expect, not the target. For Nikhil, the offer's ₹2 lakh variable at 100% makes it worth {_L(P[100])} more over 3 years; at a realistic 70%, {_L(P[70])}; at 50%, {_L(P[50])}.</p>
+<p class="g-cta"><a class="btn" href="/job-offer-comparator/">Try different payouts</a></p>
+
+<h2 id="why">Why target isn't what you get</h2>
+<ul>
+  <li><strong>It depends on your rating</strong> and on company and team performance; many companies pay 60–90% of target in a typical year.</li>
+  <li><strong>It's paid once a year,</strong> often months after the year ends, and usually only if you're still employed then. See <a href="/guides/bonus-when-you-resign/">bonus when you resign</a>.</li>
+  <li><strong>It's taxed as salary</strong> and doesn't count for PF or gratuity. See <a href="/guides/bonus-variable-pay-wages-labour-codes/">Do bonus and variable pay count as wages?</a></li>
+</ul>
+
+<h2 id="nikhil">Nikhil's offer at 100%, 70% and 50%</h2>
+<p>{_NIKHIL}</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Offer's variable pay paid at</th><th scope="col">Offer worth more over 3 years</th></tr></thead><tbody>
+<tr><th scope="row">100% (target)</th><td>{_inr(P[100])}</td></tr><tr><th scope="row">70% (expected)</th><td>{_inr(P[70])}</td></tr><tr><th scope="row">50%</th><td>{_inr(P[50])}</td></tr>
+</tbody></table></div>
+<p>If both companies pay only 50%, the offer leads by {_L(T['var50both'])}: his current job loses more, since he counted 80% there.</p>
+
+<h2 id="estimate">How to estimate the payout</h2>
+<ol class="g-check">
+  <li><strong>Ask HR</strong> what the variable paid out in the last two years, as a % of target.</li>
+  <li><strong>Ask about timing:</strong> when it's paid, and whether you need to be on the rolls.</li>
+  <li><strong>Use the same realism for both jobs:</strong> your current job's past payouts are your best guide.</li>
+  <li><strong>Negotiate fixed pay</strong> if the variable share is large: it counts for PF, gratuity and your next raise.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/job-offer-comparator/">job offer comparator</a>'s own code with <a href="/guides/compare-job-offers-worked-example/">Nikhil's example</a>, changing only the variable payout; variable pay rises with each job's pay rise and is taxed under the new regime. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "How to value variable pay", body, "Valuing variable pay")
+
+def guide_jo_commute():
+    T = _t5(); m = T["main"]; a, b = m["A1"], m["B1"]
+    path = "/guides/office-days-commute-cost/"
+    toc = [("short-answer", "The short answer"), ("hours", "The hours"), ("money", "The money"), ("time", "Putting a value on time"), ("negotiate", "What to negotiate"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Five office days a week instead of two sounds like a detail in an offer. Over a year it's hundreds of hours and lakhs of rupees. Here's what it costs one person, and when it outweighs a raise.",
+                      "A home and an office building joined by a long road").replace("TYPE_LINE", "<span>Job offer comparator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Nikhil's offer means 5 office days instead of 2: about <strong>{round(b['hours'])} hours</strong> of commuting a year instead of {round(a['hours'])}, and {_inr(b['commute'])} in travel instead of {_inr(a['commute'])}. The offer still leads by {_L(m['diff'])} over 3 years, but if his time is worth more than about <strong>{_inr(T['timeBE'])} an hour</strong>, staying wins.</p>
+<p class="g-cta"><a class="btn" href="/job-offer-comparator/">Count your commute</a></p>
+
+<h2 id="hours">The hours</h2>
+<ul>
+  <li><strong>Now:</strong> 2 days × 1.5 hours × 48 weeks = {round(a['hours'])} hours a year.</li>
+  <li><strong>Offer:</strong> 5 days × 2 hours × 48 weeks = {round(b['hours'])} hours a year, an extra {round(b['hours'] - a['hours'])} hours: more than 8 working weeks.</li>
+</ul>
+
+<h2 id="money">The money</h2>
+<ul>
+  <li><strong>Travel:</strong> {_inr(a['commute'])} a year now vs {_inr(b['commute'])} at the offer.</li>
+  <li><strong>Working from home</strong> has costs too (electricity, internet): Nikhil spends ₹1,500 a month on 3 home days, which he'd save.</li>
+  <li><strong>Over 3 years</strong> his commute and home-working costs are {_inr(m['stay']['costs'])} staying vs {_inr(m['sw']['costs'])} switching.</li>
+</ul>
+
+<h2 id="time">Putting a value on time</h2>
+<p>A simple guide is your take-home per working hour. Valued at ₹500 an hour, the extra commute cuts the offer's lead from {_L(m['diff'])} to {_inr(T['time500'])}. If the offer had the same 2 office days, it would lead by {_L(T['sameOffice'])}.</p>
+
+<h2 id="negotiate">What to negotiate</h2>
+<ol class="g-check">
+  <li><strong>Fewer office days,</strong> or flexible hours to avoid peak traffic.</li>
+  <li><strong>A commute or cab allowance</strong> (taxable, but still helps).</li>
+  <li><strong>A higher fixed pay</strong> to cover the extra hours.</li>
+  <li><strong>Moving closer?</strong> Compare rent against the commute with the <a href="/rent-vs-buy/">rent or buy</a> and <a href="/budget-planner/">budget</a> tools.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/job-offer-comparator/">job offer comparator</a>'s own code with <a href="/guides/compare-job-offers-worked-example/">Nikhil's example</a>: office days × 48 weeks × daily cost and time; time value applied to all commute hours in both jobs. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What five office days really cost", body, "Commute cost")
+
+def guide_jo_bonus():
+    T = _t5(); m = T["main"]
+    path = "/guides/joining-bonus-stock-job-offer/"
+    toc = [("short-answer", "The short answer"), ("bonus", "The joining bonus"), ("stock", "The stock"), ("without", "Nikhil's offer without them"), ("check", "What to check"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "A joining bonus and stock grants can make an offer look much bigger. Both come with strings: tax, clawbacks and vesting. Here's how much of one offer's lead they really account for.",
+                      "A gift box and share certificates beside an offer letter").replace("TYPE_LINE", "<span>Job offer comparator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Count them, but don't let them decide. In Nikhil's offer, the ₹1.5 lakh joining bonus and ₹1 lakh a year of stock make up more than half its lead: {_L(m['diff'])} over 3 years with them, only <strong>{_L(T['neither'])}</strong> without. Both are taxed as salary, the bonus is usually repayable if you leave within a year, and stock only counts if it vests.</p>
+<p class="g-cta"><a class="btn" href="/job-offer-comparator/">See your offer without them</a></p>
+
+<h2 id="bonus">The joining bonus</h2>
+<ul>
+  <li><strong>Taxed as salary</strong> in the year you get it: at Nikhil's slab, about 30% goes in tax.</li>
+  <li><strong>Usually repayable</strong> if you leave within 12 months. See <a href="/guides/joining-bonus-clawback/">Joining bonus clawback</a>.</li>
+  <li><strong>Often meant to cover what you leave behind:</strong> a bonus or gratuity at your current job. If Nikhil had to repay a ₹1.5 lakh joining bonus to his current employer, the offer's lead would fall to {_L(T['claw'])}.</li>
+</ul>
+
+<h2 id="stock">The stock</h2>
+<ul>
+  <li><strong>Vesting:</strong> usually over 4 years, often with a 1-year cliff. Leave before a vest and that part lapses. See <a href="/guides/resign-before-or-after-rsu-vesting/">resign before or after RSUs vest?</a></li>
+  <li><strong>Value:</strong> the grant value assumes today's share price; listed shares move, and unlisted ones may be hard to sell.</li>
+  <li><strong>Tax:</strong> RSUs are taxed as salary at vest; ESOPs when you exercise.</li>
+</ul>
+
+<h2 id="without">Nikhil's offer without them</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">The offer</th><th scope="col">Worth more than staying, over 3 years</th></tr></thead><tbody>
+<tr><th scope="row">As offered</th><td>{_inr(m['diff'])}</td></tr><tr><th scope="row">No joining bonus</th><td>{_inr(T['noBonus'])}</td></tr>
+<tr><th scope="row">No stock</th><td>{_inr(T['noStock'])}</td></tr><tr><th scope="row">Neither</th><td>{_inr(T['neither'])}</td></tr>
+</tbody></table></div>
+
+<h2 id="check">What to check</h2>
+<ol class="g-check">
+  <li><strong>Clawback terms:</strong> how long, full or pro rata.</li>
+  <li><strong>Vesting schedule and cliff,</strong> and how long you'd have to exercise options after leaving.</li>
+  <li><strong>Swap for fixed pay?</strong> A higher fixed salary counts for PF, gratuity and every future raise.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/job-offer-comparator/">job offer comparator</a>'s own code with <a href="/guides/compare-job-offers-worked-example/">Nikhil's example</a>: joining bonus in year 1 and stock at vest value each year, both taxed under the new regime; changing only those inputs. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Joining bonus and stock in an offer", body, "Joining bonus and stock")
+
 def guide_work_hours():
     path = "/guides/working-hours-new-labour-codes/"
     ot_rate = 25000 / 208
@@ -11147,9 +12189,9 @@ def guide_mf_tax():
     return article(path, "x", "How mutual fund gains are taxed", body, "Mutual fund tax")
 
 TOPICS = [("retire", "Retirement and pension"), ("invest", "Investing"), ("home", "Home and loans"), ("tax", "Tax"), ("car", "Car"), ("money", "Pay, budget, insurance and leave")]
-TOOL_TOPIC = {"/epf-calculator/": "retire", "/eps-pension-calculator/": "retire", "/nps-calculator/": "retire", "/retirement-planner/": "retire", "/gratuity-calculator/": "retire",
+TOOL_TOPIC = {"/salary-hike-vs-inflation/": "money", "/epf-calculator/": "retire", "/eps-pension-calculator/": "retire", "/nps-calculator/": "retire", "/retirement-planner/": "retire", "/gratuity-calculator/": "retire",
               "/sip-calculator/": "invest", "/fd-ppf-rd-calculator/": "invest", "/rent-vs-buy/": "home", "/prepay-vs-invest/": "home", "/emi-calculator/": "home",
-              "/income-tax-section-finder/": "tax", "/company-car-lease-vs-loan/": "car", "/car-ownership-cost/": "car", "/budget-planner/": "money", "/leave-planner-2027/": "money", "/full-and-final-settlement/": "money", "/labour-codes-salary-calculator/": "money", "/best-day-to-resign/": "money", "/fire-calculator/": "invest", "/swp-calculator/": "invest", "/term-insurance-calculator/": "money", "/sukanya-samriddhi-calculator/": "invest"}
+              "/income-tax-section-finder/": "tax", "/company-car-lease-vs-loan/": "car", "/car-ownership-cost/": "car", "/budget-planner/": "money", "/leave-planner-2027/": "money", "/full-and-final-settlement/": "money", "/labour-codes-salary-calculator/": "money", "/best-day-to-resign/": "money", "/fire-calculator/": "invest", "/swp-calculator/": "invest", "/job-offer-comparator/": "money", "/term-insurance-calculator/": "money", "/sukanya-samriddhi-calculator/": "invest"}
 # Guides listed under more than one tool appear once on /guides/, under the tool they belong to most.
 GUIDE_HOME = {"/guides/nps-vs-ppf-vs-epf/": "/nps-calculator/", "/guides/eps-pension-explained/": "/eps-pension-calculator/",
               "/guides/epf-wage-ceiling-25000/": "/epf-calculator/", "/guides/transfer-pf-dont-withdraw/": "/epf-calculator/"}
@@ -11329,6 +12371,8 @@ def main():
     if RD_LIVE: write("/best-day-to-resign/", rd_page())
     if FIRE_LIVE: write("/fire-calculator/", fire_page())
     if SWPC_LIVE: write("/swp-calculator/", swp_page())
+    if JO_LIVE: write("/job-offer-comparator/", jo_page())
+    if HV_LIVE: write("/salary-hike-vs-inflation/", hv_page())
     if TERM_LIVE: write("/term-insurance-calculator/", term_page())
     if SSY_LIVE: write("/sukanya-samriddhi-calculator/", ssy_page())
     write("/guides/", guides_index())
@@ -11356,6 +12400,18 @@ def main():
     write("/guides/fd-rd-or-ppf/", guide_fd_main())
     write("/guides/working-hours-new-labour-codes/", guide_work_hours())
     write("/guides/salary-under-new-labour-codes/", guide_lc_main())
+    write("/guides/did-your-hike-beat-inflation/", guide_hv_main())
+    write("/guides/real-salary-hike-after-inflation/", guide_hv_real())
+    write("/guides/personal-inflation-rate/", guide_hv_own())
+    write("/guides/hike-take-home-after-tax/", guide_hv_tax())
+    write("/guides/what-hike-to-ask-for/", guide_hv_ask())
+    write("/guides/real-pay-growth-since-you-started/", guide_hv_long())
+    write("/guides/compare-job-offers-worked-example/", guide_jo_main())
+    write("/guides/higher-ctc-less-in-hand/", guide_jo_ctc())
+    write("/guides/switch-jobs-before-5-years-gratuity/", guide_jo_grat())
+    write("/guides/value-variable-pay-job-offer/", guide_jo_var())
+    write("/guides/office-days-commute-cost/", guide_jo_commute())
+    write("/guides/joining-bonus-stock-job-offer/", guide_jo_bonus())
     write("/guides/swp-monthly-income-explained/", guide_sw_main())
     write("/guides/swp-vs-fd-monthly-income/", guide_sw_fd())
     write("/guides/how-swp-is-taxed/", guide_sw_tax())
@@ -11405,6 +12461,7 @@ def main():
     write("/guides/sukanya-samriddhi-at-maturity/", guide_ssy_maturity())
     write("/guides/floating-or-fixed-home-loan/", guide_float_fixed())
     write("/guides/epf-withdrawal-rules-2026/", guide_epf_withdraw())
+    write("/guides/epf-withdrawal-changes-november-2026/", guide_epf_news())
     write("/guides/tax-year-explained/", guide_tax_year())
     write("/guides/payslip-form-130-new-section-numbers/", guide_payslip130())
     write("/guides/eps-higher-pension/", guide_eps_higher())
@@ -11456,7 +12513,7 @@ def main():
     write("/guides/prepay-home-loan-early-or-later/", guide_prepay_timing())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/salary-under-new-labour-codes/", "0.8"), ("/guides/swp-monthly-income-explained/", "0.8"), ("/guides/swp-vs-fd-monthly-income/", "0.7"), ("/guides/how-swp-is-taxed/", "0.7"), ("/guides/safe-swp-withdrawal-rate/", "0.7"), ("/guides/should-swp-rise-with-inflation/", "0.7"), ("/guides/annuity-or-swp/", "0.7"), ("/guides/fire-number-india/", "0.8"), ("/guides/retire-at-45-bridge-epf-nps/", "0.7"), ("/guides/is-25x-enough-early-retirement/", "0.7"), ("/guides/lean-fat-coast-fire/", "0.7"), ("/guides/savings-rate-early-retirement/", "0.7"), ("/guides/epf-nps-if-you-retire-early/", "0.7"), ("/guides/when-to-resign-best-last-day/", "0.8"), ("/guides/resign-before-or-after-rsu-vesting/", "0.7"), ("/guides/joining-bonus-clawback/", "0.7"), ("/guides/when-to-hand-in-notice/", "0.7"), ("/guides/use-or-encash-leave-before-resigning/", "0.7"), ("/guides/wait-for-bonus-or-join-now/", "0.7"), ("/guides/take-home-fell-ctc-same/", "0.7"), ("/guides/basic-pay-50-percent-rule/", "0.7"), ("/guides/higher-basic-more-tax/", "0.7"), ("/guides/pf-full-basic-or-capped/", "0.7"), ("/guides/bonus-variable-pay-wages-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + ([("/labour-codes-salary-calculator/", "0.9")] if LC_LIVE else []) + ([("/best-day-to-resign/", "0.9")] if RD_LIVE else []) + ([("/fire-calculator/", "0.9")] if FIRE_LIVE else []) + ([("/swp-calculator/", "0.9")] if SWPC_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/salary-under-new-labour-codes/", "0.8"), ("/guides/did-your-hike-beat-inflation/", "0.8"), ("/guides/real-salary-hike-after-inflation/", "0.7"), ("/guides/personal-inflation-rate/", "0.7"), ("/guides/hike-take-home-after-tax/", "0.7"), ("/guides/what-hike-to-ask-for/", "0.7"), ("/guides/real-pay-growth-since-you-started/", "0.7"), ("/guides/compare-job-offers-worked-example/", "0.8"), ("/guides/higher-ctc-less-in-hand/", "0.7"), ("/guides/switch-jobs-before-5-years-gratuity/", "0.7"), ("/guides/value-variable-pay-job-offer/", "0.7"), ("/guides/office-days-commute-cost/", "0.7"), ("/guides/joining-bonus-stock-job-offer/", "0.7"), ("/guides/swp-monthly-income-explained/", "0.8"), ("/guides/swp-vs-fd-monthly-income/", "0.7"), ("/guides/how-swp-is-taxed/", "0.7"), ("/guides/safe-swp-withdrawal-rate/", "0.7"), ("/guides/should-swp-rise-with-inflation/", "0.7"), ("/guides/annuity-or-swp/", "0.7"), ("/guides/fire-number-india/", "0.8"), ("/guides/retire-at-45-bridge-epf-nps/", "0.7"), ("/guides/is-25x-enough-early-retirement/", "0.7"), ("/guides/lean-fat-coast-fire/", "0.7"), ("/guides/savings-rate-early-retirement/", "0.7"), ("/guides/epf-nps-if-you-retire-early/", "0.7"), ("/guides/when-to-resign-best-last-day/", "0.8"), ("/guides/resign-before-or-after-rsu-vesting/", "0.7"), ("/guides/joining-bonus-clawback/", "0.7"), ("/guides/when-to-hand-in-notice/", "0.7"), ("/guides/use-or-encash-leave-before-resigning/", "0.7"), ("/guides/wait-for-bonus-or-join-now/", "0.7"), ("/guides/take-home-fell-ctc-same/", "0.7"), ("/guides/basic-pay-50-percent-rule/", "0.7"), ("/guides/higher-basic-more-tax/", "0.7"), ("/guides/pf-full-basic-or-capped/", "0.7"), ("/guides/bonus-variable-pay-wages-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/epf-withdrawal-changes-november-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + ([("/labour-codes-salary-calculator/", "0.9")] if LC_LIVE else []) + ([("/best-day-to-resign/", "0.9")] if RD_LIVE else []) + ([("/fire-calculator/", "0.9")] if FIRE_LIVE else []) + ([("/swp-calculator/", "0.9")] if SWPC_LIVE else []) + ([("/job-offer-comparator/", "0.9")] if JO_LIVE else []) + ([("/salary-hike-vs-inflation/", "0.9")] if HV_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime

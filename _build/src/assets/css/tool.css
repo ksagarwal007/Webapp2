@@ -432,3 +432,10 @@ button.sf-reg{cursor:pointer;font:600 12px var(--ff);line-height:1.4}
 .swp-box{margin:18px 0 0}.swp-box .swp-card{border:1px solid var(--line);border-radius:16px;padding:16px 18px;background:var(--s1)}.swp-box .swp-card p{margin:0 0 10px}.swp-box table.calc{min-width:0}
 .swp-box table.calc th,.swp-box table.calc td{white-space:normal}.swp-box{min-width:0;overflow-x:auto}
 .swp-box td[data-l="When"]{text-align:left;font-family:var(--ff)}.swp-box .btn-sm{display:inline-block}
+.jox .lp-setup{min-width:0}.jox>div{min-width:0}.jox .lp-setup h3.sub{font-size:15px;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+.jo-head{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 2px}.jo-head span{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.jo-row{margin:10px 0}.jo-row .lbl{display:flex;align-items:center;gap:4px;margin:0 0 6px}.jo-row .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.jo-row .pair>*{min-width:0}
+.jo-row .numin input{min-width:0;width:100%}.jo-row .w{font-size:11px;color:var(--muted);display:block;min-height:14px}
+.jox .sens{grid-template-columns:repeat(2,minmax(0,1fr))}
+.jo-tbl table.calc{min-width:0}.jo-tbl table.calc th[scope=row]{white-space:normal}
+.jo-row .lbl{display:inline-flex}.jo-row>.tipw{display:inline-block;vertical-align:middle}.jo-row .pair .seg.row{flex-wrap:nowrap}.jo-row .pair .seg.row button{flex:1;min-width:0;padding-left:6px;padding-right:6px}

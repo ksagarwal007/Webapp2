@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A calendar at four and a half years with a gratuity box waiting at five">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<rect x="400" y="420" width="90" height="60" rx="12" fill="#FFFFFF" opacity="1" transform="translate(0 0)"/><rect x="510" y="420" width="90" height="90" rx="12" fill="#FFFFFF" opacity="1" transform="translate(0 -30)"/><rect x="620" y="420" width="90" height="120" rx="12" fill="#FFFFFF" opacity="1" transform="translate(0 -60)"/><rect x="730" y="420" width="90" height="150" rx="12" fill="#FFFFFF" opacity="1" transform="translate(0 -90)"/><rect x="840" y="420" width="90" height="180" rx="12" fill="#FFD27A" opacity="0.9" transform="translate(0 -120)"/><text x="900" y="300" font-family="Arial" font-weight="700" font-size="48" fill="#FFD27A" text-anchor="middle">5 yrs</text><rect x="1040" y="360" width="200" height="160" rx="18" fill="#FFD27A"/><rect x="1130" y="360" width="20" height="160" fill="#E8A93A"/>
+</svg>

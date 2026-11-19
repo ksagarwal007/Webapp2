@@ -33,7 +33,7 @@
  },
  "/epf-calculator/": {
   "date": "2026-11-19",
-  "hash": "a9b8a765f5ebcd86"
+  "hash": "a7e0d22ed7bd62e2"
  },
  "/eps-pension-calculator/": {
   "date": "2026-11-19",
@@ -53,7 +53,7 @@
  },
  "/guides/": {
   "date": "2026-11-19",
-  "hash": "8d5305fb580d2489"
+  "hash": "39a95fc47a3d076a"
  },
  "/guides/25x-rule-retirement-india/": {
   "date": "2026-11-19",
@@ -103,9 +103,13 @@
   "date": "2026-11-19",
   "hash": "2821cbd11b0d430c"
  },
+ "/guides/epf-withdrawal-changes-november-2026/": {
+  "date": "2026-11-19",
+  "hash": "60dbf667a046976e"
+ },
  "/guides/epf-withdrawal-rules-2026/": {
   "date": "2026-11-19",
-  "hash": "39e859342c62cfd2"
+  "hash": "1d11b2b48cb126a0"
  },
  "/guides/eps-higher-pension/": {
   "date": "2026-11-19",
@@ -409,6 +413,6 @@
  },
  "/tools/": {
   "date": "2026-11-19",
-  "hash": "016516b06dc87900"
+  "hash": "a27dd8cc295427f2"
  }
 }

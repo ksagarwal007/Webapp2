@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A speech bubble with a percentage sign">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g><path d="M560 260 H1040 A40 40 0 0 1 1080 300 V560 A40 40 0 0 1 1040 600 H760 L660 690 L680 600 H560 A40 40 0 0 1 520 560 V300 A40 40 0 0 1 560 260 Z" fill="#FFFFFF"/><text x="800" y="490" font-family="Arial" font-weight="700" font-size="180" fill="#0B2A6B" text-anchor="middle">%</text><circle cx="1110" cy="250" r="44" fill="#FFD27A"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Two rupee coins, the second one buying less">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g><circle cx="620" cy="430" r="150" fill="#FFD27A"/><text x="620" y="465" font-family="Arial" font-weight="700" font-size="110" fill="#0B2A6B" text-anchor="middle">₹</text><path d="M800 430 H900" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round"/><path d="M880 400 L920 430 L880 460" stroke="#FFFFFF" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="1060" cy="430" r="150" fill="#FFD27A" opacity=".55"/><circle cx="1060" cy="430" r="120" fill="#FFD27A"/><text x="1060" y="462" font-family="Arial" font-weight="700" font-size="90" fill="#0B2A6B" text-anchor="middle">₹</text>
+</svg>
