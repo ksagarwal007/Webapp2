@@ -56,7 +56,7 @@ HOLD = {
     "t3": ["/fire-calculator/", "/guides/fire-number-india/", "/guides/retire-at-45-bridge-epf-nps/", "/guides/is-25x-enough-early-retirement/", "/guides/lean-fat-coast-fire/", "/guides/savings-rate-early-retirement/", "/guides/epf-nps-if-you-retire-early/"],
     "t2": ["/best-day-to-resign/", "/guides/when-to-resign-best-last-day/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/joining-bonus-clawback/", "/guides/when-to-hand-in-notice/", "/guides/use-or-encash-leave-before-resigning/", "/guides/wait-for-bonus-or-join-now/"],
 }
-RELEASED = {"b1", "t1", "e1"}   # b1, t1 and e1 released 19 Nov
+RELEASED = {"b1", "t1", "e1", "t2"}   # b1, t1 and e1 released 19 Nov; t2 20 Nov
 # Review builds only: SALARIST_PREVIEW=t1 python3 build.py builds a held batch too (never push such a build).
 RELEASED |= {b for b in os.environ.get("SALARIST_PREVIEW", "").split(",") if b}
 HELD = {p for b, ps in HOLD.items() if b not in RELEASED for p in ps}
@@ -2976,6 +2976,8 @@ def hv_page():
                 + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
     def seg(key, label, lid, opts):
         return f'<div class="fld"><div class="row1"><span class="lbl" id="{lid}">{label}</span></div><div class="seg row" role="group" aria-labelledby="{lid}">' + "".join(f'<button type="button" data-{key}="{v}">{t}</button>' for v, t in opts) + "</div></div>"
+    HV_NEXT = ('<a class="next" href="/job-offer-comparator/"><span class="k">Hike not enough?</span><b>Compare a job offer properly</b><span class="h">Take-home, PF, gratuity, bonus, stock and commute, side by side.</span></a>' if JO_LIVE else
+               '<a class="next" href="/budget-planner/"><span class="k">Prices up, pay flat?</span><b>Rework your monthly budget</b><span class="h">See what\'s left each month, with yearly costs turned into monthly set-asides.</span></a>')
     rows = [("rent", "Rent or housing"), ("school", "School or college fees"), ("food", "Food and groceries"), ("transport", "Fuel and transport"), ("health", "Health"), ("emi", "Loan EMIs"), ("other", "Everything else")]
     own = "".join(f'<div class="jo-row"><span class="lbl">{lab}</span><div class="pair"><div><div class="numin"><span>₹</span><input id="hv-a-{k}" type="text" inputmode="numeric" autocomplete="off" aria-label="{lab}, a month"></div><span class="w" id="hv-a-{k}-w"></span></div><div><div class="numin"><input id="hv-r-{k}" type="text" inputmode="decimal" autocomplete="off" aria-label="{lab}, price rise a year"><span>%</span></div></div></div></div>' for k, lab in rows)
     mopts = "".join(f'<option value="{v}">{t}</option>' for v, t in MONTHS_HV)
@@ -3030,7 +3032,7 @@ def hv_page():
     </div>
     <h2 class="list-h">Real raise with a different hike</h2>
     <div class="sens" id="hvSens"></div>
-    <a class="next" href="/job-offer-comparator/"><span class="k">Hike not enough?</span><b>Compare a job offer properly</b><span class="h">Take-home, PF, gratuity, bonus, stock and commute, side by side.</span></a>
+    {HV_NEXT}
   </div>
 </div></section>
 
@@ -4216,22 +4218,22 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-13", "guide-yearly-costs", "Your money"),
     ("/guides/when-to-resign-best-last-day/", "When should you resign? One employee's exit, worked out date by date",
      "Gratuity, bonus, RSUs and a better offer: how one employee picks the last working day worth ₹4.1 lakh more, and how to find yours.",
-     "2026-11-19", "guide-rd-main", "Your pay"),
+     "2026-11-20", "guide-rd-main", "Your pay"),
     ("/guides/resign-before-or-after-rsu-vesting/", "Should you resign before or after your RSUs vest?",
      "What happens to unvested RSUs and ESOPs when you leave, when waiting for a vest pays, quarterly vesting, and asking the new employer to cover it.",
-     "2026-11-19", "guide-rd-rsu", "Your pay"),
+     "2026-11-20", "guide-rd-rsu", "Your pay"),
     ("/guides/joining-bonus-clawback/", "Joining bonus clawback: when is it safe to leave?",
      "How joining and retention bonus clawbacks work, when your last day clears them, an example, ways to soften it, and tax on a repaid bonus.",
-     "2026-11-19", "guide-rd-claw", "Your pay"),
+     "2026-11-20", "guide-rd-claw", "Your pay"),
     ("/guides/when-to-hand-in-notice/", "When to hand in your notice so your last day lands right",
      "Count back from the date you need: notice in days or months, resign-by dates for gratuity, bonus rules and what to put in your resignation email.",
-     "2026-11-19", "guide-rd-notice", "Your pay"),
+     "2026-11-20", "guide-rd-notice", "Your pay"),
     ("/guides/use-or-encash-leave-before-resigning/", "Leave balance before you resign: use it or encash it?",
      "What a day of earned leave is worth in cash, when to take it as a break and when to encash it, caps on exit, and the OSH Code rules.",
-     "2026-11-19", "guide-rd-leave", "Your pay"),
+     "2026-11-20", "guide-rd-leave", "Your pay"),
     ("/guides/wait-for-bonus-or-join-now/", "Wait for the bonus or join the new job now: which pays more?",
      "Bonus a few months away and a better offer in hand: the two bonus rules, an example, the break-even raise and what to check before waiting.",
-     "2026-11-19", "guide-rd-bonus", "Your pay"),
+     "2026-11-20", "guide-rd-bonus", "Your pay"),
     ("/guides/fire-number-india/", "What's your FIRE number in India? One person's plan, worked out",
      "FIRE means Financial Independence, Retire Early. How to work out your FIRE number and age, with EPF and NPS, worked through one 30-year-old's plan.",
      "2026-11-19", "guide-fi-main", "Your investments"),
@@ -12201,8 +12203,20 @@ TAX_WORDS = ("tax", "tds", "regime", "section", "perquisite", "hra", "80c")
 GUIDES_NEWEST_FIRST = "t1" in RELEASED
 GX_SORT_OLD = '<select id="gxSort" class="sel"><option value="tool">By tool</option><option value="new">Newest first</option><option value="main">Start-here guides only</option></select>'
 GX_SORT_NEW = '<select id="gxSort" class="sel" data-default="new"><option value="new">Newest first</option><option value="tool">By tool</option><option value="main">Start-here guides only</option></select>'
+# When each guide went live (IST, ISO time), for "Newest first". Backfilled from the repo's history (first commit with the page);
+# a guide released later is stamped by the first normal (non-preview) build that publishes it. Ties keep the GUIDES order.
+PUB_FILE = os.path.join(SRC, "data", "published.json")
+PUBLISHED = json.load(open(PUB_FILE, encoding="utf-8")) if os.path.exists(PUB_FILE) else {}
+def _pub(p, d):
+    if p in PUBLISHED: return PUBLISHED[p]
+    if os.environ.get("SALARIST_PREVIEW"): return d + "T23:59:59+05:30"   # review build: sort as published at the end of its date, stamp nothing
+    import datetime as _dt
+    PUBLISHED[p] = _dt.datetime.now(_dt.timezone(_dt.timedelta(hours=5, minutes=30))).replace(microsecond=0).isoformat()
+    json.dump(PUBLISHED, open(PUB_FILE, "w", encoding="utf-8"), indent=1, sort_keys=True)
+    return PUBLISHED[p]
 def guides_index():
     gmap = {g[0]: g for g in GUIDES}
+    gidx = {g[0]: i for i, g in enumerate(GUIDES)}
     tools = [(tp, n, [x for x in gl if x in gmap]) for grp, items in catalog() for tp, n, d, live, st, gl in items if live]
     home = {}
     for tp, n, gl in tools:
@@ -12214,7 +12228,7 @@ def guides_index():
         tp = home.get(p); topics = {TOOL_TOPIC.get(tp, "money")}
         if any(w in (t + " " + ds).lower() for w in TAX_WORDS): topics.add("tax")
         badge = '<span class="gx-main">Start here</span>' if p in mains else ""
-        return (f'<a class="g-card" href="{p}" data-date="{d}" data-topics="{" ".join(sorted(topics))}" data-main="{1 if p in mains else 0}" data-text="{H.escape((t + " " + ds + " " + tool_name).lower())}">'
+        return (f'<a class="g-card" href="{p}" data-date="{d}" data-pub="{_pub(p, d)}" data-i="{gidx[p]}" data-topics="{" ".join(sorted(topics))}" data-main="{1 if p in mains else 0}" data-text="{H.escape((t + " " + ds + " " + tool_name).lower())}">'
                 f'{_pic(im, "")}<span class="k">{badge}{tool_name} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>')
     secs, used = "", set()
     for tp, n, gl in tools:

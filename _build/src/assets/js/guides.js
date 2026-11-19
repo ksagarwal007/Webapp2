@@ -25,7 +25,8 @@
     var hits = cards.filter(match), filtering = S.q || S.t !== "all" || S.sort === "main";
     if (S.sort === "new") {
       tools.hidden = true; flat.hidden = false; flat.innerHTML = "";
-      hits.slice().sort(function (a, b) { return b.getAttribute("data-date").localeCompare(a.getAttribute("data-date")); })
+      hits.slice().sort(function (a, b) {   /* newest release first (published time, IST); same release: the order the guides were written, main guide first */
+        return (b.getAttribute("data-pub") || b.getAttribute("data-date")).localeCompare(a.getAttribute("data-pub") || a.getAttribute("data-date")) || (+a.getAttribute("data-i") - +b.getAttribute("data-i")); })
         .forEach(function (c) { flat.appendChild(c.cloneNode(true)); });
     } else {
       tools.hidden = false; flat.hidden = true; flat.innerHTML = "";
