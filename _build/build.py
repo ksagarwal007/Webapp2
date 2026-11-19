@@ -49,6 +49,8 @@ HOLD = {
     # Batch T5 (19 Nov): the job offer comparator (N2) with its guides, released together.
     # Batch E1 (19 Nov): news-led guide on the EPF withdrawal changes approved by the CBT on 19 Nov 2026; pushed on its own.
     "e1": ["/guides/epf-withdrawal-changes-november-2026/"],
+    # Batch T7 (20 Nov): ESOP and RSU tax calculator (N5, quick) with its guides, released together.
+    "t7": ["/esop-rsu-tax-calculator/", "/guides/rsu-tax-india-worked-example/", "/guides/esop-tax-exercise-and-sale/", "/guides/sell-rsus-at-vest-or-hold/", "/guides/startup-esop-tax-deferral/", "/guides/foreign-rsu-schedule-fa-tax-credit/", "/guides/rsu-esop-price-falls-after-vesting/"],
     # Batch T6 (19 Nov): did your hike beat inflation? (N9) with its guides, released together.
     "t6": ["/salary-hike-vs-inflation/", "/guides/did-your-hike-beat-inflation/", "/guides/real-salary-hike-after-inflation/", "/guides/personal-inflation-rate/", "/guides/hike-take-home-after-tax/", "/guides/what-hike-to-ask-for/", "/guides/real-pay-growth-since-you-started/"],
     "t5": ["/job-offer-comparator/", "/guides/compare-job-offers-worked-example/", "/guides/higher-ctc-less-in-hand/", "/guides/switch-jobs-before-5-years-gratuity/", "/guides/value-variable-pay-job-offer/", "/guides/office-days-commute-cost/", "/guides/joining-bonus-stock-job-offer/"],
@@ -90,6 +92,8 @@ TERM_LIVE = True   # set False to build without the term insurance calculator (i
 if TERM_LIVE: LIVE_TOOLS.append(("/term-insurance-calculator/", "Term Insurance Calculator"))
 JO_LIVE = "t5" in RELEASED   # job offer comparator: goes live with batch T5
 if JO_LIVE: LIVE_TOOLS.append(("/job-offer-comparator/", "Job Offer Comparator"))
+SO_LIVE = "t7" in RELEASED   # ESOP and RSU tax calculator: goes live with batch T7
+if SO_LIVE: LIVE_TOOLS.append(("/esop-rsu-tax-calculator/", "ESOP and RSU Tax Calculator"))
 HV_LIVE = "t6" in RELEASED   # did your hike beat inflation?: goes live with batch T6
 if HV_LIVE: LIVE_TOOLS.append(("/salary-hike-vs-inflation/", "Did Your Hike Beat Inflation?"))
 SWPC_LIVE = "t4" in RELEASED   # SWP calculator: goes live with batch T4
@@ -109,7 +113,7 @@ LC_LIVE = "t1" in RELEASED   # labour codes salary calculator: goes live with ba
 if LC_LIVE: LIVE_TOOLS.append(("/labour-codes-salary-calculator/", "Labour Codes Salary Calculator"))
 SSY_LIVE = True   # set False to build without the Sukanya Samriddhi calculator (in review)
 if SSY_LIVE: LIVE_TOOLS.append(("/sukanya-samriddhi-calculator/", "Sukanya Samriddhi Calculator"))
-QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/fd-ppf-rd-calculator/", "/gratuity-calculator/", "/income-tax-section-finder/", "/car-ownership-cost/", "/nps-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/retirement-planner/", "/full-and-final-settlement/", "/term-insurance-calculator/", "/sukanya-samriddhi-calculator/", "/swp-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
+QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/fd-ppf-rd-calculator/", "/gratuity-calculator/", "/income-tax-section-finder/", "/car-ownership-cost/", "/nps-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/retirement-planner/", "/full-and-final-settlement/", "/term-insurance-calculator/", "/sukanya-samriddhi-calculator/", "/swp-calculator/", "/esop-rsu-tax-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
 MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/tools/", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
@@ -179,6 +183,12 @@ SEO = {
     "/guides/safe-swp-withdrawal-rate/": ("Safe SWP Withdrawal Rate in India: How Much a Month?", "How much can you withdraw monthly without running out? ₹1 crore for 20, 30 or 40 years by return and yearly rise, and a safe rate for India."),
     "/guides/should-swp-rise-with-inflation/": ("Fixed or Rising SWP: Should Withdrawals Beat Inflation?", "Should your monthly SWP rise with inflation? ₹1 crore with a fixed vs 5% and 6% rising withdrawal: how long it lasts and what it's worth."),
     "/guides/annuity-or-swp/": ("Annuity or SWP for Retirement Income: Which Is Better?", "Annuity or SWP for a monthly pension? ₹1 crore compared after tax: lifetime income vs rising withdrawals, and when to mix the two."),
+    "/guides/rsu-tax-india-worked-example/": ("How RSUs Are Taxed in India: One Vest, Worked Out", "RSU tax in India worked out: salary tax when they vest, the ₹50 lakh surcharge jump, sell to cover, and capital gains when you sell."),
+    "/guides/esop-tax-exercise-and-sale/": ("ESOP Tax in India: On Exercise and on Sale", "How ESOPs are taxed in India: salary tax on exercise, capital gains when you sell, 12 or 24 months, and the cash you need to exercise."),
+    "/guides/sell-rsus-at-vest-or-hold/": ("Sell RSUs at Vest or Hold? Tax and Risk Compared", "Sell your RSUs at vest or hold them? What tax changes, what it doesn't, and one person's RSUs at five sale prices."),
+    "/guides/startup-esop-tax-deferral/": ("Start-up ESOP Tax Deferral: The 60-Month Rule", "Start-up ESOP tax under the 2025 Act: deferred to 60 months, a sale or leaving, who qualifies, and the trap when you resign."),
+    "/guides/foreign-rsu-schedule-fa-tax-credit/": ("Foreign RSUs in India: Schedule FA and 24 Months", "Tax on US-listed RSUs in India: why they count as unlisted, the 24-month rule, Schedule FA, the ₹20 lakh penalty relief and Form 67."),
+    "/guides/rsu-esop-price-falls-after-vesting/": ("RSU or ESOP Price Fell After Vesting? Your Tax", "Share price fell after your RSUs vested or you exercised ESOPs? The salary tax stays; how the capital loss can be used."),
     "/guides/did-your-hike-beat-inflation/": ("Did Your Salary Hike Beat Inflation? One Raise, Checked", "A 7% hike against India's CPI for the exact months: real raise, what's left at today's prices, after tax and against your own costs."),
     "/guides/real-salary-hike-after-inflation/": ("Real Salary Hike After Inflation: How to Work It Out", "Your real raise is your hike after the rise in prices. The formula, why you divide, and hikes from 3% to 15% against 2026 inflation."),
     "/guides/personal-inflation-rate/": ("Personal Inflation Rate: Rent, Fees and EMIs", "Work out your own inflation rate: how rent, school fees, food and a fixed EMI change it compared with the official CPI, with one example."),
@@ -325,7 +335,12 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
     css_links = "".join(f'<link rel="stylesheet" href="/assets/css/{c}?v={ver("assets/css/" + c)}">\n' for c in ("site.css",) + tuple(css))
     js_tags = "".join(f'<script src="/assets/js/{j}?v={ver("assets/js/" + j)}" defer></script>\n' for j in ("site.js",) + tuple(js))
     tools = "".join(f'<li><a href="{u}">{n}</a></li>' for u, n in LIVE_TOOLS)
-    menu_tools = "".join(f'<li><a href="{u}"{" aria-current=\"page\"" if u == path else ""}>{n}</a></li>' for u, n in LIVE_TOOLS + MENU_EXTRA if u not in QUICK_TOOLS)
+    menu_list = sorted([(u, n) for u, n in LIVE_TOOLS + MENU_EXTRA if u not in QUICK_TOOLS], key=lambda x: _tool_pub(x[0]), reverse=True)   # newest decision tools first
+    menu_tools = "".join(f'<li><a href="{u}"{" aria-current=\"page\"" if u == path else ""}>{n}</a></li>' for u, n in menu_list)
+    foot_tools = "".join(f'<li><a href="{u}">{n}</a></li>' for u, n in menu_list[:6])
+    menu_sits = "".join(f'<li><a href="{x[0]}"{" aria-current=\"page\"" if x[0] == path else ""}>{x[1]}</a></li>' for x in SITUATIONS)
+    foot_sits = "".join(f'<li><a href="{x[0]}">{x[1]}</a></li>' for x in SITUATIONS)
+    foot_topics = "".join(f'<li><a href="/guides/?topic={k}">{v}</a></li>' for k, v in TOPICS)
     return f'''<!DOCTYPE html>
 <html lang="en-IN">
 <head>
@@ -360,6 +375,7 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
   <div class="wrap">
     <a class="brand" href="/">{LOGO}<span class="visually-hidden">Salarist home</span></a>
     <nav class="nav" aria-label="Main">{nav}
+      <button class="icon-btn" id="searchBtn" type="button" aria-label="Search tools and guides" aria-expanded="false" aria-controls="searchPanel"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme">
         <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -370,10 +386,18 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
       </button>
     </nav>
   </div>
+  <div class="search-panel" id="searchPanel" hidden>
+    <div class="wrap">
+      <label class="sp-box"><span class="sr-only">Search tools and guides</span><input id="siteQ" type="search" placeholder="Search tools and guides: gratuity, RSU, home loan…" autocomplete="off" enterkeyhint="search"></label>
+      <div id="siteR" class="sp-results" aria-live="polite"></div>
+    </div>
+  </div>
   <div class="menu-panel" id="menuPanel" hidden>
     <div class="wrap">
       <p class="menu-h">Tools</p>
       <ul>{menu_tools}<li><a href="/tools/"><b>See all tools →</b></a></li></ul>
+      <p class="menu-h">Your situation</p>
+      <ul>{menu_sits}</ul>
       <p class="menu-h">Salarist</p>
       <ul><li><a href="/guides/">Guides</a></li><li><a href="/methodology/">How we check our numbers</a></li><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li></ul>
     </div>
@@ -390,7 +414,9 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
         <a class="brand" href="/">{LOGO}<span class="visually-hidden">Salarist home</span></a>
         <p style="margin:12px 0 0;max-width:340px">Money and leave decision tools for salaried India. Free, private and checked against official sources.</p>
       </div>
-      <div><h4>Tools</h4><ul><li><a href="/tools/">All tools</a></li><li><a href="/tools/#soon">What's coming</a></li></ul></div>
+      <div><h4>Your situation</h4><ul>{foot_sits}</ul></div>
+      <div><h4>Tools</h4><ul>{foot_tools}<li><a href="/tools/"><b>All tools</b></a></li><li><a href="/tools/#soon">What's coming</a></li></ul></div>
+      <div><h4>Guides by topic</h4><ul>{foot_topics}<li><a href="/guides/"><b>All guides</b></a></li></ul></div>
       <div><h4>Salarist</h4><ul>
         <li><a href="/guides/">Guides</a></li><li><a href="/about/">About</a></li><li><a href="/methodology/">How we check our numbers</a></li><li><a href="/contact/">Contact</a></li>
         <li><a href="/privacy/">Privacy policy</a></li><li><a href="/terms/">Terms of use</a></li><li><a href="/disclaimer/">Disclaimer</a></li></ul></div>
@@ -402,22 +428,189 @@ def layout(path, title, desc, body, crumbs=None, graph=None, css=(), js=(), og="
 </html>
 '''
 
+
+# ---------------- Situation pages (life events) ----------------
+# One page per situation: ordered steps, each linking the tools and guides for that step. Held or unbuilt tools and guides are left out
+# automatically and appear on the day their batch is released. To onboard a new tool or guide, add its path to the right step here
+# (build prints a reminder for any live decision tool that isn't on a situation page).
+SITUATIONS = [
+    ("/changing-jobs/", "Changing jobs", "Changing jobs? What to check, in order",
+     "A new offer, the last day, the settlement, your PF and the tax: everything that changes when you switch jobs, in the order you'll face it.",
+     "Changing Jobs in India: What to Check, in Order", "Switching jobs? Compare the offer, time your exit for gratuity and bonus, check your settlement, move your PF and handle tax.",
+     [("Compare the offer properly", "Look past the CTC: take-home after tax, PF, variable pay you'll really get, joining bonus, stock and the commute.",
+       ["/job-offer-comparator/", "/guides/compare-job-offers-worked-example/", "/guides/higher-ctc-less-in-hand/", "/guides/value-variable-pay-job-offer/", "/guides/joining-bonus-stock-job-offer/", "/guides/office-days-commute-cost/"]),
+      ("Check what you'd give up by leaving now", "Gratuity after 5 years, a bonus due soon, stock about to vest, a joining bonus you'd repay.",
+       ["/gratuity-calculator/", "/guides/switch-jobs-before-5-years-gratuity/", "/guides/gratuity-six-month-rule-when-to-resign/", "/guides/joining-bonus-clawback/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/wait-for-bonus-or-join-now/"]),
+      ("Pick your last day and hand in notice", "Find the last working day that leaves you with the most, then count back your notice.",
+       ["/best-day-to-resign/", "/guides/when-to-resign-best-last-day/", "/guides/when-to-hand-in-notice/", "/guides/notice-period-buyout/", "/guides/use-or-encash-leave-before-resigning/"]),
+      ("Check your full and final settlement", "Last salary, leave encashment, gratuity and bonus, what's tax-free, and when it's due.",
+       ["/full-and-final-settlement/", "/guides/full-and-final-settlement-explained/", "/guides/leave-encashment-tax-on-resignation/", "/guides/bonus-when-you-resign/", "/guides/settlement-not-paid-on-time/"]),
+      ("Move your PF and sort out the tax", "Transfer your PF instead of withdrawing it, and avoid a tax surprise from two employers in one year.",
+       ["/guides/transfer-pf-dont-withdraw/", "/guides/two-employers-one-year-tax/", "/guides/epf-withdrawal-rules-2026/", "/guides/startup-esop-tax-deferral/", "/guides/car-lease-job-change-buy-back-or-hand-back/"])]),
+    ("/buying-a-home/", "Buying a home", "Buying a home? The money decisions, in order",
+     "Whether to buy at all, how much to put down, how to protect the loan and how to pay it off faster: one decision at a time.",
+     "Buying a Home in India: The Money Decisions, in Order", "Rent or buy, down payment, EMI, home loan insurance, prepaying or investing and the tax breaks: the home-buying decisions, in order.",
+     [("Decide whether to rent or buy", "Owning against renting and investing the difference, after stamp duty, upkeep and tax.",
+       ["/rent-vs-buy/", "/guides/rent-vs-buy/", "/guides/is-rent-really-dead-money/", "/guides/rent-or-buy-by-age-and-moving-cities/", "/guides/under-construction-vs-ready-to-move/"]),
+      ("Size the down payment and the loan", "What each lakh down saves you, the EMI you can carry, and fixed or floating.",
+       ["/emi-calculator/", "/guides/home-loan-down-payment/", "/guides/floating-or-fixed-home-loan/"]),
+      ("Protect the loan", "Term cover usually beats the bank's loan insurance. Work out how much your family would need.",
+       ["/term-insurance-calculator/", "/guides/home-loan-insurance-vs-term-plan/", "/guides/how-much-term-insurance-do-you-need/", "/guides/laddering-term-insurance/"]),
+      ("Pay it off faster, or invest the extra", "Part-payments cut years off a loan; investing may leave you richer. Compare both.",
+       ["/prepay-vs-invest/", "/guides/how-part-payments-cut-your-home-loan/", "/guides/prepay-home-loan-or-invest/", "/guides/prepay-home-loan-early-or-later/", "/guides/home-loan-rate-rise-emi-or-tenure/", "/guides/prepay-with-bonus-or-invest/"]),
+      ("Claim the tax breaks, and decide later whether to keep it", "HRA and home loan benefits under each regime, and selling or keeping when you move.",
+       ["/guides/hra-vs-home-loan-tax-benefits/", "/guides/keep-or-sell-your-home/"])]),
+    ("/planning-retirement/", "Planning retirement", "Planning your retirement: how much, from where, and when",
+     "How much you'll need, what EPF, EPS and NPS will give, how to close the gap, and how to turn savings into a monthly income.",
+     "Retirement Planning in India: How Much, From Where, When", "How much you need to retire, what EPF, EPS and NPS will give, how to close the gap with SIPs, and how to draw a monthly income.",
+     [("Work out how much you need", "Today's spending, grown with inflation, for as many years as you'll live after you stop.",
+       ["/retirement-planner/", "/guides/how-much-do-you-need-to-retire/", "/guides/25x-rule-retirement-india/", "/guides/retire-at-50-55-or-60/", "/guides/retirement-planning-in-your-40s/"]),
+      ("See what EPF, EPS and NPS will give you", "Your provident fund at 58, your EPS pension, and your NPS lump sum and pension.",
+       ["/epf-calculator/", "/eps-pension-calculator/", "/nps-calculator/", "/guides/how-much-epf-at-58/", "/guides/eps-pension-explained/", "/guides/nps-new-exit-rules/", "/guides/nps-vs-ppf-vs-epf/", "/guides/vpf-worth-it/"]),
+      ("Close the gap", "The SIP you need, stepping up each year, or how soon you could stop working.",
+       ["/sip-calculator/", "/fire-calculator/", "/guides/how-much-sip-do-you-need/", "/guides/step-up-sip/", "/guides/fire-number-india/"]),
+      ("Turn savings into a monthly income", "How much you can draw each month, and for how long, after tax.",
+       ["/swp-calculator/", "/guides/swp-monthly-income-explained/", "/guides/annuity-or-swp/", "/guides/how-long-will-retirement-savings-last/", "/guides/three-bucket-retirement-plan/", "/guides/epf-withdrawal-changes-november-2026/"])]),
+    ("/got-a-bonus/", "Bonus or hike", "Got a bonus or a hike? What it's really worth, and the best use for it",
+     "What's left after tax, whether your hike beat inflation, the basics to fix first, and whether to prepay a loan or invest.",
+     "Got a Bonus or Hike? What It's Worth and the Best Use", "What your bonus or hike leaves after tax and inflation, the basics to fix first, and whether to prepay your home loan or invest.",
+     [("See what's left after tax", "A bonus is taxed at your top slab. Plan with what reaches your account.",
+       ["/guides/budgeting-with-a-bonus/", "/guides/hike-take-home-after-tax/"]),
+      ("Got a hike? Check it against prices", "Your raise after inflation, after tax, and the hike to ask for next time.",
+       ["/salary-hike-vs-inflation/", "/guides/did-your-hike-beat-inflation/", "/guides/real-salary-hike-after-inflation/", "/guides/personal-inflation-rate/", "/guides/what-hike-to-ask-for/"]),
+      ("Fix the basics first", "An emergency fund and the year's big bills before anything else.",
+       ["/budget-planner/", "/guides/monthly-budget/", "/guides/plan-for-school-fees-and-yearly-costs/"]),
+      ("Prepay the loan or invest it", "Compare the interest you'd save with what the money could earn.",
+       ["/prepay-vs-invest/", "/sip-calculator/", "/guides/prepay-with-bonus-or-invest/", "/guides/sip-or-lump-sum-bonus/"]),
+      ("Thinking of switching after the bonus?", "Time your exit so the bonus is paid, and check whether it must be returned.",
+       ["/best-day-to-resign/", "/guides/wait-for-bonus-or-join-now/", "/guides/bonus-when-you-resign/", "/guides/value-variable-pay-job-offer/"])]),
+    ("/buying-a-car/", "Buying a car", "Buying a car? Lease, loan or cash, and what it really costs",
+     "A company car lease or a loan, petrol, CNG or electric, new or used: what each costs you over the years you keep the car.",
+     "Buying a Car in India: Lease, Loan or Cash, and Real Cost", "Company car lease or car loan, petrol, CNG or EV running costs, loan or cash, and new or used: the car decisions, worked out.",
+     [("Lease through your company, or buy", "A salary-linked lease can save tax; compare it with a regular loan, including resale.",
+       ["/company-car-lease-vs-loan/", "/guides/company-car-lease-vs-car-loan/", "/guides/car-lease-new-tax-regime/", "/guides/car-lease-20-percent-slab-and-ev/", "/guides/company-car-perquisite-value-2026/"]),
+      ("Compare petrol, CNG and electric", "Price, fuel, insurance, servicing and resale, per month and per km.",
+       ["/car-ownership-cost/", "/guides/petrol-cng-or-ev-cost-per-km/", "/guides/ev-worth-it-1000-km-a-month/", "/guides/government-ev-rule-should-you-switch/"]),
+      ("Loan or cash, new or used", "What a car loan really costs against paying cash, and a new car against a 3-year-old one.",
+       ["/emi-calculator/", "/guides/car-loan-or-cash/", "/guides/new-or-used-car/", "/guides/part-pay-car-or-personal-loan/"])]),
+    ("/tax-season/", "Tax season", "Tax season: proofs, Form 130 and the new section numbers",
+     "The Income-tax Act, 2025 renumbered everything. Find your sections, check the tax on your salary, stock and savings, and avoid TDS surprises.",
+     "Tax Season for Salaried India: Sections, Form 130, TDS", "New section numbers, Form 130, tax on salary, ESOPs and RSUs, gratuity, leave encashment, FD interest and mutual funds, for salaried people.",
+     [("Learn the new numbers", "80C, HRA and Form 16 have new names under the 2025 Act. Find yours.",
+       ["/income-tax-section-finder/", "/guides/new-income-tax-section-numbers/", "/guides/tax-year-explained/", "/guides/payslip-form-130-new-section-numbers/"]),
+      ("Check the tax on your salary", "Your structure, employer NPS, a hike, and two employers in one year.",
+       ["/labour-codes-salary-calculator/", "/guides/higher-basic-more-tax/", "/guides/employer-nps-14-percent-new-regime/", "/guides/hike-take-home-after-tax/", "/guides/two-employers-one-year-tax/"]),
+      ("Stock, gratuity and leave", "ESOPs and RSUs, foreign shares in Schedule FA, gratuity and leave encashment limits.",
+       ["/esop-rsu-tax-calculator/", "/guides/rsu-tax-india-worked-example/", "/guides/foreign-rsu-schedule-fa-tax-credit/", "/guides/is-gratuity-taxable-20-lakh-limit/", "/guides/leave-encashment-tax-on-resignation/"]),
+      ("Interest, investments and TDS", "FD interest, Form 121, mutual fund gains and insurance.",
+       ["/fd-ppf-rd-calculator/", "/guides/fd-interest-tax-below-50000/", "/guides/form-121-stop-tds-fd-interest/", "/guides/how-mutual-fund-gains-are-taxed/", "/guides/term-insurance-tax-new-regime/", "/guides/fd-for-senior-citizens-tds-and-tax/"])]),
+]
+SIT_PATHS = [x[0] for x in SITUATIONS]
+def _live_sets():
+    tools = {p: (n, d, grp) for grp, items in catalog() for p, n, d, live, st, gl in items if live}
+    guides = {g[0]: g for g in GUIDES}
+    return tools, guides
+def situation_page(sp):
+    path, name, h1, lead, stitle, sdesc, steps = next(x for x in SITUATIONS if x[0] == sp)
+    T, G = _live_sets()
+    icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
+    IC = {"Your investments": "I_GROW", "Your time off": "I_CAL", "Your pay": "I_PAY", "Your loans": "I_LOAN", "Your home": "I_HOME", "Your money": "I_WALLET", "Your car": "I_CAR", "Your tax": "I_TAX"}
+    ol, tools_used, guides_used = "", [], []
+    for i, (st, tx, refs) in enumerate(steps):
+        tl = [r for r in refs if r in T]; gl = [r for r in refs if r in G]
+        tools_used += [t for t in tl if t not in tools_used]; guides_used += [g for g in gl if g not in guides_used]
+        btns = "".join(f'<a class="btn-sm pri" href="{t}">Open {T[t][0]}</a>' for t in tl)
+        links = "".join(f'<li><a href="{g}">{H.escape(G[g][1])}</a></li>' for g in gl)
+        ol += (f'<li class="sit-step"><h2 id="step-{i + 1}">{st}</h2><p>{tx}</p>' + (f'<div class="sit-btns">{btns}</div>' if btns else "")
+               + (f'<ul class="sit-g">{links}</ul>' if links else "") + ("" if btns or links else '<p class="hint">The tool and guides for this step are on the way.</p>') + "</li>")
+    tcards = "".join(f'<a class="tool" href="{t}"><span class="grp"><span class="ic">{icons[IC[T[t][2]]]}</span>{T[t][2]}</span><h3>{T[t][0]}</h3><p>{T[t][1]}</p><span class="st"><b class="live">Live</b></span></a>' for t in tools_used)
+    others = "".join(f'<a class="qchip" href="{x[0]}">{x[1]}</a>' for x in SITUATIONS if x[0] != path)
+    body = (f'<section class="tool-hero"><div class="wrap"><p class="eyebrow">Your situation</p><h1>{h1}</h1><p class="lead">{lead}</p>'
+            f'<p class="hint">{len(tools_used)} tool{"s" if len(tools_used) != 1 else ""} and {len(guides_used)} guides, step by step. Everything is free and calculated on your device.</p></div></section>'
+            f'<section style="padding-top:0"><div class="wrap"><ol class="sit-steps">{ol}</ol>'
+            + (f'<h2 class="list-h" style="margin:40px 0 14px">The tools for this</h2><div class="groups">{tcards}</div>' if tcards else "")
+            + f'<h2 class="list-h" style="margin:40px 0 14px">Other situations</h2><div class="qchips">{others}</div>'
+            f'<p style="margin:20px 0 0"><a class="more" href="/tools/">All tools →</a> &nbsp; <a class="more" href="/guides/">All guides →</a></p></div></section>')
+    graph = [{"@type": "CollectionPage", "name": h1, "url": SITE + path, "inLanguage": "en-IN",
+              "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": SITE + u} for i, u in enumerate(tools_used + guides_used)]}}]
+    return layout(path, stitle, sdesc, body, crumbs=[("/", "Home"), (path, name)], graph=graph, css=("tool.css",), og="og-home.png")
+def situation_cards():
+    T, G = _live_sets(); out = ""
+    for path, name, h1, lead, *_ , steps in SITUATIONS:
+        nt = len({r for s_ in steps for r in s_[2] if r in T}); ng = len({r for s_ in steps for r in s_[2] if r in G})
+        def pl(k, w): return f"{k} {w}" + ("" if k == 1 else "s")
+        cnt = (pl(nt, "tool") + " and " if nt else "") + pl(ng, "guide")
+        out += f'<a class="sit-card" href="{path}"><b>{name}</b><span>{lead}</span><small>{cnt} →</small></a>'
+    return out
+
 # ---------------- Home ----------------
+# Short questions for the home page buttons, one per decision tool (shown for the newest live ones)
+HOME_ASK = {"/leave-planner-2027/": "Plan my 2027 leave", "/prepay-vs-invest/": "Prepay or invest?", "/rent-vs-buy/": "Rent or buy?", "/budget-planner/": "Where does my pay go?",
+            "/company-car-lease-vs-loan/": "Car lease or loan?", "/labour-codes-salary-calculator/": "Will my take-home change?", "/best-day-to-resign/": "When should I resign?",
+            "/job-offer-comparator/": "Is the new offer better?", "/fire-calculator/": "When can I retire early?", "/salary-hike-vs-inflation/": "Did my hike beat inflation?"}
+NEW_DAYS = 7   # tools published in the last week get a "New" label on the home page
+def _is_new(p):
+    import datetime as _dt
+    try: t = _dt.datetime.fromisoformat(PUBLISHED.get(p, "") or _tool_pub(p))
+    except ValueError: return False
+    return (_dt.datetime.now(_dt.timezone.utc) - t).days < NEW_DAYS
+def home_tools():
+    """Live decision tools (not quick calculators), newest first, from the catalog; release times from src/data/published.json."""
+    icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
+    IC = {"Your investments": "I_GROW", "Your time off": "I_CAL", "Your pay": "I_PAY", "Your loans": "I_LOAN", "Your home": "I_HOME", "Your money": "I_WALLET", "Your car": "I_CAR", "Your tax": "I_TAX"}
+    out = [(p, n, d, grp, icons[IC[grp]]) for grp, items in catalog() for p, n, d, live, st, gl in items if live and p not in QUICK_TOOLS]
+    out.sort(key=lambda x: _tool_pub(x[0]), reverse=True)
+    return out
+def _tool_pub(p):
+    """Go-live time of a tool page: stamped by the first normal build that publishes it (same file as guides); review builds sort it as today."""
+    import datetime as _dt
+    return _pub(p, _dt.datetime.now(_dt.timezone(_dt.timedelta(hours=5, minutes=30))).date().isoformat())
 def home():
     tpl = open(os.path.join(SRC, "partials/home.tpl.html"), encoding="utf-8").read()
     body = tpl[tpl.index('<section class="hero">'):tpl.index("</main>")]
-    order = ["/guides/long-weekends-2027/", "/guides/monthly-budget/", "/guides/rent-vs-buy/"]
-    gs = sorted(GUIDES, key=lambda g: order.index(g[0]) if g[0] in order else 99)[:3]
-    cards = "".join(f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec}</span><b>{t}</b><span>{ds}</span></a>' for p, t, ds, d, im, sec in gs)
+    # Decision tool cards and question buttons: generated from the live tools, newest first (no "coming soon" cards on the home page)
+    HT = home_tools()
+    tcards = "".join(f'<a class="tool" href="{p}"><span class="grp"><span class="ic">{ic}</span>{grp}</span><h3>{n}</h3><p>{d}</p>'
+                     f'<span class="st"><b class="live">{"New" if _is_new(p) else "Live"}</b> · {_date(_tool_pub(p)[:10])}</span></a>' for p, n, d, grp, ic in HT[:6])
+    gi = body.index('<div class="groups">'); ge = body.index("\n    </div>\n  </div>\n</section>", gi)
+    body = body[:gi] + f'<div class="groups">{tcards}' + body[ge:]
+    asks = [x for x in HT if x[0] in HOME_ASK][:4]
+    ask_html = "".join(f'<li><a class="ask{" primary" if i == 0 else ""}" href="{p}">{HOME_ASK[p]}{" <span class=soon>New</span>" if _is_new(p) else ""}</a></li>' for i, (p, n, d, grp, ic) in enumerate(asks))
+    ai = body.index('<ul class="asks" aria-label="Start with a question">'); ae = body.index("</ul>", ai)
+    body = body[:ai] + '<ul class="asks" aria-label="Start with a question">' + ask_html + body[ae:]
+    hsearch = (f'<label class="home-search"><span class="sr-only">Search tools and guides</span><input id="homeQ" type="search" '
+               f'placeholder="Search {len(LIVE_TOOLS)} tools and {len(GUIDES)} guides: gratuity, RSU tax, home loan…" autocomplete="off" enterkeyhint="search"></label>')
+    body = body.replace('<ul class="asks" aria-label="Start with a question">', hsearch + '<ul class="asks" aria-label="Start with a question">', 1)
+    gidx = {g[0]: i for i, g in enumerate(GUIDES)}
+    gs = sorted(GUIDES, key=lambda g: (_pub(g[0], g[3]), -gidx[g[0]]), reverse=True)[:3]
+    cards = "".join(f'<a class="g-card" href="{p}">{_pic(im, "")}<span class="k">{sec} · {_date(d)}</span><b>{t}</b><span>{ds}</span></a>' for p, t, ds, d, im, sec in gs)
     guides_sec = (f'<section id="guides" aria-labelledby="guides-h" style="padding-top:0"><div class="wrap">'
-                  f'<p class="eyebrow">Guides</p><h2 id="guides-h">Understand the decision before you make it</h2>'
-                  f'<p class="lead">Plain-English guides that walk through each decision with a worked example and explain every number the tools show.</p>'
+                  f'<p class="eyebrow">New guides</p><h2 id="guides-h">Understand the decision before you make it</h2>'
+                  f'<p class="lead">Plain-English guides that walk through each decision with a worked example and explain every number the tools show. {len(GUIDES)} so far; these are the newest.</p>'
                   f'<div class="g-cards" style="margin-top:24px">{cards}</div>'
                   f'<p style="margin:20px 0 0"><a class="more" href="/guides/">See all guides →</a></p></div></section>\n')
     i = body.index('<section id="tools"'); j = body.index("</section>", i); k = body.rindex("</div>", i, j)
-    body = body[:k] + ('<div class="quick"><h3 class="list-h" style="margin:34px 0 14px">Quick calculators</h3>' + quick_chips() +
-                       '<p style="margin:18px 0 0"><a class="more" href="/tools/">See all tools →</a></p></div>') + body[k:]
-    body = body.replace('<section id="rates"', guides_sec + '<section id="rates"', 1)
+    body = body[:k] + ('<p style="margin:18px 0 0"><a class="more" href="/tools/">See all ' + str(len(LIVE_TOOLS)) + ' tools →</a></p><div class="quick"><h3 class="list-h" style="margin:34px 0 14px">Quick calculators</h3>' + quick_chips() +
+                       '</div>') + body[k:]
+    # Order (20 Nov): hero with search, situations, tools, rates, newest guides, the leave season spotlight, one short trust section, FAQ
+    ri = body.index('<section id="rates"'); re_ = body.index("</section>", ri) + len("</section>")
+    body = body[:re_] + "\n" + guides_sec + body[re_:]
+    si = body.index('<section aria-labelledby="spot-h"'); se = body.index("</section>", si) + len("</section>")
+    spot = body[si:se]; body = body[:si] + body[se:]
+    sit = ('<section id="situations" aria-labelledby="sit-h" style="padding-top:8px"><div class="wrap"><p class="eyebrow">Start with your situation</p>'
+           '<h2 id="sit-h">What are you dealing with right now?</h2><div class="sit-cards">' + situation_cards() + '</div></div></section>\n')
+    hi = body.index("</section>", body.index('<section class="hero">')) + len("</section>")
+    body = body[:hi] + "\n" + sit + body[hi:]
+    gi2 = body.index('<section id="guides"'); ge2 = body.index("</section>", gi2) + len("</section>")
+    body = body[:ge2] + "\n" + spot + body[ge2:]
+    pi = body.index('<section class="band" aria-labelledby="priv-h">'); pe = body.index("</section>", body.index('<section id="how"')) + len("</section>")
+    trust = ('<section class="band" aria-labelledby="priv-h"><div class="wrap"><p class="eyebrow">Free, private and checked</p><h2 id="priv-h">Your numbers stay on your phone. Ours come from official sources.</h2>'
+             '<div class="three">'
+             '<div class="point"><span class="ic">{{I_LOCK}}</span><h3>Calculated on your device</h3><p>Every tool runs in your browser. No sign-up, and nothing you enter is sent to us or kept after you close the tab.</p></div>'
+             '<div class="point"><span class="ic">{{I_TAX}}</span><h3>Official sources, linked</h3><p>Tax slabs from the Income-tax Act, rates from Ministry of Finance notices, holidays from DoPT. Each tool names its source and tax year.</p></div>'
+             '<div class="point"><span class="ic">{{I_GROW}}</span><h3>Rechecked when rules change</h3><p>After every Budget and rate decision, we update the shared figures all our tools use. <a href="/methodology/">How we check our numbers</a>.</p></div>'
+             '</div></div></section>')
+    body = body[:pi] + trust + body[pe:]
     body = body.replace('<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">Launching soon</span></a>',
                         '<a class="ask primary" href="/leave-planner-2027/">Plan my 2027 leave <span class="soon">New</span></a>')
     body = body.replace('<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">Jan 2027</span></a>', '<a class="ask" href="/prepay-vs-invest/">Prepay or invest? <span class="soon">New</span></a>')
@@ -820,9 +1013,10 @@ RELATED = {
     "/term-insurance-calculator/": ["/retirement-planner/", "/emi-calculator/", "/budget-planner/", "/sukanya-samriddhi-calculator/"],
     "/fire-calculator/": ["/retirement-planner/", "/swp-calculator/", "/sip-calculator/", "/nps-calculator/", "/epf-calculator/"],
     "/swp-calculator/": ["/fire-calculator/", "/retirement-planner/", "/fd-ppf-rd-calculator/", "/sip-calculator/"],
+    "/esop-rsu-tax-calculator/": ["/job-offer-comparator/", "/best-day-to-resign/", "/income-tax-section-finder/", "/sip-calculator/"],
     "/salary-hike-vs-inflation/": ["/job-offer-comparator/", "/budget-planner/", "/labour-codes-salary-calculator/", "/sip-calculator/"],
-    "/job-offer-comparator/": ["/salary-hike-vs-inflation/", "/best-day-to-resign/", "/labour-codes-salary-calculator/", "/gratuity-calculator/", "/budget-planner/"],
-    "/best-day-to-resign/": ["/job-offer-comparator/", "/full-and-final-settlement/", "/gratuity-calculator/", "/budget-planner/", "/labour-codes-salary-calculator/"],
+    "/job-offer-comparator/": ["/salary-hike-vs-inflation/", "/esop-rsu-tax-calculator/", "/best-day-to-resign/", "/labour-codes-salary-calculator/", "/gratuity-calculator/", "/budget-planner/"],
+    "/best-day-to-resign/": ["/job-offer-comparator/", "/esop-rsu-tax-calculator/", "/full-and-final-settlement/", "/gratuity-calculator/", "/budget-planner/", "/labour-codes-salary-calculator/"],
     "/labour-codes-salary-calculator/": ["/job-offer-comparator/", "/salary-hike-vs-inflation/", "/gratuity-calculator/", "/epf-calculator/", "/budget-planner/", "/full-and-final-settlement/"],
     "/full-and-final-settlement/": ["/best-day-to-resign/", "/gratuity-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/budget-planner/"],
     "/income-tax-section-finder/": ["/nps-calculator/", "/gratuity-calculator/", "/fd-ppf-rd-calculator/", "/company-car-lease-vs-loan/"],
@@ -1099,6 +1293,11 @@ TIP_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="
 # When a guide is approved, add it here wherever a field or result it explains has a tooltip. check_guide_links() makes sure
 # every guide listed under a tool is linked from that tool's page.
 TIP_GUIDES = {
+    ("so", "listed or not"): ("/guides/foreign-rsu-schedule-fa-tax-credit/", "Foreign RSUs: Schedule FA and the 24-month rule"),
+    ("so", "start-up deferral"): ("/guides/startup-esop-tax-deferral/", "Start-up ESOPs: when the tax is due"),
+    ("so", "exercise price"): ("/guides/esop-tax-exercise-and-sale/", "ESOP tax on exercise and sale"),
+    ("so", "holding period"): ("/guides/sell-rsus-at-vest-or-hold/", "Sell at vest or hold?"),
+    ("so", "tax on the sale"): ("/guides/rsu-esop-price-falls-after-vesting/", "If the price falls after vesting"),
     ("hv", "own spending"): ("/guides/personal-inflation-rate/", "Your own inflation rate"),
     ("hv", "after tax"): ("/guides/hike-take-home-after-tax/", "Why take-home rises less than your hike"),
     ("hv", "real raise"): ("/guides/real-salary-hike-after-inflation/", "What a real raise is"),
@@ -2951,6 +3150,155 @@ JO_TIPS = [
      "The new offer's total over the period minus staying's: take-home after tax, PF, stock and gratuity, less commute, work-from-home and switching costs. Negative means staying is worth more."),
 ]
 
+def so_page():
+    faqs = [
+        ("How are RSUs taxed in India?",
+         "Twice. When they vest, their full value is added to your salary and taxed at your slab; your employer deducts TDS, often by selling some of the shares. When you sell, the rise in price since vesting is a capital gain. For shares of a foreign company, gains within 24 months are taxed at your slab, and after 24 months at 12.5%."),
+        ("How are ESOPs taxed in India?",
+         "When you exercise, the value of the shares that day minus the exercise price you pay is taxed as salary. When you sell, the rise above that value is a capital gain: for shares listed in India, 20% within 12 months and 12.5% above ₹1.25 lakh a year after; for unlisted or foreign shares, slab rate within 24 months and 12.5% after. There's no tax when options are granted or vest."),
+        ("What is the start-up ESOP tax deferral?",
+         "Employees of an eligible start-up (recognised by DPIIT and certified by the Inter-Ministerial Board) don't pay the tax on exercise straight away. It's due within 14 days of the earliest of: 60 months from the end of the tax year of exercise, selling the shares, or leaving the company. It's worked out at that year's rates. Shares allotted before 1 April 2026 have a 48-month window."),
+        ("Why are US company shares long-term only after 24 months?",
+         "Indian tax law treats a share as 'listed' only if it's listed on a recognised stock exchange in India. Shares listed on NASDAQ or NYSE count as unlisted here, so the 24-month rule applies, and the ₹1.25 lakh yearly exemption doesn't."),
+        ("What if the share price falls after I exercise or my RSUs vest?",
+         "The tax on the exercise or vesting value stays: it was salary. The fall becomes a capital loss, which can be set off only against capital gains, this year or in the next 8 years. It can't reduce the salary tax."),
+        ("Do I need to report foreign RSUs in my tax return?",
+         "Yes. Residents must list foreign shares in Schedule FA every year they hold them, for the calendar year. Since 1 October 2024 the ₹10 lakh Black Money Act penalty doesn't apply if your foreign assets, other than property, total ₹20 lakh or less, but reporting is still required."),
+        ("What is sell to cover?",
+         "When RSUs vest, many employers sell enough of them to pay the TDS on the vest. You get the remaining shares. The tax is the same either way; it just means fewer shares in your account."),
+        ("What happens to my RSUs and ESOPs when I leave the company?",
+         "Shares you already hold, from vested RSUs or exercised options, stay yours, and leaving doesn't change how they're taxed when you sell: the 12- or 24-month clock keeps running. Unvested RSUs and options usually lapse. Vested options usually have to be exercised within an exit window set by your plan, and are still taxed as salary from your former employer when you exercise. At an eligible start-up, leaving ends the tax deferral: the deferred tax is due within 14 days, even if you can't sell the shares yet."),
+        ("What does the calculator leave out?",
+         "The old tax regime, marginal relief on surcharge near ₹50 lakh and ₹1 crore, tax withheld abroad (claimed with Form 67), dividends, and exchange-rate changes between vesting and sale. Enter values in rupees as your employer and broker report them."),
+    ]
+    def num(k, label, hint="", lid=None, money=True, unit=""):
+        idattr = f' id="{lid}"' if lid else ""
+        box = f'<div class="numin"><span>₹</span><input id="so-{k}" type="text" inputmode="numeric" autocomplete="off"></div>' if money else f'<div class="numin"><input id="so-{k}" type="text" inputmode="decimal" autocomplete="off"><span>{unit}</span></div>'
+        return (f'<div class="fld"><div class="row1"><label for="so-{k}"{idattr}>{label}</label><span class="w" id="so-{k}-w"></span></div>{box}' + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def seg(key, label, lid, opts):
+        return f'<div class="fld"><div class="row1"><span class="lbl" id="{lid}">{label}</span></div><div class="seg row" role="group" aria-labelledby="{lid}">' + "".join(f'<button type="button" data-{key}="{v}">{t}</button>' for v, t in opts) + "</div></div>"
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your tax</p>
+  <h1>ESOP and RSU tax calculator</h1>
+  <p class="lead">Your stock is taxed twice: as salary when RSUs vest or you exercise ESOPs, and as capital gains when you sell. See both, for shares listed in India, listed abroad or unlisted, and what you actually keep.</p>
+  {badges("Income-tax Act, 2025 · New regime 2026-27 · Start-up deferral of 60 months")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb jox sox">
+  <div class="card lp-setup" aria-label="Your shares">
+    <h3 class="sub" style="border:0;padding-top:0;margin-top:0">Your shares</h3>
+    {seg("kind", "What you have", "so-kindLbl", [("rsu", "RSUs"), ("esop", "ESOPs")])}
+    {seg("co", "The company's shares are", "so-coLbl", [("in", "Listed in India"), ("abroad", "Listed abroad"), ("unlisted", "Unlisted")])}
+    <div class="two">{num("shares", "Shares", money=False, unit="shares")}<div id="soStrikeF">{num("strike", "Exercise price a share", lid="so-strikeLbl")}</div></div>
+    {num("fmv", "Value a share on the vesting date", "In rupees, as on your payslip or Form 130. For foreign shares, the dollar price converted to rupees.", lid="so-fmvLbl")}
+    <div class="fld"><div class="row1"><label for="so-on" id="so-onLbl">Month they vest</label></div><input id="so-on" type="month" class="sel" min="2020-01" max="2035-12"></div>
+    <div id="soStartF">{seg("startup", "Eligible start-up (tax deferral)", "so-startLbl", [("yes", "Yes"), ("no", "No")])}</div>
+    <h3 class="sub">Your income</h3>
+    {num("salary", "Other taxable pay this year", "Gross salary, bonus and other income, before the stock. Sets your tax slab.", lid="so-salaryLbl")}
+    <h3 class="sub">When you sell</h3>
+    <div class="two">{num("sale", "Sale price a share")}{num("held", "Months from vesting to sale", money=False, unit="months", lid="so-heldLbl")}</div>
+    <div id="soUsedF">{num("used", "Long-term gains already used this year", "Of the ₹1.25 lakh tax-free limit, for example from mutual funds. Listed Indian shares only.", lid="so-usedLbl")}</div>
+    <div id="soSaleSalF">{num("saleSalary", "Other taxable pay in the year you sell", "Your sale falls in a later tax year than the vesting or exercise; the gain is taxed with that year's pay. Lower it if you'll be on a break.", lid="so-saleSalaryLbl")}</div>
+    <h3 class="sub">Leaving the company</h3>
+    {seg("leave", "Leave before selling", "so-leaveLbl", [("yes", "Yes"), ("no", "No")])}
+    <div id="soLeaveAtF">{num("leaveAt", "Months from vesting to leaving", money=False, unit="months", lid="so-leaveAtLbl")}</div>
+  </div>
+
+  <div>
+    <div class="verdict" id="soVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="soPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="soXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="soShare">Copy share link</button>
+    </div>
+    <p class="status" id="soStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l" id="so-s1Lbl">Taxed as salary</div><div class="n" id="soS1">—</div><div class="h" id="soS1h"></div></div>
+      <div class="stat"><div class="l">Tax on it</div><div class="n" id="soS2">—</div><div class="h" id="soS2h"></div></div>
+      <div class="stat"><div class="l" id="so-s3Lbl">Tax on the sale</div><div class="n" id="soS3">—</div><div class="h" id="soS3h"></div></div>
+      <div class="stat"><div class="l">You keep</div><div class="n" id="soS4">—</div><div class="h" id="soS4h"></div></div>
+    </div>
+    <p class="g-callout" id="soRule"></p>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px" id="so-chartLbl">What you keep at different sale prices</h2>
+      <div id="soChart"></div>
+      <p class="hint" style="margin:6px 0 0">Sale price against the value on vesting or exercise (dashed line). Blue: sold after the long-term mark. Amber: sold before it. Left of the dashed line, the shares are worth less than the value you've already paid salary tax on.</p>
+    </div>
+    <h2 class="list-h" id="so-whatLbl">What you'd keep if</h2>
+    <p class="hint" style="margin:-4px 0 8px">Each figure is what you'd have in hand: sale proceeds less the exercise price and all the tax, on vesting or exercise and on the sale.</p>
+    <div class="sens" id="soSens"></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Sell before or after the long-term mark</h2>
+  <div class="tbl-wrap calc-wrap" id="soCmp"></div>
+  <h2>Before you sell</h2>
+  <div class="prose"><ol class="g-check">
+    <li><strong>Check the value your employer taxed</strong> on your payslip or Form 130: it's your cost when you sell.</li>
+    <li><strong>Note the vesting or exercise date</strong> of each lot: the 12- or 24-month clock runs from it.</li>
+    <li><strong>Watch your weight in one company:</strong> salary, bonus and stock all depend on the same employer.</li>
+    <li><strong>Foreign shares:</strong> fill Schedule FA every year, and keep broker statements for the sale.</li>
+    <li><strong>Start-up shares:</strong> know when the deferred tax falls due, especially if you're leaving.</li>
+  </ol></div>
+</div></section>
+{related("/esop-rsu-tax-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/rsu-tax-india-worked-example/">How RSUs are taxed in India: one vest</a>. Have options? Read <a href="/guides/esop-tax-exercise-and-sale/">ESOP tax on exercise and sale</a>. Price fell? Read <a href="/guides/rsu-esop-price-falls-after-vesting/">What happens to your tax</a>.</p>
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>On vesting (RSUs) or exercise (ESOPs):</strong> value a share × shares, less the exercise price for ESOPs, is a perquisite taxed as salary (section 17(1)(d)). The tax shown is the extra income tax on your other pay under the new regime (₹75,000 standard deduction, rebate, surcharge, 4% cess).</li>
+    <li><strong>On sale:</strong> sale price less that value is a capital gain. Listed in India: 20% within 12 months (section 196), 12.5% above ₹1.25 lakh a year after (section 198). Listed abroad or unlisted: slab rate within 24 months, 12.5% after (section 197). Surcharge on these gains is capped at 15%.</li>
+    <li><strong>You keep:</strong> sale proceeds less the exercise price and both taxes.</li>
+    <li><strong>Start-up deferral:</strong> tax on exercise paid at the earliest of 60 months from the end of the tax year, sale or leaving (section 392(3) with section 289(3)).</li>
+    <li><strong>Sale year:</strong> from the month of vesting or exercise and the months held, the calculator works out whether the sale falls in the same tax year; if not, the gain is taxed with the pay you enter for that later year.</li>
+    <li><strong>Leaving:</strong> shares you hold stay yours and are taxed the same way when sold; for an eligible start-up, leaving brings the deferred tax due within 14 days.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Income-tax Act, 2025: sections 17 (perquisites; "specified security" includes shares under an employee stock option plan), 392 (TDS on salary), 289(3) (start-up deferral, 60 months from the end of the tax year), 140 (eligible start-up), 196, 197 and 198 (capital gains rates), 111 (carry forward of capital losses for 8 years), 202 (new regime rates). Black Money Act, 2015, section 43, with the ₹20 lakh relief from 1 October 2024. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="soBar" hidden><span id="soBarT"></span><button type="button" class="btn-sm pri" id="soBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "ESOP and RSU Tax Calculator", "url": SITE + "/esop-rsu-tax-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Tax on ESOPs and RSUs in India at vesting or exercise and on sale, for shares listed in India, listed abroad or unlisted.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "so", SO_TIPS)
+    return layout("/esop-rsu-tax-calculator/", "ESOP and RSU Tax Calculator India: What You Keep",
+                  "Tax on your ESOPs or RSUs in India: as salary on vesting or exercise, capital gains on sale, US or Indian shares, and the start-up deferral.",
+                  body, crumbs=[("/", "Home"), ("/esop-rsu-tax-calculator/", "ESOP and RSU Tax Calculator")], graph=graph,
+                  css=("tool.css",), js=("nps.js", "esop.js"), og="og-esop-rsu-tax-calculator.png", og_title="ESOPs and RSUs: how much tax, and what you keep")
+
+SO_TIPS = [
+    ("""<span class="lbl" id="so-kindLbl">What you have</span>""", "RSU or ESOP",
+     "RSUs (restricted stock units) become shares on their vesting date, at no cost to you. ESOPs (stock options) let you buy shares at a fixed exercise price once they vest; tax starts when you exercise."),
+    ("""<span class="lbl" id="so-coLbl">The company's shares are</span>""", "listed or not",
+     "Listed in India means on NSE or BSE. Shares listed only abroad, like a US parent on NASDAQ, count as unlisted for Indian tax: long-term only after 24 months, and no ₹1.25 lakh exemption."),
+    ("""<label for="so-fmv" id="so-fmvLbl">Value a share on the vesting date</label>""", "value on vesting or exercise",
+     "The fair market value your employer used: for Indian listed shares, the average of the day's opening and closing price; for unlisted shares, a merchant banker's valuation; for foreign shares, the market price converted to rupees. It's on your payslip or Form 130."),
+    ("""<label for="so-strike" id="so-strikeLbl">Exercise price a share</label>""", "exercise price",
+     "What you pay to buy each share under your option grant. Only the difference between the value and this price is taxed as salary."),
+    ("""<span class="lbl" id="so-startLbl">Eligible start-up (tax deferral)</span>""", "start-up deferral",
+     "Only for start-ups recognised by DPIIT and certified by the Inter-Ministerial Board (section 140 of the 2025 Act). Ask HR whether your company qualifies; most don't."),
+    ("""<label for="so-salary" id="so-salaryLbl">Other taxable pay this year</label>""", "other pay",
+     "Your gross salary, bonus and other taxable income for the tax year, before the stock. The stock is taxed on top, so a big vest can push you into the 30% slab or above ₹50 lakh, where surcharge starts."),
+    ("""<label for="so-on" id="so-onLbl">Month they vest</label>""", "month",
+     "Decides the tax year the stock is taxed in (April to March), whether your sale falls in a later tax year, and, for start-ups, when deferred tax falls due."),
+    ("""<span class="lbl" id="so-leaveLbl">Leave before selling</span>""", "leaving",
+     "Your vested shares stay yours after you leave, and are taxed the same way when you sell. Unvested ones usually lapse. At an eligible start-up, leaving ends the tax deferral: tax is due within 14 days."),
+    ("""<h2 class="list-h" id="so-whatLbl">What you'd keep if</h2>""", "what you'd keep",
+     "Each box changes one thing and shows the money left in your hands: sale proceeds, less the exercise price and the tax on vesting or exercise and on the sale."),
+    ("""<label for="so-held" id="so-heldLbl">Months from vesting to sale</label>""", "holding period",
+     "Counted from the vesting or exercise date, not the grant date. Listed Indian shares become long-term after 12 months; foreign and unlisted shares after 24."),
+    ("""<div class="l" id="so-s3Lbl">Tax on the sale</div>""", "tax on the sale",
+     "Only on the rise above the value already taxed as salary. If the price fell, the loss can be set off against other capital gains this year or carried forward for 8 years."),
+]
+
 def hv_page():
     faqs = [
         ("How do I know if my salary hike beat inflation?",
@@ -4270,6 +4618,24 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/annuity-or-swp/", "Annuity or SWP: which pays a better pension?",
      "₹1 crore as an annuity for life or an SWP: monthly income after tax, what each gives and costs you, and why a mix often works best.",
      "2026-11-19", "guide-sw-annuity", "Your investments"),
+    ("/guides/rsu-tax-india-worked-example/", "How are RSUs taxed in India? One vest, worked out",
+     "One person's 100 RSUs from a US-listed employer: salary tax on vesting, surcharge above ₹50 lakh, capital gains on sale, and what he keeps.",
+     "2026-11-20", "guide-so-main", "Your tax"),
+    ("/guides/esop-tax-exercise-and-sale/", "ESOP tax in India: what you pay when you exercise and when you sell",
+     "No tax at grant or vesting; tax on exercise as salary, then capital gains on sale. One person's 1,000 options, with the cash you need.",
+     "2026-11-20", "guide-so-esop", "Your tax"),
+    ("/guides/sell-rsus-at-vest-or-hold/", "Should you sell your RSUs when they vest or hold them?",
+     "Selling at vest costs no extra tax; holding is a bet on one company. One person's RSUs at five sale prices, sold at 14 and 25 months.",
+     "2026-11-20", "guide-so-hold", "Your tax"),
+    ("/guides/startup-esop-tax-deferral/", "Start-up ESOPs: when do you pay the tax?",
+     "Eligible start-up employees can defer ESOP tax for up to 60 months, until a sale or until they leave. Who qualifies and when the tax falls due.",
+     "2026-11-20", "guide-so-startup", "Your tax"),
+    ("/guides/foreign-rsu-schedule-fa-tax-credit/", "Foreign RSUs in India: Schedule FA and the 24-month rule",
+     "US and other foreign shares count as unlisted in India: 24 months to long-term, no ₹1.25 lakh exemption, and Schedule FA every year.",
+     "2026-11-20", "guide-so-foreign", "Your tax"),
+    ("/guides/rsu-esop-price-falls-after-vesting/", "What happens to your tax if the share price falls after vesting?",
+     "The salary tax on vesting or exercise stays even if the price falls. What it costs one person, and what the capital loss can still do.",
+     "2026-11-20", "guide-so-fall", "Your tax"),
     ("/guides/did-your-hike-beat-inflation/", "Did your hike beat inflation? One raise, checked month by month",
      "One person's 7% hike against the official price index for the exact months: real raise, what's left at today's prices, after tax and against her own costs.",
      "2026-11-19", "guide-hv-main", "Your pay"),
@@ -5624,7 +5990,8 @@ def _catalog():
                       ("/best-day-to-resign/", "Best Day to Resign", "The last working day that leaves you with the most: gratuity, bonus, RSUs and leave, against the new job's pay.", L("/best-day-to-resign/"), "Coming soon", ["/guides/when-to-resign-best-last-day/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/joining-bonus-clawback/", "/guides/when-to-hand-in-notice/", "/guides/use-or-encash-leave-before-resigning/", "/guides/wait-for-bonus-or-join-now/"]),
                       ("/full-and-final-settlement/", "Full and Final Settlement", "What you get when you leave: last salary, leave encashment, gratuity, notice recovery and when it's due.", L("/full-and-final-settlement/"), "Coming soon", ["/guides/full-and-final-settlement-explained/", "/guides/transfer-pf-dont-withdraw/", "/guides/leave-encashment-tax-on-resignation/", "/guides/notice-period-buyout/", "/guides/two-employers-one-year-tax/", "/guides/bonus-when-you-resign/", "/guides/settlement-not-paid-on-time/"]),
                       ("/gratuity-calculator/", "Gratuity Calculator", "Your gratuity under the new labour codes, how much is tax-free, and what staying longer adds.", L("/gratuity-calculator/"), "Coming soon", ["/guides/gratuity-new-labour-codes/", "/guides/gratuity-six-month-rule-when-to-resign/", "/guides/gratuity-fixed-term-employees/", "/guides/is-gratuity-taxable-20-lakh-limit/", "/guides/low-basic-salary-gratuity/"])]),
-        ("Your tax", [("/income-tax-section-finder/", "Income Tax Section Finder", "Old section numbers like 80C, HRA and 24(b), and where they are in the Income-tax Act, 2025.", L("/income-tax-section-finder/"), "Coming soon", ["/guides/new-income-tax-section-numbers/", "/guides/tax-year-explained/", "/guides/payslip-form-130-new-section-numbers/"])]),
+        ("Your tax", [("/esop-rsu-tax-calculator/", "ESOP and RSU Tax Calculator", "Tax on your ESOPs or RSUs when they vest or you exercise, and when you sell: what you actually keep.", L("/esop-rsu-tax-calculator/"), "Coming soon", ["/guides/rsu-tax-india-worked-example/", "/guides/esop-tax-exercise-and-sale/", "/guides/sell-rsus-at-vest-or-hold/", "/guides/startup-esop-tax-deferral/", "/guides/foreign-rsu-schedule-fa-tax-credit/", "/guides/rsu-esop-price-falls-after-vesting/"]),
+                      ("/income-tax-section-finder/", "Income Tax Section Finder", "Old section numbers like 80C, HRA and 24(b), and where they are in the Income-tax Act, 2025.", L("/income-tax-section-finder/"), "Coming soon", ["/guides/new-income-tax-section-numbers/", "/guides/tax-year-explained/", "/guides/payslip-form-130-new-section-numbers/"])]),
         ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/", "/guides/prepay-home-loan-early-or-later/", "/guides/prepay-with-bonus-or-invest/"]),
                         ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", ["/guides/how-part-payments-cut-your-home-loan/", "/guides/home-loan-rate-rise-emi-or-tenure/", "/guides/part-pay-car-or-personal-loan/", "/guides/floating-or-fixed-home-loan/"])]),
         ("Your investments", [("/fire-calculator/", "FIRE Calculator", "When can you stop working? Your FIRE number and age, with EPF and NPS unlocking at 58 and 60.", L("/fire-calculator/"), "Coming soon", ["/guides/fire-number-india/", "/guides/retire-at-45-bridge-epf-nps/", "/guides/is-25x-enough-early-retirement/", "/guides/lean-fat-coast-fire/", "/guides/savings-rate-early-retirement/", "/guides/epf-nps-if-you-retire-early/"]),
@@ -5648,9 +6015,12 @@ def _catalog():
 QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + (["FD, PPF and RD"] if not DEPOSITS_LIVE else []) + (["Gratuity"] if not GRATUITY_LIVE else []) + ["Old vs new regime", "HRA exemption"] + (["Vehicle ownership cost"] if not CAROWN_LIVE else []) + (["Old-to-new section finder"] if not SECTIONS_LIVE else [])
 
 def quick_chips():
-    live = "".join(f'<a class="qchip" href="{u}">{n}</a>' for u, n in LIVE_TOOLS if u in QUICK_TOOLS)
-    soon = "".join(f'<span class="qchip off">{n}<small>Soon</small></span>' for n in QUICK_SOON[:6 - len(QUICK_TOOLS)])
-    return f'<div class="qchips">{live}{soon}</div>'
+    """Quick calculators, grouped by what they're for (from the catalog groups)."""
+    names = dict(LIVE_TOOLS); rows = []
+    for grp, items in catalog():
+        ch = "".join(f'<a class="qchip" href="{p}">{names.get(p, n)}</a>' for p, n, d, live, st, gl in items if live and p in QUICK_TOOLS)
+        if ch: rows.append(f'<div class="qrow"><span class="qlab">{grp}</span><div class="qchips">{ch}</div></div>')
+    return '<div class="qgroups">' + "".join(rows) + "</div>"
 
 def _gshort(t):
     """Short guide title for lists: the part before ': ' or the first '? '."""
@@ -5660,27 +6030,44 @@ def _gshort(t):
     return t
 def _gslug(path): return path.strip("/").split("/")[-1]
 
+def search_index():
+    """Site search data (header search and home page): live tools and published guides. Small enough to load on first use."""
+    gtool = {}
+    for grp, items in catalog():
+        for p, n, d, live, st, gl in items:
+            for g in gl: gtool.setdefault(g, n)
+    items = [{"u": p, "t": n, "d": d, "k": "tool", "g": grp} for grp, its in catalog() for p, n, d, live, st, gl in its if live]
+    items += [{"u": g[0], "t": g[1], "d": g[2], "k": "guide", "g": gtool.get(g[0], g[5]), "p": PUBLISHED.get(g[0], g[3])} for g in GUIDES]
+    return json.dumps(items, ensure_ascii=False, separators=(",", ":"))
+
 def tools_index():
     gtitle = {g[0]: g[1] for g in GUIDES}
     icons = json.load(open(os.path.join(SRC, "partials/icons.json")))
     IC = {"Your investments": "I_GROW", "Your time off": "I_CAL", "Your pay": "I_PAY", "Your loans": "I_LOAN", "Your home": "I_HOME", "Your money": "I_WALLET", "Your car": "I_CAR", "Your tax": "I_TAX"}
-    cards = ""
+    cards, coming, jump = "", [], []
     for grp, items in sorted(catalog(), key=lambda g: not all(x[3] for x in g[1])):
+        nlive = sum(1 for x in items if x[3])
+        if nlive:
+            gid = "g-" + grp.lower().replace(" ", "-"); jump.append((gid, grp, nlive))
+            cards += f'</div><h2 class="list-h tl-grp" id="{gid}">{grp}<span>{nlive} tool{"s" if nlive != 1 else ""}</span></h2><div class="groups">'
         for p, n, d, live, st, gl in items:
             guides = [g for g in gl if g in gtitle]
             gl_html = ""
             if guides and live:
-                gl_html = ('<div class="tl-g"><b>Guides</b><ul>' + "".join(f'<li><a href="{g}">{H.escape(_gshort(gtitle[g]))}</a></li>' for g in guides[:3]) + "</ul>"
-                           + f'<a class="more" href="/guides/#{_gslug(p)}">{"See all " + str(len(guides)) + " guides" if len(guides) > 1 else "See it with all our guides"} →</a></div>')
+                gl_html = (f'<details class="tl-g" open><summary><b>Guides</b> ({len(guides)})</summary><ul>' + "".join(f'<li><a href="{g}">{H.escape(_gshort(gtitle[g]))}</a></li>' for g in guides[:3]) + "</ul>"
+                           + f'<a class="more" href="/guides/#{_gslug(p)}">{"See all " + str(len(guides)) + " guides" if len(guides) > 1 else "See it with all our guides"} →</a></details>')
             head = f'<h3><a href="{p}">{n}</a></h3>' if live else f"<h3>{n}</h3>"
             badge = '<span class="st"><b class="live">Live</b></span>' if live else f'<span class="st"><b>{st}</b></span>'
-            cards += f'<div class="tool tl{"" if live else " off"}"><span class="grp"><span class="ic">{icons[IC[grp]]}</span>{grp}</span>{head}<p>{d}</p>{gl_html}{badge}</div>'
-    secs = f'<div class="groups" style="margin-top:8px">{cards}</div>'
-    soon = "".join(f'<span class="qchip off">{n}<small>Soon</small></span>' for n in QUICK_SOON)
+            if not live:
+                coming.append((n, "After the Budget" if "Budget" in st else "Soon")); continue
+            cards += f'<div class="tool tl"><span class="grp"><span class="ic">{icons[IC[grp]]}</span>{grp}</span>{head}<p>{d}</p>{gl_html}{badge}</div>'
+    jl = '<nav class="tl-jump" aria-label="Jump to a group">' + "".join(f'<a class="qchip" href="#{i}">{g} <small>{k}</small></a>' for i, g, k in jump) + "</nav>"
+    secs = jl + f'<div>{cards}</div>'.replace("<div></div>", "", 1)
+    soon = "".join(f'<span class="qchip off">{n}<small>{w}</small></span>' for n, w in coming) + "".join(f'<span class="qchip off">{n}<small>Soon</small></span>' for n in QUICK_SOON if n not in [c[0] for c in coming])
     body = (f'<section class="tool-hero"><div class="wrap"><p class="eyebrow">All tools</p><h1>Every Salarist tool, in one place</h1>'
             f'<p class="lead">Decision tools and calculators for salaried India, grouped by what they help with, with the guides that explain them. All free, all private: everything is calculated on your device.</p></div></section>'
             f'<section style="padding-top:0"><div class="wrap">{secs}'
-            f'<h2 class="list-h" id="soon" style="margin:40px 0 14px">Quick calculators on the way</h2><div class="qchips">{soon}</div>'
+            f'<h2 class="list-h" id="soon" style="margin:40px 0 14px">On the way</h2><div class="qchips">{soon}</div>'
             f'<p class="hint" style="margin-top:12px">Tax-based calculators follow the 1 February 2027 Union Budget, so their rates are right from day one.</p></div></section>')
     live = [(p, n) for grp, items in catalog() for p, n, d, lv, st, gl in items if lv]
     graph = [{"@type": "CollectionPage", "name": "All Salarist tools", "url": SITE + "/tools/", "inLanguage": "en-IN",
@@ -11531,6 +11918,283 @@ _T5C = {}
 def _t5():
     if not _T5C: _T5C.update(_num("guide_t5_numbers.js"))
     return _T5C
+_T7C = {}
+def _t7():
+    if not _T7C: _T7C.update(_num("guide_t7_numbers.js"))
+    return _T7C
+_VIKRAM = "Vikram, 34, works in Bengaluru for the Indian arm of a US-listed tech company. His salary and bonus come to ₹40 lakh a year. In tax year 2026-27, 100 of his RSUs vest, worth ₹17,500 each in rupees on the vesting date."
+_SO_METHOD = 'From the <a href="/esop-rsu-tax-calculator/">ESOP and RSU tax calculator</a>\'s own code with <a href="/guides/rsu-tax-india-worked-example/">Vikram\'s example</a>: new regime for tax year 2026-27 (₹75,000 standard deduction, rebate, surcharge, 4% cess); perquisite under section 17(1)(d) of the Income-tax Act, 2025; capital gains under sections 196, 197 and 198, with surcharge on them capped at 15%. The sale is assumed to fall in a year with the same other income. Read <a href="/methodology/">how we check our numbers</a>.'
+
+def guide_so_main():
+    T = _t7(); m = T["main"]; l = T["long"]
+    path = "/guides/rsu-tax-india-worked-example/"
+    toc = [("short-answer", "The short answer"), ("vikram", "Vikram's RSUs"), ("vest", "Tax when they vest"), ("sell", "Tax when he sells"), ("keep", "What he keeps"), ("watch", "What to watch"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "RSUs feel like free money until the payslip shows the tax. In India they're taxed twice: as salary when they vest and as capital gains when you sell. Here's one vest, worked out from start to sale.",
+                      "A share certificate split into salary tax and capital gains").replace("TYPE_LINE", "<span>ESOP and RSU tax calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>When RSUs vest, their full value is added to your salary. Vikram's 100 RSUs worth {_L(m['perq'])} cost him <strong>{_L(m['perqTax'])} in tax</strong>, about {round(m['perqRate'] * 100)}% of their value, because the vest takes his income above ₹50 lakh. Selling 14 months later at ₹21,000 adds {_inr(m['cg'])} of tax on the gain. He keeps {_L(m['kept'])} of {_L(m['proceeds'])}; waiting past 24 months would have kept {_L(l['kept'])}.</p>
+<p class="g-cta"><a class="btn" href="/esop-rsu-tax-calculator/">Work out your own</a></p>
+
+<h2 id="vikram">Vikram's RSUs</h2>
+<p>{_VIKRAM}</p>
+
+<h2 id="vest">Tax when they vest</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Tax year 2026-27</th><th scope="col">Amount</th></tr></thead><tbody>
+<tr><th scope="row">Value on vesting (100 × ₹17,500)</th><td>{_inr(m['perq'])}</td></tr>
+<tr><th scope="row">Tax on his ₹40 lakh pay alone</th><td>{_inr(T['taxSalary'])}</td></tr>
+<tr><th scope="row">Tax on pay plus the RSUs</th><td>{_inr(T['taxBoth'])}</td></tr>
+<tr><th scope="row"><b>Tax on the RSUs</b></th><td>{_inr(m['perqTax'])}</td></tr>
+</tbody></table></div>
+<p>The value is a perquisite under section 17(1)(d) of the Income-tax Act, 2025, taxed like salary. Most of it falls in the 30% slab, but the bigger surprise is surcharge: with the vest, his income passes ₹50 lakh, so a 10% surcharge applies to the tax on his <em>whole</em> income, about {_inr(T['surcharge'])}. His employer deducts the TDS, often by selling part of the vest: at this value, about {m['cover']} of his 100 shares.</p>
+
+<h2 id="sell">Tax when he sells</h2>
+<p>His cost for capital gains is the ₹17,500 a share already taxed. Selling at ₹21,000, the gain is {_L(m['gain'])}. Shares of a company listed only abroad count as unlisted in India, so:</p>
+<ul>
+  <li><strong>Within 24 months of vesting:</strong> the gain is added to his income and taxed at his slab: {_inr(m['cg'])}.</li>
+  <li><strong>After 24 months:</strong> 12.5% without indexation (section 197), plus 4% cess: {_inr(l['cg'])}.</li>
+</ul>
+<p>His RSUs vested in July 2026, so a sale 14 months later, in September 2027, falls in tax year 2027-28. The gain is taxed with that year's ₹40 lakh pay, below ₹50 lakh, so no surcharge applies to it.</p>
+<p>There's no ₹1.25 lakh exemption: that's only for shares listed in India. More in <a href="/guides/foreign-rsu-schedule-fa-tax-credit/">Foreign RSUs: Schedule FA and the 24-month rule</a>.</p>
+
+<h2 id="keep">What he keeps</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Sold at ₹21,000</th><th scope="col">After 14 months</th><th scope="col">After 25 months</th></tr></thead><tbody>
+<tr><th scope="row">Sale proceeds</th><td>{_inr(m['proceeds'])}</td><td>{_inr(l['proceeds'])}</td></tr>
+<tr><th scope="row">Tax on vesting</th><td>−{_inr(m['perqTax'])}</td><td>−{_inr(l['perqTax'])}</td></tr>
+<tr><th scope="row">Tax on the sale</th><td>−{_inr(m['cg'])}</td><td>−{_inr(l['cg'])}</td></tr>
+<tr><th scope="row"><b>He keeps</b></th><td>{_inr(m['kept'])}</td><td>{_inr(l['kept'])}</td></tr>
+</tbody></table></div>
+
+<h2 id="watch">What to watch</h2>
+<ul>
+  <li><strong>The price can fall after vesting,</strong> but the salary tax stays. See <a href="/guides/rsu-esop-price-falls-after-vesting/">What if the price falls</a>.</li>
+  <li><strong>Sell or hold</strong> is a bet on one company you already depend on for your salary. See <a href="/guides/sell-rsus-at-vest-or-hold/">Sell at vest or hold?</a></li>
+  <li><strong>ESOPs work differently:</strong> you pay to exercise, and only the difference is taxed. See <a href="/guides/esop-tax-exercise-and-sale/">ESOP tax in India</a>.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_SO_METHOD}</p>
+<p class="g-note">This article is for information, not tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "How your RSUs are taxed in India", body, "RSU tax")
+
+def guide_so_esop():
+    T = _t7(); L = T["esopLong"]; Sh = T["esopShort"]; U = T["esopUsed"]
+    path = "/guides/esop-tax-exercise-and-sale/"
+    toc = [("short-answer", "The short answer"), ("example", "If Vikram had ESOPs"), ("exercise", "Tax when you exercise"), ("sale", "Tax when you sell"), ("cash", "The cash you need"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Stock options aren't taxed when they're granted or when they vest. Tax starts when you exercise, and again when you sell. Here's how both work, with one person's numbers.",
+                      "An option ticket turning into shares").replace("TYPE_LINE", "<span>ESOP and RSU tax calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>On exercise, the value of the shares that day minus the exercise price you pay is taxed as salary. On sale, the rise above that value is a capital gain. If <a href="/guides/rsu-tax-india-worked-example/">Vikram</a> exercised 1,000 options at ₹500 when the shares were worth ₹1,500, he'd pay <strong>{_inr(L['perqTax'])}</strong> on exercise. Selling at ₹1,800 after 13 months costs {_inr(L['cg'])} more; after 8 months, {_inr(Sh['cg'])}.</p>
+<p class="g-cta"><a class="btn" href="/esop-rsu-tax-calculator/">Work out your ESOP tax</a></p>
+
+<h2 id="example">If Vikram had ESOPs</h2>
+<p>Same Vikram, ₹40 lakh a year, but instead of RSUs he has 1,000 vested options in a company listed in India, with an exercise price of ₹500. He exercises when the share is worth ₹1,500, in tax year 2026-27.</p>
+
+<h2 id="exercise">Tax when you exercise</h2>
+<p>The perquisite is (₹1,500 − ₹500) × 1,000 = {_L(L['perq'])}, taxed as salary under section 17(1)(d) of the Income-tax Act, 2025: {_inr(L['perqTax'])}, about {round(L['perqRate'] * 100)}%. For a listed company, the value is the average of the day's opening and closing price on the exchange; for an unlisted one, a merchant banker's valuation. Nothing is taxed at grant or vesting of the options.</p>
+
+<h2 id="sale">Tax when you sell</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Sold at ₹1,800 (gain ₹3 lakh)</th><th scope="col">Tax</th></tr></thead><tbody>
+<tr><th scope="row">After 8 months: short-term, 20% (section 196)</th><td>{_inr(Sh['cg'])}</td></tr>
+<tr><th scope="row">After 13 months: long-term, 12.5% above ₹1.25 lakh (section 198)</th><td>{_inr(L['cg'])}</td></tr>
+<tr><th scope="row">After 13 months, ₹1.25 lakh already used on mutual funds</th><td>{_inr(U['cg'])}</td></tr>
+</tbody></table></div>
+<p>For shares listed in India, the long-term mark is 12 months from exercise. For unlisted or foreign shares it's 24 months, with short-term gains at your slab rate.</p>
+
+<h2 id="cash">The cash you need</h2>
+<p>Exercising costs ₹5 lakh for the shares and {_inr(L['perqTax'])} of tax in the same year, before he's sold anything. In a listed company he can sell some shares straight away to cover it. In an unlisted one he may not be able to sell at all; if the company is an eligible start-up, the tax can wait: <a href="/guides/startup-esop-tax-deferral/">the start-up deferral</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_SO_METHOD}</p>
+<p class="g-note">This article is for information, not tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "ESOP tax in India", body, "ESOP tax")
+
+def guide_so_hold():
+    T = _t7(); H = {x["p"]: x for x in T["hold"]}; a = T["atVest"]; m = T["main"]
+    path = "/guides/sell-rsus-at-vest-or-hold/"
+    toc = [("short-answer", "The short answer"), ("numbers", "Vikram's choice in numbers"), ("tax", "What tax changes"), ("risk", "What tax doesn't change"), ("rule", "A simple rule"), ("method", "How these numbers were worked out")]
+    rows = "".join(f'<tr><th scope="row">{"+" if p > 0 else ""}{p}% (₹{17500 * (1 + p / 100):,.0f})</th><td data-l="Sold at 14 months">{_L(H[p]["st"])}</td><td data-l="Sold at 25 months">{_L(H[p]["lt"])}</td></tr>' for p in (-30, -10, 0, 20, 30))
+    body = guide_head(path, "Your RSUs have vested and the tax is paid. Do you sell now or hold for more? Tax gives one answer, risk often another. Here's one person's choice, worked out.",
+                      "A fork in the road between cash and shares").replace("TYPE_LINE", "<span>ESOP and RSU tax calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Selling on the vesting day costs no extra tax: the salary tax is already paid, and there's no gain. <a href="/guides/rsu-tax-india-worked-example/">Vikram</a> would keep <strong>{_L(a['kept'])}</strong>. Holding pays only if the price rises, and the tax advantage of waiting past 24 months is small next to how much the price can move. Holding RSUs is the same as buying your employer's shares with that money.</p>
+<p class="g-cta"><a class="btn" href="/esop-rsu-tax-calculator/">Try different prices</a></p>
+
+<h2 id="numbers">Vikram's choice in numbers</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Price when he sells</th><th scope="col">Kept, sold at 14 months</th><th scope="col">Kept, sold at 25 months</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+<p>Selling on the vesting day: {_L(a['kept'])}. Every row is after the {_L(a['perqTax'])} of tax on vesting.</p>
+
+<h2 id="tax">What tax changes</h2>
+<p>For his US-listed shares, a gain within 24 months is taxed at his slab ({m['cg'] / m['gain'] * 100:.1f}% with cess, at his ₹40 lakh pay); after 24 months, 12.5% plus cess. On a 20% rise that's {_L(H[20]['lt'] - H[20]['st'])} more kept by waiting. On a fall, there's no tax either way: the loss is only useful against other capital gains.</p>
+
+<h2 id="risk">What tax doesn't change</h2>
+<p>A 30% fall costs him {_L(a['kept'] - H[-30]['st'])} compared with selling at vest, far more than any tax saved. His salary, bonus and future grants already depend on the same company. Many advisers suggest keeping any one company to a small part of your investments.</p>
+
+<h2 id="rule">A simple rule</h2>
+<ol class="g-check">
+  <li><strong>Ask:</strong> if this were cash, would I buy my employer's shares with it? If not, sell at vest.</li>
+  <li><strong>If you hold,</strong> set a limit: how much of your money can be in one company.</li>
+  <li><strong>Close to 24 months?</strong> Waiting a few weeks for the lower rate can be worth it.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_SO_METHOD}</p>
+<p class="g-note">This article is for information, not investment or tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Sell your RSUs at vest or hold them?", body, "Sell or hold RSUs")
+
+def guide_so_startup():
+    T = _t7(); S = T["startup"]
+    path = "/guides/startup-esop-tax-deferral/"
+    toc = [("short-answer", "The short answer"), ("who", "Who gets it"), ("example", "If Vikram worked at a start-up"), ("when", "When the tax falls due"), ("leave", "If you leave"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Exercising start-up options can mean a tax bill on shares you can't sell. Eligible start-ups let employees wait. Here's when the tax falls due under the 2025 Act, with one person's numbers.",
+                      "An hourglass over a share certificate").replace("TYPE_LINE", "<span>ESOP and RSU tax calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>If your employer is an eligible start-up, the tax on exercising ESOPs is paid at the earliest of: 60 months from the end of the tax year you exercised, the day you sell, or the day you leave. If <a href="/guides/rsu-tax-india-worked-example/">Vikram</a> exercised start-up options worth {_L(S['perq'])} above his exercise price in tax year 2026-27, the {_inr(S['perqTax'])} of tax would be due by <strong>mid-April 2032</strong> at the latest.</p>
+<p class="g-cta"><a class="btn" href="/esop-rsu-tax-calculator/">Check your start-up ESOPs</a></p>
+
+<h2 id="who">Who gets it</h2>
+<p>Only employees of an "eligible start-up" under section 140 of the Income-tax Act, 2025 (section 80-IAC before): recognised by DPIIT and certified by the Inter-Ministerial Board. Most DPIIT-recognised start-ups don't have the certificate, so ask HR. The deferral is in section 392(3), read with section 289(3).</p>
+
+<h2 id="example">If Vikram worked at a start-up</h2>
+<p>Say Vikram held 2,000 options at ₹100 in an eligible start-up, and exercised in July 2026 (tax year 2026-27) when a merchant banker valued the shares at ₹600. The perquisite is (₹600 − ₹100) × 2,000 = {_L(S['perq'])}, taxed at that year's rates: {_inr(S['perqTax'])}. He pays the ₹2 lakh exercise price now, but not the tax.</p>
+
+<h2 id="when">When the tax falls due</h2>
+<ul>
+  <li><strong>60 months</strong> from the end of tax year 2026-27, i.e. after 31 March 2032, with 14 days to pay.</li>
+  <li><strong>Or when he sells</strong> the shares, in a buyback, secondary sale or listing.</li>
+  <li><strong>Or when he leaves</strong> the company, whichever comes first.</li>
+</ul>
+<p>The tax is worked out at the rates in force for the year of exercise, not the year it's paid. Shares allotted before 1 April 2026 have the old 48-month window. Only the perquisite tax waits; capital gains on the sale are taxed as usual.</p>
+
+<h2 id="leave">If you leave</h2>
+<p>Leaving is the trap: the tax falls due within 14 days, even if the shares still can't be sold. If Vikram left 10 months after exercising, in May 2027, his {_inr(T['startupLeave']['perqTax'])} would be due by about {T['startupLeave']['defer']['by']}, not 2032. Before you resign, set aside the deferred tax. The <a href="/best-day-to-resign/">best day to resign</a> tool helps with the rest of the timing.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_SO_METHOD} Section 289(3): sixty months from the end of the relevant tax year.</p>
+<p class="g-note">This article is for information, not tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Start-up ESOPs: when is the tax due?", body, "Start-up ESOP deferral")
+
+def guide_so_foreign():
+    T = _t7(); m = T["main"]; l = T["long"]
+    path = "/guides/foreign-rsu-schedule-fa-tax-credit/"
+    toc = [("short-answer", "The short answer"), ("unlisted", "Why foreign shares count as unlisted"), ("fa", "Schedule FA every year"), ("credit", "Tax withheld abroad"), ("checklist", "Vikram's checklist"), ("method", "Sources")]
+    body = guide_head(path, "RSUs from a US or other foreign parent come with extra rules in India: a 24-month holding period, no ₹1.25 lakh exemption, and a disclosure you can't skip. Here's what they are, with one person's shares.",
+                      "A globe beside a tax form").replace("TYPE_LINE", "<span>ESOP and RSU tax calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Shares listed only abroad count as unlisted in India: long-term after 24 months, short-term gains at your slab, and no ₹1.25 lakh exemption. While you hold them, list them in Schedule FA of your return every year, whatever their value. For <a href="/guides/rsu-tax-india-worked-example/">Vikram</a>, selling at 14 months costs {_inr(m['cg'])} of tax on the gain; at 25 months, {_inr(l['cg'])}.</p>
+<p class="g-cta"><a class="btn" href="/esop-rsu-tax-calculator/">Work out your foreign RSUs</a></p>
+
+<h2 id="unlisted">Why foreign shares count as unlisted</h2>
+<p>For Indian tax, "listed" means listed on a recognised stock exchange in India. NASDAQ or NYSE shares aren't, so the 12-month rule and the section 198 exemption for listed equity don't apply. Long-term gains are taxed at 12.5% without indexation under section 197.</p>
+
+<h2 id="fa">Schedule FA every year</h2>
+<ul>
+  <li><strong>Who:</strong> residents holding foreign assets, including shares from RSUs or ESPPs, unvested grants included as many advisers recommend.</li>
+  <li><strong>Period:</strong> the calendar year (January to December) ending in the tax year you're filing for.</li>
+  <li><strong>Penalty:</strong> up to ₹10 lakh a year under section 43 of the Black Money Act. Since 1 October 2024 it doesn't apply if your foreign assets, other than property, total ₹20 lakh or less, but the reporting is still required.</li>
+</ul>
+<p>Vikram's 100 shares are worth {_L(m['perq'])} at vesting; with earlier grants he's likely above ₹20 lakh, so a missed Schedule FA could cost far more than the tax.</p>
+
+<h2 id="credit">Tax withheld abroad</h2>
+<p>RSUs vesting while you're resident in India are usually taxed only here, with your Indian employer deducting TDS. Dividends on the shares often have tax withheld in the company's country; that can be claimed as a credit in India by filing Form 67 before your return.</p>
+
+<h2 id="checklist">Vikram's checklist</h2>
+<ol class="g-check">
+  <li><strong>Keep the broker's statements</strong> for each vest and sale, and the rupee value his employer taxed.</li>
+  <li><strong>Count 24 months from each vest date</strong>, lot by lot.</li>
+  <li><strong>Fill Schedule FA</strong> every year he holds the shares, and Schedule CG when he sells.</li>
+  <li><strong>File Form 67</strong> if tax was withheld abroad on dividends.</li>
+</ol>
+
+<h2 id="method">Sources</h2>
+<p>Income-tax Act, 2025: sections 197 and 198 (capital gains), 17(1)(d) (perquisite). Black Money (Undisclosed Foreign Income and Assets) and Imposition of Tax Act, 2015, section 43, with the ₹20 lakh relief added by the Finance (No. 2) Act, 2024 from 1 October 2024. Figures from the <a href="/esop-rsu-tax-calculator/">ESOP and RSU tax calculator</a>'s own code. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Foreign RSUs: Schedule FA and the 24-month rule", body, "Foreign RSUs")
+
+def guide_so_fall():
+    T = _t7(); f = T["fall"]; a = T["atVest"]
+    path = "/guides/rsu-esop-price-falls-after-vesting/"
+    toc = [("short-answer", "The short answer"), ("numbers", "Vikram's shares fall 30%"), ("loss", "What the loss can do"), ("avoid", "How to avoid the trap"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "You pay tax on your RSUs or ESOPs at the price on the day, not the price you finally sell at. If the share falls in between, the tax stays. Here's what that costs, and what the loss can still do for you.",
+                      "A share price arrow falling below a tax line").replace("TYPE_LINE", "<span>ESOP and RSU tax calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>The salary tax on vesting or exercise is final, even if the price falls. If <a href="/guides/rsu-tax-india-worked-example/">Vikram</a>'s shares fell 30% before he sold, he'd still have paid {_L(f['perqTax'])} of tax on {_L(f['perq'])}, and get only {_L(f['proceeds'])} from the sale: he'd keep <strong>{_L(f['kept'])}</strong>, against {_L(a['kept'])} if he'd sold on the vesting day. The {_L(-f['gain'])} loss can only be set off against capital gains.</p>
+<p class="g-cta"><a class="btn" href="/esop-rsu-tax-calculator/">See your numbers</a></p>
+
+<h2 id="numbers">Vikram's shares fall 30%</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Vested at ₹17,500, sold at ₹12,250</th><th scope="col">Amount</th></tr></thead><tbody>
+<tr><th scope="row">Taxed as salary on vesting</th><td>{_inr(f['perq'])}</td></tr>
+<tr><th scope="row">Tax paid on it</th><td>{_inr(f['perqTax'])}</td></tr>
+<tr><th scope="row">Sale proceeds</th><td>{_inr(f['proceeds'])}</td></tr>
+<tr><th scope="row">Capital loss</th><td>{_inr(-f['gain'])}</td></tr>
+<tr><th scope="row"><b>He keeps</b></th><td>{_inr(f['kept'])}</td></tr>
+</tbody></table></div>
+<p>That's about {round(f['perqTax'] / f['proceeds'] * 100)}% of what he gets from the sale gone in tax on a value he never received.</p>
+
+<h2 id="loss">What the loss can do</h2>
+<ul>
+  <li><strong>Set off this year:</strong> a short-term capital loss can be set off against any capital gains, short or long; a long-term loss only against long-term gains.</li>
+  <li><strong>Carry forward:</strong> what's left can be carried for 8 tax years (section 111), if you file your return on time.</li>
+  <li><strong>Not against salary:</strong> it can't reduce the tax on your salary or the vest itself.</li>
+</ul>
+<p>So the loss helps only if Vikram has, or will have, capital gains: from mutual funds, other shares, or a property sale.</p>
+
+<h2 id="avoid">How to avoid the trap</h2>
+<ol class="g-check">
+  <li><strong>Sell at least enough at vest</strong> to cover the tax, so you never pay tax on shares you then lose value on. See <a href="/guides/sell-rsus-at-vest-or-hold/">Sell at vest or hold?</a></li>
+  <li><strong>ESOPs: exercise and sell together</strong> if the company is listed, rather than exercising and holding.</li>
+  <li><strong>Book gains against the loss</strong> in later years, like your mutual fund gains, to use it before the 8 years run out.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_SO_METHOD} Losses: sections 108 and 111 of the Income-tax Act, 2025.</p>
+<p class="g-note">This article is for information, not tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What if the price falls after vesting?", body, "Price falls after vesting")
+
+
 _T6C = {}
 def _t6():
     if not _T6C: _T6C.update(_num("guide_t6_numbers.js"))
@@ -12191,7 +12855,7 @@ def guide_mf_tax():
     return article(path, "x", "How mutual fund gains are taxed", body, "Mutual fund tax")
 
 TOPICS = [("retire", "Retirement and pension"), ("invest", "Investing"), ("home", "Home and loans"), ("tax", "Tax"), ("car", "Car"), ("money", "Pay, budget, insurance and leave")]
-TOOL_TOPIC = {"/salary-hike-vs-inflation/": "money", "/epf-calculator/": "retire", "/eps-pension-calculator/": "retire", "/nps-calculator/": "retire", "/retirement-planner/": "retire", "/gratuity-calculator/": "retire",
+TOOL_TOPIC = {"/esop-rsu-tax-calculator/": "tax", "/salary-hike-vs-inflation/": "money", "/epf-calculator/": "retire", "/eps-pension-calculator/": "retire", "/nps-calculator/": "retire", "/retirement-planner/": "retire", "/gratuity-calculator/": "retire",
               "/sip-calculator/": "invest", "/fd-ppf-rd-calculator/": "invest", "/rent-vs-buy/": "home", "/prepay-vs-invest/": "home", "/emi-calculator/": "home",
               "/income-tax-section-finder/": "tax", "/company-car-lease-vs-loan/": "car", "/car-ownership-cost/": "car", "/budget-planner/": "money", "/leave-planner-2027/": "money", "/full-and-final-settlement/": "money", "/labour-codes-salary-calculator/": "money", "/best-day-to-resign/": "money", "/fire-calculator/": "invest", "/swp-calculator/": "invest", "/job-offer-comparator/": "money", "/term-insurance-calculator/": "money", "/sukanya-samriddhi-calculator/": "invest"}
 # Guides listed under more than one tool appear once on /guides/, under the tool they belong to most.
@@ -12387,10 +13051,16 @@ def main():
     if SWPC_LIVE: write("/swp-calculator/", swp_page())
     if JO_LIVE: write("/job-offer-comparator/", jo_page())
     if HV_LIVE: write("/salary-hike-vs-inflation/", hv_page())
+    if SO_LIVE: write("/esop-rsu-tax-calculator/", so_page())
     if TERM_LIVE: write("/term-insurance-calculator/", term_page())
     if SSY_LIVE: write("/sukanya-samriddhi-calculator/", ssy_page())
     write("/guides/", guides_index())
     write("/tools/", tools_index())
+    for sp in SIT_PATHS: write(sp, situation_page(sp))
+    _T, _ = _live_sets(); _in = {r for x in SITUATIONS for s_ in x[6] for r in s_[2]}
+    for t in _T:
+        if t not in QUICK_TOOLS and t not in _in and t not in ("/leave-planner-2027/",): print("Reminder: live tool not on any situation page:", t)
+    write("/assets/search.json", search_index())
     write("/guides/rent-vs-buy/", guide_rentbuy())
     write("/guides/long-weekends-2027/", guide_leave())
     write("/guides/monthly-budget/", guide_budget())
@@ -12414,6 +13084,12 @@ def main():
     write("/guides/fd-rd-or-ppf/", guide_fd_main())
     write("/guides/working-hours-new-labour-codes/", guide_work_hours())
     write("/guides/salary-under-new-labour-codes/", guide_lc_main())
+    write("/guides/rsu-tax-india-worked-example/", guide_so_main())
+    write("/guides/esop-tax-exercise-and-sale/", guide_so_esop())
+    write("/guides/sell-rsus-at-vest-or-hold/", guide_so_hold())
+    write("/guides/startup-esop-tax-deferral/", guide_so_startup())
+    write("/guides/foreign-rsu-schedule-fa-tax-credit/", guide_so_foreign())
+    write("/guides/rsu-esop-price-falls-after-vesting/", guide_so_fall())
     write("/guides/did-your-hike-beat-inflation/", guide_hv_main())
     write("/guides/real-salary-hike-after-inflation/", guide_hv_real())
     write("/guides/personal-inflation-rate/", guide_hv_own())
@@ -12527,7 +13203,7 @@ def main():
     write("/guides/prepay-home-loan-early-or-later/", guide_prepay_timing())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/salary-under-new-labour-codes/", "0.8"), ("/guides/did-your-hike-beat-inflation/", "0.8"), ("/guides/real-salary-hike-after-inflation/", "0.7"), ("/guides/personal-inflation-rate/", "0.7"), ("/guides/hike-take-home-after-tax/", "0.7"), ("/guides/what-hike-to-ask-for/", "0.7"), ("/guides/real-pay-growth-since-you-started/", "0.7"), ("/guides/compare-job-offers-worked-example/", "0.8"), ("/guides/higher-ctc-less-in-hand/", "0.7"), ("/guides/switch-jobs-before-5-years-gratuity/", "0.7"), ("/guides/value-variable-pay-job-offer/", "0.7"), ("/guides/office-days-commute-cost/", "0.7"), ("/guides/joining-bonus-stock-job-offer/", "0.7"), ("/guides/swp-monthly-income-explained/", "0.8"), ("/guides/swp-vs-fd-monthly-income/", "0.7"), ("/guides/how-swp-is-taxed/", "0.7"), ("/guides/safe-swp-withdrawal-rate/", "0.7"), ("/guides/should-swp-rise-with-inflation/", "0.7"), ("/guides/annuity-or-swp/", "0.7"), ("/guides/fire-number-india/", "0.8"), ("/guides/retire-at-45-bridge-epf-nps/", "0.7"), ("/guides/is-25x-enough-early-retirement/", "0.7"), ("/guides/lean-fat-coast-fire/", "0.7"), ("/guides/savings-rate-early-retirement/", "0.7"), ("/guides/epf-nps-if-you-retire-early/", "0.7"), ("/guides/when-to-resign-best-last-day/", "0.8"), ("/guides/resign-before-or-after-rsu-vesting/", "0.7"), ("/guides/joining-bonus-clawback/", "0.7"), ("/guides/when-to-hand-in-notice/", "0.7"), ("/guides/use-or-encash-leave-before-resigning/", "0.7"), ("/guides/wait-for-bonus-or-join-now/", "0.7"), ("/guides/take-home-fell-ctc-same/", "0.7"), ("/guides/basic-pay-50-percent-rule/", "0.7"), ("/guides/higher-basic-more-tax/", "0.7"), ("/guides/pf-full-basic-or-capped/", "0.7"), ("/guides/bonus-variable-pay-wages-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/epf-withdrawal-changes-november-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + ([("/labour-codes-salary-calculator/", "0.9")] if LC_LIVE else []) + ([("/best-day-to-resign/", "0.9")] if RD_LIVE else []) + ([("/fire-calculator/", "0.9")] if FIRE_LIVE else []) + ([("/swp-calculator/", "0.9")] if SWPC_LIVE else []) + ([("/job-offer-comparator/", "0.9")] if JO_LIVE else []) + ([("/salary-hike-vs-inflation/", "0.9")] if HV_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/salary-under-new-labour-codes/", "0.8"), ("/guides/rsu-tax-india-worked-example/", "0.8"), ("/guides/esop-tax-exercise-and-sale/", "0.7"), ("/guides/sell-rsus-at-vest-or-hold/", "0.7"), ("/guides/startup-esop-tax-deferral/", "0.7"), ("/guides/foreign-rsu-schedule-fa-tax-credit/", "0.7"), ("/guides/rsu-esop-price-falls-after-vesting/", "0.7"), ("/guides/did-your-hike-beat-inflation/", "0.8"), ("/guides/real-salary-hike-after-inflation/", "0.7"), ("/guides/personal-inflation-rate/", "0.7"), ("/guides/hike-take-home-after-tax/", "0.7"), ("/guides/what-hike-to-ask-for/", "0.7"), ("/guides/real-pay-growth-since-you-started/", "0.7"), ("/guides/compare-job-offers-worked-example/", "0.8"), ("/guides/higher-ctc-less-in-hand/", "0.7"), ("/guides/switch-jobs-before-5-years-gratuity/", "0.7"), ("/guides/value-variable-pay-job-offer/", "0.7"), ("/guides/office-days-commute-cost/", "0.7"), ("/guides/joining-bonus-stock-job-offer/", "0.7"), ("/guides/swp-monthly-income-explained/", "0.8"), ("/guides/swp-vs-fd-monthly-income/", "0.7"), ("/guides/how-swp-is-taxed/", "0.7"), ("/guides/safe-swp-withdrawal-rate/", "0.7"), ("/guides/should-swp-rise-with-inflation/", "0.7"), ("/guides/annuity-or-swp/", "0.7"), ("/guides/fire-number-india/", "0.8"), ("/guides/retire-at-45-bridge-epf-nps/", "0.7"), ("/guides/is-25x-enough-early-retirement/", "0.7"), ("/guides/lean-fat-coast-fire/", "0.7"), ("/guides/savings-rate-early-retirement/", "0.7"), ("/guides/epf-nps-if-you-retire-early/", "0.7"), ("/guides/when-to-resign-best-last-day/", "0.8"), ("/guides/resign-before-or-after-rsu-vesting/", "0.7"), ("/guides/joining-bonus-clawback/", "0.7"), ("/guides/when-to-hand-in-notice/", "0.7"), ("/guides/use-or-encash-leave-before-resigning/", "0.7"), ("/guides/wait-for-bonus-or-join-now/", "0.7"), ("/guides/take-home-fell-ctc-same/", "0.7"), ("/guides/basic-pay-50-percent-rule/", "0.7"), ("/guides/higher-basic-more-tax/", "0.7"), ("/guides/pf-full-basic-or-capped/", "0.7"), ("/guides/bonus-variable-pay-wages-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/epf-withdrawal-changes-november-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + ([("/labour-codes-salary-calculator/", "0.9")] if LC_LIVE else []) + ([("/best-day-to-resign/", "0.9")] if RD_LIVE else []) + ([("/fire-calculator/", "0.9")] if FIRE_LIVE else []) + ([("/swp-calculator/", "0.9")] if SWPC_LIVE else []) + ([("/job-offer-comparator/", "0.9")] if JO_LIVE else []) + ([("/salary-hike-vs-inflation/", "0.9")] if HV_LIVE else []) + ([("/esop-rsu-tax-calculator/", "0.9")] if SO_LIVE else []) + [(p, "0.7") for p in SIT_PATHS] + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime

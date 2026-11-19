@@ -5,7 +5,7 @@
   var q = $("gxQ"), sort = $("gxSort"), flat = $("gxFlat"), tools = $("gxTools"), none = $("gxNone"), count = $("gxCount");
   var cards = Array.prototype.slice.call(tools.querySelectorAll(".g-card")), secs = Array.prototype.slice.call(tools.querySelectorAll(".gx-sec"));
   var DEF = sort.getAttribute("data-default") || "tool";   /* default view: "new" (newest first) or "tool" */
-  var S = { q: "", t: "all", sort: DEF }, open = {};
+  var S = { q: "", t: "all", sort: DEF }, open = {}, shownNew = 12;
   (function fromUrl() {
     var u = new URLSearchParams(location.search);
     if (u.get("q")) S.q = u.get("q"); if (u.get("topic")) S.t = u.get("topic"); if (["new", "main", "tool"].indexOf(u.get("sort")) > -1) S.sort = u.get("sort");
@@ -27,7 +27,17 @@
       tools.hidden = true; flat.hidden = false; flat.innerHTML = "";
       hits.slice().sort(function (a, b) {   /* newest release first (published time, IST); same release: the order the guides were written, main guide first */
         return (b.getAttribute("data-pub") || b.getAttribute("data-date")).localeCompare(a.getAttribute("data-pub") || a.getAttribute("data-date")) || (+a.getAttribute("data-i") - +b.getAttribute("data-i")); })
-        .forEach(function (c) { flat.appendChild(c.cloneNode(true)); });
+        .forEach(function (c, i, all) {
+          /* "New this week" / "Earlier" dividers when nothing is filtered; 12 at a time, then "Show more" */
+          if (!filtering) {
+            var isNew = Date.now() - Date.parse(c.getAttribute("data-pub") || "") < 7 * 864e5;
+            if (i === 0 && isNew) flat.insertAdjacentHTML("beforeend", '<h2 class="list-h gx-div">New this week</h2>');
+            if (!isNew && (i === 0 || Date.now() - Date.parse(all[i - 1].getAttribute("data-pub") || "") < 7 * 864e5)) flat.insertAdjacentHTML("beforeend", '<h2 class="list-h gx-div">' + (i === 0 ? "Newest" : "Earlier") + "</h2>");
+          }
+          var k = c.cloneNode(true); if (!filtering && i >= shownNew) k.hidden = true; flat.appendChild(k);
+        });
+      if (!filtering && hits.length > shownNew) { var mb = document.createElement("button"); mb.type = "button"; mb.className = "btn-sm gx-more"; mb.textContent = "Show more guides (" + (hits.length - shownNew) + " more)";
+        mb.addEventListener("click", function () { shownNew += 12; render(); }); flat.appendChild(mb); }
     } else {
       tools.hidden = false; flat.hidden = true; flat.innerHTML = "";
       secs.forEach(function (sec, i) {

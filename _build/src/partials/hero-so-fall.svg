@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A share price arrow falling below a tax line">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g><path d="M520 640 H1100" stroke="#FFFFFF" stroke-width="8" opacity=".5"/><path d="M520 420 H1100" stroke="#FFD27A" stroke-width="8" stroke-dasharray="20 14"/><text x="1100" y="400" font-family="Arial" font-weight="700" font-size="32" fill="#FFD27A" text-anchor="end">Taxed at vest</text><path d="M560 380 L700 340 L820 430 L940 470 L1060 560" stroke="#FFFFFF" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M1030 520 L1070 570 L1010 575" stroke="#FFFFFF" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

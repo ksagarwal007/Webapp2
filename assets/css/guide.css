@@ -59,3 +59,14 @@
 .gx-main{display:inline-block;margin-right:8px;padding:2px 8px;border-radius:999px;background:var(--brand);color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em}
 #gxFlat{margin-top:28px}#gxNone{margin-top:28px}
 .g-card[hidden],.gx-sec[hidden]{display:none}
+/* Guides list: dividers, and a compact list on phones (small picture beside the text) */
+#gxFlat .gx-div{grid-column:1/-1;margin:18px 0 0}#gxFlat .gx-div:first-child{margin-top:0}#gxFlat .gx-more{grid-column:1/-1;justify-self:start}
+@media (max-width:720px){
+  .g-cards{gap:10px}
+  .g-card{display:grid;grid-template-columns:104px 1fr;grid-template-areas:"img k" "img b" "img d";column-gap:12px;row-gap:2px;padding:10px;align-items:start}
+  .g-card picture,.g-card>img{grid-area:img;align-self:start}
+  .g-card img{width:104px;height:78px;aspect-ratio:auto;object-fit:cover;border-radius:10px}
+  .g-card .k{grid-area:k;margin:0;padding:0;font-size:11px}
+  .g-card b{grid-area:b;padding:0;font-size:15px}
+  .g-card>span:last-child{grid-area:d;padding:0;font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+}
