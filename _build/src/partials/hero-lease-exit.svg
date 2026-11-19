@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A car with its key and two arrows: keep it or hand it back">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="160" r="64"/></g>
+  <g fill="#FFFFFF"><path d="M470 560 L530 440 Q548 415 585 415 L800 415 Q838 415 856 440 L916 560 Z"/><rect x="440" y="548" width="500" height="110" rx="32"/></g>
+  <g fill="#1F5FE0" opacity=".35"><path d="M560 545 L600 460 L690 460 L690 545 Z"/><path d="M710 545 L710 460 L790 460 L830 545 Z"/></g>
+  <g fill="#0B2A6B"><circle cx="550" cy="668" r="44"/><circle cx="830" cy="668" r="44"/></g><g fill="#FFFFFF" opacity=".6"><circle cx="550" cy="668" r="16"/><circle cx="830" cy="668" r="16"/></g>
+  <circle cx="1130" cy="300" r="56" fill="#FFD27A"/><circle cx="1130" cy="300" r="22" fill="#0B2A6B" opacity=".4"/><rect x="1176" y="286" width="130" height="30" rx="8" fill="#FFD27A"/><rect x="1260" y="314" width="18" height="34" rx="5" fill="#FFD27A"/><rect x="1290" y="314" width="16" height="26" rx="5" fill="#FFD27A"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M1010 470 H1240"/><path d="M1200 432 L1240 470 L1200 508"/><path d="M1240 600 H1010"/><path d="M1050 562 L1010 600 L1050 638"/></g>
+</svg>

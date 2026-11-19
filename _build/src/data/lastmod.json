@@ -36,24 +36,24 @@
   "hash": "a2e93458c7ac6fe9"
  },
  "/eps-pension-calculator/": {
-  "date": "2026-11-15",
-  "hash": "cd1c90729f2cbafe"
+  "date": "2026-11-19",
+  "hash": "9b11a40c09343bb4"
  },
  "/fd-ppf-rd-calculator/": {
-  "date": "2026-11-15",
-  "hash": "fb4fd306b5e31d65"
+  "date": "2026-11-19",
+  "hash": "f2256142163ecfc6"
  },
  "/full-and-final-settlement/": {
-  "date": "2026-11-15",
-  "hash": "85199b9b58ae757f"
+  "date": "2026-11-19",
+  "hash": "b1dd33e512df8cd9"
  },
  "/gratuity-calculator/": {
   "date": "2026-11-15",
   "hash": "43cf943dbfee8256"
  },
  "/guides/": {
-  "date": "2026-11-15",
-  "hash": "37c4724d84a5fc75"
+  "date": "2026-11-19",
+  "hash": "5df9ef3c48d5d714"
  },
  "/guides/25x-rule-retirement-india/": {
   "date": "2026-11-15",
@@ -66,6 +66,10 @@
  "/guides/best-months-for-a-week-long-break-2027/": {
   "date": "2026-11-15",
   "hash": "104ddddb74050585"
+ },
+ "/guides/bonus-when-you-resign/": {
+  "date": "2026-11-19",
+  "hash": "7dcf49df41b6e808"
  },
  "/guides/budget-on-50000-1-lakh-2-lakh-salary/": {
   "date": "2026-11-15",
@@ -92,8 +96,12 @@
   "hash": "65fc2907bbf92607"
  },
  "/guides/epf-withdrawal-rules-2026/": {
-  "date": "2026-11-15",
-  "hash": "02d92a9f5d225443"
+  "date": "2026-11-19",
+  "hash": "9ef01c7549bb3165"
+ },
+ "/guides/eps-higher-pension/": {
+  "date": "2026-11-19",
+  "hash": "336d51a7e4d0352f"
  },
  "/guides/eps-pension-calculation-example/": {
   "date": "2026-11-15",
@@ -106,6 +114,10 @@
  "/guides/eps-withdrawal-benefit-or-scheme-certificate/": {
   "date": "2026-11-15",
   "hash": "459c87b978924268"
+ },
+ "/guides/fd-for-senior-citizens-tds-and-tax/": {
+  "date": "2026-11-19",
+  "hash": "1a06327ffb3d1288"
  },
  "/guides/fd-interest-tax-below-50000/": {
   "date": "2026-11-15",
@@ -143,6 +155,10 @@
   "date": "2026-11-15",
   "hash": "4607ce8991ca4721"
  },
+ "/guides/home-loan-insurance-vs-term-plan/": {
+  "date": "2026-11-19",
+  "hash": "469850700d6f51ac"
+ },
  "/guides/home-loan-rate-rise-emi-or-tenure/": {
   "date": "2026-11-15",
   "hash": "f70e5ac52fab0c63"
@@ -164,8 +180,8 @@
   "hash": "a5d6d2e1af78c826"
  },
  "/guides/how-much-term-insurance-do-you-need/": {
-  "date": "2026-11-15",
-  "hash": "1424ecd490412e13"
+  "date": "2026-11-19",
+  "hash": "b945cb1e1a93b603"
  },
  "/guides/how-mutual-fund-gains-are-taxed/": {
   "date": "2026-11-15",
@@ -178,6 +194,10 @@
  "/guides/hra-vs-home-loan-tax-benefits/": {
   "date": "2026-11-15",
   "hash": "924d39c00a8317d8"
+ },
+ "/guides/is-employer-group-cover-enough/": {
+  "date": "2026-11-19",
+  "hash": "86c6dbad294af19a"
  },
  "/guides/is-gratuity-taxable-20-lakh-limit/": {
   "date": "2026-11-15",
@@ -206,6 +226,10 @@
  "/guides/new-income-tax-section-numbers/": {
   "date": "2026-11-15",
   "hash": "6daf063a7c7f8172"
+ },
+ "/guides/notice-period-buyout/": {
+  "date": "2026-11-19",
+  "hash": "e4d1158eba41ec1e"
  },
  "/guides/nps-80-percent-withdrawal-tax/": {
   "date": "2026-11-15",
@@ -256,8 +280,8 @@
   "hash": "8813d1eacdbbd3dc"
  },
  "/guides/settlement-not-paid-on-time/": {
-  "date": "2026-11-15",
-  "hash": "f9f24dcffe19355b"
+  "date": "2026-11-19",
+  "hash": "1d8c624bf7768297"
  },
  "/guides/sip-or-lump-sum-bonus/": {
   "date": "2026-11-15",
@@ -274,6 +298,14 @@
  "/guides/tax-year-explained/": {
   "date": "2026-11-15",
   "hash": "1a11cf4c87ddc6a0"
+ },
+ "/guides/term-insurance-tax-new-regime/": {
+  "date": "2026-11-19",
+  "hash": "375085745b171c33"
+ },
+ "/guides/term-insurance-until-60-or-70/": {
+  "date": "2026-11-19",
+  "hash": "99f0a91af63224e6"
  },
  "/guides/transfer-pf-dont-withdraw/": {
   "date": "2026-11-15",
@@ -336,15 +368,15 @@
   "hash": "5972d361fb5e5b80"
  },
  "/term-insurance-calculator/": {
-  "date": "2026-11-15",
-  "hash": "7592a77b52a1939d"
+  "date": "2026-11-19",
+  "hash": "98ec0bf1393c354c"
  },
  "/terms/": {
   "date": "2026-11-15",
   "hash": "aea9352be77a8de1"
  },
  "/tools/": {
-  "date": "2026-11-15",
-  "hash": "d3ebf00624997ab2"
+  "date": "2026-11-19",
+  "hash": "05e1e32ba5b621cf"
  }
 }

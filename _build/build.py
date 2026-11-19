@@ -24,16 +24,23 @@ def badges(verified_text):
 # to plain text (or the list item is dropped), and check_held() stops the build if any page still links to it.
 # To release a batch: add its name to RELEASED, change its guides' published date in GUIDES to the release date, rebuild.
 HOLD = {
-    "15nov-b": ["/guides/retire-at-50-55-or-60/", "/guides/term-insurance-until-60-or-70/", "/guides/is-employer-group-cover-enough/",
-                "/guides/sukanya-samriddhi-or-sip/", "/guides/eps-pension-50-58-or-60/", "/guides/cumulative-fd-or-monthly-payout/",
-                "/guides/low-basic-salary-gratuity/", "/guides/eps-higher-pension/", "/guides/fd-for-senior-citizens-tds-and-tax/",
-                "/guides/notice-period-buyout/", "/guides/term-insurance-tax-new-regime/", "/guides/sukanya-samriddhi-at-maturity/",
-                "/guides/bonus-when-you-resign/"],
-    "15nov-c": ["/guides/sip-lower-return/", "/guides/first-sip-on-first-salary/", "/guides/ev-worth-it-1000-km-a-month/",
-                "/guides/home-loan-down-payment/", "/guides/car-loan-or-cash/", "/guides/part-pay-car-or-personal-loan/",
-                "/guides/retirement-planning-in-your-40s/", "/guides/open-sukanya-samriddhi-account/", "/guides/new-or-used-car/"],
+    # Batch B1, about 22 Nov: term insurance and pay
+    "b1": ["/guides/eps-higher-pension/", "/guides/fd-for-senior-citizens-tds-and-tax/", "/guides/notice-period-buyout/", "/guides/bonus-when-you-resign/",
+           "/guides/term-insurance-tax-new-regime/", "/guides/home-loan-insurance-vs-term-plan/", "/guides/is-employer-group-cover-enough/",
+           "/guides/term-insurance-until-60-or-70/"],
+    # Batch B2, about 26 Nov: retirement timing, deposits, Sukanya, first salary, rent or buy, lease by slab
+    "b2": ["/guides/retire-at-50-55-or-60/", "/guides/eps-pension-50-58-or-60/", "/guides/cumulative-fd-or-monthly-payout/", "/guides/low-basic-salary-gratuity/",
+           "/guides/sukanya-samriddhi-or-sip/", "/guides/sukanya-samriddhi-at-maturity/", "/guides/first-salary-budget/",
+           "/guides/rent-or-buy-by-age-and-moving-cities/", "/guides/car-lease-20-percent-slab-and-ev/"],
+    # Batch C1, about 29 Nov: SIPs, loans and cars
+    "c1": ["/guides/first-sip-on-first-salary/", "/guides/sip-lower-return/", "/guides/home-loan-down-payment/", "/guides/part-pay-car-or-personal-loan/",
+           "/guides/car-loan-or-cash/", "/guides/ev-worth-it-1000-km-a-month/", "/guides/new-or-used-car/", "/guides/car-lease-job-change-buy-back-or-hand-back/"],
+    # Batch C2, about 3 Dec: later-life money, Sukanya, home and family
+    "c2": ["/guides/retirement-planning-in-your-40s/", "/guides/three-bucket-retirement-plan/", "/guides/open-sukanya-samriddhi-account/",
+           "/guides/sukanya-samriddhi-two-daughters/", "/guides/revive-sukanya-samriddhi-account/", "/guides/keep-or-sell-your-home/",
+           "/guides/double-income-family-budget/"],
 }
-RELEASED = set()   # e.g. {"15nov-b"}
+RELEASED = {"b1"}   # b1 released 19 Nov
 HELD = {p for b, ps in HOLD.items() if b not in RELEASED for p in ps}
 
 LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest"), ("/rent-vs-buy/", "Rent or Buy"), ("/budget-planner/", "Budget Planner")]
@@ -117,6 +124,16 @@ SEO = {
     "/guides/how-much-sip-do-you-need/": ("How Much SIP Do You Need? Plan a Goal With Step-Up", None),
     "/guides/step-up-sip/": ("Step-Up SIP: How a 10% Yearly Increase Adds Up", None),
     "/guides/how-mutual-fund-gains-are-taxed/": ("Mutual Fund Tax on Selling: Equity and Debt (2026-27)", None),
+    "/guides/rent-or-buy-by-age-and-moving-cities/": ("Rent or Buy a Home? How Long You'll Stay Decides", "Rent or buy by age and length of stay: how fast prices must rise for buying to win, and what to do if you might move cities."),
+    "/guides/keep-or-sell-your-home/": ("Keep or Sell Your Home When You Move Cities?", "Moving cities? Selling vs keeping and renting out your home, 10 years on, with capital gains tax and section 82 reinvestment."),
+    "/guides/double-income-family-budget/": ("Double-Income Family Budget: How to Split Costs", "Budgeting for a double-income family: proportional cost split, living on one income, emergency fund, insurance and tax for two."),
+    "/guides/car-lease-20-percent-slab-and-ev/": ("Is a Company Car Lease Worth It in the 20% Tax Slab?", "Is a company car lease worth it in the 20% slab? Savings by slab, the break-even rental, and why leasing an EV saves more."),
+    "/guides/car-lease-job-change-buy-back-or-hand-back/": ("Changing Jobs With a Company Car Lease? What Happens", "Company car lease and a job change: closure charges, buying the car or handing it back, and choosing at the end of the lease."),
+    "/guides/sukanya-samriddhi-two-daughters/": ("Sukanya Samriddhi for Two Daughters: Limits and Tax", "Sukanya Samriddhi for two daughters: two accounts per family, ₹1.5 lakh each, the shared ₹1.5 lakh deduction, and maturity values."),
+    "/guides/revive-sukanya-samriddhi-account/": ("Sukanya Samriddhi Account Revival: Missed Deposit?", "Revive a Sukanya Samriddhi account in default: ₹250 plus ₹50 a year, the 15-year deadline, and what missed deposits cost."),
+    "/guides/first-salary-budget/": ("First Salary Budget: How to Plan Your First Pay", "Plan your first salary: a 50/30/20 budget on ₹40,000, emergency fund, first SIP, traps to avoid, and tax on your first salary."),
+    "/guides/home-loan-insurance-vs-term-plan/": ("Home Loan Insurance vs Term Plan: Which Is Better?", "Is home loan insurance mandatory? No. The real cost of a single premium added to your loan, and why a term plan often works better."),
+    "/guides/three-bucket-retirement-plan/": ("Three-Bucket Retirement Strategy for India", "Where to keep money after you retire: a three-bucket plan for ₹2 crore, how to refill the buckets, and what happens in a market fall."),
     "/guides/government-ev-rule-should-you-switch/": ("Government Cars Go Electric: Should You Switch to EV?", "Govt staff cars must now be EVs by default, at up to ₹20 lakh. A ₹20 lakh EV vs ₹10 lakh petrol car: when it pays off for you."),
     "/guides/open-sukanya-samriddhi-account/": ("How to Open a Sukanya Samriddhi Account: Documents", "Open a Sukanya Samriddhi account: eligibility (girl under 10, two per family), documents, post office or bank, and first steps."),
     "/guides/why-eps-pension-is-low/": ("Why Is My EPS Pension So Low? What Can Raise It", "Why EPS pensions are low: the ₹6,500, ₹15,000 and ₹25,000 wage ceilings, a 32-year example, and what can still raise yours."),
@@ -931,7 +948,7 @@ def rentbuy_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/rent-vs-buy/">Rent or buy a home in India? How to decide</a>. It walks through every number on this page with a worked example. Also read: <a href="/guides/is-rent-really-dead-money/">Is rent really dead money?</a>, <a href="/guides/under-construction-vs-ready-to-move/">Under construction or ready to move?</a> and <a href="/guides/hra-vs-home-loan-tax-benefits/">HRA or home loan tax benefits?</a></p>
+  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/rent-vs-buy/">Rent or buy a home in India? How to decide</a>. It walks through every number on this page with a worked example. Also read: <a href="/guides/is-rent-really-dead-money/">Is rent really dead money?</a>, <a href="/guides/under-construction-vs-ready-to-move/">Under construction or ready to move?</a> and <a href="/guides/hra-vs-home-loan-tax-benefits/">HRA or home loan tax benefits?</a> Might move? Read <a href="/guides/rent-or-buy-by-age-and-moving-cities/">Rent or buy: how long you'll stay decides</a>. Already own and moving? Read <a href="/guides/keep-or-sell-your-home/">Keep or sell your home</a>.</p>
   <h2>How the calculator works</h2>
   <p>Both choices start with the same money and run month by month for as long as you plan to stay.</p>
   <ul><li><strong>Buy:</strong> you pay the down payment, stamp duty, registration and other costs at the start. Every month you pay the EMI and the owner's costs. At the end you sell, pay selling costs and tax on the gain, and repay any loan left.</li>
@@ -1181,7 +1198,7 @@ def budget_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to budgeting?</b> Read our guide, <a href="/guides/monthly-budget/">How to make a monthly budget on a salary in India</a>, worked through one family's numbers. Also read: <a href="/guides/budget-on-50000-1-lakh-2-lakh-salary/">Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month</a> and <a href="/guides/plan-for-school-fees-and-yearly-costs/">How to plan for school fees and other yearly costs</a>.</p>
+  <p class="g-callout"><b>New to budgeting?</b> Read our guide, <a href="/guides/monthly-budget/">How to make a monthly budget on a salary in India</a>, worked through one family's numbers. Also read: <a href="/guides/budget-on-50000-1-lakh-2-lakh-salary/">Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month</a> and <a href="/guides/plan-for-school-fees-and-yearly-costs/">How to plan for school fees and other yearly costs</a>. Just started working? Read <a href="/guides/first-salary-budget/">Your first salary budget</a>. Two incomes? Read <a href="/guides/double-income-family-budget/">A double-income family budget</a>.</p>
   <h2>How the planner works</h2>
   <ul>
     <li><strong>Everything becomes monthly.</strong> Monthly amounts stay as they are, yearly amounts are divided by 12, and daily amounts are multiplied by 365 and divided by 12.</li>
@@ -1760,7 +1777,7 @@ def retirement_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>Not sure where to start?</b> Read our guide, <a href="/guides/how-much-do-you-need-to-retire/">How much do you need to retire? One person's numbers</a>. Also read: <a href="/guides/25x-rule-retirement-india/">The 25× rule: does it work in India?</a></p>
+  <p class="g-callout"><b>Not sure where to start?</b> Read our guide, <a href="/guides/how-much-do-you-need-to-retire/">How much do you need to retire? One person's numbers</a>. Also read: <a href="/guides/25x-rule-retirement-india/">The 25× rule: does it work in India?</a> Already retired? Read <a href="/guides/three-bucket-retirement-plan/">The three-bucket retirement plan</a>.</p>
   <h2>How the planner works</h2>
   <ul>
     <li><strong>What you need:</strong> your spending, rising with inflation each year, from retirement until the age you plan for, minus pensions and other income. The planner works out how much you need at retirement so that, earning the return after retiring, it lasts exactly that long. Money is taken out at the start of each year.</li>
@@ -2157,7 +2174,7 @@ def term_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/how-much-term-insurance-do-you-need/">How much term insurance do you need? One family's numbers</a>. Also read: <a href="/guides/is-employer-group-cover-enough/">Is your employer's group cover enough?</a> Saving tax on it? Read <a href="/guides/term-insurance-tax-new-regime/">Term insurance and tax under the new regime</a>.</p>
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/how-much-term-insurance-do-you-need/">How much term insurance do you need? One family's numbers</a>. Also read: <a href="/guides/is-employer-group-cover-enough/">Is your employer's group cover enough?</a> Saving tax on it? Read <a href="/guides/term-insurance-tax-new-regime/">Term insurance and tax under the new regime</a>. Bank offering loan insurance? Read <a href="/guides/home-loan-insurance-vs-term-plan/">Home loan insurance vs a term plan</a>.</p>
   <h2>How the calculator works</h2>
   <ul>
     <li><strong>Support:</strong> your family's monthly expenses without you, less your spouse's income, rising with inflation, for the years you set. Worked out as the lump sum that, earning the return you set, pays them each year.</li>
@@ -2276,7 +2293,7 @@ def ssy_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to Sukanya Samriddhi?</b> Read <a href="/guides/sukanya-samriddhi-explained/">Sukanya Samriddhi explained: when it matures, and why 5 April matters</a>. Close to maturity? Read <a href="/guides/sukanya-samriddhi-at-maturity/">Sukanya Samriddhi at maturity</a>. Not opened one yet? Read <a href="/guides/open-sukanya-samriddhi-account/">Opening a Sukanya Samriddhi account</a>.</p>
+  <p class="g-callout"><b>New to Sukanya Samriddhi?</b> Read <a href="/guides/sukanya-samriddhi-explained/">Sukanya Samriddhi explained: when it matures, and why 5 April matters</a>. Close to maturity? Read <a href="/guides/sukanya-samriddhi-at-maturity/">Sukanya Samriddhi at maturity</a>. Not opened one yet? Read <a href="/guides/open-sukanya-samriddhi-account/">Opening a Sukanya Samriddhi account</a>. Two daughters? Read <a href="/guides/sukanya-samriddhi-two-daughters/">Sukanya Samriddhi for two daughters</a>. Missed a year? Read <a href="/guides/revive-sukanya-samriddhi-account/">Reviving the account</a>.</p>
   <h2>How the calculator works</h2>
   <ul>
     <li><strong>Deposits</strong> for 15 years from opening, up to ₹1.5 lakh a year; the account matures 21 years from opening.</li>
@@ -3076,7 +3093,7 @@ def car_page():
 <div class="wrap aff-slot" aria-label="Sponsored"></div>
 
 <section style="padding-top:0"><div class="wrap prose">
-  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/company-car-lease-vs-car-loan/">Company car lease or car loan? How to decide</a>, worked through one employee's numbers. Also read: <a href="/guides/company-car-perquisite-value-2026/">Company car perquisite value from April 2026</a> and <a href="/guides/car-lease-new-tax-regime/">Car lease under the new tax regime</a>.</p>
+  <p class="g-callout"><b>New to this decision?</b> Read our guide, <a href="/guides/company-car-lease-vs-car-loan/">Company car lease or car loan? How to decide</a>, worked through one employee's numbers. Also read: <a href="/guides/company-car-perquisite-value-2026/">Company car perquisite value from April 2026</a> and <a href="/guides/car-lease-new-tax-regime/">Car lease under the new tax regime</a>. In the 20% slab or leasing an EV? Read <a href="/guides/car-lease-20-percent-slab-and-ev/">Is a car lease worth it in the 20% slab?</a>. Might change jobs? Read <a href="/guides/car-lease-job-change-buy-back-or-hand-back/">Changing jobs with a company car lease</a>.</p>
   <h2>How the calculator works</h2>
   <ul><li><strong>Company lease:</strong> the rental, and the running costs that go through the company, come out of your salary before tax. You pay tax only on the car's fixed value under Rule 15. At the end you buy the car at the agreed price or hand it back.</li>
   <li><strong>Car loan:</strong> you pay the down payment, then the EMI, insurance, servicing, fuel and any driver from take-home pay. At the end you own the car, minus any loan still owed.</li></ul>
@@ -3176,10 +3193,40 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/plan-for-school-fees-and-yearly-costs/", "How to plan for school fees and other yearly costs",
      "List your yearly costs, turn them into one monthly set-aside, give them their own account and time it right, with an example family's month-by-month plan.",
      "2026-11-13", "guide-yearly-costs", "Your money"),
+    ("/guides/rent-or-buy-by-age-and-moving-cities/", "Rent or buy a home? Why how long you'll stay matters more than your age",
+     "Whether buying beats renting depends on how long you'll stay: how fast prices must rise for buying to win, what that means in your 20s, 30s and 40s, and if you might move.",
+     "2026-11-17", "guide-rent-age", "Your home"),
+    ("/guides/keep-or-sell-your-home/", "Keep or sell your home when you move: what each costs",
+     "Moving cities with a home and a loan: selling vs keeping and renting it out, 10 years later, with tax on each choice and section 82 reinvestment.",
+     "2026-11-17", "guide-keep-sell", "Your home"),
+    ("/guides/double-income-family-budget/", "A double-income family budget: splitting costs and saving more",
+     "Budgeting with two incomes: splitting shared costs in proportion, living on one income, emergency fund, insurance for both, and tax for two.",
+     "2026-11-17", "guide-dual-income", "Your money"),
+    ("/guides/car-lease-20-percent-slab-and-ev/", "Is a company car lease worth it in the 20% tax slab?",
+     "Company car lease vs loan by tax slab (30%, 20%, 5%), the break-even rental, and why an EV lease saves more under Rule 15.",
+     "2026-11-17", "guide-lease-slab", "Your car"),
+    ("/guides/car-lease-job-change-buy-back-or-hand-back/", "Changing jobs with a company car lease? Here's what happens to the car",
+     "What happens to your company car lease when you change jobs: closure charges, whether to buy the car or hand it back, and the same choice when a lease ends.",
+     "2026-11-17", "guide-lease-exit", "Your car"),
+    ("/guides/sukanya-samriddhi-two-daughters/", "Two daughters: Sukanya Samriddhi limits and the family cap",
+     "Sukanya Samriddhi for two daughters: two accounts per family, ₹1.5 lakh each a year, the shared ₹1.5 lakh tax deduction, and what each account grows to.",
+     "2026-11-17", "guide-ssy-two", "Your investments"),
+    ("/guides/revive-sukanya-samriddhi-account/", "Missed a Sukanya Samriddhi deposit? Reviving the account",
+     "How to revive a Sukanya Samriddhi account in default (₹250 plus ₹50 a year), the 15-year deadline, and what missed deposits really cost.",
+     "2026-11-17", "guide-ssy-revive", "Your investments"),
+    ("/guides/first-salary-budget/", "Your first salary: how to set up a budget",
+     "A first-salary budget on ₹40,000 a month: the 50/30/20 split, what to do in your first three months, common traps, and tax on your first salary.",
+     "2026-11-17", "guide-first-budget", "Your money"),
+    ("/guides/home-loan-insurance-vs-term-plan/", "Home loan insurance vs a term plan: do you need the bank's policy?",
+     "Home loan insurance isn't compulsory. What a single premium added to your loan really costs, reducing vs level cover, and why a term plan often works better.",
+     "2026-11-19", "guide-hli", "Your money"),
+    ("/guides/three-bucket-retirement-plan/", "Where to keep money after you retire: a three-bucket plan",
+     "Split retirement money into three buckets by when you'll need it: ₹2 crore worked through, how to refill the buckets, and what happens in a market fall.",
+     "2026-11-17", "guide-three-bucket", "Your investments"),
     ("/guides/government-ev-rule-should-you-switch/", "The government will pay twice as much for an EV. Would it pay off for you?",
      "The 10 November 2026 order making EVs the default for government staff cars, and what a ₹20 lakh EV vs a ₹10 lakh petrol car costs you over 7 and 10 years.",
      "2026-11-15", "guide-govt-ev", "Your car"),
-    ("/guides/open-sukanya-samriddhi-account/", "Opening a Sukanya Samriddhi account: age limit, documents and where",
+    ("/guides/open-sukanya-samriddhi-account/", "How to open a Sukanya Samriddhi account for your daughter",
      "Who can open a Sukanya Samriddhi account, the documents needed, where to open it (post office or bank), and what to do once it's open.",
      "2026-11-15", "guide-ssy-open", "Your investments"),
     ("/guides/why-eps-pension-is-low/", "Why your EPS pension is so low, and what can raise it",
@@ -3187,7 +3234,7 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-15", "guide-eps-low", "Your investments"),
     ("/guides/bonus-when-you-resign/", "Bonus and variable pay when you resign: are you owed it?",
      "Statutory bonus under the Code on Wages, variable pay and performance bonus rules, joining-bonus clawbacks, and what to check before you resign.",
-     "2026-11-15", "guide-bonus-resign", "Your pay"),
+     "2026-11-19", "guide-bonus-resign", "Your pay"),
     ("/guides/settlement-not-paid-on-time/", "Settlement not paid in 2 working days? What to do",
      "The Code on Wages' 2-working-day rule for final wages, what it doesn't cover, deductions and exit clearance, and the steps to take if you're not paid.",
      "2026-11-15", "guide-fnf-late", "Your pay"),
@@ -3196,20 +3243,20 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-15", "guide-new-used", "Your car"),
     ("/guides/notice-period-buyout/", "Notice period buyout: who pays, and how it's taxed",
      "How a notice period buyout is worked out, who pays it, how it's taxed if your new employer reimburses it, and why there's no GST.",
-     "2026-11-15", "guide-notice-buyout", "Your pay"),
+     "2026-11-19", "guide-notice-buyout", "Your pay"),
     ("/guides/two-employers-one-year-tax/", "Two employers in one year: Form 122 and avoiding a tax bill",
      "Why changing jobs mid-year often leaves tax to pay, one person's numbers, and how Form 122 (old Form 12B) and advance tax prevent it.",
      "2026-11-15", "guide-two-employers", "Your pay"),
     ("/guides/term-insurance-tax-new-regime/", "Term insurance and tax under the new regime",
      "Term insurance premium deduction (old regime only), the tax-free payout in both regimes, maturity rules and 0% GST, for tax year 2026-27.",
-     "2026-11-15", "guide-term-tax", "Your money"),
+     "2026-11-19", "guide-term-tax", "Your money"),
     ("/guides/sukanya-samriddhi-at-maturity/", "Sukanya Samriddhi at maturity: what to do with the money",
      "When a Sukanya Samriddhi account pays out, why it earns nothing after maturity, the early options at 18, and where to put the money next.",
      "2026-11-15", "guide-ssy-maturity", "Your investments"),
     ("/guides/floating-or-fixed-home-loan/", "Floating or fixed-rate home loan?",
      "Floating vs fixed home loan on ₹50 lakh: four rate scenarios, the rise it takes for fixed to win, what fixed usually means, and your rights.",
      "2026-11-15", "guide-float-fixed", "Your loans"),
-    ("/guides/epf-withdrawal-rules-2026/", "EPF withdrawal rules 2026: three categories, 25% minimum, 12 months",
+    ("/guides/epf-withdrawal-rules-2026/", "How much of your EPF can you withdraw? The 2026 rules explained",
      "What you can withdraw from EPF under the EPF Scheme, 2026, when, how often, the tax, and what a withdrawal costs your retirement.",
      "2026-11-15", "guide-epf-withdraw", "Your investments"),
     ("/guides/tax-year-explained/", "\"Tax year\" replaces previous year and assessment year: what it means",
@@ -3220,10 +3267,10 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-15", "guide-payslip-130", "Your tax"),
     ("/guides/eps-higher-pension/", "EPS higher pension on actual wages: who has it and what it adds",
      "Who has the EPS higher pension, how it's worked out pro rata under EPS 2026, one employee's numbers, and what it costs your EPF.",
-     "2026-11-15", "guide-eps-higher", "Your investments"),
+     "2026-11-19", "guide-eps-higher", "Your investments"),
     ("/guides/fd-for-senior-citizens-tds-and-tax/", "FD for senior citizens: the ₹1 lakh TDS limit and ₹50,000 deduction",
      "TDS and tax on FD interest for senior citizens: the ₹1 lakh TDS limit, the ₹50,000 deduction, three retirees in both regimes, and Form 121.",
-     "2026-11-15", "guide-senior-fd", "Your investments"),
+     "2026-11-19", "guide-senior-fd", "Your investments"),
     ("/guides/home-loan-down-payment/", "How much down payment should you make on a home?",
      "10%, 20% or 30% down on an ₹80 lakh home: EMI, interest, whether to invest the difference instead, and what to keep aside first.",
      "2026-11-15", "guide-down-payment", "Your home"),
@@ -3253,13 +3300,13 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-15", "guide-retire-age", "Your investments"),
     ("/guides/term-insurance-until-60-or-70/", "Term cover until 60 or 70? Choosing the policy term",
      "How long your term insurance should run: when your family's need ends, what cover is needed at 50, 55 and 58, and the cost of longer cover.",
-     "2026-11-15", "guide-term-until", "Your money"),
+     "2026-11-19", "guide-term-until", "Your money"),
     ("/guides/how-much-term-insurance-do-you-need/", "How much term insurance do you need? One family's numbers",
      "How to work out your term cover from your family's expenses, loans and goals, why the need peaks above today's, and until what age to cover.",
      "2026-11-15", "guide-term-main", "Your money"),
     ("/guides/is-employer-group-cover-enough/", "Is your employer's group life cover enough?",
      "What employer group life cover gives, why it ends when you leave, how much of your need it covers, and how to count it.",
-     "2026-11-15", "guide-group-cover", "Your money"),
+     "2026-11-19", "guide-group-cover", "Your money"),
     ("/guides/ppf-after-15-years/", "PPF after 15 years: extend with or without deposits, or close?",
      "Your options when PPF matures: close it, extend without deposits, or keep depositing. What each is worth, and the form you mustn't miss.",
      "2026-11-15", "guide-ppf-15", "Your investments"),
@@ -4429,18 +4476,18 @@ def _catalog():
                         ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", ["/guides/how-part-payments-cut-your-home-loan/", "/guides/home-loan-rate-rise-emi-or-tenure/", "/guides/part-pay-car-or-personal-loan/", "/guides/floating-or-fixed-home-loan/"])]),
         ("Your investments", [("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", ["/guides/how-much-sip-do-you-need/", "/guides/step-up-sip/", "/guides/are-your-sips-on-track/", "/guides/how-mutual-fund-gains-are-taxed/", "/guides/sip-or-lump-sum-bonus/", "/guides/sip-lower-return/", "/guides/first-sip-on-first-salary/"]),
                               ("/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator", "What your FD, RD or PPF grows to after tax, whether TDS applies, and all three compared.", L("/fd-ppf-rd-calculator/"), "Coming soon", ["/guides/fd-rd-or-ppf/", "/guides/fd-interest-tax-below-50000/", "/guides/ppf-deposit-by-5-april/", "/guides/form-121-stop-tds-fd-interest/", "/guides/cumulative-fd-or-monthly-payout/", "/guides/ppf-after-15-years/", "/guides/fd-for-senior-citizens-tds-and-tax/"]),
-                              ("/sukanya-samriddhi-calculator/", "Sukanya Samriddhi Calculator", "What your daughter's account grows to at 8.2%, tax-free, with an education withdrawal and PPF compared.", L("/sukanya-samriddhi-calculator/"), "Coming soon", ["/guides/sukanya-samriddhi-explained/", "/guides/sukanya-samriddhi-or-sip/", "/guides/sukanya-samriddhi-at-maturity/", "/guides/open-sukanya-samriddhi-account/"]),
+                              ("/sukanya-samriddhi-calculator/", "Sukanya Samriddhi Calculator", "What your daughter's account grows to at 8.2%, tax-free, with an education withdrawal and PPF compared.", L("/sukanya-samriddhi-calculator/"), "Coming soon", ["/guides/sukanya-samriddhi-explained/", "/guides/sukanya-samriddhi-or-sip/", "/guides/sukanya-samriddhi-at-maturity/", "/guides/open-sukanya-samriddhi-account/", "/guides/sukanya-samriddhi-two-daughters/", "/guides/revive-sukanya-samriddhi-account/"]),
                               ("/nps-calculator/", "NPS Calculator", "Your NPS at 60 under the new exit rules: lump sum, the taxed part and your pension. Plus employer NPS tax saving.", L("/nps-calculator/"), "Coming soon", ["/guides/nps-new-exit-rules/", "/guides/employer-nps-14-percent-new-regime/", "/guides/nps-80-percent-withdrawal-tax/", "/guides/nps-vs-ppf-vs-epf/"]),
                               ("/epf-calculator/", "EPF Calculator", "Your PF at retirement, what you and your employer put in, and your EPS pension, with the ₹25,000 wage ceiling.", L("/epf-calculator/"), "Coming soon", ["/guides/how-much-epf-at-58/", "/guides/eps-pension-explained/", "/guides/epf-wage-ceiling-25000/", "/guides/transfer-pf-dont-withdraw/", "/guides/vpf-worth-it/", "/guides/nps-vs-ppf-vs-epf/", "/guides/epf-withdrawal-rules-2026/"]),
                               ("/eps-pension-calculator/", "EPS Pension Calculator", "Your EPS pension for each wage-ceiling period, at any age from 50 to 60, or your withdrawal benefit under 10 years.", L("/eps-pension-calculator/"), "Coming soon", ["/guides/eps-pension-calculation-example/", "/guides/eps-pension-explained/", "/guides/eps-withdrawal-benefit-or-scheme-certificate/", "/guides/transfer-pf-dont-withdraw/", "/guides/epf-wage-ceiling-25000/", "/guides/eps-pension-50-58-or-60/", "/guides/eps-higher-pension/", "/guides/why-eps-pension-is-low/"]),
-                              ("/retirement-planner/", "Retirement Planner", "How much you need to retire, what your EPF, NPS, SIPs and FDs add up to, and the extra SIP to close the gap.", L("/retirement-planner/"), "Coming soon", ["/guides/how-much-do-you-need-to-retire/", "/guides/25x-rule-retirement-india/", "/guides/nps-vs-ppf-vs-epf/", "/guides/retire-at-50-55-or-60/", "/guides/how-long-will-retirement-savings-last/", "/guides/retirement-planning-in-your-40s/"])]),
+                              ("/retirement-planner/", "Retirement Planner", "How much you need to retire, what your EPF, NPS, SIPs and FDs add up to, and the extra SIP to close the gap.", L("/retirement-planner/"), "Coming soon", ["/guides/how-much-do-you-need-to-retire/", "/guides/25x-rule-retirement-india/", "/guides/nps-vs-ppf-vs-epf/", "/guides/retire-at-50-55-or-60/", "/guides/how-long-will-retirement-savings-last/", "/guides/retirement-planning-in-your-40s/", "/guides/three-bucket-retirement-plan/"])]),
         ("Your home", [("/rent-vs-buy/", "Rent or Buy", "Owning against renting and investing the difference, after stamp duty and tax.", True, "",
-                        ["/guides/rent-vs-buy/", "/guides/is-rent-really-dead-money/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/", "/guides/home-loan-down-payment/"])]),
+                        ["/guides/rent-vs-buy/", "/guides/is-rent-really-dead-money/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/", "/guides/home-loan-down-payment/", "/guides/rent-or-buy-by-age-and-moving-cities/", "/guides/keep-or-sell-your-home/"])]),
         ("Your money", [("/budget-planner/", "Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides.", True, "",
-                         ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/", "/guides/plan-for-school-fees-and-yearly-costs/"]),
-                        ("/term-insurance-calculator/", "Term Insurance Calculator", "How much cover your family would need, and until what age: support, loans and goals, less what you have.", L("/term-insurance-calculator/"), "Coming soon", ["/guides/how-much-term-insurance-do-you-need/", "/guides/is-employer-group-cover-enough/", "/guides/term-insurance-until-60-or-70/", "/guides/term-insurance-tax-new-regime/"])]),
+                         ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/", "/guides/plan-for-school-fees-and-yearly-costs/", "/guides/first-salary-budget/", "/guides/double-income-family-budget/"]),
+                        ("/term-insurance-calculator/", "Term Insurance Calculator", "How much cover your family would need, and until what age: support, loans and goals, less what you have.", L("/term-insurance-calculator/"), "Coming soon", ["/guides/how-much-term-insurance-do-you-need/", "/guides/is-employer-group-cover-enough/", "/guides/term-insurance-until-60-or-70/", "/guides/term-insurance-tax-new-regime/", "/guides/home-loan-insurance-vs-term-plan/"])]),
         ("Your car", [("/company-car-lease-vs-loan/", "Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.", L("/company-car-lease-vs-loan/"), "Coming soon",
-                       ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/"]),
+                       ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/", "/guides/car-lease-20-percent-slab-and-ev/", "/guides/car-lease-job-change-buy-back-or-hand-back/"]),
                       ("/car-ownership-cost/", "Car Ownership Cost", "What a petrol, diesel, CNG or electric car really costs per month and per km, after resale. Compare two.", L("/car-ownership-cost/"), "Coming soon", ["/guides/petrol-cng-or-ev-cost-per-km/", "/guides/ev-worth-it-1000-km-a-month/", "/guides/car-loan-or-cash/", "/guides/new-or-used-car/", "/guides/government-ev-rule-should-you-switch/"])]),
     ]
 QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + (["FD, PPF and RD"] if not DEPOSITS_LIVE else []) + (["Gratuity"] if not GRATUITY_LIVE else []) + ["Old vs new regime", "HRA exemption"] + (["Vehicle ownership cost"] if not CAROWN_LIVE else []) + (["Old-to-new section finder"] if not SECTIONS_LIVE else [])
@@ -7514,7 +7561,7 @@ def guide_epf_withdraw():
 </article>
 {related(path)}
 """
-    return article(path, "x", "EPF withdrawal rules 2026", body, "EPF withdrawals")
+    return article(path, "x", "How much of your EPF can you withdraw?", body, "EPF withdrawals")
 
 def guide_tax_year():
     path = "/guides/tax-year-explained/"
@@ -8035,7 +8082,7 @@ def guide_ssy_open():
 </article>
 {related(path)}
 """
-    return article(path, "x", "Opening a Sukanya Samriddhi account", body, "Open Sukanya account")
+    return article(path, "x", "How to open a Sukanya Samriddhi account", body, "Open a Sukanya account")
 
 def guide_eps_low():
     E = _b10()["eps"]; R = E["rows"]
@@ -8317,6 +8364,517 @@ def guide_govt_ev():
 """
     return article(path, "x", "The government's EV rule: should you switch?", body, "Government EV rule")
 
+def _b12(): return _num("guide_batch12_numbers.js")
+
+def guide_ssy_two():
+    T = _b12()["two"]
+    path = "/guides/sukanya-samriddhi-two-daughters/"
+    toc = [("short-answer", "The short answer"), ("limits", "The limits"), ("numbers", "Two daughters, two budgets"), ("tax", "The tax catch"), ("tips", "Making it work"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Two daughters can each have a Sukanya Samriddhi account, with the ₹1.5 lakh limit applying to each. But the tax deduction doesn't double. Here's how the limits work and how to split your savings.",
+                      "Two passbooks side by side").replace("TYPE_LINE", "<span>Sukanya Samriddhi Account Scheme, 2019</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>A family can open one account for each of two daughters (more only for twins or triplets). Each account takes up to ₹1.5 lakh a year, so you can put in ₹3 lakh in all. ₹1.5 lakh a year in each grows to about <strong>{_L(T['y1']['full'])}</strong> per daughter. But in the old regime, your deduction stays capped at ₹1.5 lakh in total, and the new regime gives none.</p>
+<p class="g-cta"><a class="btn" href="/sukanya-samriddhi-calculator/">Work out each daughter's account</a></p>
+
+<h2 id="limits">The limits</h2>
+<ul>
+  <li><strong>Two accounts per family,</strong> one per girl. A third is allowed only if twins or triplets are born in the first or second birth, with an affidavit and birth certificates.</li>
+  <li><strong>₹250 to ₹1.5 lakh a year per account,</strong> for 15 years from opening.</li>
+  <li><strong>Each account runs on its own clock:</strong> it matures 21 years after it was opened, so two daughters' accounts mature in different years.</li>
+</ul>
+
+<h2 id="numbers">Two daughters, two budgets</h2>
+<p>Daughters aged 1 and 5, deposits by 5 April, 8.2% throughout:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col"></th><th scope="col">₹1.5 lakh each (₹3 lakh a year)</th><th scope="col">₹75,000 each (₹1.5 lakh a year)</th></tr></thead><tbody>
+<tr><th scope="row">Younger daughter, matures at 22</th><td data-l="₹1.5 lakh each">{_L(T['y1']['full'])}</td><td data-l="₹75,000 each">{_L(T['y1']['half'])}</td></tr>
+<tr><th scope="row">Elder daughter, matures at 26</th><td data-l="₹1.5 lakh each">{_L(T['y5']['full'])}</td><td data-l="₹75,000 each">{_L(T['y5']['half'])}</td></tr>
+</tbody></table></div>
+
+<h2 id="tax">The tax catch</h2>
+<ul>
+  <li>Deposits count towards the old regime's ₹1.5 lakh deduction (section 123), and that limit is per taxpayer, shared with EPF, PPF and insurance.</li>
+  <li>If both parents pay tax under the old regime, each can deposit for one daughter and claim it, if they have room left in their own limit.</li>
+  <li>In the new regime there's no deduction, but interest and maturity stay tax-free either way.</li>
+</ul>
+
+<h2 id="tips">Making it work</h2>
+<ol class="g-check">
+  <li>Open the younger daughter's account early: it has the longest time to grow.</li>
+  <li>Can't do ₹3 lakh? Splitting equally treats them fairly; put more into the younger one's if you want the money to work longest.</li>
+  <li>Never let either account miss ₹250 in a year. See <a href="/guides/revive-sukanya-samriddhi-account/">Missed a Sukanya deposit?</a></li>
+  <li>Compare with a SIP for the longer goal. See <a href="/guides/sukanya-samriddhi-or-sip/">Sukanya Samriddhi or a SIP?</a></li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/sukanya-samriddhi-calculator/">Sukanya Samriddhi calculator</a>'s own code: deposits by 5 April for 15 years, maturity 21 years from opening, 8.2% throughout (the rate for October–December 2026). Sources: Sukanya Samriddhi Account Scheme, 2019, paragraphs 3 and 4 (India Post); Central Bank of India and SBI scheme pages. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. The rate is reset every quarter.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Sukanya Samriddhi for two daughters", body, "Two daughters")
+
+def guide_ssy_revive():
+    R = _b12()["revive"]
+    path = "/guides/revive-sukanya-samriddhi-account/"
+    toc = [("short-answer", "The short answer"), ("default", "When an account is in default"), ("how", "How to revive it"), ("cost", "What a gap really costs"), ("deadline", "The deadline"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Missed the ₹250 minimum in a year? Your Sukanya Samriddhi account is in default, not closed. Reviving it costs ₹50 a year plus the missed minimums. The real cost is the deposits you didn't make.",
+                      "A passbook with a gap and a repair patch").replace("TYPE_LINE", "<span>Sukanya Samriddhi Account Scheme, 2019</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Pay ₹250 for each missed year plus a ₹50 penalty for each, at the post office or bank, any time before 15 years from opening. Three missed years cost just {_inr(R['minDeps'] + R['penalty'])} to fix. But the deposits you skipped matter far more: missing ₹50,000 for three years leaves the account about <strong>{_L(R['full'] - R['revived'])}</strong> smaller at maturity.</p>
+<p class="g-cta"><a class="btn" href="/sukanya-samriddhi-calculator/">See what your deposits grow to</a></p>
+
+<h2 id="default">When an account is in default</h2>
+<ul>
+  <li>Any financial year (April to March) without at least ₹250 deposited.</li>
+  <li>The account isn't closed, and the balance keeps earning the scheme's interest rate.</li>
+  <li>You just can't add more until it's regularised.</li>
+</ul>
+
+<h2 id="how">How to revive it</h2>
+<ol class="g-check">
+  <li>Go to the post office or bank branch with the passbook.</li>
+  <li>Pay ₹250 for each year missed, plus ₹50 for each year as the default fee.</li>
+  <li>Make this year's deposit; set up a standing instruction so it doesn't happen again.</li>
+</ol>
+
+<h2 id="cost">What a gap really costs</h2>
+<p>Account opened at birth, ₹50,000 a year by 5 April, 8.2%:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">What happened</th><th scope="col">At maturity (age 21)</th></tr></thead><tbody>
+<tr><th scope="row">No gaps</th><td data-l="At maturity">{_L(R['full'])}</td></tr>
+<tr><th scope="row">Missed years 4–6, revived with the minimums</th><td data-l="At maturity">{_L(R['revived'])}</td></tr>
+<tr><th scope="row">Same gap, then ₹1.5 lakh in year 7 to catch up</th><td data-l="At maturity">{_L(R['catchUp'])}</td></tr>
+</tbody></table></div>
+<p>The ₹1.5 lakh yearly cap limits how much you can catch up, so a gap is never fully recovered.</p>
+
+<h2 id="deadline">The deadline</h2>
+<ul>
+  <li>Revival is allowed only until 15 years from opening, when deposits stop anyway.</li>
+  <li>An account left in default still earns interest on what's in it until it's closed.</li>
+</ul>
+<p>Read also <a href="/guides/sukanya-samriddhi-explained/">Sukanya Samriddhi explained</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>Deposits at the start of each year, 8.2% a year compounded yearly (as in the <a href="/sukanya-samriddhi-calculator/">Sukanya Samriddhi calculator</a>, whose figure for no gaps matches). Sources: Sukanya Samriddhi Account Scheme, 2019, paragraph 4(4) and 4(5) and paragraph 7(3) (India Post); SB Order 13/2019; SBI and Central Bank of India scheme pages. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Branches may ask for a written request.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Missed a Sukanya Samriddhi deposit?", body, "Revive Sukanya")
+
+def guide_first_budget():
+    F = _b12()["first"]
+    path = "/guides/first-salary-budget/"
+    toc = [("short-answer", "The short answer"), ("split", "A first budget on ₹40,000"), ("first", "In your first three months"), ("traps", "Common traps"), ("tax", "Tax on your first salary"), ("method", "How this was worked out")]
+    body = guide_head(path, "Your first salary is the best time to set habits that last. Here's a simple split for ₹40,000 a month, what to do in your first three months, and the traps that catch most new earners.",
+                      "A wallet with three neat compartments").replace("TYPE_LINE", "<span>Budget planner</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Pay yourself first: on the day salary arrives, move 20% to savings, then spend the rest. On ₹40,000 take-home, that's {_inr(F['save'])} saved, {_inr(F['needs'])} for needs and {_inr(F['wants'])} for wants. Build an emergency fund of about {_inr(F['ef3'])} first, then start a SIP.</p>
+<p class="g-cta"><a class="btn" href="/budget-planner/">Make your budget</a></p>
+
+<h2 id="split">A first budget on ₹40,000</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Bucket</th><th scope="col">A month</th><th scope="col">What goes in</th></tr></thead><tbody>
+<tr><th scope="row">Needs (50%)</th><td data-l="A month">{_inr(F['needs'])}</td><td data-l="What goes in">Rent or share of rent, food, commute, phone, any loan EMI</td></tr>
+<tr><th scope="row">Wants (30%)</th><td data-l="A month">{_inr(F['wants'])}</td><td data-l="What goes in">Eating out, shopping, trips, subscriptions</td></tr>
+<tr><th scope="row">Savings (20%)</th><td data-l="A month">{_inr(F['save'])}</td><td data-l="What goes in">Emergency fund first, then a SIP</td></tr>
+</tbody></table></div>
+<p>Living with parents? Shift some of "needs" to savings; 30–40% is easy to save then, and it's the best head start you'll get.</p>
+
+<h2 id="first">In your first three months</h2>
+<ol class="g-check">
+  <li><strong>Emergency fund:</strong> three months of needs (about {_inr(F['ef3'])}) in a savings account or sweep FD.</li>
+  <li><strong>Health cover:</strong> check what your employer gives; add your own policy if it's small.</li>
+  <li><strong>Start a SIP</strong> once the fund is in place, even a small one, and raise it with every pay rise. See <a href="/guides/first-sip-on-first-salary/">Your first SIP</a>.</li>
+  <li><strong>Check your payslip:</strong> PF, tax and in-hand pay. See <a href="/guides/payslip-form-130-new-section-numbers/">Your payslip and Form 130</a>.</li>
+</ol>
+
+<h2 id="traps">Common traps</h2>
+<ul>
+  <li><strong>"No-cost" EMIs</strong> on phones and gadgets: they lock in spending before you know your real costs.</li>
+  <li><strong>Credit card minimum payments:</strong> interest runs at 36–42% a year. Pay the full bill every month.</li>
+  <li><strong>Lifestyle creep:</strong> a 10% raise that turns into 10% more spending. Save half of every raise.</li>
+</ul>
+
+<h2 id="tax">Tax on your first salary</h2>
+<p>Under the new regime (the default), there's no tax if your income for the tax year is within ₹12 lakh, and salaried people also get a ₹75,000 standard deduction. Your PF (12% of basic) is deducted anyway: it's your savings too, earning 8.25%.</p>
+
+<h2 id="method">How this was worked out</h2>
+<p>The 50/30/20 split used by our <a href="/budget-planner/">budget planner</a>; tax from the new regime's rules for tax year 2026-27 (sections 156 and 202 of the Income-tax Act, 2025); EPF rate for 2025-26. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Adjust the split to your city and rent.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Your first salary budget", body, "First salary budget")
+
+def guide_home_loan_ins():
+    H = _b12()["hli"]; B = H["bal5"]
+    path = "/guides/home-loan-insurance-vs-term-plan/"
+    toc = [("short-answer", "The short answer"), ("what", "What the bank offers"), ("cost", "The hidden cost"), ("compare", "Loan insurance vs a term plan"), ("existing", "Already bought one?"), ("method", "Sources")]
+    body = guide_head(path, "Your bank will probably offer home loan insurance with your loan. It isn't compulsory, and a term plan often does the job better. Here's how they compare.",
+                      "A house under an umbrella beside a term plan document").replace("TYPE_LINE", "<span>Home loan</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>No RBI or IRDAI rule makes home loan insurance compulsory, and lenders can't make buying their policy a condition of the loan. A single premium of ₹1.5 lakh added to a 20-year loan at 7.75% costs about <strong>{_inr(H['paid'])}</strong> by the time it's repaid. A term plan covering the loan and your family's needs is usually cheaper and more flexible.</p>
+<p class="g-cta"><a class="btn" href="/term-insurance-calculator/">Work out the cover you need</a></p>
+
+<h2 id="what">What the bank offers</h2>
+<ul>
+  <li><strong>Reducing cover:</strong> the sum assured falls as your loan is repaid, so the payout just clears the loan.</li>
+  <li><strong>Single premium,</strong> often added to the loan amount (with your consent), so you pay interest on it for the whole tenure.</li>
+  <li><strong>Tied to that loan:</strong> a single-premium policy usually can't be moved if you switch lenders.</li>
+</ul>
+
+<h2 id="cost">The hidden cost</h2>
+<p>A ₹1.5 lakh premium financed over 20 years at 7.75% adds about {_inr(H['emi'])} to your EMI and {_inr(H['interest'])} in interest. Meanwhile, on a ₹50 lakh loan, the cover falls to about {_L(B[0])} after 5 years, {_L(B[1])} after 10 and {_L(B[2])} after 15.</p>
+
+<h2 id="compare">Loan insurance vs a term plan</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col"></th><th scope="col">Bank's loan insurance</th><th scope="col">Your own term plan</th></tr></thead><tbody>
+<tr><th scope="row">Cover</th><td data-l="Loan insurance">Usually falls with the loan</td><td data-l="Term plan">Stays level</td></tr>
+<tr><th scope="row">Payout goes to</th><td data-l="Loan insurance">The lender, to close the loan</td><td data-l="Term plan">Your family, to use as they need</td></tr>
+<tr><th scope="row">Switching lenders</th><td data-l="Loan insurance">Usually can't move</td><td data-l="Term plan">Unaffected</td></tr>
+<tr><th scope="row">Premium</th><td data-l="Loan insurance">Single, often financed</td><td data-l="Term plan">Yearly or monthly; compare quotes</td></tr>
+</tbody></table></div>
+<p>If you buy a term plan, add the loan to the cover you need. That's how our <a href="/term-insurance-calculator/">term insurance calculator</a> works: loans count for their remaining years. See <a href="/guides/how-much-term-insurance-do-you-need/">How much term insurance do you need?</a></p>
+
+<h2 id="existing">Already bought one?</h2>
+<ul>
+  <li>You may be able to cancel within the free-look period (usually 30 days) for a refund.</li>
+  <li>If you prepay or close the loan, ask the insurer about a surrender value.</li>
+  <li>Count its cover when working out how much term insurance you need, but remember it falls each year.</li>
+</ul>
+
+<h2 id="method">Sources</h2>
+<p>RBI and IRDAI positions on bundled insurance, as reported by Business Standard (March 2025 and January 2026); single-premium cost worked out with the <a href="/emi-calculator/">EMI calculator</a>'s formula (₹1.5 lakh, 20 years, 7.75%; ₹1.5 lakh is an example, a figure commonly quoted for a ₹50 lakh loan); reducing cover traced on a ₹50 lakh loan on the same terms. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Policy terms differ; read them before you sign.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Home loan insurance vs a term plan", body, "Loan insurance vs term")
+
+def guide_three_bucket():
+    K = _b12()["bk"]; I = K["steady"]["init"]
+    path = "/guides/three-bucket-retirement-plan/"
+    toc = [("short-answer", "The short answer"), ("buckets", "₹2 crore in three buckets"), ("refill", "How the buckets are refilled"), ("fall", "When markets fall"), ("tips", "Making it work"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Once you retire, the hardest part is selling investments to live on, especially in a falling market. A three-bucket plan keeps the next few years' spending safe, so your equity can ride out the falls.",
+                      "Three buckets of rising height").replace("TYPE_LINE", "<span>Retirement planner</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Split your retirement money by when you'll need it: two years' spending in FDs or a liquid fund, the next five years in debt or hybrid funds, and the rest in equity for growth. With ₹2 crore and ₹60,000 a month to spend, that's about {_L(I['b1'])}, {_L(I['b2'])} and {_L(I['b3'])}. In a market fall, you live off the first two buckets and sell no equity.</p>
+<p class="g-cta"><a class="btn" href="/retirement-planner/">Check your retirement plan</a></p>
+
+<h2 id="buckets">₹2 crore in three buckets</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Bucket</th><th scope="col">Covers</th><th scope="col">Where</th><th scope="col">Amount</th></tr></thead><tbody>
+<tr><th scope="row">1. Spending</th><td data-l="Covers">Years 1–2</td><td data-l="Where">Savings, sweep FD, liquid fund</td><td data-l="Amount">{_L(I['b1'])}</td></tr>
+<tr><th scope="row">2. Stability</th><td data-l="Covers">Years 3–7</td><td data-l="Where">FDs, debt or hybrid funds, SCSS</td><td data-l="Amount">{_L(I['b2'])}</td></tr>
+<tr><th scope="row">3. Growth</th><td data-l="Covers">Year 8 onwards</td><td data-l="Where">Equity funds</td><td data-l="Amount">{_L(I['b3'])}</td></tr>
+</tbody></table></div>
+
+<h2 id="refill">How the buckets are refilled</h2>
+<ol class="g-check">
+  <li>Spend from bucket 1 each month.</li>
+  <li>Once a year, top bucket 1 back up to two years' spending from bucket 2.</li>
+  <li>In a good year for markets, top bucket 2 back up from bucket 3's gains.</li>
+  <li>In a bad year, skip step 3: bucket 2 has five years to wait out the fall.</li>
+</ol>
+
+<h2 id="fall">When markets fall</h2>
+<p>We tested a 30% fall in equity in the first year of retirement and a further 10% the next. Buckets 1 and 2 covered spending throughout, and <strong>no equity was sold while prices were down</strong>. Selling equity in a fall to pay bills is what does the lasting damage; the buckets are there to prevent it.</p>
+<p>How long the money lasts still depends on how much you take out. See <a href="/guides/how-long-will-retirement-savings-last/">How long will your retirement savings last?</a></p>
+
+<h2 id="tips">Making it work</h2>
+<ul>
+  <li><strong>Count pensions and rent first:</strong> they shrink what bucket 1 has to cover.</li>
+  <li><strong>Keep bucket 2 tax-efficient:</strong> SCSS, and debt funds or FDs spread across years.</li>
+  <li><strong>Review once a year,</strong> not every time the market moves.</li>
+  <li><strong>Don't let bucket 3 shrink too far:</strong> in a long retirement, growth is what keeps up with 6% inflation.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>₹2 crore at retirement; ₹7.2 lakh spending in the first year (3.6%), rising 6% a year. Bucket 1: two years' spending; bucket 2: the next five years' spending, rising with inflation; bucket 3: the rest. Returns: 6% for bucket 1, 7.5% for bucket 2, 11% for equity in normal years; −30% and −10% for equity in the fall scenario. Refills once a year as described. Before tax. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Real returns vary year to year.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "The three-bucket retirement plan", body, "Three buckets")
+
+def _b13(): return _num("guide_batch13_numbers.js")
+
+def guide_rent_buy_age():
+    G = _b13()["age"]; B = G["be"]; F = G["beFd"]; Fo = G["forties"]
+    path = "/guides/rent-or-buy-by-age-and-moving-cities/"
+    toc = [("short-answer", "The short answer"), ("table", "How fast prices must rise"), ("20s", "In your 20s"), ("30s", "In your 30s"), ("40s", "In your 40s"), ("move", "If you might move cities"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "People often ask whether buying a home makes sense in their 20s, 30s or 40s. The question that really decides it is how long you'll live there, and what you'd do with the money otherwise. Here's how that plays out at each stage of life, and what to do if you might move cities.",
+                      "Three houses at different heights along a timeline").replace("TYPE_LINE", "<span>Rent or buy</span>")
+    def r(y): return f'<tr><th scope="row">{y} years</th><td data-l="Savings in equity (12%)">{B[str(y)]:.1f}% a year</td><td data-l="Savings in FDs (7%)">{(str(round(F[str(y)], 1)) + "% a year") if str(y) in F else "—"}</td></tr>'
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Buying wins only if home prices rise fast enough to beat what your down payment and savings would have earned. On a ₹90 lakh home, staying 12 years, prices must rise about <strong>{B['12']:.1f}% a year</strong> if you'd otherwise invest in equity, or {F['12']:.1f}% if you'd keep the money in FDs. Stay only 3 years and it takes {B['3']:.1f}%. That's why the length of your stay matters more than your age.</p>
+<p class="g-cta"><a class="btn" href="/rent-vs-buy/">Check your own numbers</a></p>
+
+<h2 id="table">How fast prices must rise for buying to win</h2>
+<p>₹90 lakh home, 20% down, 20-year loan at 8.5%, rent ₹24,000 a month rising 5%, sold at the end of your stay:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">You stay</th><th scope="col">Savings in equity (12%)</th><th scope="col">Savings in FDs (7%)</th></tr></thead><tbody>
+{r(3)}{r(5)}{r(8)}{r(12)}{r(20)}
+</tbody></table></div>
+<p>For comparison, a National Housing Bank study of 50 cities found house prices rising about 4.75% a year on average, and the RBI's house price index rose 3.6% in the year to June 2026. So renting and investing usually wins, unless you'd keep your savings in safe options or stay a very long time.</p>
+
+<h2 id="20s">In your 20s</h2>
+<ul>
+  <li>Jobs, cities and plans change often: a 3–5 year stay needs prices to rise {B['5']:.0f}–{B['3']:.0f}% a year to make buying pay.</li>
+  <li>Stamp duty, registration and selling costs (about 8% of the price) are lost each time you buy and sell.</li>
+  <li>Rent, invest the difference, and build the down payment. See <a href="/guides/home-loan-down-payment/">How much down payment should you make?</a></li>
+</ul>
+
+<h2 id="30s">In your 30s</h2>
+<ul>
+  <li>If you're settled in a city and plan to stay 12 years or more, buying makes sense when you'd otherwise keep savings in FDs, or value the security of owning.</li>
+  <li>A home is also a forced saving: the EMI (about {_inr(G['emi'])} here) builds equity you might not otherwise build.</li>
+</ul>
+
+<h2 id="40s">In your 40s</h2>
+<ul>
+  <li>Choose a loan that ends by 60: a 15-year loan raises the EMI to about {_inr(Fo['emi'])}.</li>
+  <li>Kept for 20 years, buying needs prices to rise about {Fo['be']:.1f}% a year to beat renting and investing in equity.</li>
+  <li>Make sure the EMI doesn't squeeze your retirement savings. See <a href="/guides/retirement-planning-in-your-40s/">Retirement planning in your 40s</a>.</li>
+</ul>
+
+<h2 id="move">If you might move cities</h2>
+<ul>
+  <li>The shorter you stay, the harder buying is to justify: the buying and selling costs never get time to be recovered.</li>
+  <li>Moving doesn't have to mean selling: you can rent the home out. See <a href="/guides/keep-or-sell-your-home/">Keep or sell your home</a>.</li>
+  <li>Unsure? Rent for now. You can always buy later; undoing a purchase is costly.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/rent-vs-buy/">Rent or Buy calculator</a>'s own code (the main guide's example): ₹90 lakh home, ₹18 lakh down, stamp duty and other costs ₹8.1 lakh, 8.5% for 20 years, maintenance ₹48,000 a year, 1% selling cost, capital gains tax on sale; renting: ₹24,000 rising 5%, ₹1 lakh deposit; the difference invested each month in equity at 12% (12.5% tax on gains above ₹1.25 lakh) or FDs at 7% (taxed at 20%). New regime. The figure shown is the yearly price rise at which both end up equal. House price trends: National Housing Bank, "Economic growth and housing prices" (January 2026); RBI All-India House Price Index, Q1:2026-27 (24 August 2026). Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Prices, rents and returns vary by city.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Rent or buy a home? How long you'll stay decides", body, "Rent or buy: how long you'll stay")
+
+def guide_keep_sell():
+    K = _b13()["keep"]; K8 = _b13()["keep8"]
+    path = "/guides/keep-or-sell-your-home/"
+    toc = [("short-answer", "The short answer"), ("example", "Moving after 8 years"), ("compare", "10 years later"), ("tax", "Tax on each choice"), ("checklist", "Before you decide"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Moving cities with a home and a loan? You can sell it, or keep it and rent it out. Here's what each choice leaves you with 10 years later, and why it hinges on what you'd do with the money.",
+                      "A house with a sale sign and a rent sign").replace("TYPE_LINE", "<span>Rent or buy</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Rent brings in only 2–3% of a home's value a year in most cities, so keeping a home is mainly a bet on its price. If you'd invest the sale proceeds in equity, selling usually leaves you better off: about <strong>{_L(K['sellAfter10'])}</strong> vs {_L(K['keepTotal'])} in our example after 10 years. If you'd keep the money in safer options (8%), the two come out about even.</p>
+<p class="g-cta"><a class="btn" href="/rent-vs-buy/">Compare keeping and selling</a></p>
+
+<h2 id="example">Moving after 8 years</h2>
+<ul>
+  <li>Bought for ₹90 lakh with a ₹72 lakh loan; after 8 years it's worth about {_L(K['V8'])}, with about {_L(K['bal8'])} of loan left.</li>
+  <li><strong>Sell:</strong> about {_L(K['saleNet'])} after 1% selling costs, less about {_L(K['ltcg'])} in capital gains tax, less the loan.</li>
+  <li><strong>Keep:</strong> rent of about {_inr(K['rent1'])} a month at first (2.5% of value), while you keep paying the EMI.</li>
+</ul>
+
+<h2 id="compare">10 years later</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">What you'd do with the money</th><th scope="col">Sell now</th><th scope="col">Keep and rent out</th></tr></thead><tbody>
+<tr><th scope="row">Invest in equity (12%)</th><td data-l="Sell now">{_L(K['sellAfter10'])}</td><td data-l="Keep and rent out">{_L(K['keepTotal'])}</td></tr>
+<tr><th scope="row">Safer options (8%)</th><td data-l="Sell now">{_L(K8['sellAfter10'])}</td><td data-l="Keep and rent out">{_L(K8['keepTotal'])}</td></tr>
+</tbody></table></div>
+<p>"Sell now" invests the proceeds and, each month, the EMI you no longer pay. "Keep" counts the home's value (rising 6% a year) less the loan left, plus the net rent invested.</p>
+
+<h2 id="tax">Tax on each choice</h2>
+<ul>
+  <li><strong>Selling after 2 years:</strong> long-term capital gains at 12.5% (plus cess) on the gain over what you paid, including stamp duty and registration.</li>
+  <li><strong>Buying another home</strong> within the time allowed (section 82 of the 2025 Act, earlier 54) exempts the gain put into it, up to ₹10 crore: here, a saving of about {_L(K['reinvestSaves'])}.</li>
+  <li><strong>Keeping:</strong> rent is taxed at your slab after a 30% standard deduction; in the old regime, home loan interest on a let-out home can also be set off.</li>
+</ul>
+
+<h2 id="checklist">Before you decide</h2>
+<ol class="g-check">
+  <li>Will you move back? Keeping avoids buying and selling costs twice.</li>
+  <li>Can you manage a tenant from another city, or pay someone to?</li>
+  <li>Would you really invest the sale money, or spend part of it?</li>
+  <li>Is the area likely to keep rising? A home is one asset in one place.</li>
+</ol>
+<p>Read also <a href="/guides/rent-or-buy-by-age-and-moving-cities/">Rent or buy: how long you'll stay decides</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>Home value and loan balance from the <a href="/rent-vs-buy/">Rent or Buy calculator</a>'s own code (the main guide's example: ₹90 lakh, 20% down, 8.5% for 20 years, prices rising 6% a year). Rent: 2.5% of value a year, rising with the home; maintenance and property tax ₹48,000 a year at the start, rising 5%; rent taxed at 20% plus cess after the 30% deduction. Sale: 1% costs, 12.5% tax on the gain plus cess. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Rents, prices and your tax slab change the answer.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Keep or sell your home?", body, "Keep or sell")
+
+def guide_dual_income():
+    D = _b13()["dual"]
+    path = "/guides/double-income-family-budget/"
+    toc = [("short-answer", "The short answer"), ("split", "Splitting shared costs"), ("one", "Live on one income"), ("protect", "Protect both incomes"), ("tax", "Tax for two"), ("method", "How this was worked out")]
+    body = guide_head(path, "Two incomes make saving easier, and arguments about money more likely. Here's a simple system: how to split shared costs fairly, why living on one income works, and the tax and insurance points couples miss.",
+                      "Two wallets feeding one shared jar").replace("TYPE_LINE", "<span>Budget planner</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Use three pots: a joint account for shared costs, funded in proportion to each income, plus personal money for each of you. With take-home pay of {_inr(D['p1'])} and {_inr(D['p2'])} and {_inr(D['joint'])} of shared costs, that's {_inr(D['share1'])} and {_inr(D['share2'])} a month. If you can, live on the larger income and save the smaller one.</p>
+<p class="g-cta"><a class="btn" href="/budget-planner/">Plan your joint budget</a></p>
+
+<h2 id="split">Splitting shared costs</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Method</th><th scope="col">Partner A (₹1.2 lakh)</th><th scope="col">Partner B (₹80,000)</th></tr></thead><tbody>
+<tr><th scope="row">Equal halves</th><td data-l="Partner A">{_inr(D['half'])}</td><td data-l="Partner B">{_inr(D['half'])}</td></tr>
+<tr><th scope="row">In proportion to income</th><td data-l="Partner A">{_inr(D['share1'])}</td><td data-l="Partner B">{_inr(D['share2'])}</td></tr>
+</tbody></table></div>
+<p>Proportional leaves both with the same share of their pay for themselves, which tends to feel fairer when incomes differ.</p>
+
+<h2 id="one">Live on one income</h2>
+<ul>
+  <li>Run the household on one income and save or invest the other: here up to {_inr(D['p2'])} a month.</li>
+  <li>It also means a job loss, a career break or parental leave doesn't upset the budget.</li>
+  <li>Keep an emergency fund of six months' shared costs: about {_L(D['ef6'])}.</li>
+</ul>
+
+<h2 id="protect">Protect both incomes</h2>
+<ul>
+  <li><strong>Term insurance on each</strong>, sized to that person's share of the family's needs. See <a href="/guides/how-much-term-insurance-do-you-need/">How much term insurance do you need?</a></li>
+  <li><strong>Health cover</strong> for the family beyond employer policies, which end when a job does.</li>
+  <li><strong>Nominees</strong> on every account, PF and policy; and wills.</li>
+</ul>
+
+<h2 id="tax">Tax for two</h2>
+<ul>
+  <li>Each of you is taxed separately and can choose the old or new regime independently.</li>
+  <li>On a joint home loan, each co-owner and co-borrower can claim interest and principal deductions separately in the old regime (up to ₹2 lakh of interest each for a home you live in).</li>
+  <li>HRA can be claimed by the partner who actually pays the rent; don't both claim the same rent.</li>
+</ul>
+
+<h2 id="method">How this was worked out</h2>
+<p>Simple shares of the example incomes; the 50/30/20 split and emergency fund in months, as in our <a href="/budget-planner/">budget planner</a>. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Agree on a system that works for both of you.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "A double-income family budget", body, "Double-income budget")
+
+def guide_lease_slab_ev():
+    L = _b13()["lease"]
+    path = "/guides/car-lease-20-percent-slab-and-ev/"
+    toc = [("short-answer", "The short answer"), ("slabs", "By tax slab"), ("ev", "Leasing an EV"), ("when", "When it isn't worth it"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "A company car lease saves tax because the rental comes out of pre-tax pay. In the 30% slab that's a lot; in the 20% slab, less. And an EV's perquisite value is the small-car rate, whatever its price.",
+                      "A car on a payslip with a plug").replace("TYPE_LINE", "<span>Rule 15, Income-tax Rules, 2026</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Yes, in the 20% slab a lease still usually beats a car loan, but by less: on a ₹12 lakh car over 4 years, about <strong>{_L(L['s20']['diff'])}</strong> better, against {_L(L['s30']['diff'])} in the 30% slab. The lease wins as long as the monthly rental stays below about {_inr(L['be20'])} (20% slab) or {_inr(L['be30'])} (30% slab). An EV lease gains more, because its perquisite value is ₹5,000 a month however expensive the car.</p>
+<p class="g-cta"><a class="btn" href="/company-car-lease-vs-loan/">Compare a lease with a loan</a></p>
+
+<h2 id="slabs">By tax slab</h2>
+<p>₹12 lakh petrol car, 4 years, ₹30,000 a month rental including insurance and maintenance, fuel paid through the company, bought back at the end:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Your slab</th><th scope="col">Lease, cost a month</th><th scope="col">Loan, cost a month</th><th scope="col">Lease better by</th></tr></thead><tbody>
+<tr><th scope="row">30%</th><td data-l="Lease a month">{_inr(L['s30']['outL'])}</td><td data-l="Loan a month">{_inr(L['s30']['outB'])}</td><td data-l="Lease better by">{_L(L['s30']['diff'])}</td></tr>
+<tr><th scope="row">20%</th><td data-l="Lease a month">{_inr(L['s20']['outL'])}</td><td data-l="Loan a month">{_inr(L['s20']['outB'])}</td><td data-l="Lease better by">{_L(L['s20']['diff'])}</td></tr>
+<tr><th scope="row">5%</th><td data-l="Lease a month">{_inr(L['s5']['outL'])}</td><td data-l="Loan a month">{_inr(L['s5']['outB'])}</td><td data-l="Lease better by">{_L(L['s5']['diff'])}</td></tr>
+</tbody></table></div>
+<p>"Better by" counts everything over the 4 years, including what you'd earn investing the monthly difference.</p>
+
+<h2 id="ev">Leasing an EV</h2>
+<ul>
+  <li>Under Rule 15 of the Income-tax Rules, 2026, an electric car's perquisite value is the small-car rate: ₹5,000 a month when the company pays running costs, against ₹{L['bigPerk']:,} for a bigger petrol car.</li>
+  <li>So a costlier car, with a bigger rental out of pre-tax pay, saves more tax: a ₹20 lakh EV leased at ₹48,000 a month comes out about {_L(L['ev30']['diff'])} better than a loan in the 30% slab, and {_L(L['ev20']['diff'])} in the 20% slab.</li>
+  <li>Check the lease covers charging equipment at home, and what the buy-back price will be.</li>
+</ul>
+
+<h2 id="when">When it isn't worth it</h2>
+<ul>
+  <li>In the 5% slab or below the zero-tax limit, the saving almost disappears.</li>
+  <li>If you may change jobs during the lease, closure charges eat into it. See <a href="/guides/car-lease-job-change-buy-back-or-hand-back/">Changing jobs with a company car lease</a>.</li>
+  <li>If the rental is high for the car (above the break-even), a loan is cheaper.</li>
+</ul>
+<p>Read also <a href="/guides/company-car-perquisite-value-2026/">Company car perquisite value from April 2026</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/company-car-lease-vs-loan/">Car Lease vs Car Loan calculator</a>'s own code: perquisite values under Rule 15 of the Income-tax Rules, 2026; loan 80% at 9% for 4 years; car losing 15% a year; buy-back at 20%; monthly differences invested at 7%; tax at slab plus 4% cess. EV: ₹20 lakh, ₹48,000 rental, charging ₹2,000 a month. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Lease terms differ by employer and leasing company.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Is a company car lease worth it in the 20% slab?", body, "Car lease in the 20% slab")
+
+def guide_lease_exit():
+    X = _b13()["exit"]
+    path = "/guides/car-lease-job-change-buy-back-or-hand-back/"
+    toc = [("short-answer", "The short answer"), ("job", "If you change jobs"), ("end", "At the end of the lease"), ("compare", "The numbers"), ("checklist", "Before you sign the lease"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Your company car comes with your job, so when you move on, the lease usually ends too. Here's what happens next, what it costs to keep the car or give it back, and how to make the same choice when a lease simply runs its course.",
+                      "A car with its key and two arrows: keep it or hand it back").replace("TYPE_LINE", "<span>Car lease</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>If you change jobs mid-lease, it usually closes early: you pay a closure charge and either buy the car at the price your lease sets for that date or hand it back. At the end of the lease, buying back makes sense when the buy-back price is below what the car is worth, which it usually is: here ₹2.4 lakh for a car worth about {_L(X['carAt4'])}.</p>
+<p class="g-cta"><a class="btn" href="/company-car-lease-vs-loan/">Model your lease, including an early exit</a></p>
+
+<h2 id="job">If you change jobs</h2>
+<ul>
+  <li>Most leases end when your employment does. A few leasing companies let a new employer take over the lease; ask, but don't count on it.</li>
+  <li>You'll pay an early closure charge (often a few months' rental or a set fee), plus any rentals still due under your notice.</li>
+  <li>Buying the car at that point usually costs more than the end-of-lease price; check the schedule in your agreement.</li>
+  <li>Perquisite tax stops once the car is no longer provided by the employer.</li>
+</ul>
+
+<h2 id="end">At the end of the lease</h2>
+<ul>
+  <li><strong>Buy back:</strong> pay the agreed residual price; the car is transferred to you (RC and insurance).</li>
+  <li><strong>Hand back:</strong> return it in good condition; charges for damage or extra kilometres may apply.</li>
+  <li>Compare the buy-back price with the car's market value and with what a similar used car costs.</li>
+</ul>
+
+<h2 id="compare">The numbers</h2>
+<p>₹12 lakh car, 4-year lease at ₹30,000 a month, 30% slab. Net cost (what you've spent, less the car you keep):</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col"></th><th scope="col">Buy the car</th><th scope="col">Hand it back</th><th scope="col">Car loan instead</th></tr></thead><tbody>
+<tr><th scope="row">Leave after 2 years (₹50,000 closure charge, buy at ₹6.5 lakh)</th><td data-l="Buy the car">{_L(-X['buy'])}</td><td data-l="Hand it back">{_L(-X['ret'])}</td><td data-l="Car loan instead">{_L(-X['loan'])}</td></tr>
+<tr><th scope="row">Full 4 years (buy back at ₹2.4 lakh)</th><td data-l="Buy the car">{_L(-X['endBuy'])}</td><td data-l="Hand it back">{_L(-X['endRet'])}</td><td data-l="Car loan instead">—</td></tr>
+</tbody></table></div>
+<p>Even leaving after 2 years, the lease came out cheaper than a loan here, because of the tax saved while it ran.</p>
+
+<h2 id="checklist">Before you sign the lease</h2>
+<ol class="g-check">
+  <li>The early-closure charge and the buy-back price for each year.</li>
+  <li>Whether a new employer can take over the lease.</li>
+  <li>Kilometre limits and damage charges at hand-back.</li>
+  <li>How likely you are to stay for the full term.</li>
+</ol>
+<p>Read also <a href="/guides/company-car-lease-vs-car-loan/">Company car lease vs car loan</a> and <a href="/guides/car-lease-20-percent-slab-and-ev/">Is a car lease worth it in the 20% slab?</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/company-car-lease-vs-loan/">Car Lease vs Car Loan calculator</a>'s own code, including its early-exit model: perquisite values under Rule 15 of the Income-tax Rules, 2026; car losing 15% a year (worth about {_L(X['carAt2'])} after 2 years); loan 80% at 9% for 4 years, with the balance counted on exit; monthly differences invested at 7%. Closure charge and exit price are examples. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Your lease agreement decides the charges.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Changing jobs with a company car lease?", body, "Car lease and a job change")
+
 def guide_mf_tax():
     import subprocess
     G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_sip_numbers.js")]))
@@ -8570,6 +9128,16 @@ def main():
     write("/guides/gratuity-new-labour-codes/", guide_gratuity())
     write("/guides/new-income-tax-section-numbers/", guide_sections())
     write("/guides/fd-rd-or-ppf/", guide_fd_main())
+    write("/guides/rent-or-buy-by-age-and-moving-cities/", guide_rent_buy_age())
+    write("/guides/keep-or-sell-your-home/", guide_keep_sell())
+    write("/guides/double-income-family-budget/", guide_dual_income())
+    write("/guides/car-lease-20-percent-slab-and-ev/", guide_lease_slab_ev())
+    write("/guides/car-lease-job-change-buy-back-or-hand-back/", guide_lease_exit())
+    write("/guides/sukanya-samriddhi-two-daughters/", guide_ssy_two())
+    write("/guides/revive-sukanya-samriddhi-account/", guide_ssy_revive())
+    write("/guides/first-salary-budget/", guide_first_budget())
+    write("/guides/home-loan-insurance-vs-term-plan/", guide_home_loan_ins())
+    write("/guides/three-bucket-retirement-plan/", guide_three_bucket())
     write("/guides/government-ev-rule-should-you-switch/", guide_govt_ev())
     write("/guides/open-sukanya-samriddhi-account/", guide_ssy_open())
     write("/guides/why-eps-pension-is-low/", guide_eps_low())
@@ -8633,7 +9201,7 @@ def main():
     write("/guides/prepay-home-loan-early-or-later/", guide_prepay_timing())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime
