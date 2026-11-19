@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Monthly withdrawal bars rising step by step with prices">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<rect x="440" y="560" width="64" height="60" rx="10" fill="#FFD27A"/><rect x="530" y="520" width="64" height="100" rx="10" fill="#7FB0FF"/><rect x="620" y="480" width="64" height="140" rx="10" fill="#FFD27A"/><rect x="710" y="440" width="64" height="180" rx="10" fill="#7FB0FF"/><rect x="800" y="400" width="64" height="220" rx="10" fill="#FFD27A"/><rect x="890" y="360" width="64" height="260" rx="10" fill="#7FB0FF"/><rect x="980" y="320" width="64" height="300" rx="10" fill="#FFD27A"/><rect x="1070" y="280" width="64" height="340" rx="10" fill="#7FB0FF"/><path d="M440 560 L1150 280" stroke="#FFFFFF" stroke-width="10" stroke-dasharray="20 14"/>
+</svg>

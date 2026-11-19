@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Three flames of different sizes for Lean, regular and Fat FIRE">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<path transform="translate(520 420) scale(0.8)" d="M0 120 C-70 120 -90 50 -50 0 C-40 40 -20 40 -20 10 C-20 -40 10 -70 20 -100 C40 -50 90 -20 70 50 C60 100 40 120 0 120Z" fill="#FFD27A"/><path transform="translate(520 452.0) scale(0.4)" d="M0 120 C-70 120 -90 50 -50 0 C-40 40 -20 40 -20 10 C-20 -40 10 -70 20 -100 C40 -50 90 -20 70 50 C60 100 40 120 0 120Z" fill="#E8A93A"/><path transform="translate(800 380) scale(1.2)" d="M0 120 C-70 120 -90 50 -50 0 C-40 40 -20 40 -20 10 C-20 -40 10 -70 20 -100 C40 -50 90 -20 70 50 C60 100 40 120 0 120Z" fill="#FFD27A"/><path transform="translate(800 428.0) scale(0.6)" d="M0 120 C-70 120 -90 50 -50 0 C-40 40 -20 40 -20 10 C-20 -40 10 -70 20 -100 C40 -50 90 -20 70 50 C60 100 40 120 0 120Z" fill="#E8A93A"/><path transform="translate(1120 330) scale(1.7)" d="M0 120 C-70 120 -90 50 -50 0 C-40 40 -20 40 -20 10 C-20 -40 10 -70 20 -100 C40 -50 90 -20 70 50 C60 100 40 120 0 120Z" fill="#FFD27A"/><path transform="translate(1120 398.0) scale(0.85)" d="M0 120 C-70 120 -90 50 -50 0 C-40 40 -20 40 -20 10 C-20 -40 10 -70 20 -100 C40 -50 90 -20 70 50 C60 100 40 120 0 120Z" fill="#E8A93A"/>
+</svg>

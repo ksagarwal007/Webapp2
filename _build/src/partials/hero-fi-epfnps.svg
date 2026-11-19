@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Two locked boxes for EPF and NPS with clocks at 58 and 60">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<rect x="420" y="360" width="300" height="250" rx="24" fill="#FFFFFF"/><path d="M500 360 V300 A70 70 0 0 1 640 300 V360" fill="none" stroke="#FFFFFF" stroke-width="22"/><text x="570" y="510" font-family="Arial" font-weight="700" font-size="70" fill="#0B2A6B" text-anchor="middle">EPF</text>
+ <rect x="880" y="360" width="300" height="250" rx="24" fill="#FFD27A"/><path d="M960 360 V300 A70 70 0 0 1 1100 300 V360" fill="none" stroke="#FFD27A" stroke-width="22"/><text x="1030" y="510" font-family="Arial" font-weight="700" font-size="70" fill="#0B2A6B" text-anchor="middle">NPS</text>
+ <circle cx="570" cy="700" r="44" fill="#7FB0FF"/><text x="570" y="715" font-family="Arial" font-weight="700" font-size="36" fill="#0B2A6B" text-anchor="middle">58</text><circle cx="1030" cy="700" r="44" fill="#7FB0FF"/><text x="1030" y="715" font-family="Arial" font-weight="700" font-size="36" fill="#0B2A6B" text-anchor="middle">60</text>
+</svg>

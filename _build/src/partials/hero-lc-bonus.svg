@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A gift box and a share certificate set apart from a payslip">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+
+  <rect x="380" y="250" width="300" height="420" rx="26" fill="#FFFFFF"/>
+  <rect x="420" y="300" width="160" height="20" rx="10" fill="#0B2A6B" opacity=".8"/><rect x="420" y="350" width="220" height="14" rx="7" fill="#0B2A6B" opacity=".25"/><rect x="420" y="390" width="200" height="14" rx="7" fill="#0B2A6B" opacity=".25"/><rect x="420" y="430" width="210" height="14" rx="7" fill="#0B2A6B" opacity=".25"/>
+  <path d="M760 220 V700" stroke="#FFFFFF" stroke-width="10" stroke-dasharray="20 18" opacity=".7"/>
+  <rect x="860" y="430" width="260" height="220" rx="20" fill="#FFD27A"/><rect x="840" y="390" width="300" height="60" rx="16" fill="#FFD27A"/><rect x="975" y="390" width="30" height="260" fill="#E8A93A"/>
+  <path d="M990 390 C930 330 910 300 950 290 C980 285 990 330 990 390 C990 330 1000 285 1030 290 C1070 300 1050 330 990 390Z" fill="#FFFFFF"/>
+  <rect x="1180" y="300" width="200" height="260" rx="18" fill="#FFFFFF" transform="rotate(8 1280 430)"/><circle cx="1290" cy="470" r="34" fill="#7FB0FF" transform="rotate(8 1280 430)"/>
+</svg>

@@ -138,6 +138,25 @@
     }).join("");
     return '<table class="calc"><thead><tr><th>Age</th><th>You put in (year)</th><th>Spending (year)</th><th>Pensions and income (year)</th><th>Savings at the end</th></tr></thead><tbody>' + rows + "</tbody></table>";
   }
+  /* Monthly income in retirement, by source (SWP from your investments + pensions). Shown when the SWP calculator is live. */
+  function swpIncome(o, r) {
+    var box = document.getElementById("rpSwp"), SW = window.SalaristSWP; r.income = null;
+    if (!box || !SW) return;
+    var yrs = Math.max(1, o.lifeTo - o.retireAge), late = r.npsExit > o.retireAge && r.npsLump > 0, mN = (r.npsExit - o.retireAge) * 12;
+    var w = SW.sustainable({ corpus: r.have, step: o.infl, ret: o.retRet, months: yrs * 12, flow: late ? function (m) { return m === mN ? r.npsLump : 0; } : null });
+    var oth = o.other * Math.pow(1 + o.infl / 100, r.N);
+    var rows = [["Withdrawals from your investments (SWP)", w, "From " + o.retireAge + ", rising " + o.infl + "% a year, until " + o.lifeTo]];
+    if (r.epsM > 0) rows.push(["EPS pension", r.epsM, "From " + r.epsFrom + ", fixed, for life"]);
+    if (r.npsPen > 0) rows.push(["NPS pension (annuity)", r.npsPen, "From " + r.npsExit + ", fixed, for life"]);
+    if (oth > 0) rows.push(["Other income", oth, "From " + o.retireAge + ", rising with inflation"]);
+    var startTotal = w + (r.epsFrom <= o.retireAge ? r.epsM : 0) + (r.npsExit <= o.retireAge ? r.npsPen : 0) + oth;
+    r.income = { w: w, rows: rows, total: startTotal };
+    box.innerHTML = '<h2>Your monthly income in retirement</h2><div class="swp-card"><p>If you draw your ' + short(r.have) + " down as a systematic withdrawal plan (SWP), it can pay <b>" + inr(w) + " a month</b> from " + o.retireAge +
+      ", rising " + o.infl + "% a year, until " + o.lifeTo + (late ? " (your NPS lump sum joins it at " + r.npsExit + ")" : "") + ", at " + o.retRet + "% a year. Your spending then: " + inr(r.spendAt) + " a month.</p>" +
+      '<table class="calc"><thead><tr><th>Source</th><th>A month</th><th>When</th></tr></thead><tbody>' + rows.map(function (x) { return '<tr><th scope="row">' + x[0] + '</th><td data-l="A month">' + inr(x[1]) + '</td><td data-l="When">' + x[2] + "</td></tr>"; }).join("") +
+      '<tr class="tot"><th scope="row"><b>At ' + o.retireAge + "</b></th><td data-l=\"A month\"><b>" + inr(startTotal) + '</b></td><td data-l="When">vs spending of ' + inr(r.spendAt) + "</td></tr></tbody></table>" +
+      '<p class="hint" style="margin:10px 0">Before tax. Withdrawals are taxed only on their gains; pensions at your slab.</p><a class="btn-sm" href="' + SW.link({ corpus: r.have, years: yrs, step: o.infl, ret: o.retRet }) + '">See tax and year-by-year in the SWP calculator →</a></div>';
+  }
   function render() {
     pressed("eps", S.eps ? "1" : "0"); $("rp-epsWrap").hidden = !S.eps;
     var o = cur(), r = plan(o); last = r;
@@ -161,6 +180,7 @@
     $("rpLegX").hidden = !rx;
     $("rpHave").innerHTML = '<table class="calc"><thead><tr><th>At ' + o.retireAge + '</th><th>Amount</th></tr></thead><tbody>' + haveRows(r).map(function (x) { return '<tr><th scope="row">' + x[0] + '</th><td data-l="Amount">' + inr(x[1]) + "</td></tr>"; }).join("") +
       '<tr class="tot"><th scope="row"><b>You\'ll have</b></th><td data-l="Amount"><b>' + inr(r.have) + '</b></td></tr><tr><th scope="row">You need</th><td data-l="Amount">' + inr(r.need) + '</td></tr><tr class="tot"><th scope="row"><b>' + (ok ? "Surplus" : "Gap") + '</b></th><td data-l="Amount"><b>' + inr(Math.abs(r.gap)) + "</b></td></tr></tbody></table>";
+    swpIncome(o, r);
     r.what = whatIfs(o);
     $("rpSens").innerHTML = r.what.map(function (w, i) { return '<div class="sv' + (i === 0 ? " cur" : "") + '"><span class="l">' + w.label + '</span><span class="n">' + whatText(w) + '</span><span class="h">' + whatHint(w) + "</span></div>"; }).join("");
     $("rpTable").innerHTML = tableHtml(r);
@@ -176,7 +196,8 @@
     sc.onload = function () { cb(window.SalaristReportKit); }; sc.onerror = function () { say("Couldn't load the report. Check your connection and try again."); };
     document.head.appendChild(sc);
   }
-  function spec() {
+  function spec() { var sp = spec0(); if (last.income) sp.notes.unshift("Monthly income in retirement: drawn down as a systematic withdrawal plan (SWP), your investments can pay " + inr(last.income.w) + " a month from " + cur().retireAge + ", rising with inflation, until " + cur().lifeTo + "; with pensions and other income, " + inr(last.income.total) + " a month at the start (before tax)."); return sp; }
+  function spec0() {
     var r = last, rx = lastX, o = cur(), cats = [o.age], start = o.epfBal + o.npsBal + o.mfBal + o.fdBal, a = [start], b = [start];
     function months(rows, arr) { rows.forEach(function (w, i) { var prev = i ? rows[i - 1].total : start; for (var m = 1; m <= 12; m++) arr.push(prev + (w.total - prev) * m / 12); }); }
     r.rows.forEach(function (w) { cats.push(w.age); }); months(r.rows, a); if (rx) months(rx.rows, b);

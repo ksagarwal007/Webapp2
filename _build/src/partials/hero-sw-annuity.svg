@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A pension cheque on one side and a tap jar on the other">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<rect x="380" y="320" width="420" height="220" rx="20" fill="#FFFFFF"/><rect x="420" y="360" width="200" height="22" rx="11" fill="#0B2A6B" opacity=".8"/><rect x="420" y="410" width="300" height="14" rx="7" fill="#0B2A6B" opacity=".25"/><rect x="420" y="450" width="260" height="14" rx="7" fill="#0B2A6B" opacity=".25"/><rect x="640" y="480" width="120" height="30" rx="8" fill="#FFD27A"/><rect x="920" y="200" width="260" height="320" rx="40" fill="#FFFFFF"/><rect x="940" y="320" width="220" height="180" rx="28" fill="#FFD27A"/><rect x="1180" y="430" width="80" height="34" rx="10" fill="#FFFFFF"/><rect x="1236" y="450" width="24" height="40" fill="#FFFFFF"/><circle cx="1248" cy="530" r="20" fill="#FFD27A"/><circle cx="1248" cy="590" r="20" fill="#FFD27A" opacity=".7"/>
+</svg>

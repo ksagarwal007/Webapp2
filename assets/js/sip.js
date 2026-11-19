@@ -110,6 +110,15 @@
   }
 
   var last = null;
+  /* Then withdraw: the monthly income the corpus could give as an SWP (25 years at 8%, rising with inflation). Shown when the SWP calculator is live. */
+  function swpCard(value) {
+    var box = document.getElementById("spSwp"), SW = window.SalaristSWP; if (last) last.swp = null;
+    if (!box || !SW || !(value > 0)) { if (box) box.innerHTML = ""; return; }
+    var yrs = 25, ret = 8, w = SW.sustainable({ corpus: value, step: S.infl, ret: ret, months: yrs * 12 });
+    if (last) last.swp = { w: w, value: value, yrs: yrs, ret: ret };
+    box.innerHTML = '<h2 class="list-h">Then: a monthly income from it</h2><div class="swp-card"><p>When you need it, your ' + short(value) + " could pay <b>" + inr(w) + " a month</b> for " + yrs + " years as a systematic withdrawal plan (SWP), rising " + S.infl + "% a year, if it earns " + ret + "% a year by then.</p>" +
+      '<a class="btn-sm" href="' + SW.link({ corpus: value, years: yrs, step: S.infl, ret: ret, kind: S.kind }) + '">Plan the withdrawals →</a></div>';
+  }
   function render() {
     pressed("mode", S.mode); pressed("goal", S.goal); pressed("kind", S.kind);
     var ex = S.mode === "existing", goal = S.goal === "target";
@@ -148,6 +157,7 @@
     }).join("");
     $("spSensH").textContent = goal ? "What if returns are different? (SIP needed)" : "What if returns are different?";
     $("spNotes").innerHTML = notes().map(function (t) { return "<li>" + t + "</li>"; }).join("");
+    swpCard(sim.value);
   }
   function notes() {
     var n = ["Returns grow at a steady " + S.ret + "% a year, compounded monthly so that a full year gives exactly " + S.ret + "%. Real returns go up and down, especially in equity funds, and aren't guaranteed.",
@@ -222,7 +232,8 @@
     sc.onload = function () { cb(window.SalaristReportKit); }; sc.onerror = function () { say("Couldn't load the report. Check your connection and try again."); };
     document.head.appendChild(sc);
   }
-  function spec() {
+  function spec() { var sp = spec0(); if (last && last.swp && sp.notes) sp.notes.push("Then, as a monthly income: " + short(last.swp.value) + " could pay " + inr(last.swp.w) + " a month for " + last.swp.yrs + " years as an SWP, rising " + S.infl + "% a year, at " + last.swp.ret + "% a year (before tax)."); return sp; }
+  function spec0() {
     var L = last, sim = L.sim, ex = S.mode === "existing", goal = S.goal === "target";
     var inputs = [["You are", ex ? "Already investing" : "Starting fresh"], ["Working out", goal ? "SIP needed for a goal" : "What the SIP grows to"]];
     if (ex) inputs.push(["Portfolio value today", inr(S.cur), S.cur], ["Invested so far", inr(S.cost), S.cost]);

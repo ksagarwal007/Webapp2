@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="An hourglass between a gift box and an office door">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+
+ <rect x="380" y="430" width="260" height="220" rx="20" fill="#FFD27A"/><rect x="360" y="390" width="300" height="60" rx="16" fill="#FFD27A"/><rect x="495" y="390" width="30" height="260" fill="#E8A93A"/>
+ <path d="M720 260 H880 M720 640 H880" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round"/><path d="M735 270 C735 380 865 400 865 450 C865 500 735 520 735 630 M865 270 C865 380 735 400 735 450 C735 500 865 520 865 630" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+ <path d="M760 330 H840 L800 430 Z M760 620 H840 L800 560 Z" fill="#FFD27A"/>
+ <rect x="980" y="240" width="240" height="420" rx="18" fill="#FFFFFF"/><rect x="1010" y="270" width="180" height="360" rx="10" fill="#7FB0FF"/><circle cx="1160" cy="460" r="14" fill="#FFD27A"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A bridge spanning from age 45 to locked EPF and NPS boxes">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<path d="M380 560 Q800 300 1220 560" fill="none" stroke="#FFFFFF" stroke-width="18"/><rect x="360" y="560" width="900" height="24" rx="12" fill="#FFFFFF"/>
+ <rect x="460" y="481" width="10" height="79" fill="#FFFFFF" opacity=".7"/><rect x="530" y="418" width="10" height="142" fill="#FFFFFF" opacity=".7"/><rect x="600" y="369" width="10" height="191" fill="#FFFFFF" opacity=".7"/><rect x="670" y="335" width="10" height="225" fill="#FFFFFF" opacity=".7"/><rect x="740" y="316" width="10" height="244" fill="#FFFFFF" opacity=".7"/><rect x="810" y="311" width="10" height="249" fill="#FFFFFF" opacity=".7"/><rect x="880" y="320" width="10" height="240" fill="#FFFFFF" opacity=".7"/><rect x="950" y="344" width="10" height="216" fill="#FFFFFF" opacity=".7"/><rect x="1020" y="382" width="10" height="178" fill="#FFFFFF" opacity=".7"/><rect x="1090" y="434" width="10" height="126" fill="#FFFFFF" opacity=".7"/>
+ <circle cx="420" cy="500" r="50" fill="#FFD27A"/><text x="420" y="515" font-family="Arial" font-weight="700" font-size="40" fill="#0B2A6B" text-anchor="middle">45</text>
+ <rect x="1130" y="410" width="150" height="110" rx="16" fill="#FFD27A"/><path d="M1165 410 V375 A40 40 0 0 1 1245 375 V410" fill="none" stroke="#FFD27A" stroke-width="14"/><text x="1205" y="480" font-family="Arial" font-weight="700" font-size="34" fill="#0B2A6B" text-anchor="middle">EPF</text>
+</svg>

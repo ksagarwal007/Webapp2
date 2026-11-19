@@ -76,7 +76,7 @@
     tb.rows.forEach(function (r, ri) {
       if (y + 44 > PH - 160) { p = newPage(); pages.push(p); y = header(p, sp); title = tb.title + " (continued)"; head(); }
       if (ri % 2) R(p.x, M, y, W, 44, 0, C.soft);
-      r.forEach(function (v, i) { var t = i === 0 ? String(v) : sp.inr(v); T(p.x, t, i === 0 ? M + 20 : M + cw * (i + 1) - 16, y + 30, fitSize(p.x, t, 20, 500, cw - 20), i === 0 ? 700 : 500, C.ink, i === 0 ? "left" : "right"); });
+      r.forEach(function (v, i) { var t = i === 0 || typeof v === "string" ? String(v) : sp.inr(v); T(p.x, t, i === 0 ? M + 20 : M + cw * (i + 1) - 16, y + 30, fitSize(p.x, t, 20, 500, cw - 20), i === 0 ? 700 : 500, C.ink, i === 0 ? "left" : "right"); });
       y += 44;
     });
     return y + 40;
@@ -134,6 +134,14 @@
       p = pages[pages.length - 1];
       if (y + 300 > PH - 160) { p = newPage(); pages.push(p); y = header(p, sp); }
       y = tablePages(pages, sp, { title: tb.title, cols: tb.cols, rows: tb.yearly }, y);
+      /* Optional notes under a table: tb.note = [strings] (with tb.noteTitle) */
+      if (tb.note && tb.note.length) {
+        p = pages[pages.length - 1]; x = p.x;
+        if (y + 120 > PH - 160) { p = newPage(); pages.push(p); x = p.x; y = header(p, sp); }
+        T(x, tb.noteTitle || "Notes on this table", M, y, 26, 800, C.ink); y += 40;
+        tb.note.forEach(function (n) { if (y + 70 > PH - 160) { p = newPage(); pages.push(p); x = p.x; y = header(p, sp); } y = wrap(x, "•  " + n, M, y, W, 21, 400, C.ink, 32) + 6; });
+        y += 30;
+      }
     });
     p = pages[pages.length - 1]; x = p.x;
     var need = 260 + (sp.notes.length + sp.taxRules.length) * 72;
@@ -233,7 +241,12 @@
   function chartXml(first, last, cats, ser, chTitle) {
     function cache(vals) { return '<c:numCache><c:formatCode>General</c:formatCode><c:ptCount val="' + vals.length + '"/>' + vals.map(function (v, i) { return '<c:pt idx="' + i + '"><c:v>' + v + "</c:v></c:pt>"; }).join("") + "</c:numCache>"; }
     function one(idx, L, s) {
-      var hex = s.color === "amber" ? "E39A1E" : s.color === "green" ? "0B7F5A" : "1F5FE0";
+      var hex = s.color === "amber" ? "E39A1E" : s.color === "green" ? "0B7F5A" : s.color === "red" ? "C2410C" : s.color === "ink" ? "0B2A6B" : "1F5FE0";
+      if (s.mark) return '<c:ser><c:idx val="' + idx + '"/><c:order val="' + idx + '"/><c:tx><c:strRef><c:f>Chart!$' + L + "$" + (first - 1) + '</c:f><c:strCache><c:ptCount val="1"/><c:pt idx="0"><c:v>' + esc(s.name) + "</c:v></c:pt></c:strCache></c:strRef></c:tx>" +
+        '<c:spPr><a:ln w="38100"><a:noFill/></a:ln></c:spPr><c:marker><c:symbol val="' + (s.symbol || "circle") + '"/><c:size val="11"/><c:spPr><a:solidFill><a:srgbClr val="' + hex + '"/></a:solidFill><a:ln><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill></a:ln></c:spPr></c:marker>' +
+        "<c:cat><c:numRef><c:f>Chart!$A$" + first + ":$A$" + last + "</c:f>" + cache(cats) + "</c:numRef></c:cat>" +
+        "<c:val><c:numRef><c:f>Chart!$" + L + "$" + first + ":$" + L + "$" + last + '</c:f><c:numCache><c:formatCode>General</c:formatCode><c:ptCount val="' + s.vals.length + '"/>' +
+        s.vals.map(function (v, i) { return v === null ? "" : '<c:pt idx="' + i + '"><c:v>' + v + "</c:v></c:pt>"; }).join("") + '</c:numCache></c:numRef></c:val><c:smooth val="0"/></c:ser>';
       return '<c:ser><c:idx val="' + idx + '"/><c:order val="' + idx + '"/><c:tx><c:strRef><c:f>Chart!$' + L + "$" + (first - 1) + '</c:f><c:strCache><c:ptCount val="1"/><c:pt idx="0"><c:v>' + esc(s.name) + "</c:v></c:pt></c:strCache></c:strRef></c:tx>" +
         '<c:spPr><a:ln w="38100" cap="rnd"><a:solidFill><a:srgbClr val="' + hex + '"/></a:solidFill><a:round/></a:ln></c:spPr><c:marker><c:symbol val="none"/></c:marker>' +
         "<c:cat><c:numRef><c:f>Chart!$A$" + first + ":$A$" + last + "</c:f>" + cache(cats) + "</c:numRef></c:cat>" +
@@ -274,12 +287,22 @@
     sum.push([], [{ v: DISCLAIMER, s: 7 }], [{ v: "Free, private money tools for salaried India: salarist.in", s: 3 }]);
     var HEAD = 26, cats = sp.chartYears, ch = [[{ v: sp.chartTitle, s: 4 }], [{ v: sp.chartNote + " At each year end, in ₹ lakh.", s: 7 }]];
     while (ch.length < HEAD - 1) ch.push([]);
-    ch.push([{ v: sp.chartXLabel || "Year", s: 1 }].concat(sp.chart.series.map(function (s) { return { v: s.name, s: 10 }; })));
-    var serVals = sp.chart.series.map(function (s) { return cats.map(function (y, i) { return Math.round(s.data[Math.min(i * 12, s.data.length - 1)] / 1000) / 100; }); });
-    cats.forEach(function (c, i) { ch.push([c].concat(serVals.map(function (v) { return { v: v[i], s: 11 }; }))); });
-    var names = ["Summary", "Chart"], sheets = [sheet(sum, [46, 26, 22]), sheet(ch, [12, 22, 22], 0, true)];
-    function tbl(cols, rows) { return [cols.map(function (t, i) { return { v: t, s: i ? 10 : 1 }; })].concat(rows.map(function (r) { return r.map(function (v, i) { return i ? money(v) : v; }); })); }
-    sp.tables.forEach(function (tb) { names.push("Yearly - " + tb.sheet); sheets.push(sheet(tbl(tb.cols, tb.yearly), [10].concat(tb.cols.slice(1).map(function () { return 18; })), 1)); });
+    /* Optional milestones on the Excel chart: sp.chartMarks = [{i (row index in chartYears), label, color, symbol}], drawn as markers on the first series, named in the legend,
+       and described in a "What happens" column. */
+    var marks = sp.chartMarks || [], xser = sp.chart.series.slice();
+    ch.push([{ v: sp.chartXLabel || "Year", s: 1 }].concat(xser.map(function (s) { return { v: s.name, s: 10 }; }), marks.map(function (m) { return { v: m.label, s: 10 }; }), marks.length ? [{ v: "What happens", s: 10 }] : []));
+    var serVals = xser.map(function (s) { return cats.map(function (y, i) { return Math.round(s.data[Math.min(i * 12, s.data.length - 1)] / 1000) / 100; }); });
+    var markVals = marks.map(function (m) { return cats.map(function (y, i) { return i === m.i ? serVals[0][i] : null; }); });
+    cats.forEach(function (c, i) {
+      var what = marks.filter(function (m) { return m.i === i; }).map(function (m) { return m.text || m.label; }).join(" ");
+      ch.push([c].concat(serVals.map(function (v) { return { v: v[i], s: 11 }; }), markVals.map(function (v) { return v[i] === null ? null : { v: v[i], s: 11 }; }), marks.length ? [what ? { v: what, s: 7 } : null] : []));
+    });
+    var names = ["Summary", "Chart"], sheets = [sheet(sum, [46, 26, 22]), sheet(ch, [12, 22, 22].concat(marks.map(function () { return 20; }), marks.length ? [60] : []), 0, true)];
+    function tbl(cols, rows) { return [cols.map(function (t, i) { return { v: t, s: i ? 10 : 1 }; })].concat(rows.map(function (r) { return r.map(function (v, i) { return i && typeof v !== "string" ? money(v) : v; }); })); }
+    sp.tables.forEach(function (tb) { names.push("Yearly - " + tb.sheet);
+      var rows = tbl(tb.cols, tb.yearly);
+      if (tb.note && tb.note.length) { rows.push([], [{ v: tb.noteTitle || "Notes on this table", s: 4 }]); tb.note.forEach(function (n) { rows.push([{ v: n, s: 7 }]); }); }
+      sheets.push(sheet(rows, [10].concat(tb.cols.slice(1).map(function () { return 18; })), 1)); });
     sp.tables.filter(function (tb) { return tb.monthly; }).forEach(function (tb) { names.push("Monthly - " + tb.sheet); sheets.push(sheet(tbl(["Month"].concat(tb.cols.slice(1)), tb.monthly), [10].concat(tb.cols.slice(1).map(function () { return 18; })), 1)); });
     var files = [
       ["[Content_Types].xml", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
@@ -296,7 +319,7 @@
       ["xl/worksheets/_rels/sheet2.xml.rels", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing" Target="../drawings/drawing1.xml"/></Relationships>'],
       ["xl/drawings/drawing1.xml", DRAWING],
       ["xl/drawings/_rels/drawing1.xml.rels", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart" Target="../charts/chart1.xml"/></Relationships>'],
-      ["xl/charts/chart1.xml", chartXml(HEAD + 1, HEAD + cats.length, cats, sp.chart.series.map(function (s, i) { return { name: s.name, color: s.color, vals: serVals[i] }; }), sp.xlsxChartTitle || "Net worth over time (₹ lakh)")]
+      ["xl/charts/chart1.xml", chartXml(HEAD + 1, HEAD + cats.length, cats, xser.map(function (s, i) { return { name: s.name, color: s.color, vals: serVals[i] }; }).concat(marks.map(function (m, k) { return { name: m.label, color: m.color || "ink", symbol: m.symbol, mark: true, vals: markVals[k] }; })), sp.xlsxChartTitle || "Net worth over time (₹ lakh)")]
     ]);
     download(zip(files), sp.file + "-" + stamp() + ".xlsx");
   }

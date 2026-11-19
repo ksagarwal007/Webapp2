@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A wallet with a smaller stack of notes beside a growing PF jar">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+
+  <rect x="380" y="380" width="420" height="280" rx="36" fill="#FFFFFF"/><rect x="640" y="460" width="180" height="120" rx="24" fill="#FFD27A"/><circle cx="700" cy="520" r="18" fill="#0B2A6B"/>
+  <g fill="#7FB0FF"><rect x="430" y="300" width="260" height="70" rx="12" opacity=".9"/><rect x="450" y="250" width="220" height="60" rx="12" opacity=".6"/></g>
+  <path d="M560 210 V150" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/><path d="M530 180 L560 214 L590 180" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,0)"/>
+  <rect x="980" y="300" width="240" height="380" rx="40" fill="#FFFFFF" opacity=".9"/><rect x="1000" y="260" width="200" height="50" rx="16" fill="#FFFFFF"/>
+  <rect x="1000" y="470" width="200" height="190" rx="28" fill="#FFD27A"/><text x="1100" y="420" font-family="Arial" font-weight="700" font-size="64" fill="#0B2A6B" text-anchor="middle">PF</text>
+  <path d="M1100 230 V150" stroke="#FFD27A" stroke-width="16" stroke-linecap="round"/><path d="M1070 180 L1100 146 L1130 180" fill="none" stroke="#FFD27A" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

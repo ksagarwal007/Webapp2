@@ -40,8 +40,19 @@ HOLD = {
     "c2": ["/guides/retirement-planning-in-your-40s/", "/guides/three-bucket-retirement-plan/", "/guides/open-sukanya-samriddhi-account/",
            "/guides/sukanya-samriddhi-two-daughters/", "/guides/revive-sukanya-samriddhi-account/", "/guides/keep-or-sell-your-home/",
            "/guides/double-income-family-budget/", "/guides/eps-family-pension/", "/guides/laddering-term-insurance/"],
+    # Batch T1 (agreed 19 Nov): the labour codes salary calculator (N3) with its main guide and articles, released together.
+    "t1": ["/labour-codes-salary-calculator/", "/guides/salary-under-new-labour-codes/", "/guides/take-home-fell-ctc-same/", "/guides/basic-pay-50-percent-rule/",
+           "/guides/higher-basic-more-tax/", "/guides/pf-full-basic-or-capped/", "/guides/bonus-variable-pay-wages-labour-codes/"],
+    # Batch T2 (agreed 19 Nov): the best day to resign tool (N1) with its guides, released together.
+    # Batch T3 (19 Nov): the FIRE calculator (N11, on the shared SWP engine) with its guides, released together.
+    # Batch T4 (19 Nov): the SWP calculator (N12, quick) with its guides, released together.
+    "t4": ["/swp-calculator/", "/guides/swp-monthly-income-explained/", "/guides/swp-vs-fd-monthly-income/", "/guides/how-swp-is-taxed/", "/guides/safe-swp-withdrawal-rate/", "/guides/should-swp-rise-with-inflation/", "/guides/annuity-or-swp/"],
+    "t3": ["/fire-calculator/", "/guides/fire-number-india/", "/guides/retire-at-45-bridge-epf-nps/", "/guides/is-25x-enough-early-retirement/", "/guides/lean-fat-coast-fire/", "/guides/savings-rate-early-retirement/", "/guides/epf-nps-if-you-retire-early/"],
+    "t2": ["/best-day-to-resign/", "/guides/when-to-resign-best-last-day/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/joining-bonus-clawback/", "/guides/when-to-hand-in-notice/", "/guides/use-or-encash-leave-before-resigning/", "/guides/wait-for-bonus-or-join-now/"],
 }
-RELEASED = {"b1"}   # b1 released 19 Nov
+RELEASED = {"b1", "t1"}   # b1 released 19 Nov; t1 released 19 Nov
+# Review builds only: SALARIST_PREVIEW=t1 python3 build.py builds a held batch too (never push such a build).
+RELEASED |= {b for b in os.environ.get("SALARIST_PREVIEW", "").split(",") if b}
 HELD = {p for b, ps in HOLD.items() if b not in RELEASED for p in ps}
 
 LIVE_TOOLS = [("/leave-planner-2027/", "Leave Planner 2027"), ("/prepay-vs-invest/", "Prepay or Invest"), ("/rent-vs-buy/", "Rent or Buy"), ("/budget-planner/", "Budget Planner")]
@@ -71,9 +82,24 @@ FNF_LIVE = True   # set False to build without the full and final settlement cal
 if FNF_LIVE: LIVE_TOOLS.append(("/full-and-final-settlement/", "Full and Final Settlement"))
 TERM_LIVE = True   # set False to build without the term insurance calculator (in review)
 if TERM_LIVE: LIVE_TOOLS.append(("/term-insurance-calculator/", "Term Insurance Calculator"))
+SWPC_LIVE = "t4" in RELEASED   # SWP calculator: goes live with batch T4
+if SWPC_LIVE: LIVE_TOOLS.append(("/swp-calculator/", "SWP Calculator"))
+# SWP additions to existing tools (N12; agreed 19 Nov): ship with batch T4, so they appear only when the SWP calculator is live.
+def swp_next(k, b, h, first=False):
+    if not SWPC_LIVE: return ""
+    st = "" if first else ' style="margin-top:12px"'
+    return f'<a class="next" href="/swp-calculator/"{st}><span class="k">{k}</span><b>{b}</b><span class="h">{h}</span></a>'
+def swp_box(i): return f'<div id="{i}" class="swp-box"></div>' if SWPC_LIVE else ""
+def swp_js(*js): return (js[:-1] + ("swp.js",) + js[-1:]) if SWPC_LIVE else js
+FIRE_LIVE = "t3" in RELEASED   # FIRE calculator: goes live with batch T3
+if FIRE_LIVE: LIVE_TOOLS.append(("/fire-calculator/", "FIRE Calculator"))
+RD_LIVE = "t2" in RELEASED   # best day to resign: goes live with batch T2
+if RD_LIVE: LIVE_TOOLS.append(("/best-day-to-resign/", "Best Day to Resign"))
+LC_LIVE = "t1" in RELEASED   # labour codes salary calculator: goes live with batch T1
+if LC_LIVE: LIVE_TOOLS.append(("/labour-codes-salary-calculator/", "Labour Codes Salary Calculator"))
 SSY_LIVE = True   # set False to build without the Sukanya Samriddhi calculator (in review)
 if SSY_LIVE: LIVE_TOOLS.append(("/sukanya-samriddhi-calculator/", "Sukanya Samriddhi Calculator"))
-QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/fd-ppf-rd-calculator/", "/gratuity-calculator/", "/income-tax-section-finder/", "/car-ownership-cost/", "/nps-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/retirement-planner/", "/full-and-final-settlement/", "/term-insurance-calculator/", "/sukanya-samriddhi-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
+QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/fd-ppf-rd-calculator/", "/gratuity-calculator/", "/income-tax-section-finder/", "/car-ownership-cost/", "/nps-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/retirement-planner/", "/full-and-final-settlement/", "/term-insurance-calculator/", "/sukanya-samriddhi-calculator/", "/swp-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
 MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/tools/", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
@@ -125,6 +151,30 @@ SEO = {
     "/guides/how-much-sip-do-you-need/": ("How Much SIP Do You Need? Plan a Goal With Step-Up", None),
     "/guides/step-up-sip/": ("Step-Up SIP: How a 10% Yearly Increase Adds Up", None),
     "/guides/how-mutual-fund-gains-are-taxed/": ("Mutual Fund Tax on Selling: Equity and Debt (2026-27)", None),
+    "/guides/when-to-resign-best-last-day/": ("When to Resign: Find the Best Last Working Day", "When should you resign? Gratuity, bonus and RSU dates, notice and the new job's pay: one employee's best last working day, worked out."),
+    "/guides/resign-before-or-after-rsu-vesting/": ("Resign Before or After RSU Vesting? When Waiting Pays", "Unvested RSUs lapse when you leave. When waiting for a vesting date beats joining the new job now, with examples and the break-even raise."),
+    "/guides/joining-bonus-clawback/": ("Joining Bonus Clawback: When Is It Safe to Resign?", "Leaving within a year of a joining bonus? How clawback clauses work, when it's safe to leave, and when repaying it is worth it."),
+    "/guides/when-to-hand-in-notice/": ("When to Resign: Counting Your Notice Period Right", "Your last working day decides gratuity, bonus and vesting. How to count back your notice period, with resign-by dates for 30, 60 and 90 days."),
+    "/guides/use-or-encash-leave-before-resigning/": ("Use or Encash Leave Before Resigning? What Pays More", "Resigning with earned leave left? What each day is worth encashed on basic or gross, when to take it instead, and the rules on exit."),
+    "/guides/wait-for-bonus-or-join-now/": ("Wait for Bonus or Join New Job Now? Which Pays More", "Should you wait for your bonus before resigning? Compare it with the new job's extra pay, check your bonus rule, and find the break-even raise."),
+    "/guides/fire-number-india/": ("FIRE Number India: How Much You Need to Retire Early", "What's your FIRE number? Financial Independence, Retire Early worked out for India with EPF, NPS and inflation, through one person's plan."),
+    "/guides/retire-at-45-bridge-epf-nps/": ("Retire at 45 in India: Bridging the Years to EPF and NPS", "Retiring early? How much you need outside EPF and NPS to bridge the years until they unlock at 58 and 60, by retirement age."),
+    "/guides/is-25x-enough-early-retirement/": ("Is 25x Expenses Enough to Retire Early in India?", "The 25x rule with Indian inflation: the multiple of yearly spending you need for 30 to 50 years of early retirement, and how EPF and NPS help."),
+    "/guides/lean-fat-coast-fire/": ("Lean FIRE, Fat FIRE, Coast FIRE: Which One Fits You?", "Lean, Fat, Coast and Barista FIRE explained for India: what each means, the age and amount each needs, and who each suits."),
+    "/guides/savings-rate-early-retirement/": ("Savings Rate and Early Retirement: How Soon Can You Retire?", "How your savings rate decides your early retirement age: 20% to 60% of the same take-home compared, and practical ways to raise it."),
+    "/guides/epf-nps-if-you-retire-early/": ("EPF and NPS If You Retire Early: Rules and Choices", "Retiring early in India? EPF interest until 58 and withdrawal after 12 months, NPS exit before and at 60, and whether to keep contributing."),
+    "/guides/swp-monthly-income-explained/": ("SWP Explained: Monthly Income From ₹1 Crore, Worked Out", "How a systematic withdrawal plan (SWP) turns your investments into monthly income: one retiree's ₹1 crore, year by year, with tax."),
+    "/guides/swp-vs-fd-monthly-income/": ("SWP vs FD: Which Gives More Monthly Income After Tax?", "SWP or FD interest for monthly income? ₹1 crore compared after tax in years 1, 10 and 20, and when each makes sense."),
+    "/guides/how-swp-is-taxed/": ("SWP Taxation in India: How Withdrawals Are Taxed", "How SWP withdrawals are taxed in India: gains only, 12.5% above ₹1.25 lakh for equity funds, slab for debt, with a year-by-year example."),
+    "/guides/safe-swp-withdrawal-rate/": ("Safe SWP Withdrawal Rate in India: How Much a Month?", "How much can you withdraw monthly without running out? ₹1 crore for 20, 30 or 40 years by return and yearly rise, and a safe rate for India."),
+    "/guides/should-swp-rise-with-inflation/": ("Fixed or Rising SWP: Should Withdrawals Beat Inflation?", "Should your monthly SWP rise with inflation? ₹1 crore with a fixed vs 5% and 6% rising withdrawal: how long it lasts and what it's worth."),
+    "/guides/annuity-or-swp/": ("Annuity or SWP for Retirement Income: Which Is Better?", "Annuity or SWP for a monthly pension? ₹1 crore compared after tax: lifetime income vs rising withdrawals, and when to mix the two."),
+    "/guides/salary-under-new-labour-codes/": ("New Labour Codes and Your Salary: Take-Home, PF, Gratuity", "What the 50% wage rule does to your take-home, PF, tax and gratuity, worked through one ₹15.2 lakh salary and three kinds of restructuring."),
+    "/guides/take-home-fell-ctc-same/": ("Take-Home Salary Reduced but CTC Same? Here's Why", "Your salary was restructured for the labour codes and take-home fell. Where the money went, rupee by rupee, and when it shouldn't fall."),
+    "/guides/basic-pay-50-percent-rule/": ("Basic Salary 50% of CTC Rule: What the Law Says", "Must basic pay be 50% of CTC under the labour codes? The Code on Wages rule, what counts as wages, what doesn't, and two examples."),
+    "/guides/higher-basic-more-tax/": ("Higher Basic Salary, More Income Tax? Both Regimes", "Will a higher basic under the labour codes raise your tax? New and old regime compared: employer PF, gratuity, HRA exemption and PF."),
+    "/guides/pf-full-basic-or-capped/": ("PF on Full Basic or ₹25,000 Cap: Which Is Better?", "PF on full basic or capped at ₹25,000 after the labour codes: take-home now vs EPF at 58, the tax difference, and when each makes sense."),
+    "/guides/bonus-variable-pay-wages-labour-codes/": ("Are Bonus and Variable Pay Wages Under Labour Codes?", "Do bonus, variable pay, ESOPs, commission and overtime count as wages for PF and gratuity under the labour codes? Item by item."),
     "/guides/working-hours-new-labour-codes/": ("New Working Hours Rules in India: 48-Hour Week Explained", "Did working hours change? The 48-hour week, 12-hour days and 4-day week under the new labour codes, office jobs, and overtime pay."),
     "/guides/eps-family-pension/": ("EPS Family Pension: Widow and Children's Pension", "EPS family pension under EPS 2026: what the spouse and children get, a worked example, the 50% rule after a pensioner's death, and claims."),
     "/guides/budgeting-with-a-bonus/": ("How to Budget When Your Pay Includes a Bonus", "Budgeting with variable pay or a yearly bonus: plan on fixed pay, tax on the bonus, and a simple split for using it well."),
@@ -726,6 +776,9 @@ TOOL_CARDS = {
 }
 if SIP_LIVE: TOOL_CARDS["/sip-calculator/"] = ("SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.")
 if EMI_LIVE: TOOL_CARDS["/emi-calculator/"] = ("EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.")
+if FIRE_LIVE: TOOL_CARDS["/fire-calculator/"] = ("FIRE Calculator", "When can you stop working? Your FIRE number and age, with EPF and NPS unlocking at 58 and 60.")
+if RD_LIVE: TOOL_CARDS["/best-day-to-resign/"] = ("Best Day to Resign", "The last working day that leaves you with the most: gratuity, bonus, RSUs and leave, against the new job's pay.")
+if LC_LIVE: TOOL_CARDS["/labour-codes-salary-calculator/"] = ("Labour Codes and Your Salary", "Does your basic pass the 50% wage rule? Your take-home, PF, tax and gratuity before and after.")
 if CAR_LIVE: TOOL_CARDS["/company-car-lease-vs-loan/"] = ("Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.")
 # Related tools shown on each tool page (and on its guides): the closest next steps first. Only live tools are shown.
 RELATED = {
@@ -734,19 +787,23 @@ RELATED = {
     "/rent-vs-buy/": ["/emi-calculator/", "/prepay-vs-invest/", "/budget-planner/", "/sip-calculator/"],
     "/budget-planner/": ["/sip-calculator/", "/term-insurance-calculator/", "/retirement-planner/", "/leave-planner-2027/"],
     "/company-car-lease-vs-loan/": ["/car-ownership-cost/", "/emi-calculator/", "/income-tax-section-finder/", "/budget-planner/"],
-    "/sip-calculator/": ["/retirement-planner/", "/fd-ppf-rd-calculator/", "/nps-calculator/", "/prepay-vs-invest/"],
+    "/sip-calculator/": ["/retirement-planner/", "/fire-calculator/", "/fd-ppf-rd-calculator/", "/nps-calculator/", "/prepay-vs-invest/"],
     "/emi-calculator/": ["/prepay-vs-invest/", "/rent-vs-buy/", "/term-insurance-calculator/", "/budget-planner/"],
-    "/fd-ppf-rd-calculator/": ["/sukanya-samriddhi-calculator/", "/sip-calculator/", "/nps-calculator/", "/epf-calculator/"],
-    "/gratuity-calculator/": ["/full-and-final-settlement/", "/epf-calculator/", "/eps-pension-calculator/", "/retirement-planner/"],
+    "/fd-ppf-rd-calculator/": ["/sukanya-samriddhi-calculator/", "/swp-calculator/", "/sip-calculator/", "/nps-calculator/", "/epf-calculator/"],
+    "/gratuity-calculator/": ["/full-and-final-settlement/", "/best-day-to-resign/", "/labour-codes-salary-calculator/", "/epf-calculator/", "/eps-pension-calculator/"],
     "/sukanya-samriddhi-calculator/": ["/fd-ppf-rd-calculator/", "/sip-calculator/", "/term-insurance-calculator/", "/nps-calculator/"],
     "/term-insurance-calculator/": ["/retirement-planner/", "/emi-calculator/", "/budget-planner/", "/sukanya-samriddhi-calculator/"],
-    "/full-and-final-settlement/": ["/gratuity-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/budget-planner/"],
+    "/fire-calculator/": ["/retirement-planner/", "/swp-calculator/", "/sip-calculator/", "/nps-calculator/", "/epf-calculator/"],
+    "/swp-calculator/": ["/fire-calculator/", "/retirement-planner/", "/fd-ppf-rd-calculator/", "/sip-calculator/"],
+    "/best-day-to-resign/": ["/full-and-final-settlement/", "/gratuity-calculator/", "/budget-planner/", "/labour-codes-salary-calculator/"],
+    "/labour-codes-salary-calculator/": ["/gratuity-calculator/", "/epf-calculator/", "/budget-planner/", "/full-and-final-settlement/"],
+    "/full-and-final-settlement/": ["/best-day-to-resign/", "/gratuity-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/budget-planner/"],
     "/income-tax-section-finder/": ["/nps-calculator/", "/gratuity-calculator/", "/fd-ppf-rd-calculator/", "/company-car-lease-vs-loan/"],
     "/car-ownership-cost/": ["/company-car-lease-vs-loan/", "/emi-calculator/", "/budget-planner/"],
     "/nps-calculator/": ["/epf-calculator/", "/retirement-planner/", "/sip-calculator/", "/fd-ppf-rd-calculator/"],
-    "/epf-calculator/": ["/eps-pension-calculator/", "/retirement-planner/", "/full-and-final-settlement/", "/nps-calculator/"],
+    "/epf-calculator/": ["/eps-pension-calculator/", "/retirement-planner/", "/labour-codes-salary-calculator/", "/nps-calculator/"],
     "/eps-pension-calculator/": ["/epf-calculator/", "/retirement-planner/", "/full-and-final-settlement/", "/gratuity-calculator/"],
-    "/retirement-planner/": ["/epf-calculator/", "/nps-calculator/", "/sip-calculator/", "/term-insurance-calculator/"],
+    "/retirement-planner/": ["/fire-calculator/", "/swp-calculator/", "/epf-calculator/", "/nps-calculator/", "/sip-calculator/", "/term-insurance-calculator/"],
 }
 def _tool_index():
     """name, description and guides of every live tool, from catalog()"""
@@ -1015,6 +1072,22 @@ TIP_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="
 # When a guide is approved, add it here wherever a field or result it explains has a tooltip. check_guide_links() makes sure
 # every guide listed under a tool is linked from that tool's page.
 TIP_GUIDES = {
+    ("sw", "tax type"): ("/guides/how-swp-is-taxed/", "How SWP withdrawals are taxed"),
+    ("sw", "how much you can take"): ("/guides/safe-swp-withdrawal-rate/", "How much can you safely withdraw?"),
+    ("sw", "yearly rise"): ("/guides/should-swp-rise-with-inflation/", "Should your SWP rise with inflation?"),
+    ("fi", "plan until"): ("/guides/is-25x-enough-early-retirement/", "Is 25× expenses enough for early retirement?"),
+    ("fi", "Lean and Fat FIRE"): ("/guides/lean-fat-coast-fire/", "Lean, Fat and Coast FIRE"),
+    ("fi", "Coast FIRE"): ("/guides/lean-fat-coast-fire/", "Lean, Fat and Coast FIRE"),
+    ("fi", "the chart"): ("/guides/retire-at-45-bridge-epf-nps/", "Retiring at 45: the bridge to EPF and NPS"),
+    ("fi", "when to take EPF"): ("/guides/epf-nps-if-you-retire-early/", "EPF and NPS if you retire early"),
+    ("fi", "savings rate"): ("/guides/savings-rate-early-retirement/", "How savings rate decides when you can retire"),
+    ("fi", "FIRE number"): ("/guides/fire-number-india/", "What's your FIRE number?"),
+    ("rd", "notice period"): ("/guides/when-to-hand-in-notice/", "When to hand in your notice"),
+    ("rd", "bonus rule"): ("/guides/wait-for-bonus-or-join-now/", "Wait for the bonus or join now?"),
+    ("rd", "joining bonus"): ("/guides/joining-bonus-clawback/", "Joining bonus clawback"),
+    ("lc", "basic + DA"): ("/guides/basic-pay-50-percent-rule/", "Is basic pay now 50% of CTC?"),
+    ("lc", "PF basis"): ("/guides/pf-full-basic-or-capped/", "PF on full basic or the ₹25,000 cap?"),
+    ("lc", "other allowances"): ("/guides/bonus-variable-pay-wages-labour-codes/", "Do bonus and variable pay count as wages?"),
     ("gr", "total pay"): ("/guides/low-basic-salary-gratuity/", "How the 50% wage rule raises gratuity"),
     ("gr", "employment type"): ("/guides/gratuity-fixed-term-employees/", "Gratuity for fixed-term employees"),
     ("gr", "gratuity received earlier"): ("/guides/is-gratuity-taxable-20-lakh-limit/", "The ₹20 lakh lifetime limit"),
@@ -1077,7 +1150,7 @@ def add_tips(body, prefix, tips):
         tid = f"{prefix}-tip{i}"
         w = (f'<span class="tipw"><button type="button" class="tip" aria-expanded="false" aria-controls="{tid}" aria-label="What is {H.escape(name)}?">{TIP_ICON}</button>'
              f'<span class="tipb" id="{tid}" role="note" hidden>{text}</span></span>')
-        if anchor.startswith('<div class="l">'):   # stat labels: inside, next to the words
+        if anchor.startswith('<div class="l"'):   # stat labels: inside, next to the words
             cut = anchor.rindex("</"); body = body.replace(anchor, anchor[:cut] + w + anchor[cut:])
         else:                                        # labels and headings: right after, so names and headings stay clean
             body = body.replace(anchor, anchor + w)
@@ -1333,6 +1406,7 @@ def sip_page():
     </div>
     <h2 class="list-h" id="spSensH">What if returns are different?</h2>
     <div class="sens" id="spSens"></div>
+    {swp_box("spSwp")}
     <a class="next" href="/prepay-vs-invest/"><span class="k">Your next decision</span><b>Have a home loan? See whether to invest this money or prepay the loan</b><span class="h">Prepay or Invest compares both, after tax.</span></a>
     <a class="next" href="/budget-planner/" style="margin-top:12px"><span class="k">Also useful</span><b>Fit the SIP into your monthly budget</b><span class="h">See what's left each month after your savings.</span></a>
     <h2 class="list-h">Assumptions</h2>
@@ -1379,7 +1453,7 @@ def sip_page():
     return layout("/sip-calculator/", "SIP Calculator with Step-Up, Existing Portfolio and Goal Planner | Salarist",
                   "See what your SIP could grow to, or the SIP you need for a goal. Add a yearly step-up and your existing portfolio, and see the value after tax and inflation. Free, private.",
                   body, crumbs=[("/", "Home"), ("/sip-calculator/", "SIP Calculator")], graph=graph,
-                  css=("tool.css",), js=("sip.js",), og="og-sip-calculator.png", og_title="SIP calculator with step-up and your existing investments")
+                  css=("tool.css",), js=swp_js("sip.js"), og="og-sip-calculator.png", og_title="SIP calculator with step-up and your existing investments")
 
 SP_TIPS = [
     ("""<span class="lbl" id="modeLbl">Where are you starting?</span>""", "where you're starting",
@@ -1499,6 +1573,7 @@ def deposits_page():
     <div class="sens" id="dpCmp"></div>
     <p class="hint" id="dpCmpNote"></p>
     <a class="next" href="/sip-calculator/"><span class="k">Saving for 10 years or more?</span><b>See what the same money could do in a SIP</b><span class="h">Equity funds can earn more than deposits over long periods, with more ups and downs.</span></a>
+    {swp_next("Living off FD interest?", "Compare it with a monthly SWP", "An income that can rise with prices and is taxed only on gains, year by year.")}
   </div>
 </div></section>
 
@@ -1631,6 +1706,7 @@ def epf_page():
     <div class="sens" id="epSens"></div>
     <a class="next" href="/nps-calculator/"><span class="k">Also saving in NPS?</span><b>See what your NPS adds at 60</b><span class="h">Employer NPS saves tax even under the new regime.</span></a>
     <a class="next" href="/eps-pension-calculator/" style="margin-top:12px"><span class="k">In EPS?</span><b>Work out your EPS pension exactly</b><span class="h">Service split by wage ceiling, early or later start, or the withdrawal amount under 10 years.</span></a>
+    {swp_next("Retiring with your EPF?", "See the monthly income it could give", "Draw it down as a systematic withdrawal plan: how long it lasts, after tax.")}
   </div>
 </div></section>
 
@@ -1776,6 +1852,7 @@ def retirement_page():
 <section style="padding-top:0"><div class="wrap">
   <h2>What you'll have at retirement</h2>
   <div class="tbl-wrap calc-wrap" id="rpHave"></div>
+  {swp_box("rpSwp")}
   <h2>Year by year</h2>
   <div class="tbl-wrap calc-wrap" id="rpTable"></div>
 </div></section>
@@ -1809,7 +1886,7 @@ def retirement_page():
     return layout("/retirement-planner/", "Retirement Planner: How Much Do You Need to Retire?",
                   "How much you need to retire in India, what your EPF, NPS, SIPs and FDs could add up to, the gap, and the extra SIP to close it.",
                   body, crumbs=[("/", "Home"), ("/retirement-planner/", "Retirement Planner")], graph=graph,
-                  css=("tool.css",), js=("epf.js", "nps.js", "retirement.js"), og="og-retirement-planner.png", og_title="How much do you need to retire?")
+                  css=("tool.css",), js=swp_js("epf.js", "nps.js", "retirement.js"), og="og-retirement-planner.png", og_title="How much do you need to retire?")
 
 RP_TIPS = [
     ("""<label for="rp-lifeTo" id="rp-lifeLbl">Plan until age</label>""", "plan until age",
@@ -2034,6 +2111,7 @@ def fnf_page():
     <div class="sens" id="fsSens"></div>
     <a class="next" href="/guides/transfer-pf-dont-withdraw/"><span class="k">Your PF</span><b>Changing jobs? Transfer your PF, don't withdraw it</b><span class="h">What withdrawing costs, and how the transfer works.</span></a>
     <a class="next" href="/budget-planner/" style="margin-top:12px"><span class="k">Gap between jobs?</span><b>Plan your budget until the next salary</b><span class="h">See what's left each month, with yearly costs set aside.</span></a>
+    {swp_next("Living on your settlement for a while?", "See the monthly income it could give", "Invest it and draw a set amount each month: how long it lasts, after tax.")}
   </div>
 </div></section>
 
@@ -2089,6 +2167,590 @@ FS_TIPS = [
      "Earned (privilege) leave your company credits each year, usually 15 to 30 days. For tax, no more than 30 days a year counts; if you get more, the extra is left out of the tax-free part. Sick and casual leave don't count."),
     ("""<label for="fs-slab" id="fs-slabLbl">Your tax slab, for the estimate</label>""", "tax slab",
      "The rate on your top rupee of income this year: 0, 5, 10, 15, 20, 25 or 30%. Used only to estimate the tax on the taxable part of your settlement."),
+]
+
+def lc_page():
+    faqs = [
+        ("What is the 50% wage rule in the labour codes?",
+         "Under section 2(y) of the Code on Wages, 2019, in force since 21 November 2025, \"wages\" means basic pay, dearness allowance and retaining allowance. HRA, conveyance, employer PF and some other payments are left out, but if those left-out parts are more than half of your total pay, the excess is counted as wages anyway. So your wages, which PF and gratuity are worked out on, can't be less than half your pay."),
+        ("Does my basic have to be exactly 50% of my CTC?",
+         "No. The law doesn't fix your basic salary; it sets a floor for \"wages\". Many companies have simply raised basic to about half of pay so their payroll stays simple, but some keep the old structure and add the excess back only when they work out PF and gratuity. The calculator shows both kinds of change."),
+        ("Will my take-home pay fall?",
+         "Only if your PF goes up and your CTC stays the same. If your PF is worked out on full basic, a bigger basic means more PF from you and from your employer, and both come out of your CTC. If your PF stays on the wage ceiling (₹25,000 a month from 17 September 2026), the Labour Ministry has said take-home doesn't fall. If your employer pays the extra itself, your CTC goes up instead."),
+        ("Is the money I lose from take-home gone?",
+         "No. It goes into your EPF (your 12% and your employer's share) and into a bigger gratuity, both of which you get later, and EPF earns 8.25% a year (2025-26 rate). The calculator shows how much more your EPF could be at 58 and how much more gratuity you'd get after the years you choose."),
+        ("Do bonus, variable pay and incentives count?",
+         "Annual performance-based incentives don't form part of wages, the Labour Ministry clarified in its FAQs (30 December 2025 and 16 March 2026). The calculator leaves out variable pay, and works on your fixed monthly pay only."),
+        ("Is employer PF counted in total pay for the 50% test?",
+         "Yes. The Labour Ministry's additional FAQs of 16 March 2026 say statutory components such as employer PF and pension contributions are included, while gratuity, ESI and other retirement benefits are not. The calculator follows that: total pay is your gross monthly pay plus employer PF."),
+        ("What about special allowance?",
+         "Special allowance isn't one of the parts the Code leaves out of wages, so some lawyers read it as wages in full. The calculator treats all allowances other than basic and DA as left out, as the Ministry's own illustrations do; if your employer counts special allowance as wages, your wages are higher than shown, not lower."),
+        ("Does a higher basic mean more tax?",
+         "Not by itself: your taxable pay depends on your gross, not on how it's split. Under the new regime, if allowances move into employer PF and gratuity, your taxable pay falls a little. Under the old regime, a higher basic changes your HRA exemption, and your extra PF counts towards the ₹1.5 lakh deduction."),
+    ]
+    def num(k, label, hint="", lid=None):
+        idattr = f' id="{lid}"' if lid else ""
+        return (f'<div class="fld"><div class="row1"><label for="lc-{k}"{idattr}>{label}</label><span class="w" id="lc-{k}-w"></span></div><div class="numin"><span>₹</span><input id="lc-{k}" type="text" inputmode="numeric" autocomplete="off"></div>'
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def small(k, label, unit, lid=None, hint=""):
+        lab = f'<div class="row1"><label for="lc-{k}" id="{lid}">{label}</label></div>' if lid else f'<label for="lc-{k}" class="lbl" style="margin:0 0 6px">{label}</label>'
+        return f'<div class="fld">{lab}<div class="numin"><input id="lc-{k}" type="text" inputmode="decimal" autocomplete="off"><span>{unit}</span></div>' + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>"
+    def seg(key, label, opts, lid):
+        return f'<div><span class="lbl" id="{lid}">{label}</span><div class="seg row" role="group" aria-labelledby="{lid}">' + "".join(f'<button type="button" data-{key}="{v}">{t}</button>' for v, t in opts) + "</div></div>"
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your pay</p>
+  <h1>New labour codes: what happens to your salary</h1>
+  <p class="lead">Check if your basic pay passes the 50% wage rule, and what restructuring does to your take-home, PF, tax and gratuity, side by side.</p>
+  {badges("Code on Wages s.2(y) · Labour Ministry FAQs, Dec 2025 and Mar 2026 · PF ceiling ₹25,000")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb lcx">
+  <div class="card lp-setup" aria-label="Your salary">
+    <h3 class="sub" style="border:0;padding-top:0;margin-top:0">Your fixed pay a month, as it is now</h3>
+    {num("basic", "Basic + DA", "From your payslip. Add dearness allowance if you get it.", lid="lc-basicLbl")}
+    {num("hra", "HRA")}
+    {num("other", "Other allowances", "Special allowance, conveyance, LTA and the rest of your fixed pay. Leave out bonus and variable pay.", lid="lc-otherLbl")}
+    {seg("pfNow", "Your PF is worked out on", [("full", "Full basic + DA"), ("capped", "₹25,000 cap")], "lc-pfLbl")}
+    {seg("gratctc", "Gratuity included in your CTC", [("1", "Yes"), ("0", "No")], "lc-gratLbl")}
+    <h3 class="sub">Tax</h3>
+    {seg("regime", "Your tax regime", [("new", "New"), ("old", "Old")], "lc-regLbl")}
+    <div id="lcOld" hidden>
+      {num("rent", "Rent you pay a month", "For the HRA exemption. 0 if you don't pay rent.")}
+      {seg("metro", "Where you live", [("1", "Delhi, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad, Pune or Ahmedabad"), ("0", "Anywhere else")], "lc-metroLbl")}
+      {num("ded", "Other deductions a year (80C, 80D…)", "Leave out your PF: the calculator adds it. 80C-type deductions are capped at ₹1.5 lakh with your PF.")}
+    </div>
+    <h3 class="sub">For gratuity and EPF</h3>
+    <div class="two">{small("years", "Years you expect to stay", "years", lid="lc-yearsLbl")}{small("age", "Your age", "years")}</div>
+    <div class="two">{small("hike", "Pay rise each year", "%")}<div></div></div>
+  </div>
+
+  <div>
+    <div class="verdict" id="lcVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="lcPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="lcXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="lcShare">Copy share link</button>
+    </div>
+    <p class="status" id="lcStatus" role="status"></p>
+    <h2 class="list-h" id="lcPlanH">How might your employer restructure?</h2>
+    <div class="sens" id="lcSens"></div>
+    <div class="stats">
+      <div class="stat"><div class="l">Take-home a month</div><div class="n" id="lcS1">—</div><div class="h" id="lcS1h"></div></div>
+      <div class="stat"><div class="l">PF a month, both shares</div><div class="n" id="lcS2">—</div><div class="h" id="lcS2h"></div></div>
+      <div class="stat"><div class="l">Income tax a year</div><div class="n" id="lcS3">—</div><div class="h" id="lcS3h"></div></div>
+      <div class="stat"><div class="l">Gratuity when you leave</div><div class="n" id="lcS4">—</div><div class="h" id="lcS4h"></div></div>
+    </div>
+    <div class="card fs-box lc-test" id="lcTest"></div>
+    <p class="g-callout" id="lcRule"></p>
+    <div class="chartbox" id="lcChartBox">
+      <h2 class="list-h" style="margin:0 0 4px">Your EPF by age, now and after</h2>
+      <div id="lcChart"></div>
+      <p class="hint" style="margin:6px 0 0" id="lcChartNote"></p>
+    </div>
+    <a class="next" href="/gratuity-calculator/"><span class="k">Your gratuity</span><b>Work out your gratuity under the new wage rule</b><span class="h">With your joining date, and what staying longer adds.</span></a>
+    <a class="next" href="/epf-calculator/" style="margin-top:12px"><span class="k">Your PF</span><b>See your full EPF and EPS pension at 58</b><span class="h">With your current balance, VPF and the ₹25,000 ceiling.</span></a>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2 id="lcTableH">Your salary now and after</h2>
+  <div class="tbl-wrap calc-wrap lc-tbl" id="lcTable"></div>
+  <h2>What to ask HR</h2>
+  <div class="prose"><ol class="g-check">
+    <li><strong>Has my salary been restructured for the Code on Wages,</strong> and from which month?</li>
+    <li><strong>Is my PF on full basic or on the ₹25,000 ceiling?</strong> Can I choose?</li>
+    <li><strong>Is the extra employer PF and gratuity coming out of my CTC,</strong> or is the company paying it?</li>
+    <li><strong>Which allowances count as wages</strong> for PF and gratuity (for example, special allowance)?</li>
+    <li><strong>Ask for the revised salary break-up in writing,</strong> and check your next payslip against it.</li>
+  </ol></div>
+</div></section>
+{related("/labour-codes-salary-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/salary-under-new-labour-codes/">Your salary under the new labour codes</a>. Take-home fell? Read <a href="/guides/take-home-fell-ctc-same/">Why did my take-home fall when my CTC didn't change?</a> Worried about tax? Read <a href="/guides/higher-basic-more-tax/">Does a higher basic mean more tax?</a> Bonus or ESOPs? Read <a href="/guides/bonus-variable-pay-wages-labour-codes/">Do bonus and variable pay count as wages?</a></p>
+  <p class="g-callout"><b>More on the labour codes:</b> <a href="/guides/gratuity-new-labour-codes/">Gratuity under the new labour codes</a>. On a low basic? Read <a href="/guides/low-basic-salary-gratuity/">How the 50% wage rule raises your gratuity</a>. Heard about 12-hour days? Read <a href="/guides/working-hours-new-labour-codes/">Did India change your working hours?</a> PF ceiling raised? Read <a href="/guides/epf-wage-ceiling-25000/">The ₹25,000 wage ceiling</a>.</p>
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>The 50% test:</strong> total pay is your gross monthly pay (basic + DA, HRA, other allowances) plus employer PF; gratuity is left out. If HRA, other allowances and employer PF are more than half of that, the excess counts as wages.</li>
+    <li><strong>CTC unchanged:</strong> basic is raised to half of total pay. The extra employer PF and gratuity set-aside come out of your other allowances first, then HRA, so your CTC stays the same.</li>
+    <li><strong>Employer pays the extra:</strong> your gross pay stays the same, basic is raised to half, and your CTC goes up by the extra employer PF and gratuity.</li>
+    <li><strong>PF:</strong> 12% from you and 12% from your employer, on full basic + DA or on wages capped at ₹25,000.</li>
+    <li><strong>Gratuity:</strong> set aside in CTC at 15/26 of a month's wages a year (4.81%). Paid when you leave after 5 years (1 year for fixed-term): 15/26 × last wages × years, up to ₹20 lakh. The calculator raises your pay each year by the rise you set.</li>
+    <li><strong>Tax:</strong> on your fixed pay for a year. New regime: ₹75,000 standard deduction, no tax up to ₹12 lakh (section 156 rebate). Old regime: ₹50,000 standard deduction, HRA exemption, your PF plus other deductions up to ₹1.5 lakh. Professional tax, ESI and variable pay are left out.</li>
+    <li><strong>EPF at 58:</strong> from today's contributions only, with the <a href="/epf-calculator/">EPF calculator</a>'s code, at 8.25% a year.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Code on Wages, 2019, section 2(y) (definition of wages, with the 50% proviso), in force from 21 November 2025. Labour Ministry FAQs on the Labour Codes, 30 December 2025 (performance incentives and variable pay not wages) and additional FAQs of 16 March 2026 (employer PF counted in total pay; gratuity and ESI not). Labour Ministry clarification of December 2025: no fall in take-home when PF stays on the statutory wage ceiling. EPF wage ceiling of ₹25,000 from 17 September 2026. Income-tax Act, 2025: section 202 rates, section 156 rebate, section 17 (employer PF above ₹7.5 lakh). Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="lcBar" hidden><span id="lcBarT"></span><button type="button" class="btn-sm pri" id="lcBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "Labour Codes Salary Calculator", "url": SITE + "/labour-codes-salary-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Checks your salary against the labour codes' 50% wage rule and shows take-home, PF, tax and gratuity before and after restructuring.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "lc", LC_TIPS)
+    return layout("/labour-codes-salary-calculator/", "New Labour Codes Salary Calculator: Take-Home, PF, Gratuity",
+                  "Does your basic pass the 50% wage rule? See your take-home, PF, tax and gratuity before and after salary restructuring under the labour codes.",
+                  body, crumbs=[("/", "Home"), ("/labour-codes-salary-calculator/", "Labour Codes Salary Calculator")], graph=graph,
+                  css=("tool.css",), js=("nps.js", "epf.js", "lc.js"), og="og-labour-codes-salary-calculator.png", og_title="Labour codes: what happens to your salary")
+
+LC_TIPS = [
+    ("""<label for="lc-basic" id="lc-basicLbl">Basic + DA</label>""", "basic + DA",
+     "Basic pay plus dearness allowance (and retaining allowance, if any). Under the Code on Wages these are \"wages\": PF and gratuity are worked out on them, and they must be at least half of your total pay."),
+    ("""<label for="lc-other" id="lc-otherLbl">Other allowances</label>""", "other allowances",
+     "Fixed allowances other than HRA: special allowance, conveyance, LTA, phone and so on. The calculator treats them as left out of wages, as the Labour Ministry's examples do. Bonus, incentives and variable pay aren't wages and aren't counted."),
+    ("""<span class="lbl" id="lc-pfLbl">Your PF is worked out on</span>""", "PF basis",
+     "Check your payslip: if your PF is 12% of your basic + DA, it's on full basic. If it's ₹3,000 a month (12% of ₹25,000) while your basic is higher, it's capped. PF above the ceiling is optional for the employer and you."),
+    ("""<span class="lbl" id="lc-gratLbl">Gratuity included in your CTC</span>""", "gratuity in CTC",
+     "Many companies show gratuity (about 4.81% of basic) as part of CTC. If yours does, a bigger basic means a bigger gratuity set-aside, which comes out of the same CTC. Your offer letter's CTC break-up shows it."),
+    ("""<label for="lc-years" id="lc-yearsLbl">Years you expect to stay</label>""", "years you'll stay",
+     "Used to show the gratuity you'd get when you leave. Gratuity is paid after 5 years of service (1 year for fixed-term employees)."),
+]
+
+def rd_page():
+    faqs = [
+        ("When is the best day to resign?",
+         "When your last working day lands just after the dates that matter to you: completing 5 years for gratuity (or 1 year on a fixed-term contract), your bonus payout, a stock vesting date, or the end of a joining bonus clawback. The calculator checks every last working day over the next year, and takes off the extra pay you'd miss if the new job pays more."),
+        ("Do I need to be working on the bonus date, or not serving notice?",
+         "It depends on your bonus policy. Many say you must be on the company's rolls on the payout date; some say you must not be serving notice, which means resigning after it's paid. A few pay a share for the months you worked. Check your offer letter or bonus policy, and choose the matching option."),
+        ("Does my notice period count towards gratuity?",
+         "Yes. Gratuity counts service up to your last working day, and you're employed during your notice period. So the 5-year mark (and each extra year, once a part-year is more than six months) is about your last day, not the day you resign."),
+        ("What happens to unvested ESOPs or RSUs when I resign?",
+         "They usually lapse on your last working day. Anything that vests before then is yours, though options must normally be exercised within a set window after you leave. Check your grant letter."),
+        ("Is unused leave paid when I resign?",
+         "Under the OSH Code, unused annual leave is payable when employment ends, and leave above 30 days at the end of a calendar year can be encashed. Your company's policy may give more, and decides whether it's paid on basic or gross. Leave encashment on resigning is taxable beyond the limits in section 19 of the Income-tax Act, 2025."),
+        ("What about a joining bonus I'd have to repay?",
+         "Most offer letters ask you to repay a joining or retention bonus if you leave within a set period, often 12 months. Enter the amount and the date the clause ends: leaving before it costs you that amount. Some clauses repay only a share; then enter that share."),
+        ("Should I wait if the new job pays more?",
+         "Only if what waiting unlocks is worth more than the extra pay you'd miss. If the new employer will hold the offer, enter how much more it pays a month and the calculator takes it off for each month you stay."),
+        ("Can I leave earlier than my notice period?",
+         "Only if your employer agrees: they may waive part of it, or recover pay for the days you're short. Some new employers pay that for you (a buyout). Read our guide to notice period buyouts."),
+    ]
+    def num(k, label, hint="", lid=None):
+        idattr = f' id="{lid}"' if lid else ""
+        return (f'<div class="fld"><div class="row1"><label for="rd-{k}"{idattr}>{label}</label><span class="w" id="rd-{k}-w"></span></div><div class="numin"><span>₹</span><input id="rd-{k}" type="text" inputmode="numeric" autocomplete="off"></div>'
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def small(k, label, unit, lid=None, hint=""):
+        lab = f'<div class="row1"><label for="rd-{k}" id="{lid}">{label}</label></div>' if lid else f'<label for="rd-{k}" class="lbl" style="margin:0 0 6px">{label}</label>'
+        return f'<div class="fld">{lab}<div class="numin"><input id="rd-{k}" type="text" inputmode="decimal" autocomplete="off"><span>{unit}</span></div>' + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>"
+    def date(k, label, lid=None):
+        idattr = f' id="{lid}"' if lid else ""
+        return f'<div class="fld"><label for="rd-{k}" class="lbl" style="margin:0 0 6px"{idattr}>{label}</label><input id="rd-{k}" type="date" class="sel"></div>'
+    def seg(key, label, opts, lid):
+        return f'<div><span class="lbl" id="{lid}">{label}</span><div class="seg row" role="group" aria-labelledby="{lid}">' + "".join(f'<button type="button" data-{key}="{v}">{t}</button>' for v, t in opts) + "</div></div>"
+    vest = "".join(f'<div class="vrow">{date(f"v{i}d", f"Vesting {i}: date")}{num(f"v{i}a", "Value")}</div>' for i in (1, 2, 3))
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Changing jobs</p>
+  <h1>Best day to resign</h1>
+  <p class="lead">Find the last working day that leaves you with the most: gratuity, bonus, vested stock and leave encashment, less any joining bonus you'd repay and the extra pay you'd miss at the new job.</p>
+  {badges("Gratuity under the Code on Social Security · Leave under the OSH Code")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb rdx">
+  <div class="card lp-setup" aria-label="Your job">
+    <h3 class="sub" style="border:0;padding-top:0;margin-top:0">Your job</h3>
+    {date("join", "Joined on")}
+    {seg("type", "Employment", [("permanent", "Permanent"), ("fixed", "Fixed-term")], "rd-typeLbl")}
+    {num("basic", "Basic + DA a month")}
+    {num("total", "Gross pay a month", "Everything in your monthly pay before deductions. Used for gratuity under the 50% wage rule.")}
+    <div class="two">{small("notice", "Notice period", "days", lid="rd-noticeLbl")}<div></div></div>
+    <h3 class="sub">Leave</h3>
+    <div class="two">{small("balance", "Earned leave now", "days")}{small("perYear", "Earned leave a year", "days")}</div>
+    {seg("encashOn", "Leave encashed on", [("basic", "Basic + DA"), ("gross", "Gross pay")], "rd-encLbl")}
+    <h3 class="sub">Bonus</h3>
+    {num("bonus", "Next bonus or variable pay", "0 if none due in the next year.")}
+    {date("bonusDate", "Paid on")}
+    {seg("bonusRule", "Paid only if, on that day, you're", [("rolls", "Still employed"), ("notice", "Not serving notice")], "rd-bonusLbl")}
+    <h3 class="sub">ESOPs or RSUs vesting</h3>
+    {vest}
+    <h3 class="sub">Joining or retention bonus</h3>
+    <div class="vrow">{num("claw", "Repayable if you leave early", lid="rd-clawLbl")}{date("clawDate", "Until")}</div>
+    <h3 class="sub">The new job</h3>
+    {num("extra", "Pays more by, a month", "Gross. Used to count what waiting costs you. 0 if it doesn't matter.", lid="rd-extraLbl")}
+  </div>
+
+  <div>
+    <div class="verdict" id="rdVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="rdPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="rdXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="rdShare">Copy share link</button>
+    </div>
+    <p class="status" id="rdStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">Best last working day</div><div class="n" id="rdS1">—</div><div class="h" id="rdS1h"></div></div>
+      <div class="stat"><div class="l">You walk away with</div><div class="n" id="rdS2">—</div><div class="h" id="rdS2h"></div></div>
+      <div class="stat"><div class="l">Gain from waiting</div><div class="n" id="rdS3">—</div><div class="h" id="rdS3h"></div></div>
+      <div class="stat"><div class="l">Cost of waiting</div><div class="n" id="rdS4">—</div><div class="h" id="rdS4h"></div></div>
+    </div>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">What you walk away with, by last working day</h2>
+      <div id="rdChart"></div>
+      <p class="hint" style="margin:6px 0 0">The dot is the best day. Markers: <span class="rd-ic">G</span> gratuity <span class="rd-ic">B</span> bonus <span class="rd-ic">S</span> stock vests <span class="rd-ic">J</span> joining bonus clawback ends. The line slopes down when the new job's extra pay outweighs what you'd still unlock.</p>
+    </div>
+    <h2 class="list-h">What each date unlocks</h2>
+    <div class="tbl-wrap calc-wrap rd-tbl" id="rdMs"></div>
+    <p class="g-callout" id="rdRule"></p>
+    <a class="next" href="/full-and-final-settlement/"><span class="k">Picked your date?</span><b>Work out your full and final settlement</b><span class="h">Last salary, leave encashment, gratuity and notice recovery, and when each is due.</span></a>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Leaving at the earliest date vs the best date</h2>
+  <div class="tbl-wrap calc-wrap rd-tbl" id="rdTable"></div>
+  <h2>Before you hand in your notice</h2>
+  <div class="prose"><ol class="g-check">
+    <li><strong>Read your bonus policy</strong>: on the rolls, or not serving notice, on payout day? Paid pro rata?</li>
+    <li><strong>Check your grant letter</strong> for vesting dates and how long you have to exercise vested options after leaving.</li>
+    <li><strong>Check your joining date in HR records:</strong> gratuity counts from it, to your last working day.</li>
+    <li><strong>Ask the new employer</strong> if your joining date can move, before you plan around a later last day.</li>
+    <li><strong>Find your joining bonus clause</strong> in your offer letter: how much, and until when.</li>
+    <li><strong>Agree the last working day in writing</strong> when you resign.</li>
+  </ol></div>
+</div></section>
+{related("/best-day-to-resign/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/when-to-resign-best-last-day/">When should you resign?</a> RSUs vesting soon? Read <a href="/guides/resign-before-or-after-rsu-vesting/">Resign before or after your RSUs vest?</a> Leave left? Read <a href="/guides/use-or-encash-leave-before-resigning/">Use it or encash it?</a></p>
+  <p class="g-callout"><b>Related reading:</b> <a href="/guides/gratuity-six-month-rule-when-to-resign/">When to resign: how the six-month rule changes your gratuity</a>. Leaving before your notice ends? Read <a href="/guides/notice-period-buyout/">Notice period buyout</a>. Bonus due? Read <a href="/guides/bonus-when-you-resign/">Bonus and variable pay when you resign</a>. Leave balance? Read <a href="/guides/leave-encashment-tax-on-resignation/">Leave encashment tax when you resign</a>.</p>
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>Dates:</strong> your last working day is the day you resign plus your notice period. The earliest is today plus your notice; the calculator checks every day for the year after that.</li>
+    <li><strong>Gratuity:</strong> from the <a href="/gratuity-calculator/">gratuity calculator</a>'s code: payable after 5 years (1 year for fixed-term), then each part-year of more than six months counts as a full year; wages of at least half your total pay.</li>
+    <li><strong>Leave:</strong> your balance plus leave you'd earn until your last day, × monthly basic + DA (or gross) ÷ 30.</li>
+    <li><strong>Bonus and stock:</strong> counted in full if your last day (or, for "not serving notice", your resignation date) is on or after the date.</li>
+    <li><strong>Joining bonus:</strong> taken off if your last day is before the clause ends.</li>
+    <li><strong>Cost of waiting:</strong> the new job's extra pay a month, for each month after the earliest date.</li>
+    <li>Amounts are before tax.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Code on Social Security, 2020 (gratuity after 5 years' continuous service, 1 year for fixed-term employees; in force from 21 November 2025). Occupational Safety, Health and Working Conditions Code, 2020, section 32 (annual leave: carry forward up to 30 days, encashment). Income-tax Act, 2025, section 19 (gratuity and leave encashment exemptions). Bonus, stock and joining bonus terms are set by your employer's policy. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="rdBar" hidden><span id="rdBarT"></span><button type="button" class="btn-sm pri" id="rdBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "Best Day to Resign Calculator", "url": SITE + "/best-day-to-resign/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Finds the last working day that leaves you with the most: gratuity, bonus, vested stock and leave encashment, less clawbacks and missed pay.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "rd", RD_TIPS)
+    return layout("/best-day-to-resign/", "Best Day to Resign Calculator: Gratuity, Bonus, RSUs",
+                  "Find the best last working day: gratuity eligibility, bonus and RSU vesting dates, leave encashment and joining bonus clawback, against the new job's pay.",
+                  body, crumbs=[("/", "Home"), ("/best-day-to-resign/", "Best Day to Resign")], graph=graph,
+                  css=("tool.css",), js=("gratuity.js", "rd.js"), og="og-best-day-to-resign.png", og_title="Best day to resign")
+
+RD_TIPS = [
+    ("""<label for="rd-notice" id="rd-noticeLbl">Notice period</label>""", "notice period",
+     "From your offer letter or HR policy, in calendar days (a 2-month notice is about 60 days). Your last working day is the day you resign plus this."),
+    ("""<span class="lbl" id="rd-bonusLbl">Paid only if, on that day, you're</span>""", "bonus rule",
+     "Your bonus policy decides. \"Still employed\": you can be serving notice on payout day. \"Not serving notice\": you have to resign after it's paid."),
+    ("""<label for="rd-claw" id="rd-clawLbl">Repayable if you leave early</label>""", "joining bonus",
+     "A joining or retention bonus you'd have to pay back if your last day is before a set date. Enter the amount you'd repay and the date the clause ends."),
+    ("""<label for="rd-extra" id="rd-extraLbl">Pays more by, a month</label>""", "new job's extra pay",
+     "How much more gross pay the new job offers each month. Each month you stay to unlock something, you miss this, if the new employer would wait for you."),
+]
+
+def fire_page():
+    faqs = [
+        ("What is FIRE?",
+         "Financial Independence, Retire Early: saving and investing enough that your investments can pay your living costs for the rest of your life, so working becomes optional. Your FIRE number is the amount you need at that point."),
+        ("Is 25 times my yearly expenses enough in India?",
+         "Often not, if you retire early. The 25× rule comes from US data with lower inflation. With 6% inflation in India and 40 or more years to fund, the calculator usually finds 27× to 35×. It works out your own number from your spending, inflation and returns, year by year, instead of using a fixed multiple."),
+        ("Why does the calculator treat EPF and NPS separately?",
+         "Because you can't spend them right away. NPS stays invested until 60, when up to 80% can be taken as a lump sum and the rest buys a pension. EPF keeps earning interest until 58 if you leave it; you can also take it out 12 months after you stop working. Until then, your other investments have to pay the bills: that's the bridge."),
+        ("Should I take my EPF out early?",
+         "You can, a year after you stop working, but you lose the 8.25% it earns (tax-free on contributions within the limits). The calculator lets you choose; taking it early rarely helps unless your other investments are short."),
+        ("What are Lean, Fat and Coast FIRE?",
+         "Lean FIRE: retiring on a smaller budget (the calculator uses 70% of your spending). Fat FIRE: a more comfortable one (150%). Coast FIRE: having enough invested already that, with no more saving, it grows to what you need by 60, so you only have to earn your current expenses."),
+        ("What returns should I use?",
+         "Returns after tax and costs. Before FI, a mix of equity funds and EPF might average 10–11%; after FI, most people move part of their money to safer options, so 7–8% is more realistic. Try a percentage point lower to see how much margin you have."),
+        ("Is the savings rate on gross or take-home pay?",
+         "Take-home. The calculator takes your take-home as what you spend plus what you save each month (EPF and NPS contributions are counted separately, since they come out before take-home)."),
+        ("What about health insurance and big one-off costs?",
+         "Budget for them in your monthly spending, or add a separate fund. Early retirees lose employer health cover, so a family floater with a top-up is essential; premiums rise with age."),
+    ]
+    def num(k, label, hint="", lid=None):
+        idattr = f' id="{lid}"' if lid else ""
+        return (f'<div class="fld"><div class="row1"><label for="fi-{k}"{idattr}>{label}</label><span class="w" id="fi-{k}-w"></span></div><div class="numin"><span>₹</span><input id="fi-{k}" type="text" inputmode="numeric" autocomplete="off"></div>'
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def small(k, label, unit, lid=None, hint=""):
+        lab = f'<div class="row1"><label for="fi-{k}" id="{lid}">{label}</label></div>' if lid else f'<label for="fi-{k}" class="lbl" style="margin:0 0 6px">{label}</label>'
+        return f'<div class="fld">{lab}<div class="numin"><input id="fi-{k}" type="text" inputmode="decimal" autocomplete="off"><span>{unit}</span></div>' + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>"
+    def seg(key, label, opts, lid):
+        return f'<div><span class="lbl" id="{lid}">{label}</span><div class="seg row" role="group" aria-labelledby="{lid}">' + "".join(f'<button type="button" data-{key}="{v}">{t}</button>' for v, t in opts) + "</div></div>"
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your investments</p>
+  <h1>FIRE calculator for India</h1>
+  <p class="lead"><b>FIRE</b> stands for <b>Financial Independence, Retire Early</b>: having enough saved and invested that it can pay your living costs for the rest of your life, so working becomes a choice, not a need. The amount you need is your <b>FIRE number</b>. This calculator works out your number and the age you'll reach it, with EPF and NPS unlocking at 58 and 60, and Lean, Fat and Coast FIRE.</p>
+  {badges("EPF Scheme 2026 · NPS exit rules · Inflation-linked withdrawals")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb fix">
+  <div class="card lp-setup" aria-label="Your plan">
+    <h3 class="sub" style="border:0;padding-top:0;margin-top:0">You</h3>
+    <div class="two">{small("age", "Your age", "years")}{small("target", "Want FI by", "age", lid="fi-targetLbl")}</div>
+    {num("spend", "Spending a month", "Everything you spend now, including rent or EMI, insurance and yearly costs as a monthly amount.", lid="fi-spendLbl")}
+    {num("save", "Savings a month", "What you invest each month from take-home, apart from EPF and NPS. Your savings rate is this out of spending + savings.")}
+    <div class="two">{small("step", "Savings rise each year", "%", lid="fi-stepLbl")}{small("infl", "Inflation", "%", lid="fi-inflLbl")}</div>
+    <h3 class="sub">Your investments</h3>
+    {num("liquid", "Invested outside EPF and NPS", "Mutual funds, stocks, FDs, PPF and savings you could use.", lid="fi-liquidLbl")}
+    <div class="two">{small("preRet", "Return before FI", "%", lid="fi-preLbl")}{small("postRet", "Return after FI", "%", lid="fi-postLbl")}</div>
+    <h3 class="sub">EPF</h3>
+    <div class="two">{num("epf", "EPF balance")}{num("epfM", "Goes in a month", "Yours + employer's.")}</div>
+    <div class="two">{small("epfRate", "EPF rate", "%", hint="8.25% for 2025-26.")}<div></div></div>
+    {seg("epfMode", "Take your EPF", [("58", "At 58"), ("early", "A year after you stop")], "fi-epfLbl")}
+    <h3 class="sub">NPS</h3>
+    <div class="two">{num("nps", "NPS balance")}{num("npsM", "Goes in a month", "Yours + employer's.")}</div>
+    <div class="two">{small("npsRet", "NPS return", "%", lid="fi-npsRetLbl")}{small("planTo", "Plan until age", "years", lid="fi-planLbl")}</div>
+  </div>
+
+  <div>
+    <div class="verdict" id="fiVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="fiPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="fiXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="fiShare">Copy share link</button>
+    </div>
+    <p class="status" id="fiStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l" id="fi-s1Lbl">Your FIRE number</div><div class="n" id="fiS1">—</div><div class="h" id="fiS1h"></div></div>
+      <div class="stat"><div class="l" id="fi-s2Lbl">In today's money</div><div class="n" id="fiS2">—</div><div class="h" id="fiS2h"></div></div>
+      <div class="stat"><div class="l" id="fi-s3Lbl">Savings rate</div><div class="n" id="fiS3">—</div><div class="h" id="fiS3h"></div></div>
+      <div class="stat"><div class="l" id="fi-s4Lbl">Coast FIRE number</div><div class="n" id="fiS4">—</div><div class="h" id="fiS4h"></div></div>
+    </div>
+    <h2 class="list-h">Lean, regular and Fat FIRE</h2>
+    <div class="sens fi-types" id="fiTypes"></div>
+    <p class="hint">Same savings, different finish lines. <b>Lean FIRE</b>: stopping work on a tighter budget, 70% of what you spend today. <b>Fat FIRE</b>: a more comfortable life, 150%. The ages show when each becomes possible.</p>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">Your money by age</h2>
+      <div id="fiChart"></div>
+      <p class="hint" style="margin:6px 0 0" id="fiChartNote"></p>
+    </div>
+    <p class="g-callout" id="fiRule"></p>
+    <h2 class="list-h">What if</h2>
+    <div class="sens" id="fiSens"></div>
+    <a class="next" href="/retirement-planner/"><span class="k">Retiring at 60 instead?</span><b>Check your retirement plan</b><span class="h">What you need at retirement, what you'll have, and the SIP to close the gap.</span></a>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Year by year</h2>
+  <div class="tbl-wrap calc-wrap" id="fiTable"></div>
+</div></section>
+{related("/fire-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/fire-number-india/">What's your FIRE number in India?</a> Retiring before 58? Read <a href="/guides/retire-at-45-bridge-epf-nps/">Retiring at 45: the bridge to EPF and NPS</a>. Which kind of FIRE? Read <a href="/guides/lean-fat-coast-fire/">Lean, Fat and Coast FIRE</a>.</p>
+  <p class="g-callout"><b>Related reading:</b> <a href="/guides/25x-rule-retirement-india/">The 25× rule: does it work in India?</a> Already retired? Read <a href="/guides/how-long-will-retirement-savings-last/">How long will your retirement savings last?</a></p>
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>Saving:</strong> your savings, EPF and NPS contributions go in every month and rise by the percentage you set each year, earning their returns.</li>
+    <li><strong>FI age:</strong> the first age at which your investments outside EPF and NPS can pay your spending (rising with inflation) every month until your plan-until age, with EPF and NPS added when they unlock. Withdrawals use our shared systematic withdrawal (SWP) engine, month by month.</li>
+    <li><strong>EPF:</strong> keeps earning until 58, or comes out a year after you stop working if you choose (EPF Scheme 2026 allows final settlement after 12 months out of work).</li>
+    <li><strong>NPS:</strong> stays invested until 60; then up to 80% as a lump sum and the rest buys a pension at 6.5% a year (rules from our <a href="/nps-calculator/">NPS calculator</a>).</li>
+    <li><strong>FIRE number:</strong> what you need at FI: the smallest pot outside EPF and NPS that lasts, plus your EPF and NPS then. Lean and Fat FIRE use 70% and 150% of your spending. Coast FIRE is worked out for stopping at 60.</li>
+    <li>Everything is before tax, so use returns after tax and costs.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Employees' Provident Funds Scheme, 2026 (final settlement after 12 months out of work; EPF rate 8.25% for 2025-26). PFRDA (Exits and Withdrawals under NPS) (Amendment) Regulations, 2025 (up to 80% lump sum for non-government subscribers at 60). Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="fiBar" hidden><span id="fiBarT"></span><button type="button" class="btn-sm pri" id="fiBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "FIRE Calculator for India", "url": SITE + "/fire-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "FIRE number and age for India, with EPF and NPS unlocking at 58 and 60, Lean, Fat and Coast FIRE, and inflation-linked withdrawals.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "fi", FI_TIPS)
+    return layout("/fire-calculator/", "FIRE Calculator India: Your FIRE Number and Age",
+                  "When can you retire early in India? Your FIRE number and age with EPF and NPS unlocking at 58 and 60, plus Lean, Fat and Coast FIRE.",
+                  body, crumbs=[("/", "Home"), ("/fire-calculator/", "FIRE Calculator")], graph=graph,
+                  css=("tool.css",), js=("nps.js", "swp.js", "fire.js"), og="og-fire-calculator.png", og_title="Your FIRE number")
+
+FI_TIPS = [
+    ("""<div class="l" id="fi-s1Lbl">Your FIRE number</div>""", "FIRE number",
+     "The total you need on the day you stop working: the smallest pot outside EPF and NPS that pays your rising spending until your plan-until age, plus your EPF and NPS at that point. It's in future rupees, at your FI age."),
+    ("""<div class="l" id="fi-s2Lbl">In today's money</div>""", "today's money",
+     "Your FIRE number shrunk back by inflation to what it would buy today, so you can compare it with what you earn and spend now."),
+    ("""<div class="l" id="fi-s3Lbl">Savings rate</div>""", "savings rate",
+     "The share of your take-home you invest: savings ÷ (spending + savings). EPF and NPS are on top. The higher it is, the sooner you reach FI, because you both save more and need less."),
+    ("""<div class="l" id="fi-s4Lbl">Coast FIRE number</div>""", "Coast FIRE",
+     "Coast FIRE means you've already invested enough that, even if you never save another rupee, it grows to what you need to stop working at 60. After that you only need to earn your living costs, so you could take a lower-paid or part-time job. This is that amount, outside EPF and NPS, today."),
+    ("""<h2 class="list-h">Lean, regular and Fat FIRE</h2>""", "Lean and Fat FIRE",
+     "Different lifestyles after you stop working. Lean FIRE is a frugal retirement (70% of your spending today); Fat FIRE is a comfortable one with room for travel and extras (150%). Your FIRE uses your spending as it is. Each is shown with the same savings."),
+    ("""<h2 class="list-h" style="margin:0 0 4px">Your money by age</h2>""", "the chart",
+     "The two lines are apart by your EPF and NPS, which you can't spend yet. When EPF unlocks (58, or a year after you stop if you choose) and NPS at 60 (80% lump sum), that money moves into your investments, so the amber line jumps up and meets the blue one. After that they're the same: everything you have is spendable."),
+    ("""<span class="lbl" id="fi-epfLbl">Take your EPF</span>""", "when to take EPF",
+     "At 58, your EPF keeps earning 8.25% while your other investments carry you. Or take it a year after you stop working, which the EPF Scheme 2026 allows (final settlement after 12 months out of work). Keeping it usually wins."),
+    ("""<label for="fi-step" id="fi-stepLbl">Savings rise each year</label>""", "savings rise",
+     "How much your monthly savings (and EPF and NPS contributions) go up each year, roughly your pay rises. Even 5–7% a year brings FI several years closer."),
+    ("""<label for="fi-infl" id="fi-inflLbl">Inflation</label>""", "inflation",
+     "How fast your living costs rise each year, before and after FI. India's long-run average is around 6%; your own (school fees, rent, healthcare) may be higher."),
+    ("""<label for="fi-npsRet" id="fi-npsRetLbl">NPS return</label>""", "NPS return",
+     "NPS stays invested until 60 even if you stop working earlier. At 60, up to 80% comes as a lump sum (taxable above 60%) and the rest buys a pension, assumed at 6.5% a year."),
+    ("""<label for="fi-target" id="fi-targetLbl">Want FI by</label>""", "target age",
+     "The age you'd like to be financially independent by. If you won't get there by then, the calculator shows how much more to save each month."),
+    ("""<label for="fi-spend" id="fi-spendLbl">Spending a month</label>""", "spending",
+     "Your spending today, in today's money. It rises with inflation every year, before and after FI. Include yearly costs like insurance and fees as a monthly amount, and remember health cover you'll pay for yourself once you stop working."),
+    ("""<label for="fi-liquid" id="fi-liquidLbl">Invested outside EPF and NPS</label>""", "investments outside EPF and NPS",
+     "Money you can use whenever you like: mutual funds, stocks, FDs, PPF, savings. After you stop working, this pays your bills until EPF and NPS unlock."),
+    ("""<label for="fi-preRet" id="fi-preLbl">Return before FI</label>""", "return before FI",
+     "Average yearly return after tax and costs on your investments outside EPF and NPS while you're saving. A mostly-equity mix might average 10–11%."),
+    ("""<label for="fi-postRet" id="fi-postLbl">Return after FI</label>""", "return after FI",
+     "Average yearly return after tax once you're living off your money. Most people hold more debt then, so 7–8% is more realistic."),
+    ("""<label for="fi-planTo" id="fi-planLbl">Plan until age</label>""", "plan until",
+     "The age your money must last to. Planning to 85 or 90 is safer than expecting a shorter life."),
+]
+
+def swp_page():
+    faqs = [
+        ("What is an SWP?",
+         "A systematic withdrawal plan: you take a fixed amount out of your investments every month, and the rest stays invested and keeps earning. It turns a pot of money (a mutual fund portfolio, retirement savings, a gratuity or bonus you've invested) into a monthly income."),
+        ("How is an SWP taxed?",
+         "Only the gain in each withdrawal is taxed, not the whole amount. Early on, most of each withdrawal is your own money coming back, so tax is low. Equity-oriented funds: 12.5% on long-term gains above ₹1.25 lakh a year, and 20% on gains from units held under 12 months. Debt funds bought after 1 April 2023: gains at your slab."),
+        ("SWP or FD: which gives more monthly income?",
+         "An FD pays the same interest every month and gives your money back at the end, but the interest is fully taxed and never rises. An SWP can rise with inflation, is taxed only on the gains, but draws your money down. The calculator compares both for your numbers, year by year."),
+        ("How much can I safely withdraw?",
+         "It depends on how long it must last, your return and how much your withdrawal rises each year. The calculator shows the most you can take to last 20, 30 and 40 years. With 10% returns and withdrawals rising 5% a year, about 6% of the amount in the first year lasts 30 years."),
+        ("What return should I use?",
+         "A return after costs that matches what you'll hold. A balanced or hybrid fund might average 9–10% over the long run; mostly debt, 7%; mostly equity, more but with bigger swings. Try a percentage point lower to see your margin. Returns aren't guaranteed, and a bad year early on hurts most."),
+        ("Should my withdrawal rise every year?",
+         "If it's your living income, yes: prices rise, so a fixed ₹50,000 buys less every year. Raising it 5–6% a year keeps its value, but the money runs out sooner. The calculator shows both."),
+        ("Can I use this for money that isn't in mutual funds?",
+         "Yes, for the maths: any investment you draw down, such as a portfolio, retirement savings or a lump sum you'll invest. The tax part assumes mutual fund rules; choose debt fund taxation for anything taxed at your slab."),
+        ("What happens in a market fall?",
+         "The calculator uses a steady average return. In real life, a fall in the first few years, while you keep withdrawing, can shorten how long the money lasts. Keeping two or three years of withdrawals in a debt fund helps."),
+    ]
+    def num(k, label, hint="", lid=None):
+        idattr = f' id="{lid}"' if lid else ""
+        return (f'<div class="fld"><div class="row1"><label for="sw-{k}"{idattr}>{label}</label><span class="w" id="sw-{k}-w"></span></div><div class="numin"><span>₹</span><input id="sw-{k}" type="text" inputmode="numeric" autocomplete="off"></div>'
+                + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def small(k, label, unit, lid=None, hint=""):
+        lab = f'<div class="row1"><label for="sw-{k}" id="{lid}">{label}</label></div>' if lid else f'<label for="sw-{k}" class="lbl" style="margin:0 0 6px">{label}</label>'
+        return f'<div class="fld">{lab}<div class="numin"><input id="sw-{k}" type="text" inputmode="decimal" autocomplete="off"><span>{unit}</span></div>' + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>"
+    def seg(key, label, opts, lid):
+        return f'<div><span class="lbl" id="{lid}">{label}</span><div class="seg row" role="group" aria-labelledby="{lid}">' + "".join(f'<button type="button" data-{key}="{v}">{t}</button>' for v, t in opts) + "</div></div>"
+    slab = "".join(f'<option value="{v}">{v}%</option>' for v in (0, 5, 10, 15, 20, 25, 30))
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your investments</p>
+  <h1>SWP calculator</h1>
+  <p class="lead">An <b>SWP (systematic withdrawal plan)</b> turns your investments into a monthly income: you take a set amount out every month while the rest stays invested. See how long your withdrawals last, or how much you can take, after tax, and how it compares with FD interest.</p>
+  {badges("Shared withdrawal engine · Capital gains rules, Income-tax Act 2025")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb swx">
+  <div class="card lp-setup" aria-label="Your withdrawals">
+    <h3 class="sub" style="border:0;padding-top:0;margin-top:0">Your money</h3>
+    {num("corpus", "Money to draw from", "Your portfolio, mutual funds, retirement savings, or a lump sum you'll invest: any amount you'll take a monthly income from.", lid="sw-corpusLbl")}
+    {num("gains0", "Gains already in it", "Its value minus what you put in. 0 if it's fresh money you're investing now.", lid="sw-gainsLbl")}
+    {seg("held", "Invested over a year ago?", [("no", "No"), ("yes", "Yes")], "sw-heldLbl")}
+    <h3 class="sub">Your withdrawals</h3>
+    {seg("mode", "What do you want to know?", [("last", "How long it lasts"), ("take", "How much I can take")], "sw-modeLbl")}
+    <div id="swLast">{num("withdraw", "Take out a month", "In the first year.")}</div>
+    <div id="swTake" hidden><div class="two">{small("years", "For how long", "years")}<div></div></div></div>
+    <div class="two">{small("step", "Rise each year", "%", lid="sw-stepLbl")}{small("ret", "Return a year", "%", lid="sw-retLbl")}</div>
+    <h3 class="sub">Tax</h3>
+    {seg("kind", "Taxed as", [("equity", "Equity-oriented fund"), ("debt", "Debt fund or slab")], "sw-kindLbl")}
+    <div id="swSlabBox" class="two"><div class="fld"><label for="sw-slab" class="lbl" style="margin:0 0 6px" id="sw-slabLbl">Your tax slab</label><select id="sw-slab" class="sel">{slab}</select></div>{small("fd", "FD rate to compare", "%")}</div>
+  </div>
+
+  <div>
+    <div class="verdict" id="swVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="swPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="swXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="swShare">Copy share link</button>
+    </div>
+    <p class="status" id="swStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">Monthly withdrawal</div><div class="n" id="swS1">—</div><div class="h" id="swS1h"></div></div>
+      <div class="stat"><div class="l" id="sw-s2Lbl">After tax</div><div class="n" id="swS2">—</div><div class="h" id="swS2h"></div></div>
+      <div class="stat"><div class="l">Lasts</div><div class="n" id="swS3">—</div><div class="h" id="swS3h"></div></div>
+      <div class="stat"><div class="l" id="sw-s4Lbl">Total tax</div><div class="n" id="swS4">—</div><div class="h" id="swS4h"></div></div>
+    </div>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px">Money left and income taken</h2>
+      <div id="swChart"></div>
+      <p class="hint" style="margin:6px 0 0" id="swChartNote"></p>
+    </div>
+    <h2 class="list-h" id="swSafeH">How much you can take</h2>
+    <div class="sens" id="swSafe"></div>
+    <h2 class="list-h">SWP or FD interest?</h2>
+    <div class="tbl-wrap calc-wrap sw-tbl" id="swFd"></div>
+    <p class="hint" id="swFdNote"></p>
+    <h2 class="list-h">What if</h2>
+    <div class="sens" id="swSens"></div>
+    <a class="next" href="/fire-calculator/"><span class="k">Planning to stop work early?</span><b>Find your FIRE number</b><span class="h">When you can stop working, with EPF and NPS unlocking at 58 and 60.</span></a>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2 id="swYearH">Year by year</h2>
+  <div class="tbl-wrap calc-wrap" id="swTable"></div>
+  <div class="g-callout sw-taxnote" id="swTaxNote"></div>
+</div></section>
+{related("/swp-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/swp-monthly-income-explained/">How much monthly income can your investments give?</a> Choosing between an FD and an SWP? Read <a href="/guides/swp-vs-fd-monthly-income/">SWP or FD interest?</a> Buying a pension? Read <a href="/guides/annuity-or-swp/">Annuity or SWP?</a></p>
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>Each month</strong> the withdrawal comes out first; the rest earns a month's share of your yearly return. The withdrawal rises by the percentage you set every 12 months.</li>
+    <li><strong>How much you can take</strong> is the largest first-month withdrawal that, rising each year, lasts exactly the years you choose.</li>
+    <li><strong>Tax:</strong> only the gain in each withdrawal is taxed, using average cost. Equity-oriented funds: 12.5% on long-term gains above ₹1.25 lakh a year, 20% on units held under 12 months. Debt funds: at your slab. 4% cess; surcharge and the section 156 rebate are left out. Tax is paid from that year's withdrawals.</li>
+    <li><strong>FD comparison:</strong> monthly interest on the same amount, taxed at your slab, with the amount kept intact.</li>
+    <li>This is the same withdrawal engine as the <a href="/fire-calculator/">FIRE calculator</a>.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Income-tax Act, 2025: capital gains on equity-oriented funds (12.5% long-term above ₹1.25 lakh a year, 20% short-term) and debt mutual funds bought after 1 April 2023 (slab rates). Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="swBar" hidden><span id="swBarT"></span><button type="button" class="btn-sm pri" id="swBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "SWP Calculator", "url": SITE + "/swp-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "Systematic withdrawal plan calculator: how long monthly withdrawals last or how much you can take, after tax, compared with FD interest.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "sw", SW_TIPS)
+    return layout("/swp-calculator/", "SWP Calculator: Monthly Income From Your Investments",
+                  "SWP calculator for India: how long monthly withdrawals from your portfolio last, or how much you can take, after tax, vs FD interest.",
+                  body, crumbs=[("/", "Home"), ("/swp-calculator/", "SWP Calculator")], graph=graph,
+                  css=("tool.css",), js=("swp.js", "swp-tool.js"), og="og-swp-calculator.png", og_title="SWP calculator")
+
+SW_TIPS = [
+    ("""<label for="sw-corpus" id="sw-corpusLbl">Money to draw from</label>""", "money to draw from",
+     "Whatever you'll take a monthly income from: an existing mutual fund portfolio, your retirement savings, or a lump sum (gratuity, EPF, a bonus, a property sale) that you'll invest first."),
+    ("""<label for="sw-gains0" id="sw-gainsLbl">Gains already in it</label>""", "gains already in it",
+     "Only gains are taxed when you withdraw. For a portfolio you've held for a while, enter its value minus what you invested. For fresh money, leave it at 0."),
+    ("""<span class="lbl" id="sw-heldLbl">Invested over a year ago?</span>""", "holding period",
+     "For equity-oriented funds, gains on units held for over 12 months are long-term (12.5% above ₹1.25 lakh a year); within 12 months they're short-term (20%). Fresh money: the first year's gains are short-term."),
+    ("""<label for="sw-step" id="sw-stepLbl">Rise each year</label>""", "yearly rise",
+     "How much your monthly withdrawal goes up each year, to keep pace with prices. 5–6% roughly matches inflation; 0 keeps it fixed."),
+    ("""<label for="sw-ret" id="sw-retLbl">Return a year</label>""", "return",
+     "Average yearly return after costs on what stays invested. A balanced or hybrid fund might average 9–10% over the long run; mostly debt, about 7%."),
+    ("""<span class="lbl" id="sw-kindLbl">Taxed as</span>""", "tax type",
+     "Equity-oriented funds (65% or more in Indian shares, including many balanced-advantage and equity savings funds) get 12.5% long-term tax above ₹1.25 lakh a year. Debt funds bought after 1 April 2023, and most other investments, are taxed at your slab."),
+    ("""<div class="l" id="sw-s4Lbl">Total tax</div>""", "total tax",
+     "Tax on the gains in all your withdrawals over the plan. Equity-oriented funds: 20% on gains from units held under 12 months, then 12.5% on long-term gains above ₹1,25,000 a year, plus 4% cess. Debt or slab: every rupee of gain at your slab. How each year is worked out is under the year-by-year table."),
+    ("""<h2 id="swYearH">Year by year</h2>""", "the year-by-year table",
+     "Years run from the month you start, not April to March. \"Gains in it\" is the part of that year's withdrawals that's profit, not your own money; only that part is taxed. \"Gain type\" shows whether it's short-term (sold within 12 months of investing), long-term, or taxed at your slab. A ₹0 marked * means the year's long-term gains are within the tax-free ₹1,25,000."),
+    ("""<div class="l" id="sw-s2Lbl">After tax</div>""", "after tax",
+     "Your first year's withdrawals minus the tax on the gains in them, as a monthly amount. Early on, most of each withdrawal is your own money coming back, so tax is low."),
+    ("""<h2 class="list-h" id="swSafeH">How much you can take</h2>""", "how much you can take",
+     "The largest monthly withdrawal, rising each year by the percentage you set, that lasts 20, 30 or 40 years at your return. The yearly percentage is the first year's withdrawals as a share of the amount."),
 ]
 
 def term_page():
@@ -2441,6 +3103,7 @@ def nps_page():
 <section style="padding-top:0" class="np-plan"><div class="wrap">
   <h2>What happens at exit</h2>
   <div class="tbl-wrap calc-wrap" id="npSplit"></div>
+  {swp_box("npSwp")}
   <h2>Year by year</h2>
   <div class="tbl-wrap calc-wrap" id="npTable"></div>
 </div></section>
@@ -2473,7 +3136,7 @@ def nps_page():
     return layout("/nps-calculator/", "NPS Calculator 2026: Lump Sum, Pension and Tax at 60",
                   "Your NPS at 60 under the new exit rules: up to 80% lump sum, the taxable part above 60%, and your pension. Plus the tax saved by employer NPS.",
                   body, crumbs=[("/", "Home"), ("/nps-calculator/", "NPS Calculator")], graph=graph,
-                  css=("tool.css",), js=("nps.js",), og="og-nps-calculator.png", og_title="NPS at 60: lump sum, tax and pension")
+                  css=("tool.css",), js=swp_js("nps.js"), og="og-nps-calculator.png", og_title="NPS at 60: lump sum, tax and pension")
 
 NP_TIPS = [
     ("""<label for="np-exitAge" id="np-exitLbl">Exit at age</label>""", "exit age",
@@ -2787,6 +3450,7 @@ def gratuity_page():
     <a class="next" href="/full-and-final-settlement/"><span class="k">Leaving?</span><b>See your full and final settlement</b><span class="h">Last salary, leave encashment, gratuity and notice recovery, and when each is due.</span></a>
     <a class="next" style="margin-top:12px" href="/budget-planner/"><span class="k">Your next decision</span><b>Changing jobs? Plan your budget for the gap</b><span class="h">See what's left each month, with yearly costs set aside.</span></a>
     <a class="next" href="/sip-calculator/" style="margin-top:12px"><span class="k">Also useful</span><b>Investing your gratuity? See what it could grow to</b><span class="h">Add it as a lump sum in the SIP calculator.</span></a>
+    {swp_next("Got a lump sum?", "Turn your gratuity into a monthly income", "See how long it lasts after tax, and how it compares with FD interest.")}
     <h2 class="list-h">Assumptions</h2>
     <ul class="notes" id="grNotes"></ul>
   </div>
@@ -3199,6 +3863,78 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/plan-for-school-fees-and-yearly-costs/", "How to plan for school fees and other yearly costs",
      "List your yearly costs, turn them into one monthly set-aside, give them their own account and time it right, with an example family's month-by-month plan.",
      "2026-11-13", "guide-yearly-costs", "Your money"),
+    ("/guides/when-to-resign-best-last-day/", "When should you resign? One employee's exit, worked out date by date",
+     "Gratuity, bonus, RSUs and a better offer: how one employee picks the last working day worth ₹4.1 lakh more, and how to find yours.",
+     "2026-11-19", "guide-rd-main", "Your pay"),
+    ("/guides/resign-before-or-after-rsu-vesting/", "Should you resign before or after your RSUs vest?",
+     "What happens to unvested RSUs and ESOPs when you leave, when waiting for a vest pays, quarterly vesting, and asking the new employer to cover it.",
+     "2026-11-19", "guide-rd-rsu", "Your pay"),
+    ("/guides/joining-bonus-clawback/", "Joining bonus clawback: when is it safe to leave?",
+     "How joining and retention bonus clawbacks work, when your last day clears them, an example, ways to soften it, and tax on a repaid bonus.",
+     "2026-11-19", "guide-rd-claw", "Your pay"),
+    ("/guides/when-to-hand-in-notice/", "When to hand in your notice so your last day lands right",
+     "Count back from the date you need: notice in days or months, resign-by dates for gratuity, bonus rules and what to put in your resignation email.",
+     "2026-11-19", "guide-rd-notice", "Your pay"),
+    ("/guides/use-or-encash-leave-before-resigning/", "Leave balance before you resign: use it or encash it?",
+     "What a day of earned leave is worth in cash, when to take it as a break and when to encash it, caps on exit, and the OSH Code rules.",
+     "2026-11-19", "guide-rd-leave", "Your pay"),
+    ("/guides/wait-for-bonus-or-join-now/", "Wait for the bonus or join the new job now: which pays more?",
+     "Bonus a few months away and a better offer in hand: the two bonus rules, an example, the break-even raise and what to check before waiting.",
+     "2026-11-19", "guide-rd-bonus", "Your pay"),
+    ("/guides/fire-number-india/", "What's your FIRE number in India? One person's plan, worked out",
+     "FIRE means Financial Independence, Retire Early. How to work out your FIRE number and age, with EPF and NPS, worked through one 30-year-old's plan.",
+     "2026-11-19", "guide-fi-main", "Your investments"),
+    ("/guides/retire-at-45-bridge-epf-nps/", "Retiring at 45: how to bridge the years before EPF and NPS unlock",
+     "Stop working early and EPF and NPS stay locked for years. How much must sit outside them at 40, 45, 50, 55 and 60, and how to build the bridge.",
+     "2026-11-19", "guide-fi-bridge", "Your investments"),
+    ("/guides/is-25x-enough-early-retirement/", "Is 25× expenses enough for early retirement in India?",
+     "Where the 25× rule comes from, the multiple India's 6% inflation really needs for 30 to 50 years, and how EPF and NPS bring it down.",
+     "2026-11-19", "guide-fi-25x", "Your investments"),
+    ("/guides/lean-fat-coast-fire/", "Lean, Fat and Coast FIRE: which one fits you?",
+     "Lean, regular, Fat, Coast and Barista FIRE explained, with the age and amount each needs for one person in India.",
+     "2026-11-19", "guide-fi-types", "Your investments"),
+    ("/guides/savings-rate-early-retirement/", "How savings rate decides when you can retire",
+     "The same take-home pay split five ways: how a 20% to 60% savings rate moves your FI age and FIRE number, and how to raise yours.",
+     "2026-11-19", "guide-fi-rate", "Your investments"),
+    ("/guides/epf-nps-if-you-retire-early/", "What to do with EPF and NPS if you retire early",
+     "EPF interest until 58, final settlement after 12 months, NPS premature exit rules and whether to keep contributing, for early retirees.",
+     "2026-11-19", "guide-fi-epfnps", "Your investments"),
+    ("/guides/swp-monthly-income-explained/", "How much monthly income can your investments give? One SWP plan, worked out",
+     "What a systematic withdrawal plan is and how one retiree's ₹1 crore pays a rising monthly income: how long it lasts, tax and what to watch.",
+     "2026-11-19", "guide-sw-main", "Your investments"),
+    ("/guides/swp-vs-fd-monthly-income/", "SWP or FD interest: which gives more monthly income after tax?",
+     "₹1 crore in an FD vs an SWP: monthly income after tax in years 1, 10 and 20, why the SWP pulls ahead, and when an FD still makes sense.",
+     "2026-11-19", "guide-sw-fd", "Your investments"),
+    ("/guides/how-swp-is-taxed/", "How SWP withdrawals are taxed",
+     "Only the gain in each withdrawal is taxed: equity-oriented vs debt funds, the ₹1.25 lakh exemption, one retiree's tax year by year, and how to keep it low.",
+     "2026-11-19", "guide-sw-tax", "Your investments"),
+    ("/guides/safe-swp-withdrawal-rate/", "How much can you safely withdraw each month?",
+     "The most you can take from ₹1 crore each month to last 20, 30 or 40 years, by return and yearly rise, and a safe withdrawal rate for India.",
+     "2026-11-19", "guide-sw-safe", "Your investments"),
+    ("/guides/should-swp-rise-with-inflation/", "Should your SWP rise with inflation?",
+     "A fixed monthly withdrawal lasts longer but loses value; a rising one keeps up with prices. One retiree's ₹1 crore compared at 0%, 5% and 6% a year.",
+     "2026-11-19", "guide-sw-rise", "Your investments"),
+    ("/guides/annuity-or-swp/", "Annuity or SWP: which pays a better pension?",
+     "₹1 crore as an annuity for life or an SWP: monthly income after tax, what each gives and costs you, and why a mix often works best.",
+     "2026-11-19", "guide-sw-annuity", "Your investments"),
+    ("/guides/salary-under-new-labour-codes/", "Your salary under the new labour codes: one employee's numbers",
+     "What the 50% wage rule does to take-home, PF, tax and gratuity, worked through one ₹15.2 lakh salary under three kinds of restructuring.",
+     "2026-11-19", "guide-lc-main", "Your pay"),
+    ("/guides/take-home-fell-ctc-same/", "Why did my take-home fall when my CTC didn't change?",
+     "Where the money went when your salary was restructured for the labour codes, rupee by rupee, and when your take-home shouldn't fall at all.",
+     "2026-11-19", "guide-lc-takehome", "Your pay"),
+    ("/guides/basic-pay-50-percent-rule/", "Is basic pay now 50% of CTC? What the rule actually says",
+     "The Code on Wages' 50% rule explained: what counts as wages, what's left out, why it isn't exactly 50% of CTC, and two worked examples.",
+     "2026-11-19", "guide-lc-50", "Your pay"),
+    ("/guides/higher-basic-more-tax/", "Does a higher basic mean more tax? New and old regime",
+     "How a labour-codes restructuring changes your income tax under the new and old regimes: employer PF, gratuity, HRA exemption and the PF deduction.",
+     "2026-11-19", "guide-lc-tax", "Your pay"),
+    ("/guides/pf-full-basic-or-capped/", "Should you ask for PF on full basic or the ₹25,000 cap?",
+     "Take-home now against EPF at 58: what PF on full basic and PF capped at ₹25,000 give you, the tax difference, and when each makes sense.",
+     "2026-11-19", "guide-lc-pf", "Your pay"),
+    ("/guides/bonus-variable-pay-wages-labour-codes/", "Do bonus and variable pay count as wages under the labour codes?",
+     "Bonus, variable pay, ESOPs, commission and overtime under the Code on Wages: which count as wages for PF and gratuity, and the grey areas.",
+     "2026-11-19", "guide-lc-bonus", "Your pay"),
     ("/guides/working-hours-new-labour-codes/", "Did India change your working hours? What the new rules actually say",
      "The 48-hour week, 12-hour days and the four-day week under the new labour codes: what's true, what isn't, what applies to office jobs, and overtime pay.",
      "2026-11-19", "guide-work-hours", "Your pay"),
@@ -4488,14 +5224,18 @@ def _catalog():
     return [
         ("Your time off", [("/leave-planner-2027/", "Leave Planner 2027", "Turn your leave into the longest breaks of 2027, around central, state or your company's holidays.", True, "",
                             ["/guides/long-weekends-2027/", "/guides/restricted-holidays-2027/", "/guides/best-months-for-a-week-long-break-2027/", "/guides/long-weekends-2027-six-day-week/", "/guides/working-hours-new-labour-codes/"])]),
-        ("Your pay", [("/ctc-to-in-hand/", "CTC to In-hand", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", []),
+        ("Your pay", [("/labour-codes-salary-calculator/", "Labour Codes and Your Salary", "Does your basic pass the 50% wage rule? Your take-home, PF, tax and gratuity before and after restructuring.", L("/labour-codes-salary-calculator/"), "Coming soon", ["/guides/salary-under-new-labour-codes/", "/guides/take-home-fell-ctc-same/", "/guides/basic-pay-50-percent-rule/", "/guides/higher-basic-more-tax/", "/guides/pf-full-basic-or-capped/", "/guides/bonus-variable-pay-wages-labour-codes/"]),
+                      ("/ctc-to-in-hand/", "CTC to In-hand", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", []),
                       ("/salary-hike-calculator/", "Salary Hike Calculator", "What your hike really adds to your monthly take-home after tax and PF, and how two offers compare.", False, "After the 1 Feb 2027 Budget", []),
+                      ("/best-day-to-resign/", "Best Day to Resign", "The last working day that leaves you with the most: gratuity, bonus, RSUs and leave, against the new job's pay.", L("/best-day-to-resign/"), "Coming soon", ["/guides/when-to-resign-best-last-day/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/joining-bonus-clawback/", "/guides/when-to-hand-in-notice/", "/guides/use-or-encash-leave-before-resigning/", "/guides/wait-for-bonus-or-join-now/"]),
                       ("/full-and-final-settlement/", "Full and Final Settlement", "What you get when you leave: last salary, leave encashment, gratuity, notice recovery and when it's due.", L("/full-and-final-settlement/"), "Coming soon", ["/guides/full-and-final-settlement-explained/", "/guides/transfer-pf-dont-withdraw/", "/guides/leave-encashment-tax-on-resignation/", "/guides/notice-period-buyout/", "/guides/two-employers-one-year-tax/", "/guides/bonus-when-you-resign/", "/guides/settlement-not-paid-on-time/"]),
                       ("/gratuity-calculator/", "Gratuity Calculator", "Your gratuity under the new labour codes, how much is tax-free, and what staying longer adds.", L("/gratuity-calculator/"), "Coming soon", ["/guides/gratuity-new-labour-codes/", "/guides/gratuity-six-month-rule-when-to-resign/", "/guides/gratuity-fixed-term-employees/", "/guides/is-gratuity-taxable-20-lakh-limit/", "/guides/low-basic-salary-gratuity/"])]),
         ("Your tax", [("/income-tax-section-finder/", "Income Tax Section Finder", "Old section numbers like 80C, HRA and 24(b), and where they are in the Income-tax Act, 2025.", L("/income-tax-section-finder/"), "Coming soon", ["/guides/new-income-tax-section-numbers/", "/guides/tax-year-explained/", "/guides/payslip-form-130-new-section-numbers/"])]),
         ("Your loans", [("/prepay-vs-invest/", "Prepay or Invest", "Should extra money go into your home loan or into investments? After tax.", True, "", ["/guides/prepay-home-loan-or-invest/", "/guides/prepay-home-loan-early-or-later/", "/guides/prepay-with-bonus-or-invest/"]),
                         ("/emi-calculator/", "EMI Calculator", "Your EMI, with part-payments at any time and rate changes. Save your plan and carry on later.", L("/emi-calculator/"), "Coming soon", ["/guides/how-part-payments-cut-your-home-loan/", "/guides/home-loan-rate-rise-emi-or-tenure/", "/guides/part-pay-car-or-personal-loan/", "/guides/floating-or-fixed-home-loan/"])]),
-        ("Your investments", [("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", ["/guides/how-much-sip-do-you-need/", "/guides/step-up-sip/", "/guides/are-your-sips-on-track/", "/guides/how-mutual-fund-gains-are-taxed/", "/guides/sip-or-lump-sum-bonus/", "/guides/sip-lower-return/", "/guides/first-sip-on-first-salary/"]),
+        ("Your investments", [("/fire-calculator/", "FIRE Calculator", "When can you stop working? Your FIRE number and age, with EPF and NPS unlocking at 58 and 60.", L("/fire-calculator/"), "Coming soon", ["/guides/fire-number-india/", "/guides/retire-at-45-bridge-epf-nps/", "/guides/is-25x-enough-early-retirement/", "/guides/lean-fat-coast-fire/", "/guides/savings-rate-early-retirement/", "/guides/epf-nps-if-you-retire-early/"]),
+                              ("/swp-calculator/", "SWP Calculator", "Turn your investments into a monthly income: how long it lasts or how much you can take, after tax, vs FD interest.", L("/swp-calculator/"), "Coming soon", ["/guides/swp-monthly-income-explained/", "/guides/swp-vs-fd-monthly-income/", "/guides/how-swp-is-taxed/", "/guides/safe-swp-withdrawal-rate/", "/guides/should-swp-rise-with-inflation/", "/guides/annuity-or-swp/"]),
+                              ("/sip-calculator/", "SIP Calculator", "What your SIP could grow to, or the SIP you need for a goal. With step-up and your existing portfolio.", L("/sip-calculator/"), "Coming soon", ["/guides/how-much-sip-do-you-need/", "/guides/step-up-sip/", "/guides/are-your-sips-on-track/", "/guides/how-mutual-fund-gains-are-taxed/", "/guides/sip-or-lump-sum-bonus/", "/guides/sip-lower-return/", "/guides/first-sip-on-first-salary/"]),
                               ("/fd-ppf-rd-calculator/", "FD, PPF and RD Calculator", "What your FD, RD or PPF grows to after tax, whether TDS applies, and all three compared.", L("/fd-ppf-rd-calculator/"), "Coming soon", ["/guides/fd-rd-or-ppf/", "/guides/fd-interest-tax-below-50000/", "/guides/ppf-deposit-by-5-april/", "/guides/form-121-stop-tds-fd-interest/", "/guides/cumulative-fd-or-monthly-payout/", "/guides/ppf-after-15-years/", "/guides/fd-for-senior-citizens-tds-and-tax/"]),
                               ("/sukanya-samriddhi-calculator/", "Sukanya Samriddhi Calculator", "What your daughter's account grows to at 8.2%, tax-free, with an education withdrawal and PPF compared.", L("/sukanya-samriddhi-calculator/"), "Coming soon", ["/guides/sukanya-samriddhi-explained/", "/guides/sukanya-samriddhi-or-sip/", "/guides/sukanya-samriddhi-at-maturity/", "/guides/open-sukanya-samriddhi-account/", "/guides/sukanya-samriddhi-two-daughters/", "/guides/revive-sukanya-samriddhi-account/"]),
                               ("/nps-calculator/", "NPS Calculator", "Your NPS at 60 under the new exit rules: lump sum, the taxed part and your pension. Plus employer NPS tax saving.", L("/nps-calculator/"), "Coming soon", ["/guides/nps-new-exit-rules/", "/guides/employer-nps-14-percent-new-regime/", "/guides/nps-80-percent-withdrawal-tax/", "/guides/nps-vs-ppf-vs-epf/"]),
@@ -9086,6 +9826,1210 @@ def guide_ladder():
 """
     return article(path, "x", "Should you split your term cover into two policies?", body, "Laddering term cover")
 
+_T1C = {}
+def _t1():
+    if not _T1C: _T1C.update(_num("guide_t1_numbers.js"))
+    return _T1C
+
+def _t1_rows(x, keys):
+    return "".join(f'<tr><th scope="row">{lab}</th>' + "".join(f'<td data-l="{h}">{fn(x[k])}</td>' for k, h in keys) + "</tr>" for lab, x, fn in [])
+
+def guide_lc_main():
+    T = _t1(); N = T["neww"]; a, f, c, ab = N["now"], N["full"], N["capped"], N["absorb"]; t = N["test"]
+    path = "/guides/salary-under-new-labour-codes/"
+    toc = [("short-answer", "The short answer"), ("karan", "Karan's salary today"), ("test", "Does it pass the 50% test?"), ("options", "Three ways his company could restructure"),
+           ("where", "Where the money goes"), ("you", "What it means for you"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "The new labour codes say your basic pay can't be less than half your pay. Many companies are rewriting salary break-ups because of it. Here's what that does to one employee's take-home, PF, tax and gratuity, step by step.",
+                      "A payslip split into take-home, PF and gratuity").replace("TYPE_LINE", "<span>Labour codes salary calculator</span>")
+    def row(lab, k, fn=_inr): return f'<tr><th scope="row">{lab}</th><td data-l="Now">{fn(a[k])}</td><td data-l="PF full">{fn(f[k])}</td><td data-l="PF capped">{fn(c[k])}</td><td data-l="Employer pays">{fn(ab[k])}</td></tr>'
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>If your basic + DA is less than half your pay, your PF and gratuity now have to be worked out on more. For Karan, on a ₹15.2 lakh CTC with basic at {round(t['share']*100)}% of his pay, the most common restructuring (same CTC, PF on full basic) cuts his take-home by <strong>{_inr(a['takeHome'] - f['takeHome'])} a month</strong>. In return, his PF goes up {_inr((f['own'] + f['emp']) - (a['own'] + a['emp']))} a month and his gratuity after 10 years goes up {_L(f['gratExit'] - a['gratExit'])}.</p>
+<p class="g-cta"><a class="btn" href="/labour-codes-salary-calculator/">Check your own salary</a></p>
+
+<h2 id="karan">Karan's salary today</h2>
+<p>Karan is 30 and works for a private company. His monthly break-up, like many in IT and services, keeps basic low and allowances high:</p>
+<ul>
+  <li><strong>Basic + DA:</strong> {_inr(a['B'])}</li>
+  <li><strong>HRA:</strong> {_inr(a['hra'])}</li>
+  <li><strong>Other allowances</strong> (special allowance and the rest): {_inr(a['other'])}</li>
+  <li><strong>Employer PF</strong> at 12% of basic: {_inr(a['emp'])}, and <strong>gratuity</strong> set aside in his CTC: {_inr(a['gratP'])}</li>
+</ul>
+<p>That's a CTC of {_inr(a['ctc'])} a month. After his own PF and income tax (new regime), {_inr(a['takeHome'])} reaches his account.</p>
+
+<h2 id="test">Does it pass the 50% test?</h2>
+<p>Under section 2(y) of the Code on Wages, 2019, in force since 21 November 2025, "wages" are basic pay, DA and retaining allowance. HRA, conveyance, employer PF and a few other payments are left out, but if those left-out parts come to more than half of total pay, the excess counts as wages anyway.</p>
+<p>Karan's total pay for the test is {_inr(t['T'])} (his gross pay plus employer PF; gratuity isn't counted). Half of that is {_inr(t['T']/2)}. His HRA, allowances and employer PF add up to {_inr(t['excl'])}, so {_inr(t['add'])} too much is left out. His wages for PF and gratuity become {_inr(t['wages'])}, not {_inr(a['B'])}. Read more in <a href="/guides/basic-pay-50-percent-rule/">Is basic pay now 50% of CTC?</a></p>
+
+<h2 id="options">Three ways his company could restructure</h2>
+<p>Three columns after "Now": <b>PF full</b> (CTC the same, PF on full basic), <b>PF capped</b> (CTC the same, PF on wages up to ₹25,000) and <b>Employer pays</b> (the company bears the extra, so CTC goes up).</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">A month</th><th scope="col">Now</th><th scope="col">PF full</th><th scope="col">PF capped</th><th scope="col">Employer pays</th></tr></thead><tbody>
+{row("Basic + DA", "B")}{row("Other allowances", "other")}{row("Gross pay", "gross")}{row("Employer PF", "emp")}{row("Gratuity set aside", "gratP")}{row("CTC", "ctc")}{row("Your PF", "own")}{row("Income tax", "tax", lambda v: _inr(v/12))}{row("<b>Take-home</b>", "takeHome")}{row("Gratuity after 10 years", "gratExit", _L)}
+</tbody></table></div>
+<ul>
+  <li><strong>CTC same, PF on full basic</strong> (the most common): take-home falls {_inr(a['takeHome'] - f['takeHome'])} a month.</li>
+  <li><strong>CTC same, PF capped</strong> at wages of ₹25,000 (₹3,000 a month each): take-home actually rises {_inr(c['takeHome'] - a['takeHome'])}, because Karan's PF today is on his full basic. He saves {_inr((a['own'] + a['emp']) - (c['own'] + c['emp']))} a month less in EPF.</li>
+  <li><strong>The company pays the extra:</strong> his gross stays the same and his CTC rises {_inr(ab['ctc'] - a['ctc'])} a month. Take-home falls only by his own higher PF, {_inr(a['takeHome'] - ab['takeHome'])}.</li>
+</ul>
+
+<h2 id="where">Where the money goes</h2>
+<p>In the most common case the {_inr(a['takeHome'] - f['takeHome'])} a month isn't lost. It moves into savings Karan gets later:</p>
+<ul>
+  <li><strong>EPF:</strong> {_inr((f['own'] + f['emp']) - (a['own'] + a['emp']))} a month more from him and his employer together, earning 8.25% a year. At 58 that's about {_L(f['epf'] - a['epf'])} more, or {_L(f['epfReal'] - a['epfReal'])} in today's money.</li>
+  <li><strong>Gratuity:</strong> {_inr(f['gratYear'])} for each year of service instead of {_inr(a['gratYear'])}. After 10 years, {_L(f['gratExit'])} instead of {_L(a['gratExit'])}.</li>
+  <li><strong>Tax:</strong> about {_inr(a['tax'] - f['tax'])} a year less, because more of his CTC now goes into employer PF and gratuity, which aren't taxed. Read <a href="/guides/higher-basic-more-tax/">Does a higher basic mean more tax?</a></li>
+</ul>
+<p>The full breakdown is in <a href="/guides/take-home-fell-ctc-same/">Why did my take-home fall when my CTC didn't change?</a></p>
+
+<h2 id="you">What it means for you</h2>
+<ul>
+  <li><strong>Basic already half your pay or more?</strong> Nothing has to change.</li>
+  <li><strong>PF capped at ₹25,000?</strong> Your take-home barely moves; only a bigger gratuity set-aside comes out of your CTC. The Labour Ministry has said take-home doesn't fall when PF stays on the wage ceiling.</li>
+  <li><strong>PF on full basic?</strong> Expect a lower take-home and more savings. Whether to ask for the cap is a real choice: see <a href="/guides/pf-full-basic-or-capped/">PF on full basic or the ₹25,000 cap?</a></li>
+  <li><strong>Bonus and variable pay</strong> aren't wages, so they don't change. See <a href="/guides/bonus-variable-pay-wages-labour-codes/">Do bonus and variable pay count as wages?</a></li>
+</ul>
+<p>Ask HR for your revised break-up in writing and check your next payslip against it. Your gratuity's own calculation is in <a href="/guides/gratuity-new-labour-codes/">Gratuity under the new labour codes</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/labour-codes-salary-calculator/">labour codes salary calculator</a>'s own code. Total pay for the 50% test is gross pay plus employer PF, with gratuity left out (Labour Ministry additional FAQs, 16 March 2026). With CTC unchanged, basic is raised to half of total pay and the extra employer PF and gratuity come out of other allowances. PF 12% each; gratuity set aside at 4.81% of wages; tax under the new regime for tax year 2026-27 with the ₹75,000 standard deduction; gratuity after 10 years with 7% yearly pay rises; EPF at 8.25% from today's contributions only. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Your employer's restructuring may differ.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Your salary under the new labour codes", body, "Labour codes salary")
+
+def guide_lc_takehome():
+    T = _t1(); N = T["neww"]; a, f = N["now"], N["full"]; K = T["cappedNow"]; ka, kc, kb = K["now"], K["capped"], K["absorb"]
+    path = "/guides/take-home-fell-ctc-same/"
+    dG = a['gross'] - f['gross']; dP = f['own'] - a['own']; dT = (a['tax'] - f['tax']) / 12; dTH = a['takeHome'] - f['takeHome']
+    toc = [("short-answer", "The short answer"), ("why", "Why it happens"), ("example", "Rupee by rupee"), ("not", "When it shouldn't fall"), ("check", "What to check"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Same CTC, smaller salary credit? If your company restructured your pay for the new labour codes, that's probably why. Here's exactly where the money went, and when your take-home shouldn't have fallen at all.",
+                      "A wallet with a smaller stack of notes beside a growing PF jar").replace("TYPE_LINE", "<span>Labour codes salary calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Your basic pay went up to meet the labour codes' 50% wage rule, so more of your CTC now goes into PF and gratuity. Your employer's extra PF and gratuity come out of your allowances, and your own extra PF comes out of your salary. On a ₹15.2 lakh CTC that can mean about <strong>{_inr(dTH)} a month</strong> less in hand, all of it moved into savings you get later.</p>
+<p class="g-cta"><a class="btn" href="/labour-codes-salary-calculator/">See what happens to your salary</a></p>
+
+<h2 id="why">Why it happens</h2>
+<p>CTC is your employer's total cost: your gross pay plus employer PF plus, at many companies, gratuity. When basic rises, the 12% employer PF and the 4.81% gratuity set-aside rise with it. With CTC fixed, that money has to come from somewhere, so your allowances shrink. On top of that, your own 12% PF rises too.</p>
+
+<h2 id="example">Rupee by rupee</h2>
+<p>Karan's basic goes from {_inr(a['B'])} to {_inr(f['B'])} a month, CTC unchanged at {_inr(a['ctc'])}, PF on full basic, new regime:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Change a month</th><th scope="col">Amount</th></tr></thead><tbody>
+<tr><th scope="row">Employer PF goes up</th><td>{_inr(f['emp'] - a['emp'])}</td></tr>
+<tr><th scope="row">Gratuity set aside goes up</th><td>{_inr(f['gratP'] - a['gratP'])}</td></tr>
+<tr><th scope="row"><b>So gross pay falls by</b></th><td><b>{_inr(dG)}</b></td></tr>
+<tr><th scope="row">Your own PF goes up</th><td>{_inr(dP)}</td></tr>
+<tr><th scope="row">Income tax goes down</th><td>−{_inr(dT)}</td></tr>
+<tr><th scope="row"><b>Take-home falls by</b></th><td><b>{_inr(dTH)}</b></td></tr>
+</tbody></table></div>
+<p>Tax falls a little because employer PF and gratuity aren't taxed, while the allowances they replaced were. Meanwhile his EPF gets {_inr((f['own'] + f['emp']) - (a['own'] + a['emp']))} more a month and his gratuity after 10 years rises from {_L(a['gratExit'])} to {_L(f['gratExit'])}. See the whole example in <a href="/guides/salary-under-new-labour-codes/">Your salary under the new labour codes</a>.</p>
+
+<h2 id="not">When it shouldn't fall</h2>
+<ul>
+  <li><strong>Your PF is on the ₹25,000 ceiling.</strong> A bigger basic doesn't change it, and the Labour Ministry has said take-home doesn't fall in that case. With the same pay but PF capped, Karan's take-home moves only {_inr(ka['takeHome'] - kc['takeHome'])} a month, from the bigger gratuity set-aside inside his CTC.</li>
+  <li><strong>Your employer pays the extra.</strong> Then your CTC goes up instead; with PF capped, Karan's take-home wouldn't change at all.</li>
+  <li><strong>Your basic was already half your pay.</strong> Nothing had to change.</li>
+</ul>
+<p>If one of these applies and your take-home still fell, ask HR why. Choosing between full and capped PF? Read <a href="/guides/pf-full-basic-or-capped/">PF on full basic or the ₹25,000 cap?</a></p>
+
+<h2 id="check">What to check</h2>
+<ol class="g-check">
+  <li><strong>Compare two payslips,</strong> before and after: basic, allowances, PF and tax.</li>
+  <li><strong>Check your CTC break-up</strong> for employer PF and gratuity.</li>
+  <li><strong>Check your EPF passbook</strong>: both your share and your employer's should have gone up.</li>
+  <li><strong>Re-plan your budget</strong> around the new take-home in the <a href="/budget-planner/">budget planner</a>.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/labour-codes-salary-calculator/">labour codes salary calculator</a>'s own code: CTC kept the same, basic raised to half of total pay (gross plus employer PF), PF 12% each on full basic, gratuity set aside at 4.81% of wages, new regime tax for tax year 2026-27. Labour Ministry clarification on take-home at the wage ceiling, December 2025. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Why did my take-home fall?", body, "Take-home fell")
+
+def guide_lc_50():
+    T = _t1(); N = T["neww"]; a, f = N["now"], N["full"]; t = N["test"]; C = T["compliant"]; ct = C["test"]; cn = C["now"]
+    path = "/guides/basic-pay-50-percent-rule/"
+    toc = [("short-answer", "The short answer"), ("rule", "What the law says"), ("counts", "What counts, what doesn't"), ("ctc", "Why it isn't quite 50% of CTC"), ("examples", "Two examples"), ("method", "Sources")]
+    body = guide_head(path, "You've probably heard that basic pay must now be 50% of CTC. That's close, but not what the law says. Here's the actual rule, what's counted on each side, and two worked examples.",
+                      "A pie split in half, with basic pay filling one side").replace("TYPE_LINE", "<span>Labour codes salary calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>No law fixes your basic salary. The Code on Wages sets a floor for "wages", which PF and gratuity are worked out on: if your HRA, conveyance, employer PF and similar payments are more than half your total pay, the excess counts as wages. So, in effect, wages can't be less than half your pay. Many companies have simply raised basic to about half to keep payroll simple.</p>
+<p class="g-cta"><a class="btn" href="/labour-codes-salary-calculator/">Check your salary against the rule</a></p>
+
+<h2 id="rule">What the law says</h2>
+<p>Section 2(y) of the Code on Wages, 2019 defines wages as all remuneration, including basic pay, dearness allowance and retaining allowance, and then lists payments that are left out. Its first proviso says that if the left-out payments in clauses (a) to (i) are more than one-half of all remuneration, the excess is added back to wages. The Code has applied since 21 November 2025, and the same definition is used for PF and gratuity under the Code on Social Security.</p>
+
+<h2 id="counts">What counts, what doesn't</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Pay item</th><th scope="col">Wages?</th><th scope="col">In total pay for the 50% test?</th></tr></thead><tbody>
+<tr><th scope="row">Basic pay, DA, retaining allowance</th><td data-l="Wages?">Yes</td><td data-l="In total pay?">Yes</td></tr>
+<tr><th scope="row">HRA, conveyance</th><td data-l="Wages?">No, unless over the 50% limit</td><td data-l="In total pay?">Yes</td></tr>
+<tr><th scope="row">Employer PF and pension contribution</th><td data-l="Wages?">No, unless over the 50% limit</td><td data-l="In total pay?">Yes (Labour Ministry FAQ, March 2026)</td></tr>
+<tr><th scope="row">Overtime, commission</th><td data-l="Wages?">No, unless over the 50% limit</td><td data-l="In total pay?">Yes (overtime confirmed by the Ministry)</td></tr>
+<tr><th scope="row">Gratuity, ESI, other retirement benefits</th><td data-l="Wages?">No</td><td data-l="In total pay?">No</td></tr>
+<tr><th scope="row">Annual performance incentives, variable pay, ESOPs</th><td data-l="Wages?">No (Ministry FAQs)</td><td data-l="In total pay?">Left out</td></tr>
+</tbody></table></div>
+<p>Special allowance isn't on the list of left-out payments, so some lawyers read it as wages in full. Most companies and the Ministry's own illustrations treat it like the other allowances. Bonus and variable pay are covered in <a href="/guides/bonus-variable-pay-wages-labour-codes/">Do bonus and variable pay count as wages?</a></p>
+
+<h2 id="ctc">Why it isn't quite 50% of CTC</h2>
+<p>The test is against total pay, not CTC. Total pay includes employer PF but not gratuity, and not variable pay. So when Karan's company raises his basic to exactly meet the rule, his basic is {_inr(f['B'])}: half of his total pay of {_inr(f['gross'] + f['emp'])}, but only {f['B']/f['ctc']*100:.1f}% of his {_inr(f['ctc'])} CTC, which also holds {_inr(f['gratP'])} of gratuity.</p>
+
+<h2 id="examples">Two examples</h2>
+<ul>
+  <li><strong>Passes:</strong> basic {_inr(cn['B'])}, HRA {_inr(cn['hra'])}, other allowances {_inr(cn['other'])}, employer PF {_inr(cn['emp'])}. Basic is {ct['share']*100:.0f}% of {_inr(ct['T'])}. Nothing changes.</li>
+  <li><strong>Fails:</strong> Karan, with basic {_inr(a['B'])}, HRA {_inr(a['hra'])}, other allowances {_inr(a['other'])} and employer PF {_inr(a['emp'])}. Basic is {t['share']*100:.0f}% of {_inr(t['T'])}; the left-out parts are {_inr(t['excl'])}, {_inr(t['add'])} more than half. His wages for PF and gratuity become {_inr(t['wages'])}. What that does to his pay is in <a href="/guides/salary-under-new-labour-codes/">Your salary under the new labour codes</a>.</li>
+</ul>
+
+<h2 id="method">Sources</h2>
+<p>Code on Wages, 2019, section 2(y) and its first proviso (in force from 21 November 2025). Labour Ministry FAQs on the Labour Codes, 30 December 2025, and additional FAQs of 16 March 2026 (employer PF counted in total pay; gratuity, ESI and retirement benefits not; overtime part of the 50% calculation; annual performance incentives not wages). Figures from the <a href="/labour-codes-salary-calculator/">labour codes salary calculator</a>'s code. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not legal advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Is basic pay now 50% of CTC?", body, "The 50% rule")
+
+def guide_lc_tax():
+    T = _t1(); N = T["neww"]; O = T["old"]
+    path = "/guides/higher-basic-more-tax/"
+    toc = [("short-answer", "The short answer"), ("table", "Karan's tax, both regimes"), ("new", "New regime"), ("old", "Old regime"), ("method", "How these numbers were worked out")]
+    def r(lab, k): return f'<tr><th scope="row">{lab}</th><td data-l="New regime">{_inr(N[k]["tax"])}</td><td data-l="Old regime">{_inr(O[k]["tax"])}</td></tr>'
+    on, of = O["now"], O["full"]
+    body = guide_head(path, "Your basic is going up because of the labour codes. Will you pay more income tax? Usually not, and under the new regime often a little less. Here's why, for both regimes.",
+                      "A balance scale weighing basic pay against tax").replace("TYPE_LINE", "<span>Labour codes salary calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Tax depends on your taxable pay, not on how it's split. When your basic rises and your CTC stays the same, more of your CTC goes into employer PF and gratuity, which aren't taxed, so your taxable pay falls a little. For Karan on ₹15.2 lakh, tax drops about {_inr(N['now']['tax'] - N['full']['tax'])} a year under the new regime. Under the old regime the HRA exemption shrinks, but the extra PF deduction more than makes up for it.</p>
+<p class="g-cta"><a class="btn" href="/labour-codes-salary-calculator/">Check your tax before and after</a></p>
+
+<h2 id="table">Karan's tax, both regimes</h2>
+<p>Income tax for a year on his fixed pay. Old regime: rent of ₹20,000 a month in a 50% city, no other deductions.</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Tax a year</th><th scope="col">New regime</th><th scope="col">Old regime</th></tr></thead><tbody>
+{r("Now", "now")}{r("CTC same, PF on full basic", "full")}{r("CTC same, PF capped at ₹25,000", "capped")}{r("Employer pays the extra", "absorb")}
+</tbody></table></div>
+
+<h2 id="new">New regime</h2>
+<ul>
+  <li>Your own PF gets no deduction, and employer PF isn't taxed (unless employer PF, NPS and superannuation together go over ₹7.5 lakh a year).</li>
+  <li>With CTC the same and PF on full basic, your gross falls as employer PF and gratuity rise, so tax falls: {_inr(N['now']['tax'])} → {_inr(N['full']['tax'])}.</li>
+  <li>With PF capped, employer PF can fall (if it was on full basic), so gross and tax go up a little: {_inr(N['capped']['tax'])}.</li>
+  <li>If your employer pays the extra, your gross doesn't change and neither does your tax.</li>
+</ul>
+
+<h2 id="old">Old regime</h2>
+<ul>
+  <li><strong>HRA exemption:</strong> it's the lowest of HRA received, rent minus 10% of basic, and 50% (or 40%) of basic. A higher basic raises the "10% of basic" taken off your rent, so Karan's exemption falls from {_inr(on['hraEx'])} to {_inr(of['hraEx'])} a year.</li>
+  <li><strong>PF deduction:</strong> your own PF counts towards the ₹1.5 lakh limit (section 123, earlier 80C). His rises from {_inr(on['ded'])} to {_inr(of['ded'])}.</li>
+  <li>Net effect with PF on full basic: {_inr(on['tax'])} → {_inr(of['tax'])}. If your 80C limit is already full from other investments, the PF part helps less.</li>
+</ul>
+<p>Whether to ask for capped PF is a separate question: see <a href="/guides/pf-full-basic-or-capped/">PF on full basic or the ₹25,000 cap?</a> The full example is in <a href="/guides/salary-under-new-labour-codes/">Your salary under the new labour codes</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/labour-codes-salary-calculator/">labour codes salary calculator</a>'s own code, for tax year 2026-27. New regime: section 202 rates, ₹75,000 standard deduction, section 156 rebate up to ₹12 lakh, 4% cess. Old regime: ₹50,000 standard deduction, HRA exemption (Schedule III, rule 279; 50% for Delhi, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad, Pune and Ahmedabad), own PF plus other deductions up to ₹1.5 lakh. Professional tax and variable pay left out. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Does a higher basic mean more tax?", body, "Higher basic and tax")
+
+def guide_lc_pf():
+    T = _t1(); N = T["neww"]; f, c = N["full"], N["capped"]
+    path = "/guides/pf-full-basic-or-capped/"
+    toc = [("short-answer", "The short answer"), ("compare", "Karan's two options"), ("full", "Why full PF can be worth it"), ("cap", "When the cap makes sense"), ("ask", "Can you choose?"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Your PF can be worked out on your full basic, or on wages capped at ₹25,000. Now that basic pay is going up, the gap between the two is bigger. Here's what each gives you, now and at 58.",
+                      "Two jars, one full and one capped with a lid").replace("TYPE_LINE", "<span>Labour codes salary calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>The cap gives you more cash now; full PF gives you a lot more at retirement, tax-efficiently. For Karan, with basic of {_inr(f['B'])} after restructuring, the cap means <strong>{_inr(c['takeHome'] - f['takeHome'])} more a month</strong> in hand, but his EPF at 58 would be about {_L(c['epf'])} instead of {_L(f['epf'])}. If you don't need the cash, full PF is usually the better deal.</p>
+<p class="g-cta"><a class="btn" href="/labour-codes-salary-calculator/">Compare both for your salary</a></p>
+
+<h2 id="compare">Karan's two options</h2>
+<p>Same CTC of {_inr(f['ctc'])} a month, new regime:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">A month</th><th scope="col">PF on full basic</th><th scope="col">PF capped at ₹25,000</th></tr></thead><tbody>
+<tr><th scope="row">Your PF</th><td data-l="Full basic">{_inr(f['own'])}</td><td data-l="Capped">{_inr(c['own'])}</td></tr>
+<tr><th scope="row">Employer PF</th><td data-l="Full basic">{_inr(f['emp'])}</td><td data-l="Capped">{_inr(c['emp'])}</td></tr>
+<tr><th scope="row">Income tax</th><td data-l="Full basic">{_inr(f['tax']/12)}</td><td data-l="Capped">{_inr(c['tax']/12)}</td></tr>
+<tr><th scope="row"><b>Take-home</b></th><td data-l="Full basic"><b>{_inr(f['takeHome'])}</b></td><td data-l="Capped"><b>{_inr(c['takeHome'])}</b></td></tr>
+<tr><th scope="row">EPF at 58</th><td data-l="Full basic">{_L(f['epf'])}</td><td data-l="Capped">{_L(c['epf'])}</td></tr>
+<tr><th scope="row">EPF at 58, in today's money</th><td data-l="Full basic">{_L(f['epfReal'])}</td><td data-l="Capped">{_L(c['epfReal'])}</td></tr>
+</tbody></table></div>
+<p>Gratuity is the same either way: it's worked out on wages, not on PF.</p>
+
+<h2 id="full">Why full PF can be worth it</h2>
+<ul>
+  <li><strong>8.25% a year, guaranteed by EPFO's declared rate,</strong> with interest tax-free on your own contributions up to ₹2.5 lakh a year.</li>
+  <li><strong>Employer PF isn't taxed</strong> (up to ₹7.5 lakh a year with NPS and superannuation). With the cap, that money comes to you as salary instead, and is taxed: Karan pays {_inr((c['tax'] - f['tax']))} more tax a year with the cap.</li>
+  <li><strong>Forced saving:</strong> money you never see is money you don't spend. Withdrawals are allowed for set needs; see <a href="/guides/epf-withdrawal-rules-2026/">How much of your EPF can you withdraw?</a></li>
+  <li><strong>Your EPS pension is the same either way:</strong> the 8.33% that goes to the pension scheme is worked out on wages up to ₹25,000 in both cases.</li>
+</ul>
+
+<h2 id="cap">When the cap makes sense</h2>
+<ul>
+  <li>You're paying off expensive debt, like a credit card or personal loan.</li>
+  <li>You don't yet have an emergency fund of 6 months' expenses.</li>
+  <li>You'd invest the extra cash every month, and accept market ups and downs, for a higher long-term return.</li>
+</ul>
+
+<h2 id="ask">Can you choose?</h2>
+<p>PF on wages above the ₹25,000 ceiling is optional, not required, so it's usually set by company policy. Some companies let each employee choose, often once a year or when joining. Ask HR. If your company keeps PF capped, you can still save more through <a href="/guides/vpf-worth-it/">voluntary PF (VPF)</a>. More on the ceiling in <a href="/guides/epf-wage-ceiling-25000/">The ₹25,000 wage ceiling</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/labour-codes-salary-calculator/">labour codes salary calculator</a>'s own code, which uses the <a href="/epf-calculator/">EPF calculator</a>'s: basic raised to half of total pay with CTC unchanged, PF 12% each, EPF at 8.25% a year from today's contributions only, pay rising 7% a year, 6% inflation for today's money, new regime tax for tax year 2026-27. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Future EPF rates will differ.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "PF on full basic or the ₹25,000 cap?", body, "PF full or capped")
+
+def guide_lc_bonus():
+    path = "/guides/bonus-variable-pay-wages-labour-codes/"
+    toc = [("short-answer", "The short answer"), ("table", "Item by item"), ("why", "Why it matters"), ("grey", "Grey areas"), ("method", "Sources")]
+    body = guide_head(path, "The labour codes changed what counts as \"wages\", and wages decide your PF and gratuity. So does your bonus, variable pay or ESOP count? Mostly no. Here's each item, and the few grey areas.",
+                      "A gift box and a share certificate set apart from a payslip").replace("TYPE_LINE", "<span>Labour codes salary calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>No, for the usual kinds. The Labour Ministry's FAQs say annual performance-based incentives, variable pay, ESOPs and reimbursements aren't wages, and the Code itself leaves out statutory bonus and commission. So they don't raise your PF or gratuity, and they don't count in the 50% test. They're still taxed as salary.</p>
+<p class="g-cta"><a class="btn" href="/labour-codes-salary-calculator/">Check your fixed pay against the 50% rule</a></p>
+
+<h2 id="table">Item by item</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Pay item</th><th scope="col">Wages under the labour codes?</th><th scope="col">Source</th></tr></thead><tbody>
+<tr><th scope="row">Annual performance bonus or incentive</th><td data-l="Wages?">No</td><td data-l="Source">Labour Ministry FAQs, Dec 2025 and Mar 2026</td></tr>
+<tr><th scope="row">Variable pay</th><td data-l="Wages?">No</td><td data-l="Source">Labour Ministry FAQ, 30 Dec 2025</td></tr>
+<tr><th scope="row">ESOPs and RSUs</th><td data-l="Wages?">No</td><td data-l="Source">Labour Ministry FAQ, 30 Dec 2025</td></tr>
+<tr><th scope="row">Reimbursements against bills</th><td data-l="Wages?">No</td><td data-l="Source">Labour Ministry FAQ, 30 Dec 2025</td></tr>
+<tr><th scope="row">Statutory bonus (Code on Wages)</th><td data-l="Wages?">No, but counted in the 50% test</td><td data-l="Source">Section 2(y)(a); Ministry FAQ, Mar 2026</td></tr>
+<tr><th scope="row">Commission</th><td data-l="Wages?">No, unless over the 50% limit</td><td data-l="Source">Section 2(y)</td></tr>
+<tr><th scope="row">Overtime pay</th><td data-l="Wages?">No, but counted in the 50% test</td><td data-l="Source">Ministry FAQ, Mar 2026</td></tr>
+</tbody></table></div>
+
+<h2 id="why">Why it matters</h2>
+<ul>
+  <li><strong>PF and gratuity</strong> are worked out on wages, so a ₹2 lakh bonus doesn't add a rupee to either.</li>
+  <li><strong>The 50% test</strong> is on your fixed pay. A large variable component doesn't push your basic up. See <a href="/guides/basic-pay-50-percent-rule/">Is basic pay now 50% of CTC?</a></li>
+  <li><strong>Tax</strong> is unchanged: bonus and variable pay are taxed as salary in the year you get them, and ESOPs as a perquisite when they vest or you exercise them.</li>
+  <li><strong>Statutory bonus</strong> (8.33% to 20%) applies only to employees earning up to ₹21,000 a month in wages. Leaving a job? Read <a href="/guides/bonus-when-you-resign/">Bonus and variable pay when you resign</a>.</li>
+</ul>
+
+<h2 id="grey">Grey areas</h2>
+<ul>
+  <li><strong>"Variable" pay that's really fixed:</strong> if it's paid every month whatever your performance, some lawyers argue it's wages. Check how your offer letter describes it.</li>
+  <li><strong>Joining and retention bonuses:</strong> the FAQs don't mention them. As one-off contractual payments, most companies don't treat them as wages.</li>
+  <li><strong>Special allowance:</strong> not on the Code's list of left-out payments, so it may count as wages in full. Most companies treat it as an allowance.</li>
+</ul>
+<p>What the rule does to your fixed pay is in <a href="/guides/salary-under-new-labour-codes/">Your salary under the new labour codes</a>.</p>
+
+<h2 id="method">Sources</h2>
+<p>Code on Wages, 2019, section 2(y) (exclusions in clauses (a) to (k); 50% proviso for clauses (a) to (i)). Labour Ministry FAQs on the Labour Codes of 30 December 2025 (performance-based incentives, ESOPs, variable pay and reimbursements not wages) and additional FAQs of 16 March 2026 (annual performance-based incentives not wages; overtime and statutory bonus counted in the 50% calculation). Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not legal advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Do bonus and variable pay count as wages?", body, "Bonus and wages")
+
+_T2C = {}
+def _t2():
+    if not _T2C: _T2C.update(_num("guide_t2_numbers.js"))
+    return _T2C
+def _dd(iso):
+    y, m, d = iso.split("-"); return f"{int(d)} {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][int(m)-1]} {y}"
+
+def guide_rd_main():
+    T = _t2(); M = T["main"]; f, b = M["first"], M["best"]; A = T["at"]; H = T["mainHigh"]
+    path = "/guides/when-to-resign-best-last-day/"
+    toc = [("short-answer", "The short answer"), ("rohan", "Rohan's situation"), ("dates", "The dates that matter"), ("compare", "Earliest day vs best day"), ("cost", "What waiting costs"), ("steps", "How to find your own date"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Once you've decided to leave, the date you leave can be worth lakhs. Gratuity, a bonus, stock vesting and a joining bonus clawback each have their own date. Here's one employee's exit worked out day by day.",
+                      "A calendar with one day marked and a path of milestones leading to it").replace("TYPE_LINE", "<span>Best day to resign</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>List every date that adds money: 5 years for gratuity, the bonus payout, stock vesting, the end of any joining bonus clawback. Your <strong>last working day</strong> (not the day you resign) has to be on or after each one. Then weigh what each adds against the extra pay you'd miss at the new job. For Rohan, waiting until {_dd(b['L'])} is worth about <strong>{_L(M['gain'])}</strong> more than leaving at the earliest date.</p>
+<p class="g-cta"><a class="btn" href="/best-day-to-resign/">Find your best day</a></p>
+
+<h2 id="rohan">Rohan's situation</h2>
+<ul>
+  <li>Joined on 19 Feb 2022, permanent. Basic + DA ₹50,000, gross ₹1,20,000 a month.</li>
+  <li>Notice period of 60 days. 20 days of earned leave, plus 18 a year, encashed on basic.</li>
+  <li>A ₹2 lakh bonus due on 15 Apr 2027, paid if he's still employed that day.</li>
+  <li>RSUs worth ₹1.5 lakh vesting on 15 Jun 2027.</li>
+  <li>An offer paying ₹25,000 a month more, and the new company is flexible on his joining date.</li>
+</ul>
+<p>If he resigns today ({_dd(T['main']['first']['resign'])}), his last working day is {_dd(M['earliest'])}.</p>
+
+<h2 id="dates">The dates that matter</h2>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Last day on or after</th><th scope="col">What it adds</th><th scope="col">Resign on or after</th></tr></thead><tbody>
+""" + "".join(f'<tr><th scope="row">{_dd(m["L"])}</th><td data-l="What it adds">{m["what"]}: {_inr(m["amt"])}</td><td data-l="Resign on or after">{_dd(m["resign"])}</td></tr>' for m in M["ms"]) + f"""
+</tbody></table></div>
+<p>Gratuity is the big first step: at 5 years his gratuity is {_inr(b['grat'])}, worked out on wages of ₹60,000 (half his total pay, under the labour codes' 50% rule). After that, each part-year of more than six months adds another year. See <a href="/guides/gratuity-six-month-rule-when-to-resign/">How the six-month rule changes your gratuity</a>.</p>
+
+<h2 id="compare">Earliest day vs best day</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col"></th><th scope="col">Leave {_dd(f['L'])}</th><th scope="col">Leave {_dd(b['L'])}</th></tr></thead><tbody>
+<tr><th scope="row">Gratuity</th><td>{_inr(f['grat'])}</td><td>{_inr(b['grat'])}</td></tr>
+<tr><th scope="row">Leave encashment</th><td>{_inr(f['leave'])}</td><td>{_inr(b['leave'])}</td></tr>
+<tr><th scope="row">Bonus</th><td>{_inr(f['bonus'])}</td><td>{_inr(b['bonus'])}</td></tr>
+<tr><th scope="row">RSUs</th><td>{_inr(f['vested'])}</td><td>{_inr(b['vested'])}</td></tr>
+<tr><th scope="row">Extra pay missed at the new job</th><td>{_inr(-f['missed'])}</td><td>{_inr(-b['missed'])}</td></tr>
+<tr><th scope="row"><b>He walks away with</b></th><td><b>{_inr(f['total'])}</b></td><td><b>{_inr(b['total'])}</b></td></tr>
+</tbody></table></div>
+<p>Leaving on 19 Feb (just after 5 years) would already get him {_L(A['2027-02-19']['total'])}; on 15 Apr, after the bonus, {_L(A['2027-04-15']['total'])}. So he resigns on {_dd(b['resign'])}, after the bonus is paid, and his last day lands on the vesting date.</p>
+
+<h2 id="cost">What waiting costs</h2>
+<p>Waiting isn't free if the new job pays more. Rohan misses {_inr(b['missed'])} of extra pay by joining in June instead of January, and he still comes out ahead. If the new job paid ₹60,000 a month more, waiting would still win, but by {_L(H['gain'])}. Only above about {_inr(round(T['mainBE'], -3))} a month more would leaving at once pay better. And the gain is only real if the new company holds the offer: ask them first.</p>
+
+<h2 id="steps">How to find your own date</h2>
+<ol class="g-check">
+  <li><strong>Collect the dates:</strong> joining date (from HR records), bonus payout and its rule, vesting schedule, joining bonus clause.</li>
+  <li><strong>Turn them into last-day targets:</strong> each needs your last working day on or after it. For a bonus paid only if you're not serving notice, your resignation date has to be after it. See <a href="/guides/when-to-hand-in-notice/">When to hand in your notice</a>.</li>
+  <li><strong>Price the wait:</strong> the new job's extra pay for each month. See <a href="/guides/wait-for-bonus-or-join-now/">Wait for the bonus or join now?</a></li>
+  <li><strong>Plan your leave:</strong> use it or encash it? See <a href="/guides/use-or-encash-leave-before-resigning/">Leave balance before you resign</a>.</li>
+  <li><strong>Then work out your settlement</strong> in the <a href="/full-and-final-settlement/">full and final settlement calculator</a>.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/best-day-to-resign/">best day to resign</a> tool's own code, which uses the <a href="/gratuity-calculator/">gratuity calculator</a>'s: today taken as 19 Nov 2026; every last working day for a year from the earliest checked; gratuity under the Code on Social Security, 2020 (5 years, then part-years over six months count, wages of at least half of total pay); leave encashed on basic ÷ 30 a day; bonus and RSUs counted in full on or after their dates; amounts before tax. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information. Your employer's policies decide what you're owed.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "When should you resign?", body, "When to resign")
+
+def guide_rd_rsu():
+    T = _t2(); R = T["rsu"]; Q = T["rsuQ"]; f, b = R["first"], R["best"]
+    path = "/guides/resign-before-or-after-rsu-vesting/"
+    toc = [("short-answer", "The short answer"), ("rules", "What happens to your stock when you leave"), ("example", "An example"), ("quarterly", "If your stock vests every quarter"), ("buyout", "Ask the new employer to cover it"), ("tax", "Tax"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Unvested RSUs usually lapse on your last working day. So if a vesting date is a few months away, should you wait for it? It depends on how much vests and what waiting costs you.",
+                      "Share certificates stacking up on a calendar's vesting day").replace("TYPE_LINE", "<span>Best day to resign</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Wait if what vests is worth more than the extra pay you'd miss by joining later, and the new employer will hold the offer. A ₹3 lakh vest four months away beats a ₹40,000-a-month raise: waiting leaves you about <strong>{_L(R['gain'])}</strong> ahead. With stock that vests every quarter, the next small vest is rarely worth a long wait.</p>
+<p class="g-cta"><a class="btn" href="/best-day-to-resign/">Check your vesting dates</a></p>
+
+<h2 id="rules">What happens to your stock when you leave</h2>
+<ul>
+  <li><strong>Unvested RSUs and options</strong> usually lapse on your last working day. Serving notice normally counts as employment, so a vest during your notice period is yours.</li>
+  <li><strong>Vested RSUs</strong> are shares you already own; they stay yours.</li>
+  <li><strong>Vested ESOPs</strong> (options) must usually be exercised within a set window after you leave, often 3 to 12 months, or they lapse.</li>
+  <li>Your grant letter and the plan rules decide all of this. Check them first.</li>
+</ul>
+
+<h2 id="example">An example</h2>
+<p>Two years in the job, so no gratuity yet; RSUs worth ₹3 lakh vest on 15 May 2027; 60 days' notice; the new job pays ₹40,000 a month more.</p>
+<ul>
+  <li><strong>Leave at the earliest, {_dd(f['L'])}:</strong> {_inr(f['total'])} (just leave encashment). The RSUs lapse.</li>
+  <li><strong>Leave on {_dd(b['L'])}</strong> (resign on {_dd(b['resign'])}): {_inr(b['total'])}, after missing {_inr(b['missed'])} of extra pay.</li>
+  <li>Waiting stops paying only if the new job pays more than about {_inr(round(T['rsuBE'], -3))} a month extra.</li>
+</ul>
+
+<h2 id="quarterly">If your stock vests every quarter</h2>
+<p>Split the same ₹2.25 lakh into three quarterly vests of ₹75,000 (Feb, May, Aug) and the answer changes: the best day becomes {_dd(Q['best']['L'])}, just after the first vest. Each later vest is worth less than the three months of extra pay it costs. With frequent small vests, the cliff-free way to leave is right after the next one.</p>
+
+<h2 id="buyout">Ask the new employer to cover it</h2>
+<p>Many companies, especially for senior hires, offer a joining bonus or a sign-on grant to make up for stock you leave behind. Show them your vesting schedule and ask. If they agree, put it in the offer letter, and check its own clawback clause: see <a href="/guides/joining-bonus-clawback/">Joining bonus clawback</a>.</p>
+
+<h2 id="tax">Tax</h2>
+<p>RSUs are taxed as part of your salary when they vest, on their market value that day; ESOPs when you exercise them, on the gain over the exercise price. Selling later brings capital gains tax. So the amounts above are before tax, just like the extra pay they're compared with.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/best-day-to-resign/">best day to resign</a> tool's own code, with today as 19 Nov 2026: basic ₹50,000, gross ₹1,20,000, 10 days of leave plus 18 a year encashed on basic, vesting counted in full on or after its date, extra pay missed counted for each month after the earliest last day. Read <a href="/methodology/">how we check our numbers</a>. Also see <a href="/guides/when-to-resign-best-last-day/">When should you resign?</a></p>
+<p class="g-note">This article is for information. Your stock plan's rules decide what you keep.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Resign before or after RSUs vest?", body, "RSUs and resigning")
+
+def guide_rd_claw():
+    T = _t2(); C = T["claw"]; f, b = C["first"], C["best"]
+    path = "/guides/joining-bonus-clawback/"
+    toc = [("short-answer", "The short answer"), ("clause", "How clawback clauses work"), ("example", "An example"), ("negotiate", "Ways to soften it"), ("tax", "Tax on a repaid bonus"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Took a joining bonus and now want to leave? Most offer letters make you repay it if you go within a year or so. Here's how to tell when it's safe to leave, and when it's cheaper to pay it back.",
+                      "A gift box tied to a calendar with a dotted line until a date").replace("TYPE_LINE", "<span>Best day to resign</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Read the clause for two things: the amount you'd repay and the date it ends. Your <strong>last working day</strong> must be on or after that date. If it's a few weeks away, wait: a ₹2 lakh clawback costs far more than a month or two of a better salary. Only a very large raise makes repaying worth it.</p>
+<p class="g-cta"><a class="btn" href="/best-day-to-resign/">Add your clawback date</a></p>
+
+<h2 id="clause">How clawback clauses work</h2>
+<ul>
+  <li><strong>Full repayment</strong> if you leave within a period, usually 12 months from joining; sometimes 24 for retention bonuses.</li>
+  <li><strong>Pro rata:</strong> you repay only the part for the months you didn't serve. Then the cost falls each month.</li>
+  <li><strong>"Leave" usually means your last working day,</strong> not the day you resign, but check the wording: some clauses say the date you resign.</li>
+  <li>The company usually recovers it from your final settlement, and asks you to pay any balance.</li>
+</ul>
+
+<h2 id="example">An example</h2>
+<p>Joined on 1 Mar 2026 with a ₹2 lakh joining bonus, repayable if the last working day is before 1 Mar 2027. 60 days' notice; the new job pays ₹30,000 a month more.</p>
+<ul>
+  <li><strong>Resign today, leave {_dd(f['L'])}:</strong> repay ₹2 lakh. After leave encashment, {_inr(f['total'])}.</li>
+  <li><strong>Resign on {_dd(b['resign'])}, leave {_dd(b['L'])}:</strong> nothing to repay. After missing {_inr(b['missed'])} of extra pay, {_inr(b['total'])}.</li>
+  <li>Waiting is <strong>{_L(C['gain'])}</strong> better. Leaving early pays only if the new job pays over about {_inr(round(T['clawBE'], -3))} a month more.</li>
+</ul>
+
+<h2 id="negotiate">Ways to soften it</h2>
+<ul>
+  <li><strong>Ask the new employer to cover it</strong> as their own joining bonus.</li>
+  <li><strong>Ask your current employer to waive it or make it pro rata,</strong> especially if you're leaving close to the date or handing over well.</li>
+  <li><strong>Use your notice period:</strong> resigning before the date but leaving after it often works, if the clause is about your last day.</li>
+</ul>
+
+<h2 id="tax">Tax on a repaid bonus</h2>
+<p>The joining bonus was taxed as salary when you got it. If you repay it in a later year, getting that tax back isn't straightforward; talk to a tax adviser before you file. One more reason to time your exit after the clause ends.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/best-day-to-resign/">best day to resign</a> tool's own code, with today as 19 Nov 2026: basic ₹50,000, gross ₹1,20,000, 8 days of leave plus 18 a year encashed on basic, clawback taken off if the last day is before its end date, extra pay missed counted for each month after the earliest last day. Read <a href="/methodology/">how we check our numbers</a>. Also see <a href="/guides/when-to-resign-best-last-day/">When should you resign?</a></p>
+<p class="g-note">This article is for information. Your offer letter's wording decides what you owe.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Joining bonus clawback", body, "Joining bonus clawback")
+
+def guide_rd_notice():
+    T = _t2(); N = T["notice"]
+    path = "/guides/when-to-hand-in-notice/"
+    toc = [("short-answer", "The short answer"), ("count", "Counting your notice"), ("table", "Resign-by dates for one milestone"), ("bonus", "Bonus rules change the maths"), ("tips", "Before you send the email"), ("method", "How this was worked out")]
+    body = guide_head(path, "What matters for gratuity, bonus and stock is your last working day, not the day you resign. Here's how to count back from the date you need, so your last day lands on the right side of it.",
+                      "A resignation letter with an arrow across a calendar to the last day").replace("TYPE_LINE", "<span>Best day to resign</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Take the date you need your last day to be on or after, and subtract your notice period: that's the earliest day to resign. With 60 days' notice and a gratuity date of 19 Feb 2027, resign on or after <strong>{_dd(N[1]['resign'])}</strong>. Then confirm your last working day in writing.</p>
+<p class="g-cta"><a class="btn" href="/best-day-to-resign/">Work out your dates</a></p>
+
+<h2 id="count">Counting your notice</h2>
+<ul>
+  <li><strong>Days or months?</strong> "60 days" counts calendar days. "2 months" usually means the same date two months later (resign 16 Apr, leave 16 Jun). Your offer letter's wording decides.</li>
+  <li><strong>Notice includes weekends and holidays,</strong> unless your policy says working days.</li>
+  <li><strong>You're employed until your last working day.</strong> Gratuity service, bonus eligibility "on the rolls" and vesting all run until then.</li>
+  <li><strong>Leaving earlier</strong> needs your employer's agreement: they may waive days or recover pay for them. See <a href="/guides/notice-period-buyout/">Notice period buyout</a>.</li>
+</ul>
+
+<h2 id="table">Resign-by dates for one milestone</h2>
+<p>To have your last day on or after 19 Feb 2027 (say, 5 years for gratuity):</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Notice period</th><th scope="col">Resign on or after</th></tr></thead><tbody>
+""" + "".join(f'<tr><th scope="row">{x["n"]} days</th><td>{_dd(x["resign"])}</td></tr>' for x in N) + f"""
+</tbody></table></div>
+<p>Add a few days' margin: HR may count your notice from the day they accept your resignation, not the day you send it.</p>
+
+<h2 id="bonus">Bonus rules change the maths</h2>
+<ul>
+  <li><strong>"On the rolls on payout day":</strong> your last day must be on or after the payout. You can resign up to your notice period before it.</li>
+  <li><strong>"Not serving notice on payout day":</strong> you must resign after it's paid, so your last day is a full notice period later. With 60 days' notice, that's two more months in the job. See <a href="/guides/wait-for-bonus-or-join-now/">Wait for the bonus or join now?</a></li>
+</ul>
+
+<h2 id="tips">Before you send the email</h2>
+<ol class="g-check">
+  <li><strong>Confirm your joining date</strong> in HR records; gratuity counts from it.</li>
+  <li><strong>State your proposed last working day</strong> in the resignation email.</li>
+  <li><strong>Get the accepted last day in writing.</strong></li>
+  <li><strong>Plan your leave:</strong> many companies don't let you use leave to shorten notice. See <a href="/guides/use-or-encash-leave-before-resigning/">Leave balance before you resign</a>.</li>
+</ol>
+
+<h2 id="method">How this was worked out</h2>
+<p>Last working day = the day you resign + your notice period in calendar days, as in the <a href="/best-day-to-resign/">best day to resign</a> tool. Gratuity service counts to the last working day under the Code on Social Security, 2020. Read <a href="/methodology/">how we check our numbers</a>. Also see <a href="/guides/when-to-resign-best-last-day/">When should you resign?</a></p>
+<p class="g-note">This article is for information. Your contract decides how notice is counted.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "When to hand in your notice", body, "Handing in notice")
+
+def guide_rd_leave():
+    path = "/guides/use-or-encash-leave-before-resigning/"
+    toc = [("short-answer", "The short answer"), ("worth", "What a day of leave is worth"), ("when-use", "When to use it"), ("when-encash", "When to encash it"), ("rules", "The rules"), ("method", "How this was worked out")]
+    body = guide_head(path, "Leaving with 20 days of earned leave? You can take a break before you go, or have it paid out in your settlement. Here's what each day is worth, and when each choice makes sense.",
+                      "A beach umbrella beside a stack of coins, weighing leave against cash").replace("TYPE_LINE", "<span>Best day to resign</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Each day you encash pays you a day's basic (or gross, if your policy says so). Each day you use is a paid day off instead. If leave is encashed on basic, a day off "costs" only basic ÷ 30, about <strong>₹1,667</strong> on a ₹50,000 basic, so using leave you'd enjoy is usually the better deal. If it's encashed on gross, the cash is worth more: about ₹4,000 a day on ₹1.2 lakh.</p>
+<p class="g-cta"><a class="btn" href="/best-day-to-resign/">See your leave encashment</a></p>
+
+<h2 id="worth">What a day of leave is worth</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">20 days of leave</th><th scope="col">Encashed on basic (₹50,000)</th><th scope="col">Encashed on gross (₹1,20,000)</th></tr></thead><tbody>
+<tr><th scope="row">A day</th><td>{_inr(50000/30)}</td><td>{_inr(120000/30)}</td></tr>
+<tr><th scope="row">20 days</th><td>{_inr(20*50000/30)}</td><td>{_inr(20*120000/30)}</td></tr>
+</tbody></table></div>
+<p>The tool counts the leave you'd still earn before your last day too: on 18 days a year, waiting five more months adds about 7 days.</p>
+
+<h2 id="when-use">When to use it</h2>
+<ul>
+  <li><strong>Your policy caps the days paid on exit</strong> (many pay only 30 or 45 days): leave above the cap is lost, so use it.</li>
+  <li><strong>Encashment is on basic</strong> and you want a break between jobs: a paid break before your last day costs little.</li>
+  <li><strong>You can't shorten notice with leave</strong> (common), but you can usually take approved leave before you resign.</li>
+</ul>
+
+<h2 id="when-encash">When to encash it</h2>
+<ul>
+  <li><strong>Encashment is on gross,</strong> or the cash matters more than the time.</li>
+  <li><strong>Your manager won't approve leave</strong> during a busy handover.</li>
+  <li><strong>Tax:</strong> part of leave encashment on leaving can be tax-free under section 19 of the Income-tax Act, 2025. See <a href="/guides/leave-encashment-tax-on-resignation/">Leave encashment tax when you resign</a>.</li>
+</ul>
+
+<h2 id="rules">The rules</h2>
+<p>Under the OSH Code, unused annual leave is payable when your job ends, you can carry forward up to 30 days into the next calendar year, and leave above that can be encashed. Many offices follow their state's shops and establishments law or a company policy that may be more generous. Your leave policy decides whether it's paid on basic or gross, and any cap.</p>
+
+<h2 id="method">How this was worked out</h2>
+<p>A day's encashment = monthly basic (or gross) ÷ 30, as in the <a href="/best-day-to-resign/">best day to resign</a> tool and the <a href="/full-and-final-settlement/">settlement calculator</a>. OSH Code, 2020, section 32. Read <a href="/methodology/">how we check our numbers</a>. Also see <a href="/guides/when-to-resign-best-last-day/">When should you resign?</a></p>
+<p class="g-note">This article is for information. Your leave policy decides what's paid.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Use or encash leave before resigning?", body, "Leave before resigning")
+
+def guide_rd_bonus():
+    T = _t2(); R, N = T["bonusRolls"], T["bonusNotice"]
+    path = "/guides/wait-for-bonus-or-join-now/"
+    toc = [("short-answer", "The short answer"), ("rule", "Which bonus rule you're under"), ("example", "An example"), ("breakeven", "The break-even raise"), ("risks", "Before you wait"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Your bonus is a few months away and a better offer is in hand. Wait, or go now? Compare the bonus with the extra pay you'd give up while you wait, and check one line in your bonus policy.",
+                      "An hourglass between a gift box and an office door").replace("TYPE_LINE", "<span>Best day to resign</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Wait if the bonus is worth more than the new job's extra pay for the months you'd wait, and the offer will hold. A ₹2 lakh bonus three months away beats a ₹25,000-a-month raise by about <strong>{_L(R['gain'])}</strong>. But if your bonus is paid only when you're not serving notice, you wait a full notice period longer, and the raise that tips it is much smaller.</p>
+<p class="g-cta"><a class="btn" href="/best-day-to-resign/">Compare for your bonus</a></p>
+
+<h2 id="rule">Which bonus rule you're under</h2>
+<ul>
+  <li><strong>"Employed on payout day":</strong> you can resign before it's paid, as long as your last day is on or after the date.</li>
+  <li><strong>"Not serving notice on payout day":</strong> you resign after it's paid, then serve your notice.</li>
+  <li><strong>Pro rata:</strong> some policies pay a share for the months worked, so waiting matters less.</li>
+</ul>
+<p>Your bonus policy or offer letter says which. More in <a href="/guides/bonus-when-you-resign/">Bonus and variable pay when you resign</a>.</p>
+
+<h2 id="example">An example</h2>
+<p>Two years in the job, ₹2 lakh bonus on 15 Apr 2027, 60 days' notice, and a new job paying ₹25,000 a month more:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col"></th><th scope="col">Employed on payout day</th><th scope="col">Not serving notice that day</th></tr></thead><tbody>
+<tr><th scope="row">Resign on</th><td>{_dd(R['best']['resign'])}</td><td>{_dd(N['best']['resign'])}</td></tr>
+<tr><th scope="row">Last working day</th><td>{_dd(R['best']['L'])}</td><td>{_dd(N['best']['L'])}</td></tr>
+<tr><th scope="row">Extra pay missed</th><td>{_inr(R['best']['missed'])}</td><td>{_inr(N['best']['missed'])}</td></tr>
+<tr><th scope="row"><b>Better off than leaving {_dd(R['earliest'])}</b></th><td><b>{_inr(R['gain'])}</b></td><td><b>{_inr(N['gain'])}</b></td></tr>
+</tbody></table></div>
+
+<h2 id="breakeven">The break-even raise</h2>
+<p>Leaving at once pays better only if the new job pays more than about <strong>{_inr(round(T['bonusRollsBE'], -3))} a month</strong> extra under the first rule, or <strong>{_inr(round(T['bonusNoticeBE'], -3))}</strong> under the second. Roughly: bonus ÷ months you'd wait.</p>
+
+<h2 id="risks">Before you wait</h2>
+<ul>
+  <li><strong>Will the offer wait?</strong> Ask for a later joining date in writing before you plan around it.</li>
+  <li><strong>Is the bonus certain?</strong> Variable pay depends on ratings, and a known leaver's rating can slip.</li>
+  <li><strong>Ask the new employer to match it</strong> with a joining bonus, then check its clawback: see <a href="/guides/joining-bonus-clawback/">Joining bonus clawback</a>.</li>
+  <li><strong>Tax is similar either way:</strong> bonus and salary are both taxed as salary, so comparing before tax is fair.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/best-day-to-resign/">best day to resign</a> tool's own code, with today as 19 Nov 2026: basic ₹50,000, gross ₹1,20,000, 10 days of leave plus 18 a year encashed on basic, extra pay missed counted for each month after the earliest last day. Read <a href="/methodology/">how we check our numbers</a>. Also see <a href="/guides/when-to-resign-best-last-day/">When should you resign?</a></p>
+<p class="g-note">This article is for information. Your bonus policy decides what you're paid.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Wait for the bonus or join now?", body, "Bonus or join now")
+
+_T3C = {}
+def _t3():
+    if not _T3C: _T3C.update(_num("guide_t3_numbers.js"))
+    return _T3C
+def _cr(v): return _L(v)
+
+def guide_fi_main():
+    T = _t3(); m = T["main"]; ty = T["types"]
+    path = "/guides/fire-number-india/"
+    toc = [("short-answer", "The short answer"), ("what", "What FIRE means"), ("ananya", "Ananya's plan"), ("number", "Her FIRE number"), ("bridge", "The bridge to EPF and NPS"), ("faster", "What gets her there sooner"), ("types", "Lean, Fat and Coast FIRE"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "FIRE stands for Financial Independence, Retire Early: having enough invested that work becomes optional. Here's how to work out your FIRE number in India, step by step, with one person's plan, EPF and NPS included.",
+                      "A rising savings curve reaching a flag marked FI").replace("TYPE_LINE", "<span>FIRE calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Your FIRE number is what you need on the day you stop working, so that your investments pay your rising expenses for the rest of your life. Ananya, 30, spending ₹60,000 a month and saving ₹50,000, reaches it at <strong>{m['fi']}</strong>. Her number then is <strong>{_cr(m['number'])}</strong>, which is {_cr(m['numberToday'])} in today's money, or about {m['multiple']:.0f} times a year's spending.</p>
+<p class="g-cta"><a class="btn" href="/fire-calculator/">Find your FIRE number</a></p>
+
+<h2 id="what">What FIRE means</h2>
+<p><strong>FIRE</strong> stands for <strong>Financial Independence, Retire Early</strong>. Financial independence (FI) is the point where your investments can pay your living costs for life. "Retire early" is what many people do with it, but FI also means freedom to take a break, switch careers or work part-time. Your <strong>FIRE number</strong> is the amount that gets you there.</p>
+
+<h2 id="ananya">Ananya's plan</h2>
+<ul>
+  <li>Age 30, spends ₹60,000 a month, saves ₹50,000 a month ({round(m['rate']*100)}% of take-home), raising it 7% a year.</li>
+  <li>₹15 lakh invested outside EPF and NPS, earning 11% a year before FI and 8% after.</li>
+  <li>EPF ₹6 lakh with ₹12,000 a month going in; NPS ₹2 lakh with ₹5,000 a month.</li>
+  <li>Inflation 6%, and money that must last until 85.</li>
+</ul>
+
+<h2 id="number">Her FIRE number</h2>
+<p>At {m['fi']}, her spending will have grown to {_inr(m['spend'])} a month. Her number is {_cr(m['number'])}, made of three parts:</p>
+<ul>
+  <li><strong>{_cr(m['needL'])} outside EPF and NPS</strong>: the smallest pot that, with the rest, pays her spending every month until 85. She'll have {_cr(m['L'])}.</li>
+  <li><strong>EPF of {_cr(m['E'])}</strong> and <strong>NPS of {_cr(m['N'])}</strong> at {m['fi']}, which keep growing until they unlock.</li>
+</ul>
+<p>That's {m['multiple']:.0f}× a year's spending, more than the popular 25× rule. Why: <a href="/guides/is-25x-enough-early-retirement/">Is 25× expenses enough for early retirement?</a></p>
+
+<h2 id="bridge">The bridge to EPF and NPS</h2>
+<p>From {m['fi']}, only her investments outside EPF and NPS can pay the bills. At 58 her EPF ({_cr(m['epfOut'])}) joins them; at 60, NPS gives a {_cr(m['npsLump'])} lump sum and a pension of {_inr(m['pension'])} a month. More in <a href="/guides/retire-at-45-bridge-epf-nps/">Retiring at 45: bridging the years before EPF and NPS unlock</a>.</p>
+
+<h2 id="faster">What gets her there sooner</h2>
+<ul>
+  <li><strong>FI by 42</strong> needs about {_inr(m['extra'])} more saved a month.</li>
+  <li><strong>Saving ₹10,000 more a month</strong> or <strong>spending 10% less</strong>: FI at 43.</li>
+  <li><strong>Returns 1% lower</strong>: FI at 47. Use returns after tax and costs.</li>
+</ul>
+<p>Savings rate matters most: see <a href="/guides/savings-rate-early-retirement/">How savings rate decides when you can retire</a>.</p>
+
+<h2 id="types">Lean, Fat and Coast FIRE</h2>
+<ul>
+  <li><strong>Lean FIRE</strong> (70% of today's spending): at {ty[0]['A']}, with {_cr(ty[0]['number'])}.</li>
+  <li><strong>Fat FIRE</strong> (150%): at {ty[2]['A']}, with {_cr(ty[2]['number'])}.</li>
+  <li><strong>Coast FIRE:</strong> {_cr(m['coast'])} invested now would grow enough, with no more saving, to stop at 60. Ananya has ₹15 lakh, so she's not there yet.</li>
+</ul>
+<p>Which suits you: <a href="/guides/lean-fat-coast-fire/">Lean, Fat and Coast FIRE</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/fire-calculator/">FIRE calculator</a>'s own code. Savings, EPF (8.25%) and NPS (10%) contributions rise 7% a year until FI. After FI, spending rises 6% a year and comes out of the pot outside EPF and NPS, earning 8%, checked month by month until 85; EPF arrives at 58, and NPS at 60 (80% lump sum, 20% buying a pension at 6.5%). Figures are before tax. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice. Returns aren't guaranteed.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What's your FIRE number?", body, "FIRE number")
+
+def guide_fi_bridge():
+    T = _t3(); m = T["main"]; B = T["byAge"]
+    path = "/guides/retire-at-45-bridge-epf-nps/"
+    toc = [("short-answer", "The short answer"), ("locked", "Why EPF and NPS don't help at first"), ("table", "How much must sit outside EPF and NPS"), ("build", "Building the bridge"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Stop working at 45 and your EPF and NPS can't pay the bills for another 13 to 15 years. Here's how big the pot outside them needs to be, at different ages, and how to build it.",
+                      "A bridge spanning from age 45 to locked EPF and NPS boxes").replace("TYPE_LINE", "<span>FIRE calculator</span>")
+    rows = "".join(f'<tr><th scope="row">{b["A"]}</th><td>{_cr(b["needL"])}</td><td>{_cr(b["E"] + b["N"])}</td><td>{_cr(b["total"])}</td><td>{round(b["liquidShare"]*100)}%</td></tr>' for b in B)
+    b45 = [b for b in B if b["A"] == 45][0]; b60 = [b for b in B if b["A"] == 60][0]
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>The earlier you stop, the more of your FIRE number has to be money you can actually spend. Retiring at 45, about <strong>{round(b45['liquidShare']*100)}%</strong> of it must sit outside EPF and NPS; at 60, only {round(b60['liquidShare']*100)}%. So early retirees should put most new savings into mutual funds and other accessible investments, not extra VPF or NPS.</p>
+<p class="g-cta"><a class="btn" href="/fire-calculator/">See your bridge</a></p>
+
+<h2 id="locked">Why EPF and NPS don't help at first</h2>
+<ul>
+  <li><strong>NPS</strong> stays invested until 60. Leaving earlier is a premature exit: if your corpus is above ₹5 lakh, only 20% can be taken as a lump sum and 80% must buy a pension.</li>
+  <li><strong>EPF</strong> keeps earning interest until 58 if you leave it. You can take it all a year after you stop working (EPF Scheme 2026), but then it stops earning 8.25%. See <a href="/guides/epf-nps-if-you-retire-early/">What to do with EPF and NPS if you retire early</a>.</li>
+</ul>
+
+<h2 id="table">How much must sit outside EPF and NPS</h2>
+<p>Ananya's plan (₹60,000 a month today, 6% inflation, money lasting to 85), stopping at different ages:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Stop at</th><th scope="col">Needed outside EPF and NPS</th><th scope="col">EPF + NPS then</th><th scope="col">FIRE number</th><th scope="col">Share outside</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+<p>At 45 she needs {_cr(b45['needL'])} outside EPF and NPS: enough to pay {_inr(m['spend'])} a month, rising every year, for 13 years with nothing coming in, and then keep going alongside EPF and NPS.</p>
+
+<h2 id="build">Building the bridge</h2>
+<ol class="g-check">
+  <li><strong>Direct new savings to accessible investments:</strong> equity and debt mutual funds, with a debt or FD bucket for the first few years. See <a href="/guides/three-bucket-retirement-plan/">a three-bucket plan</a>.</li>
+  <li><strong>Don't add VPF or extra NPS</strong> beyond what you'll need after 58–60.</li>
+  <li><strong>Keep EPF growing until 58</strong> if the bridge holds; take it early only if it doesn't.</li>
+  <li><strong>Buy health cover</strong> before you leave your employer's.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/fire-calculator/">FIRE calculator</a>'s own code: savings, EPF and NPS as in <a href="/guides/fire-number-india/">Ananya's plan</a>; for each stopping age, the smallest pot outside EPF and NPS that pays inflation-rising spending until 85 at 8% a year, with EPF at 58 and NPS at 60 (80% lump sum, pension at 6.5%). NPS premature exit rules: PFRDA (Exits and Withdrawals under NPS) (Amendment) Regulations, 2025. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Retiring at 45: the bridge", body, "Bridge to EPF and NPS")
+
+def guide_fi_25x():
+    T = _t3(); M = T["mult"]; m = T["main"]
+    path = "/guides/is-25x-enough-early-retirement/"
+    rows = "".join(f'<tr><th scope="row">{r["ret"]}%</th>' + "".join(f'<td>{v:.0f}×</td>' for v in r["m"]) + "</tr>" for r in M)
+    toc = [("short-answer", "The short answer"), ("where", "Where 25× comes from"), ("table", "What India's numbers say"), ("epf", "EPF and NPS bring it down"), ("use", "How to use this"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "The 25× rule says you can retire on 25 times your yearly spending. It was built on US data and 30-year retirements. Retiring early in India, with 6% inflation, usually needs more. Here's how much.",
+                      "Twenty-five coin stacks with a question mark").replace("TYPE_LINE", "<span>FIRE calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Usually not on its own. With 6% inflation and 8% returns, 25× lasts about 35 years. Retire at 45 and plan to 85 (40 years), and you need about <strong>{M[1]['m'][2]:.0f}×</strong>; retire at 40, about {M[1]['m'][3]:.0f}×. EPF and NPS arriving later bring it down: Ananya's FIRE number works out at {m['multiple']:.0f}×.</p>
+<p class="g-cta"><a class="btn" href="/fire-calculator/">Work out your own multiple</a></p>
+
+<h2 id="where">Where 25× comes from</h2>
+<p>25× is the flip side of the "4% rule": take out 4% of your pot in the first year, raise it with inflation, and US studies found it lasted 30 years in most past markets. India has higher inflation, and early retirees need money to last 40 years or more. More on the rule itself in <a href="/guides/25x-rule-retirement-india/">The 25× rule: does it work in India?</a></p>
+
+<h2 id="table">What India's numbers say</h2>
+<p>Times a year's spending needed, with spending rising 6% a year and nothing else coming in:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Return after FI</th><th scope="col">30 years</th><th scope="col">35 years</th><th scope="col">40 years</th><th scope="col">45 years</th><th scope="col">50 years</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+<p>Every extra 5 years adds 2 to 4 times your spending. And the gap between return and inflation matters more than either: at 7%, you need over {M[0]['m'][2]:.0f}× for 40 years.</p>
+
+<h2 id="epf">EPF and NPS bring it down</h2>
+<p>The table assumes nothing else comes in. Most salaried Indians have EPF and NPS that unlock at 58 and 60, and an NPS pension after that. For Ananya, that brings a 40-year retirement down to {m['multiple']:.0f}×. But that money arrives late, so it can't replace the pot that carries you there: see <a href="/guides/retire-at-45-bridge-epf-nps/">the bridge to EPF and NPS</a>.</p>
+
+<h2 id="use">How to use this</h2>
+<ul>
+  <li><strong>Retiring at 55–60?</strong> 22–25× plus EPF and NPS is a fair rough guide.</li>
+  <li><strong>Retiring at 40–45?</strong> Plan on 28–33×, or work it out properly.</li>
+  <li><strong>Add a margin</strong> for health costs, which rise faster than general inflation.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>With the shared withdrawal (SWP) engine behind the <a href="/fire-calculator/">FIRE calculator</a>: the smallest pot that pays a year's spending, taken monthly and rising 6% a year, for the number of years shown, at the return shown, checked month by month. Before tax. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Is 25× expenses enough?", body, "25× for early retirement")
+
+def guide_fi_types():
+    T = _t3(); ty = T["types"]; m = T["main"]; ca = T["coastAge"]
+    path = "/guides/lean-fat-coast-fire/"
+    toc = [("short-answer", "The short answer"), ("table", "Ananya's three finish lines"), ("lean", "Lean FIRE"), ("fat", "Fat FIRE"), ("coast", "Coast FIRE"), ("barista", "Barista FIRE"), ("method", "How these numbers were worked out")]
+    rows = "".join(f'<tr><th scope="row">{n}</th><td data-l="Spending a month, today">{_inr(t["spendNow"])}</td><td data-l="FI age">{t["A"]}</td><td data-l="FIRE number">{_cr(t["number"])}</td><td data-l="In today\'s money">{_cr(t["today"])}</td></tr>' for n, t in zip(["Lean FIRE", "Regular FIRE", "Fat FIRE"], ty))
+    body = guide_head(path, "FIRE comes in flavours. Lean FIRE retires on a tight budget, Fat FIRE on a generous one, and Coast FIRE means you can stop saving but not stop working. Here's what each needs, with one person's numbers.",
+                      "Three flames of different sizes for Lean, regular and Fat FIRE").replace("TYPE_LINE", "<span>FIRE calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>They're the same idea with different spending. Lean FIRE (about 70% of your spending today) gets you out earliest; Fat FIRE (150%) takes longer but leaves room for travel and extras. Coast FIRE is a halfway point: once you have enough invested to grow into your retirement pot by 60, you only need to earn your living costs. For Ananya: Lean at {ty[0]['A']}, regular at {ty[1]['A']}, Fat at {ty[2]['A']}.</p>
+<p class="g-cta"><a class="btn" href="/fire-calculator/">See your Lean, Fat and Coast ages</a></p>
+
+<h2 id="table">Ananya's three finish lines</h2>
+<p>Same savings (₹50,000 a month, rising 7% a year); only the lifestyle after FI changes.</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col"></th><th scope="col">Spending a month, today's money</th><th scope="col">FI age</th><th scope="col">FIRE number</th><th scope="col">In today's money</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+
+<h2 id="lean">Lean FIRE</h2>
+<p>A frugal retirement: no car upgrades, modest travel, careful about every big expense. It works if your costs are genuinely low (an owned home, no EMIs), but leaves little margin for a medical emergency or inflation surprises. Best as a floor, not a target.</p>
+
+<h2 id="fat">Fat FIRE</h2>
+<p>A comfortable retirement with room for travel, helping family and the unexpected. It takes Ananya {ty[2]['A'] - ty[1]['A']} more years than regular FIRE. Many people aim between regular and Fat, or keep a little paid work to bridge the difference.</p>
+
+<h2 id="coast">Coast FIRE</h2>
+<p>You've reached Coast FIRE when your investments outside EPF and NPS would, with no more saving, grow into what you need to stop working at 60. From then you only need to earn enough to cover today's spending, so you could take a lower-paid job, a sabbatical, or freelance. Ananya needs {_cr(m['coast'])} invested today for that; at her pace she gets there at about {ca['age'] if ca else '—'}.</p>
+
+<h2 id="barista">Barista FIRE</h2>
+<p>Leaving full-time work and covering part of your spending with part-time income, so your pot needs to cover less. Use the calculator with your spending minus the income you'd earn to see the effect.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/fire-calculator/">FIRE calculator</a>'s own code, with <a href="/guides/fire-number-india/">Ananya's plan</a>: Lean and Fat use 70% and 150% of her spending; Coast FIRE is the pot outside EPF and NPS, today, that grows at 11% a year to what's needed at 60 with EPF and NPS growing without new contributions. Before tax. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Lean, Fat and Coast FIRE", body, "Lean, Fat and Coast FIRE")
+
+def guide_fi_rate():
+    T = _t3(); R = T["rates"]
+    path = "/guides/savings-rate-early-retirement/"
+    rows = "".join(f'<tr><th scope="row">{round(r["rate"]*100)}%</th><td>{_inr(r["spend"])}</td><td>{_inr(r["save"])}</td><td>{r["fi"]}</td><td>{_cr(r["number"])}</td></tr>' for r in R)
+    toc = [("short-answer", "The short answer"), ("table", "Savings rate vs FI age"), ("why", "Why it works twice"), ("raise", "Raising your rate"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "When you can retire depends less on how much you earn than on how much of it you keep. Here's how your savings rate moves your FI age, with the same take-home pay split five ways.",
+                      "A dial pointing to a high savings rate beside a shorter path").replace("TYPE_LINE", "<span>FIRE calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>On the same ₹1.1 lakh take-home, saving 20% gets you to FI at {R[0]['fi']}; saving 50% gets you there at <strong>{R[3]['fi']}</strong>, {R[0]['fi'] - R[3]['fi']} years sooner. Every 10 points of savings rate brings FI about 3 to 4 years closer.</p>
+<p class="g-cta"><a class="btn" href="/fire-calculator/">Check your savings rate</a></p>
+
+<h2 id="table">Savings rate vs FI age</h2>
+<p>A 30-year-old with ₹1.1 lakh a month of take-home, ₹15 lakh invested, EPF and NPS as in <a href="/guides/fire-number-india/">Ananya's plan</a>, savings rising 7% a year:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Savings rate</th><th scope="col">Spends a month</th><th scope="col">Saves a month</th><th scope="col">FI age</th><th scope="col">FIRE number</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+
+<h2 id="why">Why it works twice</h2>
+<p>Spending less does two things at once: more money goes into investments, and the pot you need gets smaller, because it only has to cover what you spend. That's why the FIRE number falls from {_cr(R[0]['number'])} at 20% to {_cr(R[3]['number'])} at 50%.</p>
+
+<h2 id="raise">Raising your rate</h2>
+<ol class="g-check">
+  <li><strong>Save your raises:</strong> put at least half of every pay rise into your SIP. See <a href="/guides/step-up-sip/">step-up SIPs</a>.</li>
+  <li><strong>Cut the big three first:</strong> housing, car and EMIs move the rate more than coffee does. See <a href="/guides/car-loan-or-cash/">car loan or cash</a>.</li>
+  <li><strong>Budget bonuses separately:</strong> <a href="/guides/budgeting-with-a-bonus/">budgeting with a bonus</a>.</li>
+  <li><strong>Track it:</strong> the <a href="/budget-planner/">budget planner</a> shows your savings rate.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/fire-calculator/">FIRE calculator</a>'s own code: take-home of ₹1,10,000 a month split between spending and saving; savings rate = saving ÷ (spending + saving); EPF and NPS on top. Returns 11% before FI and 8% after, 6% inflation, money lasting to 85. Before tax. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Savings rate and FI age", body, "Savings rate")
+
+def guide_fi_epfnps():
+    T = _t3(); m = T["main"]; e = T["early"]
+    path = "/guides/epf-nps-if-you-retire-early/"
+    toc = [("short-answer", "The short answer"), ("epf", "EPF: leave it or take it?"), ("nps", "NPS: wait until 60"), ("compare", "Ananya's numbers"), ("contrib", "Should you keep contributing?"), ("method", "Sources and method")]
+    body = guide_head(path, "Retire at 45 and you'll have EPF and NPS you can't easily touch. Here's what the rules allow, whether to leave EPF growing until 58, and why NPS is usually best left alone until 60.",
+                      "Two locked boxes for EPF and NPS with clocks at 58 and 60").replace("TYPE_LINE", "<span>FIRE calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Leave EPF in until 58 if your other investments can carry you: it keeps earning 8.25%. Taking it a year after you stop barely changes the plan ({_cr(e['number'])} vs {_cr(m['number'])} for Ananya), so it's a useful backup, not a strategy. Leave NPS alone until 60: exiting earlier with more than ₹5 lakh means 80% has to buy a pension.</p>
+<p class="g-cta"><a class="btn" href="/fire-calculator/">Try both EPF options</a></p>
+
+<h2 id="epf">EPF: leave it or take it?</h2>
+<ul>
+  <li><strong>Interest until 58:</strong> if you leave work before 55 and don't withdraw, your EPF keeps earning interest until 58, as EPFO has confirmed.</li>
+  <li><strong>But that interest is taxable:</strong> interest earned after you stop working is taxed at your slab as other income. With little other income after FI, the tax may be small.</li>
+  <li><strong>Final settlement:</strong> under the EPF Scheme 2026, you can withdraw the whole balance after 12 months out of work. See <a href="/guides/epf-withdrawal-rules-2026/">How much of your EPF can you withdraw?</a></li>
+  <li><strong>Withdrawals are tax-free</strong> after 5 years of continuous service.</li>
+  <li><strong>EPS pension</strong> starts from 50 (reduced) or 58: see <a href="/guides/eps-pension-50-58-or-60/">EPS at 50, 58 or 60</a>.</li>
+</ul>
+
+<h2 id="nps">NPS: wait until 60</h2>
+<ul>
+  <li><strong>At 60 (normal exit):</strong> non-government subscribers can take up to 80% as a lump sum; at least 20% buys a pension. Up to 60% of the corpus is tax-free.</li>
+  <li><strong>Before 60 (premature exit):</strong> only 20% as a lump sum and 80% into a pension, unless your corpus is ₹5 lakh or less.</li>
+  <li><strong>You can stay invested</strong> past 60, up to 85, and stop contributing whenever you like.</li>
+</ul>
+<p>More in <a href="/guides/nps-new-exit-rules/">NPS under the new exit rules</a>.</p>
+
+<h2 id="compare">Ananya's numbers</h2>
+<ul>
+  <li><strong>EPF at 58:</strong> FI at {m['fi']}, FIRE number {_cr(m['number'])}; EPF arrives as {_cr(m['epfOut'])}.</li>
+  <li><strong>EPF a year after stopping:</strong> FI at {e['fi']}, FIRE number {_cr(e['number'])}. Taking it early moves it into investments earning 8% instead of 8.25%, so it barely matters either way.</li>
+  <li><strong>NPS at 60:</strong> {_cr(m['npsLump'])} lump sum and {_inr(m['pension'])} a month of pension.</li>
+</ul>
+
+<h2 id="contrib">Should you keep contributing?</h2>
+<p>For early retirement, money you can reach matters more than money that's locked. Keep the employer's EPF and NPS (they're part of your pay), but put extra savings into mutual funds rather than VPF or voluntary NPS. See <a href="/guides/retire-at-45-bridge-epf-nps/">the bridge to EPF and NPS</a>.</p>
+
+<h2 id="method">Sources and method</h2>
+<p>EPFO's FAQs and its 2026 clarification (interest until 58 for members leaving before 55); EPF Scheme 2026 (final settlement after 12 months out of work); PFRDA (Exits and Withdrawals under NPS) (Amendment) Regulations, 2025 (normal exit up to 80% lump sum for non-government subscribers; premature exit 20% lump sum above ₹5 lakh). Figures from the <a href="/fire-calculator/">FIRE calculator</a>'s own code with <a href="/guides/fire-number-india/">Ananya's plan</a>; before tax. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not tax or investment advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "EPF and NPS if you retire early", body, "EPF and NPS early")
+
+_T4C = {}
+def _t4():
+    if not _T4C: _T4C.update(_num("guide_t4_numbers.js"))
+    return _T4C
+def _yrs(y):
+    Y = int(y); m = round((y - Y) * 12)
+    if m == 12: Y += 1; m = 0
+    return f"{Y} years" + (f" {m} months" if m else "")
+_SURESH = "Suresh, 60, has ₹1 crore (his retirement savings) invested in an equity-oriented hybrid fund earning 10% a year. He takes ₹50,000 a month and raises it 5% every year. His tax slab is 20%."
+
+def guide_sw_main():
+    T = _t4(); m = T["main"]; R = m["rows"]
+    path = "/guides/swp-monthly-income-explained/"
+    toc = [("short-answer", "The short answer"), ("what", "What an SWP is"), ("suresh", "Suresh's plan"), ("years", "Year by year"), ("take", "How much he could take"), ("tax", "Tax"), ("watch", "What to watch"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "A systematic withdrawal plan (SWP) turns your investments into a monthly income while the rest keeps growing. Here's one retiree's plan, worked out year by year: how long it lasts, what tax he pays and how it compares with an FD.",
+                      "A jar of savings with a tap dripping coins each month").replace("TYPE_LINE", "<span>SWP calculator</span>")
+    rows = "".join(f'<tr><th scope="row">{R[i]["year"]}</th><td>{_inr(R[i]["withdrawn"]/12)}</td><td>{_inr(R[i]["tax"])}</td><td>{_L(R[i]["bal"])}</td></tr>' for i in (0, 4, 9, 14, 19, 24, 29))
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>₹1 crore at 10% a year pays ₹50,000 a month, rising 5% a year, for <strong>{_yrs(m['lastsY'])}</strong>. To be sure it lasts 30 years, take up to {_inr(m['safe'][1]['w'])} a month. Tax stays low (about {_inr(m['rows'][0]['tax'])} in the first year) because only the gain in each withdrawal is taxed.</p>
+<p class="g-cta"><a class="btn" href="/swp-calculator/">Work out your monthly income</a></p>
+
+<h2 id="what">What an SWP is</h2>
+<p>A <strong>systematic withdrawal plan (SWP)</strong> takes a set amount out of your investments every month. The rest stays invested and keeps earning. It works with any pot you'll draw down: a mutual fund portfolio, retirement savings, or a lump sum such as gratuity or EPF that you invest first.</p>
+
+<h2 id="suresh">Suresh's plan</h2>
+<p>{_SURESH}</p>
+
+<h2 id="years">Year by year</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Year</th><th scope="col">Takes a month</th><th scope="col">Tax that year</th><th scope="col">Left at year end</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+<p>For the first 20 years his returns are more than he takes out, so the pot grows to about ₹1.6 crore. After that, his rising withdrawals overtake the returns and it runs down, lasting until he's about {60 + int(m['lastsY'])}. Over the whole plan he takes out {_L(m['withdrawn'])} and pays {_L(m['tax'])} in tax.</p>
+
+<h2 id="take">How much he could take</h2>
+<ul>
+  <li><strong>To last 20 years:</strong> {_inr(m['safe'][0]['w'])} a month.</li>
+  <li><strong>To last 30 years:</strong> {_inr(m['safe'][1]['w'])} a month.</li>
+  <li><strong>To last 40 years:</strong> {_inr(m['safe'][2]['w'])} a month.</li>
+</ul>
+<p>All rising 5% a year. More in <a href="/guides/safe-swp-withdrawal-rate/">How much can you safely withdraw each month?</a></p>
+
+<h2 id="tax">Tax</h2>
+<p>Only the gain in each withdrawal is taxed. In the first year almost all of it is his own money coming back; his small gain is short-term (20%), so tax is {_inr(m['rows'][0]['tax'])}. From year 2, gains are long-term, and the first ₹1.25 lakh a year is tax-free. Details in <a href="/guides/how-swp-is-taxed/">How SWP withdrawals are taxed</a>.</p>
+
+<h2 id="watch">What to watch</h2>
+<ul>
+  <li><strong>Returns aren't steady.</strong> At 9% instead of 10%, his plan lasts {_yrs(T['ret1']['lastsY'])}. A fall in the early years hurts most, so keep 2–3 years of withdrawals in a debt fund.</li>
+  <li><strong>FD interest is simpler but doesn't rise:</strong> see <a href="/guides/swp-vs-fd-monthly-income/">SWP or FD interest?</a></li>
+  <li><strong>Should it rise every year?</strong> See <a href="/guides/should-swp-rise-with-inflation/">Should your SWP rise with inflation?</a></li>
+  <li><strong>An annuity pays for life:</strong> see <a href="/guides/annuity-or-swp/">Annuity or SWP?</a></li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/swp-calculator/">SWP calculator</a>'s own code, which shares its withdrawal engine with the FIRE calculator: the withdrawal comes out at the start of each month and the rest earns 10% a year; withdrawals rise 5% every 12 months; tax on the gain in each withdrawal (average cost) at 20% short-term in the first year and 12.5% long-term above ₹1.25 lakh a year after that, plus 4% cess. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice. Returns aren't guaranteed.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "How much monthly income can your investments give?", body, "SWP explained")
+
+def guide_sw_fd():
+    T = _t4(); m = T["main"]; c = m["cmp"]
+    path = "/guides/swp-vs-fd-monthly-income/"
+    toc = [("short-answer", "The short answer"), ("compare", "Suresh's two options"), ("why", "Why the SWP pulls ahead"), ("fd", "When an FD makes sense"), ("both", "Using both"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Put ₹1 crore in an FD and live on the interest, or invest it and take a monthly SWP? Here's what each pays after tax, in the first year and twenty years on, for one retiree.",
+                      "A tap jar beside a bank building, comparing SWP with FD interest").replace("TYPE_LINE", "<span>SWP calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>In the first year they're close: <strong>{_inr(c[0]['swp'])}</strong> a month from the SWP vs {_inr(c[0]['fd'])} from FD interest, after tax. By year 10 the SWP pays {_inr(c[1]['swp'])} and the FD still {_inr(c[1]['fd'])}, because the SWP rises with prices and is taxed only on gains. The FD's advantage: your ₹1 crore stays intact.</p>
+<p class="g-cta"><a class="btn" href="/swp-calculator/">Compare for your amount</a></p>
+
+<h2 id="compare">Suresh's two options</h2>
+<p>{_SURESH} The alternative: an FD at 7% paying monthly interest of {_inr(m['fdGross'])}, taxed at his slab.</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">After tax, a month</th><th scope="col">SWP</th><th scope="col">FD interest</th></tr></thead><tbody>
+""" + "".join(f'<tr><th scope="row">Year {x["y"]}</th><td>{_inr(x["swp"])}</td><td>{_inr(x["fd"])}</td></tr>' for x in c) + f"""
+</tbody></table></div>
+
+<h2 id="why">Why the SWP pulls ahead</h2>
+<ul>
+  <li><strong>It rises:</strong> 5% a year keeps up with prices. The FD's {_inr(c[0]['fd'])} buys about 60% as much in ten years at 5% inflation.</li>
+  <li><strong>It's taxed less:</strong> FD interest is fully taxed at your slab every year; an SWP is taxed only on the gain in each withdrawal, and equity-oriented funds get ₹1.25 lakh a year of long-term gains tax-free.</li>
+  <li><strong>But it draws your money down:</strong> Suresh's lasts {_yrs(m['lastsY'])}. The FD returns his ₹1 crore at the end, though by then it buys far less.</li>
+  <li><strong>Taking the FD's income from the SWP:</strong> a flat {_inr(46200)} a month, the FD's after-tax interest, never runs out at 10% and leaves {_L(T['fdSameNet']['end'])} after 50 years.</li>
+</ul>
+
+<h2 id="fd">When an FD makes sense</h2>
+<ul>
+  <li>Money you'll need within 2–3 years, or an emergency fund.</li>
+  <li>If market swings would make you sell in a fall.</li>
+  <li>In a low tax slab (FD interest is then taxed lightly). Senior citizens: see <a href="/guides/fd-for-senior-citizens-tds-and-tax/">FDs for senior citizens</a>.</li>
+</ul>
+
+<h2 id="both">Using both</h2>
+<p>Many retirees keep 2–3 years of withdrawals in FDs or a debt fund and run the SWP from the rest, refilling once a year. See <a href="/guides/three-bucket-retirement-plan/">a three-bucket plan</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/swp-calculator/">SWP calculator</a>'s own code with <a href="/guides/swp-monthly-income-explained/">Suresh's plan</a>: SWP after tax on gains (20% short-term in year 1, 12.5% above ₹1.25 lakh a year after), FD interest at 7% taxed at 20% plus 4% cess. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "SWP or FD interest?", body, "SWP vs FD")
+
+def guide_sw_tax():
+    T = _t4(); m = T["main"]; R = m["rows"]; d = T["debt"]
+    path = "/guides/how-swp-is-taxed/"
+    rows = "".join(f'<tr><th scope="row">{R[i]["year"]}</th><td>{_inr(R[i]["withdrawn"])}</td><td>{_inr(R[i]["gains"])}</td><td>{_inr(R[i]["tax"])}</td></tr>' for i in (0, 1, 2, 4, 9, 19, 29))
+    toc = [("short-answer", "The short answer"), ("how", "How it works"), ("table", "Suresh's tax, year by year"), ("debt", "If it were a debt fund"), ("tips", "Keeping tax low"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "An SWP isn't taxed like a salary or FD interest. Only the gain inside each withdrawal is taxed, and for equity-oriented funds the first ₹1.25 lakh a year of long-term gains is free. Here's how that plays out for one retiree.",
+                      "A coin split into your own money and a smaller taxed gain").replace("TYPE_LINE", "<span>SWP calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Each withdrawal is part your own money (not taxed) and part gain (taxed). Early on it's mostly your own money, so tax is tiny: Suresh pays {_inr(R[0]['tax'])} in year 1 and nothing in year 2. As the gain share grows, so does tax, but in an equity-oriented fund it stays at 12.5% above ₹1.25 lakh a year. In a debt fund, gains are taxed at your slab.</p>
+<p class="g-cta"><a class="btn" href="/swp-calculator/">See your tax year by year</a></p>
+
+<h2 id="how">How it works</h2>
+<ul>
+  <li><strong>Gain in each withdrawal:</strong> the withdrawal minus the cost of the units sold. The calculator uses your average cost.</li>
+  <li><strong>Equity-oriented funds</strong> (65% or more in Indian shares, including many hybrid funds): units held over 12 months, 12.5% on gains above ₹1.25 lakh a year; under 12 months, 20%.</li>
+  <li><strong>Debt funds bought after 1 April 2023</strong> and most other investments: gains at your slab.</li>
+  <li><strong>No TDS</strong> on mutual fund withdrawals for resident individuals: you pay through advance tax or your return.</li>
+</ul>
+
+<h2 id="table">Suresh's tax, year by year</h2>
+<p>{_SURESH}</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Year</th><th scope="col">Taken out</th><th scope="col">Gains in it</th><th scope="col">Tax</th></tr></thead><tbody>
+{rows}
+</tbody></table></div>
+<p>Over the whole plan he takes out {_L(m['withdrawn'])}, of which {_L(m['gains'])} is gains, and pays {_L(m['tax'])} in tax.</p>
+
+<h2 id="debt">If it were a debt fund</h2>
+<p>Same plan, taxed at his 20% slab: {_inr(d['rows'][1]['tax'])} in year 2 instead of nothing, and {_L(d['tax'])} over the plan instead of {_L(m['tax'])}. That's why many retirees run an SWP from an equity-oriented hybrid or balanced-advantage fund.</p>
+
+<h2 id="tips">Keeping tax low</h2>
+<ol class="g-check">
+  <li><strong>Wait 12 months</strong> before starting withdrawals from fresh money, or start from older units.</li>
+  <li><strong>Use the ₹1.25 lakh</strong> of tax-free long-term gains every year.</li>
+  <li><strong>Split between spouses</strong>: each has their own ₹1.25 lakh exemption and slab.</li>
+  <li><strong>Mind your other income:</strong> debt fund gains add to it and can push you into a higher slab. More in <a href="/guides/how-mutual-fund-gains-are-taxed/">How mutual fund gains are taxed</a>.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/swp-calculator/">SWP calculator</a>'s own code with <a href="/guides/swp-monthly-income-explained/">Suresh's plan</a>: average-cost gains in each withdrawal; 20% on first-year gains (fresh money), 12.5% on long-term gains above ₹1.25 lakh a year, slab rate for debt; 4% cess; surcharge and rebate left out. Income-tax Act, 2025. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "How SWP withdrawals are taxed", body, "SWP tax")
+
+def guide_sw_safe():
+    T = _t4(); S = T["safe"]; ST = T["safeStep"]
+    path = "/guides/safe-swp-withdrawal-rate/"
+    r1 = "".join(f'<tr><th scope="row">{x["ret"]}%</th>' + "".join(f'<td>{_inr(w)}</td>' for w in x["w"]) + "</tr>" for x in S)
+    r2 = "".join(f'<tr><th scope="row">{x["step"]}% a year</th>' + "".join(f'<td>{_inr(w)}</td>' for w in x["w"]) + "</tr>" for x in ST)
+    toc = [("short-answer", "The short answer"), ("table", "By return and years"), ("rise", "By how much it rises"), ("rate", "As a percentage"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "How much can you take out of your investments every month without running out? It depends on three things: how long it must last, your return and how much your withdrawal rises. Here are the numbers for ₹1 crore.",
+                      "A gauge showing a safe withdrawal rate zone").replace("TYPE_LINE", "<span>SWP calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>For Suresh's ₹1 crore at 10%, rising 5% a year: <strong>{_inr(S[2]['w'][1])}</strong> a month lasts 30 years, about 6.3% of the amount in the first year. For 40 years, {_inr(S[2]['w'][2])}. With a 9% return, 30 years allows {_inr(S[1]['w'][1])}.</p>
+<p class="g-cta"><a class="btn" href="/swp-calculator/">Find your safe amount</a></p>
+
+<h2 id="table">By return and years</h2>
+<p>₹1 crore, withdrawal rising 5% a year. The most you can take each month in the first year:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Return a year</th><th scope="col">20 years</th><th scope="col">30 years</th><th scope="col">40 years</th></tr></thead><tbody>
+{r1}
+</tbody></table></div>
+
+<h2 id="rise">By how much it rises</h2>
+<p>₹1 crore at 10%:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Withdrawal rises</th><th scope="col">20 years</th><th scope="col">30 years</th><th scope="col">40 years</th></tr></thead><tbody>
+{r2}
+</tbody></table></div>
+<p>A fixed withdrawal lets you start much higher, but it loses value every year. See <a href="/guides/should-swp-rise-with-inflation/">Should your SWP rise with inflation?</a></p>
+
+<h2 id="rate">As a percentage</h2>
+<ul>
+  <li>Divide a year's withdrawals by your amount: ₹52,578 × 12 ÷ ₹1 crore = 6.3%.</li>
+  <li>For 30 years rising with inflation, about <strong>5–6% a year</strong> is a sensible range in India at 9–10% returns; 4–5% if your return is lower or you want 40 years.</li>
+  <li>Keep a margin: returns vary, and a fall in the first years hurts most. The US "4% rule" assumes lower returns and lower inflation; more in <a href="/guides/is-25x-enough-early-retirement/">Is 25× enough?</a></li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>With the <a href="/swp-calculator/">SWP calculator</a>'s own code: the largest first-month withdrawal that, rising each year as shown, lasts exactly the years shown; monthly withdrawals at the start of the month, the rest earning the return. Before tax. Same ₹1 crore as <a href="/guides/swp-monthly-income-explained/">Suresh's plan</a>. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "How much can you safely withdraw?", body, "Safe withdrawal")
+
+def guide_sw_rise():
+    T = _t4(); st = {x["step"]: x for x in T["steps"]}
+    path = "/guides/should-swp-rise-with-inflation/"
+    toc = [("short-answer", "The short answer"), ("compare", "Fixed vs rising"), ("value", "What ₹50,000 is worth later"), ("choose", "How to choose"), ("method", "How these numbers were worked out")]
+    real20 = 50000 / (1.05 ** 19)
+    body = guide_head(path, "Take the same amount every month, or raise it each year to keep up with prices? A fixed SWP lasts far longer on paper, but loses half its value in 15 years. Here's the trade-off for one retiree.",
+                      "Monthly withdrawal bars rising step by step with prices").replace("TYPE_LINE", "<span>SWP calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>If the SWP is your living income, raise it. Suresh's ₹50,000 a month, fixed, never runs out at 10%, but by year 20 it buys only what {_inr(real20)} buys today. Rising 5% a year keeps its value, and still lasts <strong>{_yrs(st[5]['lastsY'])}</strong>.</p>
+<p class="g-cta"><a class="btn" href="/swp-calculator/">Try fixed and rising</a></p>
+
+<h2 id="compare">Fixed vs rising</h2>
+<p>{_SURESH.replace(" and raises it 5% every year", "")}</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Withdrawal rises</th><th scope="col">A month in year 20</th><th scope="col">Lasts</th></tr></thead><tbody>
+<tr><th scope="row">Fixed</th><td>{_inr(st[0]['y20'])}</td><td>Over 50 years</td></tr>
+<tr><th scope="row">5% a year</th><td>{_inr(st[5]['y20'])}</td><td>{_yrs(st[5]['lastsY'])}</td></tr>
+<tr><th scope="row">6% a year</th><td>{_inr(st[6]['y20'])}</td><td>{_yrs(st[6]['lastsY'])}</td></tr>
+</tbody></table></div>
+
+<h2 id="value">What ₹50,000 is worth later</h2>
+<p>At 5% inflation, a fixed ₹50,000 a month buys what ₹39,000 buys today after 5 years, ₹31,000 after 10, and {_inr(real20)} after 20. For a retiree whose costs keep rising (food, healthcare, help at home), that's a slow squeeze.</p>
+
+<h2 id="choose">How to choose</h2>
+<ul>
+  <li><strong>Living income:</strong> rise 5–6% a year, and start a little lower if you need it to last longer. See <a href="/guides/safe-swp-withdrawal-rate/">safe withdrawal amounts</a>.</li>
+  <li><strong>Topping up a pension that already rises</strong>, or a fixed EMI: a fixed SWP is fine.</li>
+  <li><strong>Middle way:</strong> raise it only in good years, or by less than inflation, and review once a year.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>From the <a href="/swp-calculator/">SWP calculator</a>'s own code with <a href="/guides/swp-monthly-income-explained/">Suresh's plan</a>, changing only the yearly rise; value in today's money at 5% inflation. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Should your SWP rise with inflation?", body, "Rising SWP")
+
+def guide_sw_annuity():
+    T = _t4(); m = T["main"]; a = T["annuity"]
+    path = "/guides/annuity-or-swp/"
+    toc = [("short-answer", "The short answer"), ("compare", "Suresh's two options"), ("annuity", "What an annuity gives you"), ("swp", "What an SWP gives you"), ("mix", "A mix"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Buy an annuity and get a pension for life, or keep your money invested and take an SWP? One is certain but fixed; the other can grow but can run out. Here's how they compare for one retiree with ₹1 crore.",
+                      "A pension cheque on one side and a tap jar on the other").replace("TYPE_LINE", "<span>SWP calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>An annuity at 6.5% on ₹1 crore pays about <strong>{_inr(a['gross'])}</strong> a month for life ({_inr(a['net'])} after tax at 20%), but never rises and usually leaves nothing behind. Suresh's SWP starts at {_inr(m['rows'][0]['net']/12)} after tax, rises 5% a year and lasts {_yrs(m['lastsY'])}, to about age {60 + int(m['lastsY'])}. A mix of both often works best.</p>
+<p class="g-cta"><a class="btn" href="/swp-calculator/">Run your SWP</a></p>
+
+<h2 id="compare">Suresh's two options</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">After tax, a month</th><th scope="col">SWP</th><th scope="col">Annuity at 6.5%</th></tr></thead><tbody>
+""" + "".join(f'<tr><th scope="row">Year {c["y"]}</th><td>{_inr(c["swp"])}</td><td>{_inr(a["net"])}</td></tr>' for c in m["cmp"]) + f"""
+<tr><th scope="row">If he lives past {60 + int(m['lastsY'])}</th><td>Runs out</td><td>{_inr(a['net'])}, for life</td></tr>
+</tbody></table></div>
+
+<h2 id="annuity">What an annuity gives you</h2>
+<ul>
+  <li><strong>Income for life,</strong> however long you live and whatever markets do.</li>
+  <li><strong>Usually fixed:</strong> it loses value to inflation. Increasing annuities exist but start much lower.</li>
+  <li><strong>Fully taxed</strong> at your slab, every year.</li>
+  <li><strong>Little or nothing left</strong> for your family, unless you pick "return of purchase price", which pays less each month.</li>
+  <li>NPS requires at least 20% of your corpus to buy one at 60: see <a href="/guides/nps-new-exit-rules/">NPS exit rules</a>.</li>
+</ul>
+
+<h2 id="swp">What an SWP gives you</h2>
+<ul>
+  <li><strong>Income that can rise</strong> with prices, and is taxed only on gains.</li>
+  <li><strong>Your money stays yours:</strong> you can change the amount or take a lump sum, and what's left goes to your family.</li>
+  <li><strong>But it can run out</strong> if you live long, take too much or markets do badly early on.</li>
+</ul>
+
+<h2 id="mix">A mix</h2>
+<p>Use an annuity for the essentials you can't cut (a floor), and an SWP for the rest. For example, ₹40 lakh in an annuity and ₹60 lakh in an SWP. Check the SWP part in the <a href="/swp-calculator/">calculator</a>, and compare annuity quotes from several insurers.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>SWP from the <a href="/swp-calculator/">SWP calculator</a>'s own code with <a href="/guides/swp-monthly-income-explained/">Suresh's plan</a>. Annuity: ₹1 crore at an assumed 6.5% a year for life without return of purchase price (the rate our NPS calculator uses; actual quotes vary by insurer and age), taxed at 20% plus 4% cess. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not investment advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Annuity or SWP?", body, "Annuity or SWP")
+
 def guide_work_hours():
     path = "/guides/working-hours-new-labour-codes/"
     ot_rate = 25000 / 208
@@ -9205,12 +11149,16 @@ def guide_mf_tax():
 TOPICS = [("retire", "Retirement and pension"), ("invest", "Investing"), ("home", "Home and loans"), ("tax", "Tax"), ("car", "Car"), ("money", "Pay, budget, insurance and leave")]
 TOOL_TOPIC = {"/epf-calculator/": "retire", "/eps-pension-calculator/": "retire", "/nps-calculator/": "retire", "/retirement-planner/": "retire", "/gratuity-calculator/": "retire",
               "/sip-calculator/": "invest", "/fd-ppf-rd-calculator/": "invest", "/rent-vs-buy/": "home", "/prepay-vs-invest/": "home", "/emi-calculator/": "home",
-              "/income-tax-section-finder/": "tax", "/company-car-lease-vs-loan/": "car", "/car-ownership-cost/": "car", "/budget-planner/": "money", "/leave-planner-2027/": "money", "/full-and-final-settlement/": "money", "/term-insurance-calculator/": "money", "/sukanya-samriddhi-calculator/": "invest"}
+              "/income-tax-section-finder/": "tax", "/company-car-lease-vs-loan/": "car", "/car-ownership-cost/": "car", "/budget-planner/": "money", "/leave-planner-2027/": "money", "/full-and-final-settlement/": "money", "/labour-codes-salary-calculator/": "money", "/best-day-to-resign/": "money", "/fire-calculator/": "invest", "/swp-calculator/": "invest", "/term-insurance-calculator/": "money", "/sukanya-samriddhi-calculator/": "invest"}
 # Guides listed under more than one tool appear once on /guides/, under the tool they belong to most.
 GUIDE_HOME = {"/guides/nps-vs-ppf-vs-epf/": "/nps-calculator/", "/guides/eps-pension-explained/": "/eps-pension-calculator/",
               "/guides/epf-wage-ceiling-25000/": "/epf-calculator/", "/guides/transfer-pf-dont-withdraw/": "/epf-calculator/"}
 TAX_WORDS = ("tax", "tds", "regime", "section", "perquisite", "hra", "80c")
 
+# Guides page default view: newest first (agreed 19 Nov; ships with batch T1). "By tool" and "Start-here guides only" stay in the menu.
+GUIDES_NEWEST_FIRST = "t1" in RELEASED
+GX_SORT_OLD = '<select id="gxSort" class="sel"><option value="tool">By tool</option><option value="new">Newest first</option><option value="main">Start-here guides only</option></select>'
+GX_SORT_NEW = '<select id="gxSort" class="sel" data-default="new"><option value="new">Newest first</option><option value="tool">By tool</option><option value="main">Start-here guides only</option></select>'
 def guides_index():
     gmap = {g[0]: g for g in GUIDES}
     tools = [(tp, n, [x for x in gl if x in gmap]) for grp, items in catalog() for tp, n, d, live, st, gl in items if live]
@@ -9245,7 +11193,7 @@ def guides_index():
             f'<div class="gx-bar"><label class="gx-search"><span class="sr-only">Search guides</span><input id="gxQ" type="search" placeholder="Search guides: gratuity, 80C, pension, job change…" autocomplete="off"></label>'
             f'<div class="gx-chips" role="group" aria-label="Topics">{chips}</div>'
             f'<div class="gx-row"><span id="gxCount" class="hint" aria-live="polite">{n_all} guides</span>'
-            f'<label class="gx-sort">Show <select id="gxSort" class="sel"><option value="tool">By tool</option><option value="new">Newest first</option><option value="main">Start-here guides only</option></select></label></div></div>'
+            f'<label class="gx-sort">Show ' + (GX_SORT_NEW if GUIDES_NEWEST_FIRST else GX_SORT_OLD) + '</label></div></div>'
             f'</div></section>'
             f'<section style="padding-top:0"><div class="wrap"><div id="gxTools">{secs}</div><div id="gxFlat" class="g-cards" hidden></div>'
             f'<p id="gxNone" class="hint" hidden>No guides match. Try a shorter word, or <a href="/tools/">browse the tools</a>.</p></div></section>')
@@ -9377,6 +11325,10 @@ def main():
     if RETIRE_LIVE: write("/retirement-planner/", retirement_page())
     if EPS_LIVE: write("/eps-pension-calculator/", eps_page())
     if FNF_LIVE: write("/full-and-final-settlement/", fnf_page())
+    if LC_LIVE: write("/labour-codes-salary-calculator/", lc_page())
+    if RD_LIVE: write("/best-day-to-resign/", rd_page())
+    if FIRE_LIVE: write("/fire-calculator/", fire_page())
+    if SWPC_LIVE: write("/swp-calculator/", swp_page())
     if TERM_LIVE: write("/term-insurance-calculator/", term_page())
     if SSY_LIVE: write("/sukanya-samriddhi-calculator/", ssy_page())
     write("/guides/", guides_index())
@@ -9403,6 +11355,30 @@ def main():
     write("/guides/new-income-tax-section-numbers/", guide_sections())
     write("/guides/fd-rd-or-ppf/", guide_fd_main())
     write("/guides/working-hours-new-labour-codes/", guide_work_hours())
+    write("/guides/salary-under-new-labour-codes/", guide_lc_main())
+    write("/guides/swp-monthly-income-explained/", guide_sw_main())
+    write("/guides/swp-vs-fd-monthly-income/", guide_sw_fd())
+    write("/guides/how-swp-is-taxed/", guide_sw_tax())
+    write("/guides/safe-swp-withdrawal-rate/", guide_sw_safe())
+    write("/guides/should-swp-rise-with-inflation/", guide_sw_rise())
+    write("/guides/annuity-or-swp/", guide_sw_annuity())
+    write("/guides/fire-number-india/", guide_fi_main())
+    write("/guides/retire-at-45-bridge-epf-nps/", guide_fi_bridge())
+    write("/guides/is-25x-enough-early-retirement/", guide_fi_25x())
+    write("/guides/lean-fat-coast-fire/", guide_fi_types())
+    write("/guides/savings-rate-early-retirement/", guide_fi_rate())
+    write("/guides/epf-nps-if-you-retire-early/", guide_fi_epfnps())
+    write("/guides/when-to-resign-best-last-day/", guide_rd_main())
+    write("/guides/resign-before-or-after-rsu-vesting/", guide_rd_rsu())
+    write("/guides/joining-bonus-clawback/", guide_rd_claw())
+    write("/guides/when-to-hand-in-notice/", guide_rd_notice())
+    write("/guides/use-or-encash-leave-before-resigning/", guide_rd_leave())
+    write("/guides/wait-for-bonus-or-join-now/", guide_rd_bonus())
+    write("/guides/take-home-fell-ctc-same/", guide_lc_takehome())
+    write("/guides/basic-pay-50-percent-rule/", guide_lc_50())
+    write("/guides/higher-basic-more-tax/", guide_lc_tax())
+    write("/guides/pf-full-basic-or-capped/", guide_lc_pf())
+    write("/guides/bonus-variable-pay-wages-labour-codes/", guide_lc_bonus())
     write("/guides/eps-family-pension/", guide_eps_family())
     write("/guides/budgeting-with-a-bonus/", guide_bonus_budget())
     write("/guides/prepay-with-bonus-or-invest/", guide_prepay_bonus())
@@ -9480,7 +11456,7 @@ def main():
     write("/guides/prepay-home-loan-early-or-later/", guide_prepay_timing())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/salary-under-new-labour-codes/", "0.8"), ("/guides/swp-monthly-income-explained/", "0.8"), ("/guides/swp-vs-fd-monthly-income/", "0.7"), ("/guides/how-swp-is-taxed/", "0.7"), ("/guides/safe-swp-withdrawal-rate/", "0.7"), ("/guides/should-swp-rise-with-inflation/", "0.7"), ("/guides/annuity-or-swp/", "0.7"), ("/guides/fire-number-india/", "0.8"), ("/guides/retire-at-45-bridge-epf-nps/", "0.7"), ("/guides/is-25x-enough-early-retirement/", "0.7"), ("/guides/lean-fat-coast-fire/", "0.7"), ("/guides/savings-rate-early-retirement/", "0.7"), ("/guides/epf-nps-if-you-retire-early/", "0.7"), ("/guides/when-to-resign-best-last-day/", "0.8"), ("/guides/resign-before-or-after-rsu-vesting/", "0.7"), ("/guides/joining-bonus-clawback/", "0.7"), ("/guides/when-to-hand-in-notice/", "0.7"), ("/guides/use-or-encash-leave-before-resigning/", "0.7"), ("/guides/wait-for-bonus-or-join-now/", "0.7"), ("/guides/take-home-fell-ctc-same/", "0.7"), ("/guides/basic-pay-50-percent-rule/", "0.7"), ("/guides/higher-basic-more-tax/", "0.7"), ("/guides/pf-full-basic-or-capped/", "0.7"), ("/guides/bonus-variable-pay-wages-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + ([("/labour-codes-salary-calculator/", "0.9")] if LC_LIVE else []) + ([("/best-day-to-resign/", "0.9")] if RD_LIVE else []) + ([("/fire-calculator/", "0.9")] if FIRE_LIVE else []) + ([("/swp-calculator/", "0.9")] if SWPC_LIVE else []) + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime

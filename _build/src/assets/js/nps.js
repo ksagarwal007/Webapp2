@@ -154,6 +154,18 @@
     if (S.sector === "govt") return c <= L12 ? "Between ₹8 lakh and ₹12 lakh: up to ₹6 lakh as a lump sum (rest in instalments over at least 6 years, or an annuity), or 60% lump sum with 40% annuity." : "Government subscribers: up to 60% as a lump sum, at least 40% into an annuity.";
     return c <= L12 ? "Between ₹8 lakh and ₹12 lakh: up to 80% as a lump sum with 20% annuity, or ₹6 lakh with the rest in instalments over at least 6 years." : "Non-government subscribers: up to 80% as a lump sum, at least 20% into an annuity.";
   }
+  /* Annuity or SWP for the lump sum at exit. Shown when the SWP calculator is live. Assumes 8% a year and withdrawals rising with inflation until 85. */
+  function swpCard(r) {
+    var box = document.getElementById("npSwp"), SW = window.SalaristSWP; r.swp = null;
+    if (!box || !SW) return;
+    var L = r.ex.lump; if (L < 1) { box.innerHTML = ""; return; }
+    var yrs = Math.max(10, 85 - S.exitAge), ret = 8, w = SW.sustainable({ corpus: L, step: S.infl, ret: ret, months: yrs * 12 }), ann = L * S.annuity / 100 / 12;
+    r.swp = { w: w, ann: ann, yrs: yrs, ret: ret };
+    box.innerHTML = '<h2>Your lump sum: annuity or SWP?</h2><div class="swp-card"><p>Invested and drawn down as a systematic withdrawal plan (SWP) at ' + ret + "% a year, your " + short(L) + " lump sum could pay <b>" + inr(w) + " a month</b>, rising " + S.infl + "% a year, until " + (S.exitAge + yrs) + ". " +
+      "Used to buy an annuity at " + S.annuity + "%, it would pay " + inr(ann) + " a month, fixed, for life. Either way, that's on top of the " + (r.ex.annuity > 1 ? inr(r.pension) + " a month from your NPS annuity." : "rest of your NPS.") + "</p>" +
+      '<p class="hint" style="margin:0 0 10px">The SWP rises with prices and is taxed only on gains, but can run out if you live past ' + (S.exitAge + yrs) + '; the annuity never runs out but loses value to inflation and is taxed at your slab. <a href="/guides/annuity-or-swp/">Annuity or SWP?</a></p>' +
+      '<a class="btn-sm" href="' + SW.link({ corpus: L, years: yrs, step: S.infl, ret: ret }) + '">Try it in the SWP calculator →</a></div>';
+  }
   function renderPlan() {
     var r = P(); last = { mode: "plan", r: r };
     var ex = r.ex, ageT = S.exitAge;
@@ -175,6 +187,7 @@
     $("npSens").innerHTML = r.sens.map(function (s) { return '<div class="sv' + (s.ret === S.ret ? " cur" : "") + '"><span class="l">' + s.ret + '% a year</span><span class="n">' + short(s.corpus) + '</span><span class="h">Pension about ' + inr(s.pension) + " a month</span></div>"; }).join("");
     $("npTable").innerHTML = tableHtml(r);
     $("npBarT").textContent = short(r.corpus) + " at " + ageT;
+    swpCard(r);
   }
   function renderEmp() {
     var e = E(); last = { mode: "emp", e: e };
@@ -265,7 +278,9 @@
       "The employer NPS check and the old-regime saving on your own contribution use your tax slab plus 4% cess.",
       "Exit at 60 or later is treated as a normal exit. Exiting earlier has stricter rules (usually 20% lump sum and 80% annuity)."];
   }
-  function spec() { return last.mode === "emp" ? specEmp(last.e) : specPlan(last.r); }
+  function spec() { var sp = last.mode === "emp" ? specEmp(last.e) : specPlan(last.r);
+    if (last.mode !== "emp" && last.r.swp) sp.notes.push("Lump sum as an SWP: invested at " + last.r.swp.ret + "% a year and drawn down, it could pay " + inr(last.r.swp.w) + " a month, rising " + S.infl + "% a year, for " + last.r.swp.yrs + " years; as an annuity at " + S.annuity + "%, " + inr(last.r.swp.ann) + " a month, fixed, for life. Before tax.");
+    return sp; }
   function busy(b, on) { b.disabled = on; b.setAttribute("aria-busy", on ? "true" : "false"); }
   $("npPdf").addEventListener("click", function () { var b = this; busy(b, true); say("Making your PDF…"); withReport(function (Kt) { Kt.pdf(spec()).then(function () { busy(b, false); say("PDF report downloaded."); }, function () { busy(b, false); say("Couldn't make the PDF. Please try again."); }); }); });
   $("npXlsx").addEventListener("click", function () { var b = this; busy(b, true); withReport(function (Kt) { try { Kt.xlsx(spec()); say("Excel file downloaded."); } catch (e) { say("Couldn't make the Excel file. Please try again."); } busy(b, false); }); });

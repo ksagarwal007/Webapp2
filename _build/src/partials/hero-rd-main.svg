@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A calendar with one day marked and a path of milestones leading to it">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<rect x="420" y="300" width="300" height="300" rx="28" fill="#FFFFFF"/><rect x="420" y="300" width="300" height="70" rx="28" fill="#7FB0FF"/><rect x="420" y="340" width="300" height="30" fill="#7FB0FF"/><rect x="450" y="395" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="514" y="395" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="578" y="395" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="642" y="395" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="450" y="459" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="514" y="459" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="578" y="459" width="46" height="46" rx="10" fill="#FFD27A" opacity="1"/><rect x="642" y="459" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="450" y="523" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="514" y="523" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="578" y="523" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="642" y="523" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/>
+ <path d="M820 640 C900 560 960 600 1020 520 S1120 420 1200 380" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-dasharray="4 20" stroke-linecap="round"/>
+ <circle cx="820" cy="640" r="26" fill="#7FB0FF"/><circle cx="1020" cy="520" r="26" fill="#FFD27A"/><circle cx="1200" cy="380" r="40" fill="#FFD27A"/><path d="M1182 380 L1196 396 L1222 366" fill="none" stroke="#0B2A6B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -4,10 +4,13 @@
   var $ = function (id) { return document.getElementById(id); };
   var q = $("gxQ"), sort = $("gxSort"), flat = $("gxFlat"), tools = $("gxTools"), none = $("gxNone"), count = $("gxCount");
   var cards = Array.prototype.slice.call(tools.querySelectorAll(".g-card")), secs = Array.prototype.slice.call(tools.querySelectorAll(".gx-sec"));
-  var S = { q: "", t: "all", sort: "tool" }, open = {};
+  var DEF = sort.getAttribute("data-default") || "tool";   /* default view: "new" (newest first) or "tool" */
+  var S = { q: "", t: "all", sort: DEF }, open = {};
   (function fromUrl() {
     var u = new URLSearchParams(location.search);
-    if (u.get("q")) S.q = u.get("q"); if (u.get("topic")) S.t = u.get("topic"); if (["new", "main"].indexOf(u.get("sort")) > -1) S.sort = u.get("sort");
+    if (u.get("q")) S.q = u.get("q"); if (u.get("topic")) S.t = u.get("topic"); if (["new", "main", "tool"].indexOf(u.get("sort")) > -1) S.sort = u.get("sort");
+    /* A link to a tool's section (/guides/#epf-calculator) shows guides by tool. */
+    else if (location.hash && tools.querySelector("h2[id='" + location.hash.slice(1).replace(/'/g, "") + "']")) S.sort = "tool";
     q.value = S.q; sort.value = S.sort;
   })();
   function norm(s) { return s.toLowerCase().replace(/[^a-z0-9₹ ]+/g, " ").replace(/\s+/g, " ").trim(); }
@@ -39,7 +42,7 @@
     none.hidden = hits.length > 0;
     count.textContent = hits.length + (hits.length === 1 ? " guide" : " guides") + (filtering ? " match" : "");
     var u = new URL(location.href);
-    [["q", S.q], ["topic", S.t === "all" ? "" : S.t], ["sort", S.sort === "tool" ? "" : S.sort]].forEach(function (x) { if (x[1]) u.searchParams.set(x[0], x[1]); else u.searchParams.delete(x[0]); });
+    [["q", S.q], ["topic", S.t === "all" ? "" : S.t], ["sort", S.sort === DEF ? "" : S.sort]].forEach(function (x) { if (x[1]) u.searchParams.set(x[0], x[1]); else u.searchParams.delete(x[0]); });
     history.replaceState(null, "", u.pathname + u.search + location.hash);
   }
   q.addEventListener("input", function () { S.q = this.value; render(); });

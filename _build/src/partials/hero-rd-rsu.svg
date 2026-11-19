@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Share certificates stacking up on a calendar's vesting day">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<rect x="400" y="300" width="300" height="300" rx="28" fill="#FFFFFF"/><rect x="400" y="300" width="300" height="70" rx="28" fill="#7FB0FF"/><rect x="400" y="340" width="300" height="30" fill="#7FB0FF"/><rect x="430" y="395" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="494" y="395" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="558" y="395" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="622" y="395" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="430" y="459" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="494" y="459" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="558" y="459" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="622" y="459" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="430" y="523" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="494" y="523" width="46" height="46" rx="10" fill="#FFD27A" opacity="1"/><rect x="558" y="523" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/><rect x="622" y="523" width="46" height="46" rx="10" fill="#0B2A6B" opacity=".18"/>
+ <g transform="rotate(-6 1050 450)"><rect x="900" y="300" width="300" height="200" rx="18" fill="#FFFFFF"/><circle cx="1050" cy="400" r="46" fill="#FFD27A"/></g>
+ <g transform="rotate(4 1080 520)"><rect x="930" y="430" width="300" height="200" rx="18" fill="#FFFFFF" opacity=".9"/><circle cx="1080" cy="530" r="46" fill="#7FB0FF"/></g>
+</svg>
