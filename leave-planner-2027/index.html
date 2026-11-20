@@ -13,7 +13,7 @@
 <link rel="icon" href="/assets/img/icon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/icon-180.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/assets/css/site.css?v=e91d1229">
+<link rel="stylesheet" href="/assets/css/site.css?v=8cef4f37">
 <link rel="stylesheet" href="/assets/css/tool.css?v=dc635eff">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Salarist">
@@ -69,6 +69,19 @@
   <h1>Leave Planner 2027: turn your leave into the longest breaks</h1>
   <p class="lead">Two ways to plan: tell us how long a break you want and we'll find the dates that need the fewest leave days, or tell us how many leave days you have and we'll spread them for the most days off. Both work with your own company's holidays.</p>
   <div class="badges"><span class="badge priv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>Private: calculated on your device. Nothing is stored or sent.</span><span class="badge ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Holidays verified on 12 Nov 2026 against the DoPT order of 16 July 2026 · <a href="#sources">Sources</a></span></div>
+  <div class="nlw" id="nlwBox" aria-live="polite"><p class="nlw-k">Next long weekend</p><p class="nlw-v">See the <a href="/guides/long-weekends-2027/">2027 long weekends list</a>.</p></div><script>(function(){var H=[["2026-11-24", "Guru Nanak's Birthday"], ["2026-12-25", "Christmas Day"], ["2027-01-26", "Republic Day"], ["2027-03-10", "Id-ul-Fitr"], ["2027-03-23", "Holi"], ["2027-03-26", "Good Friday"], ["2027-04-15", "Ram Navami"], ["2027-04-19", "Mahavir Jayanti"], ["2027-05-17", "Id-ul-Zuha"], ["2027-05-20", "Buddha Purnima"], ["2027-06-16", "Muharram"], ["2027-08-15", "Independence Day and Milad-un-Nabi"], ["2027-08-25", "Janmashtami"], ["2027-10-02", "Mahatma Gandhi's Birthday"], ["2027-10-09", "Dussehra"], ["2027-10-29", "Diwali"], ["2027-11-14", "Guru Nanak's Birthday"], ["2027-12-25", "Christmas Day"]],el=document.getElementById("nlwBox");if(!el)return;
+var M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],W=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+function p(s){var a=s.split("-");return new Date(+a[0],+a[1]-1,+a[2]);}function k(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);}
+function add(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x;}function f(d){return W[d.getDay()]+" "+d.getDate()+" "+M[d.getMonth()];}
+var hn={};H.forEach(function(h){hn[h[0]]=h[1];});function wk(d){return d.getDay()===0||d.getDay()===6;}function off(d){return wk(d)||!!hn[k(d)];}
+var n=new Date(),t=new Date(n.getFullYear(),n.getMonth(),n.getDate()),last=p(H[H.length-1][0]),free=null,lv=null;
+for(var d=add(t,-3);d<=add(last,3)&&!free;d=add(d,1)){if(!off(d)||off(add(d,-1)))continue;var e=d,names=[];while(off(e)){if(hn[k(e)])names.push(hn[k(e)]);e=add(e,1);}e=add(e,-1);var len=Math.round((e-d)/864e5)+1;if(len>=3&&names.length&&e>=t)free={a:d,b:e,len:len,names:names};}
+H.forEach(function(h){if(lv)return;var d=p(h[0]);if(d<t)return;var w=d.getDay(),L=null;if(w===2)L=add(d,-1);if(w===4)L=add(d,1);if(!L||off(L)||L<t)return;
+var a=w===2?add(d,-3):d,b=w===2?d:add(d,3);while(off(add(a,-1)))a=add(a,-1);while(off(add(b,1)))b=add(b,1);lv={h:h[1],leave:L,a:a,b:b,len:Math.round((b-a)/864e5)+1};});
+function inD(d){var x=Math.round((d-t)/864e5);return x<=0?"now":x===1?"tomorrow":"in "+x+" days";}
+var out="";if(free)out+='<p class="nlw-k">Next long weekend, no leave needed</p><p class="nlw-v"><b>'+f(free.a)+" – "+f(free.b)+" "+free.b.getFullYear()+"</b>: "+free.len+" days off for "+free.names.join(" and ")+" ("+inD(free.a)+")</p>";
+if(lv)out+='<p class="nlw-k">With one day of leave</p><p class="nlw-v">Take <b>'+f(lv.leave)+"</b> off for "+lv.h+": <b>"+f(lv.a)+" – "+f(lv.b)+"</b>, "+lv.len+" days off ("+inD(lv.a)+")</p>";
+el.innerHTML=out+'<p class="nlw-n">Central government holidays (DoPT) with Saturday–Sunday weekends. Your company list differs? Pick your own holidays in the planner below.</p>';})();</script>
 </div></section>
 
 <section style="padding-top:0"><div class="wrap lp">

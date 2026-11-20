@@ -295,3 +295,6 @@ details.tl-g>summary::after{content:none}
 .sit-g{margin:0;padding-left:18px}.sit-g li{margin:4px 0}
 @media (max-width:720px){.sit-step{padding:16px 16px 16px 58px}.sit-step::before{left:14px;top:16px;width:30px;height:30px}}
 .sit-btns a.btn-sm{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 18px;border-radius:var(--pill);text-decoration:none;font-weight:700;background:var(--brand);color:var(--on-brand)}.sit-btns a.btn-sm:hover{color:var(--on-brand);filter:brightness(1.08)}
+/* Next long weekend box (leave planner, long weekends guide) */
+.nlw{margin:18px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:var(--r-card);background:var(--s1);max-width:720px}
+.nlw p{margin:0}.nlw .nlw-k{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--brand)}.nlw .nlw-v{margin:2px 0 10px;font-size:16px;line-height:1.45}.nlw .nlw-n{font-size:13px;color:var(--muted)}

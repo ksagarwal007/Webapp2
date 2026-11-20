@@ -49,6 +49,8 @@ HOLD = {
     # Batch T5 (19 Nov): the job offer comparator (N2) with its guides, released together.
     # Batch E1 (19 Nov): news-led guide on the EPF withdrawal changes approved by the CBT on 19 Nov 2026; pushed on its own.
     "e1": ["/guides/epf-withdrawal-changes-november-2026/"],
+    # Batch S1 (20 Nov): search-console follow-up guide; pushed on its own with the SEO tweaks.
+    "s1": ["/guides/company-car-lease-policy/"],
     # Batch T7 (20 Nov): ESOP and RSU tax calculator (N5, quick) with its guides, released together.
     "t7": ["/esop-rsu-tax-calculator/", "/guides/rsu-tax-india-worked-example/", "/guides/esop-tax-exercise-and-sale/", "/guides/sell-rsus-at-vest-or-hold/", "/guides/startup-esop-tax-deferral/", "/guides/foreign-rsu-schedule-fa-tax-credit/", "/guides/rsu-esop-price-falls-after-vesting/"],
     # Batch T6 (19 Nov): did your hike beat inflation? (N9) with its guides, released together.
@@ -58,7 +60,7 @@ HOLD = {
     "t3": ["/fire-calculator/", "/guides/fire-number-india/", "/guides/retire-at-45-bridge-epf-nps/", "/guides/is-25x-enough-early-retirement/", "/guides/lean-fat-coast-fire/", "/guides/savings-rate-early-retirement/", "/guides/epf-nps-if-you-retire-early/"],
     "t2": ["/best-day-to-resign/", "/guides/when-to-resign-best-last-day/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/joining-bonus-clawback/", "/guides/when-to-hand-in-notice/", "/guides/use-or-encash-leave-before-resigning/", "/guides/wait-for-bonus-or-join-now/"],
 }
-RELEASED = {"b1", "t1", "e1", "t2"}   # b1, t1 and e1 released 19 Nov; t2 20 Nov
+RELEASED = {"b1", "t1", "e1", "t2", "s1"}   # b1, t1 and e1 released 19 Nov; t2 20 Nov
 # Review builds only: SALARIST_PREVIEW=t1 python3 build.py builds a held batch too (never push such a build).
 RELEASED |= {b for b in os.environ.get("SALARIST_PREVIEW", "").split(",") if b}
 HELD = {p for b, ps in HOLD.items() if b not in RELEASED for p in ps}
@@ -155,6 +157,7 @@ SEO = {
     "/guides/hra-vs-home-loan-tax-benefits/": ("HRA vs Home Loan Tax Benefits: Which Saves More?", None),
     "/guides/restricted-holidays-2027/": ("Restricted Holidays 2027: Which Two to Pick", None),
     "/guides/budget-on-50000-1-lakh-2-lakh-salary/": ("Budget on ₹50,000, ₹1 Lakh or ₹2 Lakh Salary: 3 Examples", None),
+    "/guides/company-car-lease-policy/": ("Company Car Lease Policy for Employees: What to Check", "What a company car lease policy covers: eligibility, rental, tax on the car, mileage, buy-back and leaving early, with one employee's numbers."),
     "/guides/company-car-lease-vs-car-loan/": ("Company Car Lease vs Car Loan in India: How to Decide", None),
     "/guides/company-car-perquisite-value-2026/": ("Company Car Perquisite Value 2026: New ₹5,000/₹7,000 Rules", None),
     "/guides/best-months-for-a-week-long-break-2027/": ("Best Months for a Week-Long Break in 2027 (India)", None),
@@ -164,7 +167,7 @@ SEO = {
     "/guides/plan-for-school-fees-and-yearly-costs/": ("How to Plan for School Fees and Other Yearly Costs", None),
     "/guides/how-much-sip-do-you-need/": ("How Much SIP Do You Need? Plan a Goal With Step-Up", None),
     "/guides/step-up-sip/": ("Step-Up SIP: How a 10% Yearly Increase Adds Up", None),
-    "/guides/how-mutual-fund-gains-are-taxed/": ("Mutual Fund Tax on Selling: Equity and Debt (2026-27)", None),
+    "/guides/how-mutual-fund-gains-are-taxed/": ("Tax on SIP and Mutual Funds When You Sell (2026-27)", "How your SIP and mutual funds are taxed when you sell: equity and debt rules for 2026-27, each SIP instalment's own clock, an example and ways to pay less."),
     "/guides/when-to-resign-best-last-day/": ("When to Resign: Find the Best Last Working Day", "When should you resign? Gratuity, bonus and RSU dates, notice and the new job's pay: one employee's best last working day, worked out."),
     "/guides/resign-before-or-after-rsu-vesting/": ("Resign Before or After RSU Vesting? When Waiting Pays", "Unvested RSUs lapse when you leave. When waiting for a vesting date beats joining the new job now, with examples and the break-even raise."),
     "/guides/joining-bonus-clawback/": ("Joining Bonus Clawback: When Is It Safe to Resign?", "Leaving within a year of a joining bonus? How clawback clauses work, when it's safe to leave, and when repaying it is worth it."),
@@ -488,7 +491,7 @@ SITUATIONS = [
      "A company car lease or a loan, petrol, CNG or electric, new or used: what each costs you over the years you keep the car.",
      "Buying a Car in India: Lease, Loan or Cash, and Real Cost", "Company car lease or car loan, petrol, CNG or EV running costs, loan or cash, and new or used: the car decisions, worked out.",
      [("Lease through your company, or buy", "A salary-linked lease can save tax; compare it with a regular loan, including resale.",
-       ["/company-car-lease-vs-loan/", "/guides/company-car-lease-vs-car-loan/", "/guides/car-lease-new-tax-regime/", "/guides/car-lease-20-percent-slab-and-ev/", "/guides/company-car-perquisite-value-2026/"]),
+       ["/company-car-lease-vs-loan/", "/guides/company-car-lease-vs-car-loan/", "/guides/company-car-lease-policy/", "/guides/car-lease-new-tax-regime/", "/guides/car-lease-20-percent-slab-and-ev/", "/guides/company-car-perquisite-value-2026/"]),
       ("Compare petrol, CNG and electric", "Price, fuel, insurance, servicing and resale, per month and per km.",
        ["/car-ownership-cost/", "/guides/petrol-cng-or-ev-cost-per-km/", "/guides/ev-worth-it-1000-km-a-month/", "/guides/government-ev-rule-should-you-switch/"]),
       ("Loan or cash, new or used", "What a car loan really costs against paying cash, and a new car against a 3-year-old one.",
@@ -640,8 +643,36 @@ def home():
              {"@type": "Organization", "@id": SITE + "/#org", "name": "Salarist", "url": SITE + "/", "logo": SITE + "/assets/img/icon-512.png", "email": "contact@salarist.in"},
              faq_ld([(H.unescape(q), H.unescape(a)) for q, a in faqs])]
     return layout("/", "Salarist — Money and leave decision tools for salaried India",
-                  "Free money and leave tools for salaried Indians: plan 2027 leave, prepay your loan or invest, and rent or buy a home. No sign-up, official rates.",
+                  "Free tools for salaried Indians: when to resign, salary under the labour codes, EPF, NPS, home loans, rent or buy, 2027 leave. No sign-up, official rates.",
                   body, graph=graph, og_title="Salarist — Make the big money calls with confidence")
+
+
+# ---------------- Next long weekend (leave planner, long weekends guide) ----------------
+# Central government gazetted holidays: the rest of 2026 (DoPT O.M. of 3 Jul 2025) and 2027 (src/data/holidays-2027.json, DoPT O.M. of 16 Jul 2026).
+HOL_2026_REST = [["2026-11-24", "Guru Nanak's Birthday"], ["2026-12-25", "Christmas Day"]]
+def next_lw_box(on_planner=False):
+    data = json.load(open(os.path.join(SRC, "data/holidays-2027.json")))
+    seen, hol = {}, []
+    for d, n in HOL_2026_REST + data["gazetted"]:
+        if d in seen: seen[d][1] += " and " + n.split(" (")[0]
+        else: seen[d] = [d, n.split(" (")[0]]; hol.append(seen[d])
+    js = r"""(function(){var H=HOLS,el=document.getElementById("nlwBox");if(!el)return;
+var M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],W=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+function p(s){var a=s.split("-");return new Date(+a[0],+a[1]-1,+a[2]);}function k(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);}
+function add(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x;}function f(d){return W[d.getDay()]+" "+d.getDate()+" "+M[d.getMonth()];}
+var hn={};H.forEach(function(h){hn[h[0]]=h[1];});function wk(d){return d.getDay()===0||d.getDay()===6;}function off(d){return wk(d)||!!hn[k(d)];}
+var n=new Date(),t=new Date(n.getFullYear(),n.getMonth(),n.getDate()),last=p(H[H.length-1][0]),free=null,lv=null;
+for(var d=add(t,-3);d<=add(last,3)&&!free;d=add(d,1)){if(!off(d)||off(add(d,-1)))continue;var e=d,names=[];while(off(e)){if(hn[k(e)])names.push(hn[k(e)]);e=add(e,1);}e=add(e,-1);var len=Math.round((e-d)/864e5)+1;if(len>=3&&names.length&&e>=t)free={a:d,b:e,len:len,names:names};}
+H.forEach(function(h){if(lv)return;var d=p(h[0]);if(d<t)return;var w=d.getDay(),L=null;if(w===2)L=add(d,-1);if(w===4)L=add(d,1);if(!L||off(L)||L<t)return;
+var a=w===2?add(d,-3):d,b=w===2?d:add(d,3);while(off(add(a,-1)))a=add(a,-1);while(off(add(b,1)))b=add(b,1);lv={h:h[1],leave:L,a:a,b:b,len:Math.round((b-a)/864e5)+1};});
+function inD(d){var x=Math.round((d-t)/864e5);return x<=0?"now":x===1?"tomorrow":"in "+x+" days";}
+var out="";if(free)out+='<p class="nlw-k">Next long weekend, no leave needed</p><p class="nlw-v"><b>'+f(free.a)+" – "+f(free.b)+" "+free.b.getFullYear()+"</b>: "+free.len+" days off for "+free.names.join(" and ")+" ("+inD(free.a)+")</p>";
+if(lv)out+='<p class="nlw-k">With one day of leave</p><p class="nlw-v">Take <b>'+f(lv.leave)+"</b> off for "+lv.h+": <b>"+f(lv.a)+" – "+f(lv.b)+"</b>, "+lv.len+" days off ("+inD(lv.a)+")</p>";
+el.innerHTML=out+'<p class="nlw-n">Central government holidays (DoPT) with Saturday–Sunday weekends. Your company list differs? NOTE</p>';})();"""
+    js = js.replace("HOLS", json.dumps(hol, ensure_ascii=False))
+    js = js.replace("NOTE", "Pick your own holidays in the planner below." if on_planner else 'Use <a href=\\"/leave-planner-2027/\\">the leave planner</a> with your own holidays.')
+    return ('<div class="nlw" id="nlwBox" aria-live="polite"><p class="nlw-k">Next long weekend</p><p class="nlw-v">See the <a href="/guides/long-weekends-2027/">2027 long weekends list</a>.</p></div>'
+            f'<script>{js}</script>')
 
 # ---------------- Leave planner ----------------
 def leave_planner():
@@ -677,6 +708,7 @@ def leave_planner():
   <h1>Leave Planner 2027: turn your leave into the longest breaks</h1>
   <p class="lead">Two ways to plan: tell us how long a break you want and we'll find the dates that need the fewest leave days, or tell us how many leave days you have and we'll spread them for the most days off. Both work with your own company's holidays.</p>
   {badges("Holidays verified on " + VERIFIED_TXT + " against the DoPT order of 16 July 2026")}
+  {next_lw_box(True)}
 </div></section>
 
 <section style="padding-top:0"><div class="wrap lp">
@@ -1349,6 +1381,7 @@ TIP_GUIDES = {
     ("rb", "possession"): ("/guides/under-construction-vs-ready-to-move/", "Under construction or ready to move?"),
     ("pv", "the loan outstanding"): ("/guides/prepay-home-loan-early-or-later/", "Prepay now or later?"),
     ("cl", "the tax saved"): ("/guides/company-car-perquisite-value-2026/", "Company car perquisite value"),
+    ("cl", "the lease rental"): ("/guides/company-car-lease-policy/", "Company car lease policy: what to check"),
     ("co", "running cost per km"): ("/guides/petrol-cng-or-ev-cost-per-km/", "Petrol, CNG or EV: cost per km"),
     ("lp", "restricted holidays"): ("/guides/restricted-holidays-2027/", "Restricted holidays 2027"),
     ("bp", "the target split"): ("/guides/monthly-budget/", "How to make a monthly budget"),
@@ -4543,6 +4576,9 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "Budgeting on ₹50,000, ₹1 lakh or ₹2 lakh a month: three example budgets",
      "Three example monthly budgets for in-hand pay of ₹50,000, ₹1 lakh and ₹2 lakh: where the money goes, how much each saves, and what to fix first.",
      "2026-11-13", "guide-budget-by-income", "Your money"),
+    ("/guides/company-car-lease-policy/", "Company car lease policy: what it says, and what to check before you sign",
+     "How an employee car lease works, a typical policy line by line, what it saves in tax, and six things to check, with one employee's numbers.",
+     "2026-11-20", "guide-car-policy", "Your car"),
     ("/guides/company-car-lease-vs-car-loan/", "Company car lease or car loan? How to decide, with a worked example",
      "How a salary-linked car lease works, the values you're taxed on from April 2026, and how it compares with a car loan, worked through one employee's numbers.",
      "2026-11-13", "guide-car-lease", "Your car"),
@@ -4936,7 +4972,7 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
     ("/guides/step-up-sip/", "Step-up SIP: how a 10% yearly increase changes your final amount",
      "What a step-up SIP is, how much it adds over 20 years at different step-ups, how much to step up and how to set it up.",
      "2026-11-14", "guide-step-up-sip", "Your investments"),
-    ("/guides/how-mutual-fund-gains-are-taxed/", "How mutual fund gains are taxed when you sell",
+    ("/guides/how-mutual-fund-gains-are-taxed/", "Tax on SIP and mutual funds: what you pay when you sell",
      "Equity and debt fund tax rules for tax year 2026-27, how they apply to a SIP, a worked example, and legal ways to pay less.",
      "2026-11-14", "guide-mf-tax", "Your investments"),
 ]
@@ -5165,6 +5201,7 @@ def guide_leave():
 <p>The central government's 2027 list has <strong>{G['distinct']} holiday dates</strong> (17 holidays, with Independence Day and Milad-un-Nabi both on 15 August), and <strong>{G['weekday']} of them fall on a weekday</strong>. That gives <strong>{len(G['long'])} long weekends with no leave at all</strong>, and the best deal of the year: <strong>{lb['3']['len']} days off for {3} days of leave</strong> around Holi and Good Friday, {_span(lb['3']['from'], lb['3']['to'])}.</p>
 <p>With 8 days of leave used well, you can have <strong>{p8['daysOff']} days off</strong> in breaks across the year; with 12, <strong>{p12['daysOff']}</strong>. These figures are for a Monday-to-Friday week and the central list. Your company's list may differ, so check yours in the planner.</p>
 <p class="g-cta"><a class="btn" href="/leave-planner-2027/">Plan my 2027 leave</a></p>
+{next_lw_box()}
 
 <h2 id="holidays">All central government holidays in 2027</h2>
 <p>These are the gazetted holidays for central government administrative offices in Delhi and New Delhi, from the Department of Personnel and Training (DoPT) order dated 16 July 2026. Many private companies base their lists on it.</p>
@@ -5705,6 +5742,74 @@ def guide_rh():
 """
     return article(path, "Restricted Holidays 2027: Which Two to Pick for Longer Breaks | Salarist", "Restricted holidays 2027: which two to pick", body, "Restricted holidays 2027")
 
+def guide_car_policy():
+    import subprocess
+    G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_car_numbers.js")]))
+    S, B, X = G["S"], G["base"], G["exit"]
+    path = "/guides/company-car-lease-policy/"
+    toc = [("short-answer", "The short answer"), ("how", "How the arrangement works"), ("neha", "Neha's policy, line by line"), ("worth", "What it's worth to her"),
+           ("check", "Six things to check before you sign"), ("leave", "If you leave the company"), ("method", "Sources")]
+    body = guide_head(path, "If your company offers a car lease, the policy document decides who can take one, what the rental covers, how it's taxed and what happens if you leave. Here's what a typical policy says, line by line, with one employee's numbers.",
+                      "A car key on a policy document").replace("TYPE_LINE", "<span>Car lease vs car loan calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>A company car lease policy lets eligible employees take a car through the company: a leasing company owns it, the company leases it for you, and the monthly rental comes out of your CTC before tax. You're taxed only on a fixed value of ₹5,000 or ₹7,000 a month for the car. For Neha, in the 30% slab, that makes a ₹12 lakh car about <strong>{_L(B['diff'])} cheaper</strong> over 4 years than a car loan. Before you sign, check six things: eligibility and the car limit, what the rental covers, mileage and damage charges, the end-of-lease price, early exit charges, and who carries the resale risk.</p>
+<p class="g-cta"><a class="btn" href="/company-car-lease-vs-loan/">Check your company's quote</a></p>
+
+<h2 id="how">How the arrangement works</h2>
+<ul>
+  <li><strong>Your employer and a leasing company</strong> (such as Ayvens or ORIX) sign a master lease agreement. Each car is then leased under its own contract.</li>
+  <li><strong>The car is registered to your employer</strong> (or the leasing company) and assigned to you by name, to your choice of make and model within the policy's limits.</li>
+  <li><strong>Your CTC is restructured:</strong> the rental, and often fuel, servicing, insurance and a driver, are paid out of a car component of your pay, so that part is no longer taxable salary.</li>
+  <li><strong>You're taxed on a fixed value</strong> for using the car, under Rule 15 of the Income-tax Rules, 2026: ₹5,000 a month for a car up to 1.6 litres or electric, ₹7,000 above that, plus ₹3,000 if a driver is provided, when the company pays the running costs. See <a href="/guides/company-car-perquisite-value-2026/">Company car perquisite value from April 2026</a>.</li>
+  <li><strong>At the end</strong> (usually 3 to 5 years), you buy the car at a price fixed at the start, hand it back, or take a new one.</li>
+</ul>
+
+<h2 id="neha">Neha's policy, line by line</h2>
+<p>Neha, 34, works in Bengaluru and is in the 30% tax slab. This is what her company's policy says, and what to look for in yours:</p>
+<div class="g-scroll"><table class="g-tbl g-stack"><thead><tr><th scope="col">Clause</th><th scope="col">Neha's policy</th><th scope="col">What to look for</th></tr></thead><tbody>
+<tr><th scope="row">Eligibility</th><td data-l="Neha's policy">Managers and above, after confirmation</td><td data-l="Look for">Grade or CTC cut-offs, and whether you can join mid-year</td></tr>
+<tr><th scope="row">Car limit</th><td data-l="Neha's policy">Rental up to 30% of fixed pay</td><td data-l="Look for">A cap on the car's price or the rental; the rest of your CTC must still cover PF and other parts</td></tr>
+<tr><th scope="row">Tenure</th><td data-l="Neha's policy">36 or 48 months; she picks 48</td><td data-l="Look for">Whether you can change it later (usually you can't)</td></tr>
+<tr><th scope="row">Rental</th><td data-l="Neha's policy">₹{S['rental']:,} a month, with GST, insurance and servicing</td><td data-l="Look for">What's in it: insurance, servicing, tyres, roadside help, replacement car</td></tr>
+<tr><th scope="row">Fuel and driver</th><td data-l="Neha's policy">Fuel ₹{S['fuel']:,} a month through the company; no driver</td><td data-l="Look for">Reimbursed against bills, or a fixed amount</td></tr>
+<tr><th scope="row">Mileage</th><td data-l="Neha's policy">60,000 km over the lease</td><td data-l="Look for">The charge per extra km at the end</td></tr>
+<tr><th scope="row">End of lease</th><td data-l="Neha's policy">Buy at {_L(S['buyback'])} (20% of the price) or hand back</td><td data-l="Look for">The buy-back price in writing, and whether you must pay it before the contract ends</td></tr>
+<tr><th scope="row">Leaving early</th><td data-l="Neha's policy">Settle the outstanding rentals less a discount, or buy the car at the leasing company's price</td><td data-l="Look for">The early termination charge, in rupees, for each year</td></tr>
+</tbody></table></div>
+<p>The eligibility, limit, mileage and exit terms are an example of what policies commonly say; yours will differ. The rental, fuel and buy-back figures are the ones from our <a href="/guides/company-car-lease-vs-car-loan/">car lease vs car loan</a> example.</p>
+
+<h2 id="worth">What it's worth to her</h2>
+<ul>
+  <li><strong>Tax saved:</strong> {_L(B['taxSaved'])} on the rental and fuel over 4 years, less {_inr(B['perkTax'])} of tax on the car's ₹5,000-a-month value: {_L(B['taxNet'])} net.</li>
+  <li><strong>Overall:</strong> the lease comes out {_L(B['diff'])} ahead of a loan for the same car, counting the buy-back and the car's value at the end.</li>
+  <li><strong>Her break-even:</strong> if the company's quote were above about {_inr(G['be'])} a month, the loan would cost less. Ask HR for the quote and check it against yours in the <a href="/company-car-lease-vs-loan/">calculator</a>.</li>
+</ul>
+
+<h2 id="check">Six things to check before you sign</h2>
+<ol class="g-check">
+  <li><strong>Your slab:</strong> the saving is the tax on the rental, so it's biggest at 30% and small at 5%. Under the new regime it still works, because the car is a perquisite, not a deduction: see <a href="/guides/car-lease-new-tax-regime/">Car lease under the new tax regime</a>.</li>
+  <li><strong>The quote:</strong> compare the rental with the break-even, not with a loan EMI.</li>
+  <li><strong>What's included:</strong> insurance cover (and its deductible), servicing and tyres.</li>
+  <li><strong>Mileage and damage:</strong> the extra-km rate and how wear and tear is judged when you hand it back.</li>
+  <li><strong>The buy-back price:</strong> fixed in rupees at the start, or "market value" at the end.</li>
+  <li><strong>Who carries the resale risk:</strong> with an operating lease the leasing company takes it if you hand the car back; with a buy-back you take it.</li>
+</ol>
+
+<h2 id="leave">If you leave the company</h2>
+<p>The lease is tied to your job. If Neha left after 2 years, she'd typically pay an exit charge (say ₹50,000) and buy the car at the leasing company's price (say {_L(S['exitPrice'])}). Even then, in our example the lease still comes out about {_L(X['diff'])} ahead of the loan. Read <a href="/guides/car-lease-job-change-buy-back-or-hand-back/">Changing jobs with a company car lease</a> for the options.</p>
+
+<h2 id="method">Sources</h2>
+<p>Rule 15 of the Income-tax Rules, 2026 (perquisite values from 1 April 2026). How employee car leases are set up: Ayvens India (employee car lease; end-of-contract options). Figures for Neha from the <a href="/company-car-lease-vs-loan/">car lease vs car loan calculator</a>'s own code: ₹12 lakh car, 4 years, 30% slab, cars losing 15% of value a year, money earning 7%. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not tax advice. Your company's policy is what applies to you.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Company car lease policy", body, "Car lease policy")
+
 def guide_car():
     import subprocess
     G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_car_numbers.js")]))
@@ -6009,7 +6114,7 @@ def _catalog():
                          ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/", "/guides/plan-for-school-fees-and-yearly-costs/", "/guides/first-salary-budget/", "/guides/double-income-family-budget/", "/guides/budgeting-with-a-bonus/"]),
                         ("/term-insurance-calculator/", "Term Insurance Calculator", "How much cover your family would need, and until what age: support, loans and goals, less what you have.", L("/term-insurance-calculator/"), "Coming soon", ["/guides/how-much-term-insurance-do-you-need/", "/guides/is-employer-group-cover-enough/", "/guides/term-insurance-until-60-or-70/", "/guides/term-insurance-tax-new-regime/", "/guides/home-loan-insurance-vs-term-plan/", "/guides/laddering-term-insurance/"])]),
         ("Your car", [("/company-car-lease-vs-loan/", "Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.", L("/company-car-lease-vs-loan/"), "Coming soon",
-                       ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/", "/guides/car-lease-20-percent-slab-and-ev/", "/guides/car-lease-job-change-buy-back-or-hand-back/"]),
+                       ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-lease-policy/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/", "/guides/car-lease-20-percent-slab-and-ev/", "/guides/car-lease-job-change-buy-back-or-hand-back/"]),
                       ("/car-ownership-cost/", "Car Ownership Cost", "What a petrol, diesel, CNG or electric car really costs per month and per km, after resale. Compare two.", L("/car-ownership-cost/"), "Coming soon", ["/guides/petrol-cng-or-ev-cost-per-km/", "/guides/ev-worth-it-1000-km-a-month/", "/guides/car-loan-or-cash/", "/guides/new-or-used-car/", "/guides/government-ev-rule-should-you-switch/"])]),
     ]
 QUICK_SOON = (["SIP calculator"] if not SIP_LIVE else []) + (["FD, PPF and RD"] if not DEPOSITS_LIVE else []) + (["Gratuity"] if not GRATUITY_LIVE else []) + ["Old vs new regime", "HRA exemption"] + (["Vehicle ownership cost"] if not CAROWN_LIVE else []) + (["Old-to-new section finder"] if not SECTIONS_LIVE else [])
@@ -12806,7 +12911,7 @@ def guide_mf_tax():
     G = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "guide_sip_numbers.js")]))
     E, D = G["eq"], G["debt"]
     path = "/guides/how-mutual-fund-gains-are-taxed/"
-    toc = [("short-answer", "The short answer"), ("equity", "Equity funds"), ("debt", "Debt funds"), ("sip", "How it works for a SIP"), ("example", "An example"),
+    toc = [("short-answer", "The short answer"), ("equity", "Equity funds"), ("debt", "Debt funds"), ("sip", "Tax on a SIP: each instalment counts separately"), ("example", "An example"),
            ("tips", "Ways to pay less, legally"), ("method", "Sources")]
     body = guide_head(path, "You pay tax on mutual funds only when you sell, and how much depends on the type of fund and how long you held it. Here are the rules for tax year " + TAX_YEAR + ", what they mean for a SIP, and a worked example.",
                       "A rupee coin passing through a filter into a jar").replace("TYPE_LINE", f"<span>Written for tax year {TAX_YEAR}</span>")
@@ -12827,7 +12932,7 @@ def guide_mf_tax():
 <h2 id="debt">Debt funds</h2>
 <p>For debt fund units bought from 1 April 2023, the gain is added to your income and taxed at your slab rate, however long you hold them. There's no lower long-term rate. That's why a debt fund's after-tax return is close to a fixed deposit's for people in the higher slabs.</p>
 
-<h2 id="sip">How it works for a SIP</h2>
+<h2 id="sip">Tax on a SIP: each instalment counts separately</h2>
 <p>Each SIP instalment counts as a separate purchase with its own date. When you sell, the oldest units go first. So if you sell your whole SIP portfolio, the instalments from the last 12 months are short-term, and everything older is long-term.</p>
 
 <h2 id="example">An example</h2>
@@ -12852,7 +12957,7 @@ def guide_mf_tax():
 </article>
 {related(path)}
 """
-    return article(path, "x", "How mutual fund gains are taxed", body, "Mutual fund tax")
+    return article(path, "x", "Tax on SIP and mutual funds", body, "SIP and mutual fund tax")
 
 TOPICS = [("retire", "Retirement and pension"), ("invest", "Investing"), ("home", "Home and loans"), ("tax", "Tax"), ("car", "Car"), ("money", "Pay, budget, insurance and leave")]
 TOOL_TOPIC = {"/esop-rsu-tax-calculator/": "tax", "/salary-hike-vs-inflation/": "money", "/epf-calculator/": "retire", "/eps-pension-calculator/": "retire", "/nps-calculator/": "retire", "/retirement-planner/": "retire", "/gratuity-calculator/": "retire",
@@ -13070,6 +13175,7 @@ def main():
     write("/guides/restricted-holidays-2027/", guide_rh())
     write("/guides/budget-on-50000-1-lakh-2-lakh-salary/", guide_budget_tiers())
     write("/guides/company-car-lease-vs-car-loan/", guide_car())
+    write("/guides/company-car-lease-policy/", guide_car_policy())
     write("/guides/company-car-perquisite-value-2026/", guide_perk())
     write("/guides/best-months-for-a-week-long-break-2027/", guide_months())
     write("/guides/long-weekends-2027-six-day-week/", guide_sixday())
@@ -13203,7 +13309,7 @@ def main():
     write("/guides/prepay-home-loan-early-or-later/", guide_prepay_timing())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/salary-under-new-labour-codes/", "0.8"), ("/guides/rsu-tax-india-worked-example/", "0.8"), ("/guides/esop-tax-exercise-and-sale/", "0.7"), ("/guides/sell-rsus-at-vest-or-hold/", "0.7"), ("/guides/startup-esop-tax-deferral/", "0.7"), ("/guides/foreign-rsu-schedule-fa-tax-credit/", "0.7"), ("/guides/rsu-esop-price-falls-after-vesting/", "0.7"), ("/guides/did-your-hike-beat-inflation/", "0.8"), ("/guides/real-salary-hike-after-inflation/", "0.7"), ("/guides/personal-inflation-rate/", "0.7"), ("/guides/hike-take-home-after-tax/", "0.7"), ("/guides/what-hike-to-ask-for/", "0.7"), ("/guides/real-pay-growth-since-you-started/", "0.7"), ("/guides/compare-job-offers-worked-example/", "0.8"), ("/guides/higher-ctc-less-in-hand/", "0.7"), ("/guides/switch-jobs-before-5-years-gratuity/", "0.7"), ("/guides/value-variable-pay-job-offer/", "0.7"), ("/guides/office-days-commute-cost/", "0.7"), ("/guides/joining-bonus-stock-job-offer/", "0.7"), ("/guides/swp-monthly-income-explained/", "0.8"), ("/guides/swp-vs-fd-monthly-income/", "0.7"), ("/guides/how-swp-is-taxed/", "0.7"), ("/guides/safe-swp-withdrawal-rate/", "0.7"), ("/guides/should-swp-rise-with-inflation/", "0.7"), ("/guides/annuity-or-swp/", "0.7"), ("/guides/fire-number-india/", "0.8"), ("/guides/retire-at-45-bridge-epf-nps/", "0.7"), ("/guides/is-25x-enough-early-retirement/", "0.7"), ("/guides/lean-fat-coast-fire/", "0.7"), ("/guides/savings-rate-early-retirement/", "0.7"), ("/guides/epf-nps-if-you-retire-early/", "0.7"), ("/guides/when-to-resign-best-last-day/", "0.8"), ("/guides/resign-before-or-after-rsu-vesting/", "0.7"), ("/guides/joining-bonus-clawback/", "0.7"), ("/guides/when-to-hand-in-notice/", "0.7"), ("/guides/use-or-encash-leave-before-resigning/", "0.7"), ("/guides/wait-for-bonus-or-join-now/", "0.7"), ("/guides/take-home-fell-ctc-same/", "0.7"), ("/guides/basic-pay-50-percent-rule/", "0.7"), ("/guides/higher-basic-more-tax/", "0.7"), ("/guides/pf-full-basic-or-capped/", "0.7"), ("/guides/bonus-variable-pay-wages-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/epf-withdrawal-changes-november-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + ([("/labour-codes-salary-calculator/", "0.9")] if LC_LIVE else []) + ([("/best-day-to-resign/", "0.9")] if RD_LIVE else []) + ([("/fire-calculator/", "0.9")] if FIRE_LIVE else []) + ([("/swp-calculator/", "0.9")] if SWPC_LIVE else []) + ([("/job-offer-comparator/", "0.9")] if JO_LIVE else []) + ([("/salary-hike-vs-inflation/", "0.9")] if HV_LIVE else []) + ([("/esop-rsu-tax-calculator/", "0.9")] if SO_LIVE else []) + [(p, "0.7") for p in SIT_PATHS] + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-lease-policy/", "0.7"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/salary-under-new-labour-codes/", "0.8"), ("/guides/rsu-tax-india-worked-example/", "0.8"), ("/guides/esop-tax-exercise-and-sale/", "0.7"), ("/guides/sell-rsus-at-vest-or-hold/", "0.7"), ("/guides/startup-esop-tax-deferral/", "0.7"), ("/guides/foreign-rsu-schedule-fa-tax-credit/", "0.7"), ("/guides/rsu-esop-price-falls-after-vesting/", "0.7"), ("/guides/did-your-hike-beat-inflation/", "0.8"), ("/guides/real-salary-hike-after-inflation/", "0.7"), ("/guides/personal-inflation-rate/", "0.7"), ("/guides/hike-take-home-after-tax/", "0.7"), ("/guides/what-hike-to-ask-for/", "0.7"), ("/guides/real-pay-growth-since-you-started/", "0.7"), ("/guides/compare-job-offers-worked-example/", "0.8"), ("/guides/higher-ctc-less-in-hand/", "0.7"), ("/guides/switch-jobs-before-5-years-gratuity/", "0.7"), ("/guides/value-variable-pay-job-offer/", "0.7"), ("/guides/office-days-commute-cost/", "0.7"), ("/guides/joining-bonus-stock-job-offer/", "0.7"), ("/guides/swp-monthly-income-explained/", "0.8"), ("/guides/swp-vs-fd-monthly-income/", "0.7"), ("/guides/how-swp-is-taxed/", "0.7"), ("/guides/safe-swp-withdrawal-rate/", "0.7"), ("/guides/should-swp-rise-with-inflation/", "0.7"), ("/guides/annuity-or-swp/", "0.7"), ("/guides/fire-number-india/", "0.8"), ("/guides/retire-at-45-bridge-epf-nps/", "0.7"), ("/guides/is-25x-enough-early-retirement/", "0.7"), ("/guides/lean-fat-coast-fire/", "0.7"), ("/guides/savings-rate-early-retirement/", "0.7"), ("/guides/epf-nps-if-you-retire-early/", "0.7"), ("/guides/when-to-resign-best-last-day/", "0.8"), ("/guides/resign-before-or-after-rsu-vesting/", "0.7"), ("/guides/joining-bonus-clawback/", "0.7"), ("/guides/when-to-hand-in-notice/", "0.7"), ("/guides/use-or-encash-leave-before-resigning/", "0.7"), ("/guides/wait-for-bonus-or-join-now/", "0.7"), ("/guides/take-home-fell-ctc-same/", "0.7"), ("/guides/basic-pay-50-percent-rule/", "0.7"), ("/guides/higher-basic-more-tax/", "0.7"), ("/guides/pf-full-basic-or-capped/", "0.7"), ("/guides/bonus-variable-pay-wages-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/epf-withdrawal-changes-november-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + ([("/labour-codes-salary-calculator/", "0.9")] if LC_LIVE else []) + ([("/best-day-to-resign/", "0.9")] if RD_LIVE else []) + ([("/fire-calculator/", "0.9")] if FIRE_LIVE else []) + ([("/swp-calculator/", "0.9")] if SWPC_LIVE else []) + ([("/job-offer-comparator/", "0.9")] if JO_LIVE else []) + ([("/salary-hike-vs-inflation/", "0.9")] if HV_LIVE else []) + ([("/esop-rsu-tax-calculator/", "0.9")] if SO_LIVE else []) + [(p, "0.7") for p in SIT_PATHS] + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime
