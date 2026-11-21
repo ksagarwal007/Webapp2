@@ -1,158 +1,178 @@
 {
  "/": {
-  "date": "2026-11-20",
-  "hash": "5c5d9b1b14e33195"
+  "date": "2026-11-21",
+  "hash": "692280d149c0f317"
  },
  "/about/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "1aacd29ef2f28e7b"
  },
  "/best-day-to-resign/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "c96685bca774e610"
  },
  "/budget-planner/": {
-  "date": "2026-11-20",
-  "hash": "8af6bbb89ad23b6b"
+  "date": "2026-11-21",
+  "hash": "75eed7ab8eec86a4"
  },
  "/buying-a-car/": {
-  "date": "2026-11-20",
-  "hash": "28113aaf52fb6aca"
+  "date": "2026-11-21",
+  "hash": "8adfebcc87565c72"
  },
  "/buying-a-home/": {
-  "date": "2026-11-20",
-  "hash": "a92668756f98390b"
+  "date": "2026-11-21",
+  "hash": "8e805cefc0b54f7c"
  },
  "/car-ownership-cost/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "df6e897b97ad4258"
  },
  "/changing-jobs/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "9ecfe58d7450354c"
  },
  "/company-car-lease-vs-loan/": {
-  "date": "2026-11-20",
-  "hash": "aa664cf73231425e"
+  "date": "2026-11-21",
+  "hash": "668a6719e9f81fc2"
  },
  "/contact/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "1891dbce9c65b194"
  },
  "/disclaimer/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "23882b0b4ecfb51e"
  },
  "/emi-calculator/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "2d4163accfb74b7c"
  },
  "/epf-calculator/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "7a75e6d727d461c4"
  },
  "/eps-pension-calculator/": {
-  "date": "2026-11-20",
-  "hash": "bb92b8676adaab22"
+  "date": "2026-11-21",
+  "hash": "5586ed3e759c3549"
  },
  "/esop-rsu-tax-calculator/": {
   "date": "2026-11-20",
   "hash": "73d9924bc375598e"
  },
  "/fd-ppf-rd-calculator/": {
-  "date": "2026-11-20",
-  "hash": "a302edeccc0da215"
+  "date": "2026-11-21",
+  "hash": "392b85ed877979be"
  },
  "/full-and-final-settlement/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "c950f14db2044fa2"
  },
  "/got-a-bonus/": {
-  "date": "2026-11-20",
-  "hash": "9bf0c9cd9868d638"
+  "date": "2026-11-21",
+  "hash": "9823b54074c7a0c5"
  },
  "/gratuity-calculator/": {
-  "date": "2026-11-20",
-  "hash": "e11891809298d9ce"
+  "date": "2026-11-21",
+  "hash": "98bf69f42a6461f8"
  },
  "/guides/": {
-  "date": "2026-11-20",
-  "hash": "39652b867a409aba"
+  "date": "2026-11-21",
+  "hash": "61709b2416ce80ac"
  },
  "/guides/25x-rule-retirement-india/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "c7be1957263528b3"
  },
  "/guides/are-your-sips-on-track/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "8d9fd636ec65cd55"
  },
  "/guides/basic-pay-50-percent-rule/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "72ed476a4737f1f6"
  },
  "/guides/best-months-for-a-week-long-break-2027/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "d9934b5a3a00dcc9"
  },
  "/guides/bonus-variable-pay-wages-labour-codes/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "5d3da12c4d4f7969"
  },
  "/guides/bonus-when-you-resign/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "c1acb45672c6e803"
  },
  "/guides/budget-on-50000-1-lakh-2-lakh-salary/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "9b8aa42896e721f3"
  },
+ "/guides/budgeting-with-a-bonus/": {
+  "date": "2026-11-21",
+  "hash": "3547fd2b803114b6"
+ },
+ "/guides/car-lease-20-percent-slab-and-ev/": {
+  "date": "2026-11-21",
+  "hash": "60edd7ddc910580d"
+ },
  "/guides/car-lease-new-tax-regime/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "e3575a5de8515283"
  },
+ "/guides/cheapest-way-to-commute-to-office/": {
+  "date": "2026-11-21",
+  "hash": "2a54957f03b3f9ad"
+ },
  "/guides/company-car-lease-policy/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "a272d91f3fcc8319"
  },
  "/guides/company-car-lease-vs-car-loan/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "401afb2eae39d333"
  },
  "/guides/company-car-perquisite-value-2026/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "45b609deac7b0f6d"
  },
+ "/guides/cumulative-fd-or-monthly-payout/": {
+  "date": "2026-11-21",
+  "hash": "602c5726e987b3a9"
+ },
  "/guides/employer-nps-14-percent-new-regime/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "6c64e72ecb9fb973"
  },
  "/guides/epf-wage-ceiling-25000/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "1522a3e093a8da83"
  },
  "/guides/epf-withdrawal-changes-november-2026/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "aa9c1835d3677a21"
  },
  "/guides/epf-withdrawal-rules-2026/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "cf49a386635d2abe"
  },
  "/guides/eps-higher-pension/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "26616e6c2d56407b"
  },
+ "/guides/eps-pension-50-58-or-60/": {
+  "date": "2026-11-21",
+  "hash": "5b680a3446a3be29"
+ },
  "/guides/eps-pension-calculation-example/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "231d61d8224a40a7"
  },
  "/guides/eps-pension-explained/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "1e8a662ab2be6def"
  },
  "/guides/eps-withdrawal-benefit-or-scheme-certificate/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "091638e0ab19fc73"
  },
  "/guides/esop-tax-exercise-and-sale/": {
@@ -160,19 +180,23 @@
   "hash": "045a16e7e3fc9098"
  },
  "/guides/fd-for-senior-citizens-tds-and-tax/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "2f7a6fe5f5666987"
  },
  "/guides/fd-interest-tax-below-50000/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "059d23d4a3db7053"
  },
  "/guides/fd-rd-or-ppf/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "28070b80251efea1"
  },
+ "/guides/first-salary-budget/": {
+  "date": "2026-11-21",
+  "hash": "f468d74b0a92d53c"
+ },
  "/guides/floating-or-fixed-home-loan/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "433346860514dbaf"
  },
  "/guides/foreign-rsu-schedule-fa-tax-credit/": {
@@ -180,168 +204,200 @@
   "hash": "676a0e2abaaaa8bd"
  },
  "/guides/form-121-stop-tds-fd-interest/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "856fd28345fd1839"
  },
  "/guides/full-and-final-settlement-explained/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "b31eee589abaf3c3"
  },
  "/guides/government-ev-rule-should-you-switch/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "5f56888eda6f4a33"
  },
  "/guides/gratuity-fixed-term-employees/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "ef9d450021ceb943"
  },
  "/guides/gratuity-new-labour-codes/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "574bb8ad0f19a521"
  },
  "/guides/gratuity-six-month-rule-when-to-resign/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "262fd44750f9f009"
  },
  "/guides/higher-basic-more-tax/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "efcd4bb5cfe16ebd"
  },
  "/guides/home-loan-insurance-vs-term-plan/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "ddd047fb1c66c6ed"
  },
  "/guides/home-loan-rate-rise-emi-or-tenure/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "a77b6cc2ba489b57"
  },
  "/guides/how-long-will-retirement-savings-last/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "2537024f435edf64"
  },
  "/guides/how-much-do-you-need-to-retire/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "c0b8900f31f1e241"
  },
  "/guides/how-much-epf-at-58/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "ddc65eed838fee48"
  },
  "/guides/how-much-sip-do-you-need/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "5c2bbd2de172547e"
  },
  "/guides/how-much-term-insurance-do-you-need/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "a7310cdb12b62c8f"
  },
  "/guides/how-mutual-fund-gains-are-taxed/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "29422710ceac4a14"
  },
  "/guides/how-part-payments-cut-your-home-loan/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "10ee2ef19c37127a"
  },
  "/guides/hra-vs-home-loan-tax-benefits/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "0c40110de00e9276"
  },
  "/guides/is-employer-group-cover-enough/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "a458820ff09df9c5"
  },
  "/guides/is-gratuity-taxable-20-lakh-limit/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "24a72f097b7edd93"
  },
  "/guides/is-rent-really-dead-money/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "3dce1fbf6259d355"
  },
  "/guides/joining-bonus-clawback/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "b16614b7f3c572e9"
  },
  "/guides/leave-encashment-tax-on-resignation/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "d65f6d7e92304421"
  },
  "/guides/long-weekends-2027-six-day-week/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "1b6f12e5b7d8f09e"
  },
  "/guides/long-weekends-2027/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "5d3c8111f48345a3"
  },
+ "/guides/low-basic-salary-gratuity/": {
+  "date": "2026-11-21",
+  "hash": "05864c26efa4b6a7"
+ },
+ "/guides/meal-card-tax-free-200-per-meal/": {
+  "date": "2026-11-21",
+  "hash": "f9668e7100fd7bb4"
+ },
  "/guides/monthly-budget/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "ae5ad5df64dc1b13"
  },
+ "/guides/move-closer-to-office-or-commute/": {
+  "date": "2026-11-21",
+  "hash": "3a55dcc29243c850"
+ },
  "/guides/new-income-tax-section-numbers/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "37ca62fdd4fb243d"
  },
  "/guides/notice-period-buyout/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "ccb272db569eb8b8"
  },
  "/guides/nps-80-percent-withdrawal-tax/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "520de51c90c2b4b7"
  },
  "/guides/nps-new-exit-rules/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "45942a8d976baaf3"
  },
  "/guides/nps-vs-ppf-vs-epf/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "1fa900bd3443bd1e"
  },
+ "/guides/pay-rise-to-cover-return-to-office/": {
+  "date": "2026-11-21",
+  "hash": "89552e972385d13f"
+ },
  "/guides/payslip-form-130-new-section-numbers/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "c1317ef1945990af"
  },
  "/guides/petrol-cng-or-ev-cost-per-km/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "baea60a4e86aaa01"
  },
  "/guides/pf-full-basic-or-capped/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "263268a652bc55ce"
  },
  "/guides/plan-for-school-fees-and-yearly-costs/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "35d47a5b4717a109"
  },
  "/guides/ppf-after-15-years/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "3e179bb772344a5b"
  },
  "/guides/ppf-deposit-by-5-april/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "f5775c64ebb57cd0"
  },
  "/guides/prepay-home-loan-early-or-later/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "b795ccfc85e6cfea"
  },
  "/guides/prepay-home-loan-or-invest/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "3087c38e6721aadc"
  },
+ "/guides/prepay-with-bonus-or-invest/": {
+  "date": "2026-11-21",
+  "hash": "089d508a609d6f69"
+ },
+ "/guides/rent-or-buy-by-age-and-moving-cities/": {
+  "date": "2026-11-21",
+  "hash": "5b24e5e21e8d4a69"
+ },
  "/guides/rent-vs-buy/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "797a32f3ffbcb38c"
  },
  "/guides/resign-before-or-after-rsu-vesting/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "1a705c3692785a4c"
  },
  "/guides/restricted-holidays-2027/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "3b92134ca2e72c1c"
+ },
+ "/guides/retire-at-50-55-or-60/": {
+  "date": "2026-11-21",
+  "hash": "ba0a91838c731872"
+ },
+ "/guides/return-to-office-cost/": {
+  "date": "2026-11-21",
+  "hash": "5410b569a33a98f4"
  },
  "/guides/rsu-esop-price-falls-after-vesting/": {
   "date": "2026-11-20",
@@ -352,7 +408,7 @@
   "hash": "0c3bf854890a43fa"
  },
  "/guides/salary-under-new-labour-codes/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "d13ecfe4a7ab0029"
  },
  "/guides/sell-rsus-at-vest-or-hold/": {
@@ -360,11 +416,11 @@
   "hash": "9c122e0d27800367"
  },
  "/guides/settlement-not-paid-on-time/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "a18bc7310b92b1e4"
  },
  "/guides/sip-or-lump-sum-bonus/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "f517e9b134be649e"
  },
  "/guides/startup-esop-tax-deferral/": {
@@ -372,131 +428,147 @@
   "hash": "10e3a5a7ab148805"
  },
  "/guides/step-up-sip/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "ee39c6a36e7027a4"
  },
+ "/guides/sukanya-samriddhi-at-maturity/": {
+  "date": "2026-11-21",
+  "hash": "cb08e5542412d78a"
+ },
  "/guides/sukanya-samriddhi-explained/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "e51ff2b89931227c"
  },
+ "/guides/sukanya-samriddhi-or-sip/": {
+  "date": "2026-11-21",
+  "hash": "ea2b0cae8a8f5343"
+ },
  "/guides/take-home-fell-ctc-same/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "0efdbf4ff1eac22a"
  },
  "/guides/tax-year-explained/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "b1869ecca78f6bca"
  },
  "/guides/term-insurance-tax-new-regime/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "1b822470b544b088"
  },
  "/guides/term-insurance-until-60-or-70/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "9fb894171d07d5d2"
  },
  "/guides/transfer-pf-dont-withdraw/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "9c66bdd0d5255e68"
  },
  "/guides/two-employers-one-year-tax/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "7b8e1f864f91e504"
  },
  "/guides/under-construction-vs-ready-to-move/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "f9931ef4a600c306"
  },
  "/guides/use-or-encash-leave-before-resigning/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "26c40cc8c76f1e79"
  },
  "/guides/vpf-worth-it/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "15b515872d994e04"
  },
  "/guides/wait-for-bonus-or-join-now/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "d97ed1a36eafad6f"
  },
+ "/guides/what-is-your-commute-time-worth/": {
+  "date": "2026-11-21",
+  "hash": "e8af8a20e758e11e"
+ },
  "/guides/when-to-hand-in-notice/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "468ff9cb4c327020"
  },
  "/guides/when-to-resign-best-last-day/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "a0901811c0694d45"
  },
  "/guides/why-eps-pension-is-low/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "eb603741b7f03555"
  },
  "/guides/working-hours-new-labour-codes/": {
-  "date": "2026-11-20",
-  "hash": "7f51d2cbf704bf04"
+  "date": "2026-11-21",
+  "hash": "7c3e3d9b09787c99"
  },
  "/income-tax-section-finder/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "8f140fe6b657318f"
  },
  "/labour-codes-salary-calculator/": {
-  "date": "2026-11-20",
-  "hash": "36b5856bfa7ac9ff"
+  "date": "2026-11-21",
+  "hash": "7ac407629cf64ed0"
  },
  "/leave-planner-2027/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "ebed139ee801bc55"
  },
  "/methodology/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "e5bd20ef3738ca47"
  },
  "/nps-calculator/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "54d4a6e4fbc143be"
  },
  "/planning-retirement/": {
-  "date": "2026-11-20",
-  "hash": "792713e5ef8d3404"
+  "date": "2026-11-21",
+  "hash": "7fa2eae2ca11c531"
  },
  "/prepay-vs-invest/": {
-  "date": "2026-11-20",
-  "hash": "05c1a904f82798cb"
+  "date": "2026-11-21",
+  "hash": "9eda33bd7ca9d617"
  },
  "/privacy/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "a02330dc42eada57"
  },
  "/rent-vs-buy/": {
-  "date": "2026-11-20",
-  "hash": "160d591f5b9f3d9f"
+  "date": "2026-11-21",
+  "hash": "3e04be97d0a61d9c"
  },
  "/retirement-planner/": {
-  "date": "2026-11-20",
-  "hash": "46757f30e87feab3"
+  "date": "2026-11-21",
+  "hash": "376f8ce753628076"
+ },
+ "/return-to-office-cost-calculator/": {
+  "date": "2026-11-21",
+  "hash": "3352edbe2f9d3df3"
  },
  "/sip-calculator/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "ace569adf4b3f2cd"
  },
  "/sukanya-samriddhi-calculator/": {
-  "date": "2026-11-20",
-  "hash": "2ebc528b9d7bb3a2"
+  "date": "2026-11-21",
+  "hash": "075e363a1d4a3bec"
  },
  "/tax-season/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "b42c4a52b79fc575"
  },
  "/term-insurance-calculator/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "685b8d9f590dbd57"
  },
  "/terms/": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "hash": "04b6c9c54e4a9511"
  },
  "/tools/": {
-  "date": "2026-11-20",
-  "hash": "792d6021fb33f9d9"
+  "date": "2026-11-21",
+  "hash": "5a55d0ecd31d327f"
  }
 }

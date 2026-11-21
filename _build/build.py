@@ -51,6 +51,10 @@ HOLD = {
     "e1": ["/guides/epf-withdrawal-changes-november-2026/"],
     # Batch S1 (20 Nov): search-console follow-up guide; pushed on its own with the SEO tweaks.
     "s1": ["/guides/company-car-lease-policy/"],
+    # Batch T9 (20 Nov): back to office cost calculator (N7, hero) with its guides, released together.
+    "t9": ["/return-to-office-cost-calculator/", "/guides/return-to-office-cost/", "/guides/cheapest-way-to-commute-to-office/", "/guides/move-closer-to-office-or-commute/", "/guides/what-is-your-commute-time-worth/", "/guides/pay-rise-to-cover-return-to-office/", "/guides/meal-card-tax-free-200-per-meal/"],
+    # Batch T8 (20 Nov): health insurance cover calculator (N6, quick) with its guides, released together.
+    "t8": ["/health-insurance-cover-calculator/", "/guides/how-much-health-insurance-do-you-need/", "/guides/super-top-up-health-insurance/", "/guides/is-employer-health-insurance-enough/", "/guides/health-insurance-for-parents/", "/guides/medical-inflation-health-cover/", "/guides/health-insurance-checklist-before-you-buy/", "/guides/health-insurance-opd-maternity-cataract/"],
     # Batch T7 (20 Nov): ESOP and RSU tax calculator (N5, quick) with its guides, released together.
     "t7": ["/esop-rsu-tax-calculator/", "/guides/rsu-tax-india-worked-example/", "/guides/esop-tax-exercise-and-sale/", "/guides/sell-rsus-at-vest-or-hold/", "/guides/startup-esop-tax-deferral/", "/guides/foreign-rsu-schedule-fa-tax-credit/", "/guides/rsu-esop-price-falls-after-vesting/"],
     # Batch T6 (19 Nov): did your hike beat inflation? (N9) with its guides, released together.
@@ -60,7 +64,7 @@ HOLD = {
     "t3": ["/fire-calculator/", "/guides/fire-number-india/", "/guides/retire-at-45-bridge-epf-nps/", "/guides/is-25x-enough-early-retirement/", "/guides/lean-fat-coast-fire/", "/guides/savings-rate-early-retirement/", "/guides/epf-nps-if-you-retire-early/"],
     "t2": ["/best-day-to-resign/", "/guides/when-to-resign-best-last-day/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/joining-bonus-clawback/", "/guides/when-to-hand-in-notice/", "/guides/use-or-encash-leave-before-resigning/", "/guides/wait-for-bonus-or-join-now/"],
 }
-RELEASED = {"b1", "t1", "e1", "t2", "s1"}   # b1, t1 and e1 released 19 Nov; t2 20 Nov
+RELEASED = {"b1", "t1", "e1", "t2", "s1", "b2"}   # b1, t1 and e1 released 19 Nov; t2, s1 20 Nov; b2 21 Nov
 # Review builds only: SALARIST_PREVIEW=t1 python3 build.py builds a held batch too (never push such a build).
 RELEASED |= {b for b in os.environ.get("SALARIST_PREVIEW", "").split(",") if b}
 HELD = {p for b, ps in HOLD.items() if b not in RELEASED for p in ps}
@@ -96,6 +100,10 @@ JO_LIVE = "t5" in RELEASED   # job offer comparator: goes live with batch T5
 if JO_LIVE: LIVE_TOOLS.append(("/job-offer-comparator/", "Job Offer Comparator"))
 SO_LIVE = "t7" in RELEASED   # ESOP and RSU tax calculator: goes live with batch T7
 if SO_LIVE: LIVE_TOOLS.append(("/esop-rsu-tax-calculator/", "ESOP and RSU Tax Calculator"))
+RT_LIVE = "t9" in RELEASED   # back to office cost calculator (N7): goes live with batch T9
+if RT_LIVE: LIVE_TOOLS.append(("/return-to-office-cost-calculator/", "Back to Office Cost Calculator"))
+HC_LIVE = "t8" in RELEASED   # health insurance cover calculator (N6): goes live with batch T8
+if HC_LIVE: LIVE_TOOLS.append(("/health-insurance-cover-calculator/", "Health Insurance Cover Calculator"))
 HV_LIVE = "t6" in RELEASED   # did your hike beat inflation?: goes live with batch T6
 if HV_LIVE: LIVE_TOOLS.append(("/salary-hike-vs-inflation/", "Did Your Hike Beat Inflation?"))
 SWPC_LIVE = "t4" in RELEASED   # SWP calculator: goes live with batch T4
@@ -115,7 +123,7 @@ LC_LIVE = "t1" in RELEASED   # labour codes salary calculator: goes live with ba
 if LC_LIVE: LIVE_TOOLS.append(("/labour-codes-salary-calculator/", "Labour Codes Salary Calculator"))
 SSY_LIVE = True   # set False to build without the Sukanya Samriddhi calculator (in review)
 if SSY_LIVE: LIVE_TOOLS.append(("/sukanya-samriddhi-calculator/", "Sukanya Samriddhi Calculator"))
-QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/fd-ppf-rd-calculator/", "/gratuity-calculator/", "/income-tax-section-finder/", "/car-ownership-cost/", "/nps-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/retirement-planner/", "/full-and-final-settlement/", "/term-insurance-calculator/", "/sukanya-samriddhi-calculator/", "/swp-calculator/", "/esop-rsu-tax-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
+QUICK_TOOLS = ["/emi-calculator/", "/sip-calculator/", "/fd-ppf-rd-calculator/", "/gratuity-calculator/", "/income-tax-section-finder/", "/car-ownership-cost/", "/nps-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/retirement-planner/", "/full-and-final-settlement/", "/term-insurance-calculator/", "/sukanya-samriddhi-calculator/", "/swp-calculator/", "/esop-rsu-tax-calculator/", "/health-insurance-cover-calculator/"]   # simple calculators: shown as chips, not big cards or menu items
 MENU_EXTRA = []   # extra phone-menu tools for review builds
 NAV = [("/tools/", "Tools"), ("/guides/", "Guides"), ("/methodology/", "How we check")]
 
@@ -252,6 +260,19 @@ SEO = {
     "/guides/sukanya-samriddhi-or-sip/": ("Sukanya Samriddhi or SIP for Your Daughter?", "Sukanya Samriddhi at 8.2% tax-free vs an equity SIP: what each could give by 18 and 23, the trade-offs, and why many use both."),
     "/guides/retire-at-50-55-or-60/": ("Retire at 50, 55 or 60: What Each Costs", "Retiring at 50, 55 or 60 compared with one person's numbers: what each needs, the extra SIP required, and why early costs more."),
     "/guides/term-insurance-until-60-or-70/": ("Term Insurance Until 60 or 70? Choosing the Term", "How long term insurance should run: when your family's need ends, cover needed at 50, 55 and 58, and the cost of longer cover."),
+    "/guides/how-much-health-insurance-do-you-need/": ("How Much Health Insurance Do You Need? One Family's Numbers", "Work out your family's health cover: a bad year in a metro hospital, 10% medical inflation, base plus super top-up, employer cover and parents."),
+    "/guides/super-top-up-health-insurance/": ("Super Top-Up Health Insurance: How It Works, With a Claim", "How a super top-up works: aggregate deductible, a big claim step by step, super top-up vs top-up, and how to pick the deductible."),
+    "/guides/is-employer-health-insurance-enough/": ("Is Your Employer's Health Insurance Enough?", "What group health cover gives you, where it falls short, what happens when you leave the job, and how to use it with a personal policy."),
+    "/guides/health-insurance-for-parents/": ("Health Insurance for Parents: Separate Policy or Floater?", "Why parents need their own health policy, how much cover, buying after 60, co-payment, waiting periods and the section 126 tax break."),
+    "/guides/medical-inflation-health-cover/": ("Is ₹5 Lakh Health Cover Enough? Medical Inflation Explained", "Medical inflation in India is about 10% a year. What ₹5 lakh of health cover is worth over time, and how much cover a family needs."),
+    "/guides/health-insurance-checklist-before-you-buy/": ("Health Insurance Checklist: 8 Things to Check Before You Buy", "Room rent caps, co-payment, waiting periods, sub-limits, restoration and more: what to check in a health policy, with a worked example."),
+    "/guides/health-insurance-opd-maternity-cataract/": ("Health Insurance Exclusions: OPD, Maternity, Cataract Limits", "What health insurance doesn't fully cover: OPD, maternity waiting periods and sub-limits, cataract caps, robotic surgery and more."),
+    "/guides/return-to-office-cost/": ("Back to Office 5 Days a Week: What It Really Costs You", "Return to office worked out: commute, parking and lunches a month, hours on the road, the pay rise to break even, and ways to cut it."),
+    "/guides/cheapest-way-to-commute-to-office/": ("Cheapest Way to Commute to Office: Car, Bike, Metro or Cab", "The same 20 km office commute by car, two-wheeler, metro and cab: cost a day and a month, time door to door, and when each makes sense."),
+    "/guides/move-closer-to-office-or-commute/": ("Move Closer to Office or Keep Commuting? Rent vs Commute", "Should you move closer to office? Extra rent against a cheaper, shorter commute and the hours saved, with one person's numbers."),
+    "/guides/what-is-your-commute-time-worth/": ("What Is Your Commute Time Worth? Hours and Rupees", "Five office days add hundreds of hours a year. How to count them and put a rupee value on them to compare commutes, moves and jobs."),
+    "/guides/pay-rise-to-cover-return-to-office/": ("What Pay Rise Covers Going Back to Office?", "Return to office costs are paid from take-home, so the rise to cover them must be bigger. By tax slab, and what else to ask HR for."),
+    "/guides/meal-card-tax-free-200-per-meal/": ("Meal Card Tax Exemption: ₹200 a Meal in Both Regimes", "From April 2026 meals and meal vouchers are tax-free up to ₹200 a meal in old and new regimes. What it saves, and commuting allowances."),
     "/guides/how-much-term-insurance-do-you-need/": ("How Much Term Insurance Do You Need? A Worked Example", "Work out term insurance cover from your family's expenses, loans and goals: why the need peaks, and until what age to cover."),
     "/guides/is-employer-group-cover-enough/": ("Is Employer Group Life Cover Enough?", "Employer group life cover ends when you leave and is sized to pay, not needs. How much it covers and how to count it."),
     "/guides/ppf-after-15-years/": ("PPF After 15 Years: Extend or Close? Options Compared", "When PPF matures: close it, extend without deposits, or keep depositing. What each is worth, and the extension form to submit."),
@@ -449,7 +470,11 @@ SITUATIONS = [
       ("Check your full and final settlement", "Last salary, leave encashment, gratuity and bonus, what's tax-free, and when it's due.",
        ["/full-and-final-settlement/", "/guides/full-and-final-settlement-explained/", "/guides/leave-encashment-tax-on-resignation/", "/guides/bonus-when-you-resign/", "/guides/settlement-not-paid-on-time/"]),
       ("Move your PF and sort out the tax", "Transfer your PF instead of withdrawing it, and avoid a tax surprise from two employers in one year.",
-       ["/guides/transfer-pf-dont-withdraw/", "/guides/two-employers-one-year-tax/", "/guides/epf-withdrawal-rules-2026/", "/guides/startup-esop-tax-deferral/", "/guides/car-lease-job-change-buy-back-or-hand-back/"])]),
+       ["/guides/transfer-pf-dont-withdraw/", "/guides/two-employers-one-year-tax/", "/guides/epf-withdrawal-rules-2026/", "/guides/startup-esop-tax-deferral/", "/guides/car-lease-job-change-buy-back-or-hand-back/"])]
+     + ([("Count what the new office will cost you", "More office days, or a farther office, mean commute, parking, lunches and hours. See what they cost and the pay that covers them.",
+       ["/return-to-office-cost-calculator/", "/guides/return-to-office-cost/", "/guides/move-closer-to-office-or-commute/"])] if RT_LIVE else [])
+     + ([("Replace the health cover you lose", "Your employer's group health cover ends with the job. Check that your own policy is enough before your last day.",
+       ["/health-insurance-cover-calculator/", "/guides/is-employer-health-insurance-enough/", "/guides/how-much-health-insurance-do-you-need/"])] if HC_LIVE else [])),
     ("/buying-a-home/", "Buying a home", "Buying a home? The money decisions, in order",
      "Whether to buy at all, how much to put down, how to protect the loan and how to pay it off faster: one decision at a time.",
      "Buying a Home in India: The Money Decisions, in Order", "Rent or buy, down payment, EMI, home loan insurance, prepaying or investing and the tax breaks: the home-buying decisions, in order.",
@@ -550,7 +575,8 @@ def situation_cards():
 # Short questions for the home page buttons, one per decision tool (shown for the newest live ones)
 HOME_ASK = {"/leave-planner-2027/": "Plan my 2027 leave", "/prepay-vs-invest/": "Prepay or invest?", "/rent-vs-buy/": "Rent or buy?", "/budget-planner/": "Where does my pay go?",
             "/company-car-lease-vs-loan/": "Car lease or loan?", "/labour-codes-salary-calculator/": "Will my take-home change?", "/best-day-to-resign/": "When should I resign?",
-            "/job-offer-comparator/": "Is the new offer better?", "/fire-calculator/": "When can I retire early?", "/salary-hike-vs-inflation/": "Did my hike beat inflation?"}
+            "/job-offer-comparator/": "Is the new offer better?", "/fire-calculator/": "When can I retire early?", "/salary-hike-vs-inflation/": "Did my hike beat inflation?",
+            "/return-to-office-cost-calculator/": "What will office 5 days cost me?"}
 NEW_DAYS = 7   # tools published in the last week get a "New" label on the home page
 def _is_new(p):
     import datetime as _dt
@@ -1035,24 +1061,26 @@ RELATED = {
     "/leave-planner-2027/": ["/budget-planner/", "/sip-calculator/", "/fd-ppf-rd-calculator/"],
     "/prepay-vs-invest/": ["/emi-calculator/", "/rent-vs-buy/", "/sip-calculator/", "/retirement-planner/"],
     "/rent-vs-buy/": ["/emi-calculator/", "/prepay-vs-invest/", "/budget-planner/", "/sip-calculator/"],
-    "/budget-planner/": ["/sip-calculator/", "/term-insurance-calculator/", "/retirement-planner/", "/leave-planner-2027/"],
+    "/budget-planner/": ["/sip-calculator/", "/term-insurance-calculator/", "/health-insurance-cover-calculator/", "/return-to-office-cost-calculator/", "/retirement-planner/", "/leave-planner-2027/"],
     "/company-car-lease-vs-loan/": ["/car-ownership-cost/", "/emi-calculator/", "/income-tax-section-finder/", "/budget-planner/"],
     "/sip-calculator/": ["/retirement-planner/", "/fire-calculator/", "/fd-ppf-rd-calculator/", "/nps-calculator/", "/prepay-vs-invest/"],
     "/emi-calculator/": ["/prepay-vs-invest/", "/rent-vs-buy/", "/term-insurance-calculator/", "/budget-planner/"],
     "/fd-ppf-rd-calculator/": ["/sukanya-samriddhi-calculator/", "/swp-calculator/", "/sip-calculator/", "/nps-calculator/", "/epf-calculator/"],
     "/gratuity-calculator/": ["/full-and-final-settlement/", "/best-day-to-resign/", "/labour-codes-salary-calculator/", "/epf-calculator/", "/eps-pension-calculator/"],
     "/sukanya-samriddhi-calculator/": ["/fd-ppf-rd-calculator/", "/sip-calculator/", "/term-insurance-calculator/", "/nps-calculator/"],
-    "/term-insurance-calculator/": ["/retirement-planner/", "/emi-calculator/", "/budget-planner/", "/sukanya-samriddhi-calculator/"],
+    "/term-insurance-calculator/": ["/health-insurance-cover-calculator/", "/retirement-planner/", "/emi-calculator/", "/budget-planner/", "/sukanya-samriddhi-calculator/"],
+    "/health-insurance-cover-calculator/": ["/term-insurance-calculator/", "/budget-planner/", "/retirement-planner/", "/job-offer-comparator/"],
     "/fire-calculator/": ["/retirement-planner/", "/swp-calculator/", "/sip-calculator/", "/nps-calculator/", "/epf-calculator/"],
     "/swp-calculator/": ["/fire-calculator/", "/retirement-planner/", "/fd-ppf-rd-calculator/", "/sip-calculator/"],
     "/esop-rsu-tax-calculator/": ["/job-offer-comparator/", "/best-day-to-resign/", "/income-tax-section-finder/", "/sip-calculator/"],
     "/salary-hike-vs-inflation/": ["/job-offer-comparator/", "/budget-planner/", "/labour-codes-salary-calculator/", "/sip-calculator/"],
-    "/job-offer-comparator/": ["/salary-hike-vs-inflation/", "/esop-rsu-tax-calculator/", "/best-day-to-resign/", "/labour-codes-salary-calculator/", "/gratuity-calculator/", "/budget-planner/"],
+    "/job-offer-comparator/": ["/return-to-office-cost-calculator/", "/salary-hike-vs-inflation/", "/esop-rsu-tax-calculator/", "/best-day-to-resign/", "/labour-codes-salary-calculator/", "/gratuity-calculator/", "/budget-planner/"],
     "/best-day-to-resign/": ["/job-offer-comparator/", "/esop-rsu-tax-calculator/", "/full-and-final-settlement/", "/gratuity-calculator/", "/budget-planner/", "/labour-codes-salary-calculator/"],
+    "/return-to-office-cost-calculator/": ["/job-offer-comparator/", "/budget-planner/", "/car-ownership-cost/", "/rent-vs-buy/"],
     "/labour-codes-salary-calculator/": ["/job-offer-comparator/", "/salary-hike-vs-inflation/", "/gratuity-calculator/", "/epf-calculator/", "/budget-planner/", "/full-and-final-settlement/"],
     "/full-and-final-settlement/": ["/best-day-to-resign/", "/gratuity-calculator/", "/epf-calculator/", "/eps-pension-calculator/", "/budget-planner/"],
     "/income-tax-section-finder/": ["/nps-calculator/", "/gratuity-calculator/", "/fd-ppf-rd-calculator/", "/company-car-lease-vs-loan/"],
-    "/car-ownership-cost/": ["/company-car-lease-vs-loan/", "/emi-calculator/", "/budget-planner/"],
+    "/car-ownership-cost/": ["/company-car-lease-vs-loan/", "/emi-calculator/", "/budget-planner/", "/return-to-office-cost-calculator/"],
     "/nps-calculator/": ["/epf-calculator/", "/retirement-planner/", "/sip-calculator/", "/fd-ppf-rd-calculator/"],
     "/epf-calculator/": ["/eps-pension-calculator/", "/retirement-planner/", "/labour-codes-salary-calculator/", "/nps-calculator/"],
     "/eps-pension-calculator/": ["/epf-calculator/", "/retirement-planner/", "/full-and-final-settlement/", "/gratuity-calculator/"],
@@ -1386,6 +1414,17 @@ TIP_GUIDES = {
     ("lp", "restricted holidays"): ("/guides/restricted-holidays-2027/", "Restricted holidays 2027"),
     ("bp", "the target split"): ("/guides/monthly-budget/", "How to make a monthly budget"),
     ("fs", "leave a year"): ("/guides/full-and-final-settlement-explained/", "Full and final settlement, explained"),
+    ("rt", "office days"): ("/guides/return-to-office-cost/", "Back to office five days a week: what it costs"),
+    ("rt", "commute time"): ("/guides/what-is-your-commute-time-worth/", "What is your commute time worth?"),
+    ("rt", "food"): ("/guides/meal-card-tax-free-200-per-meal/", "Meal cards: what the ₹200 rule saves"),
+    ("rt", "pay rise"): ("/guides/pay-rise-to-cover-return-to-office/", "What pay rise covers going back to office?"),
+    ("rt", "moving closer"): ("/guides/move-closer-to-office-or-commute/", "Move closer to office or keep commuting?"),
+    ("rt", "what if"): ("/guides/cheapest-way-to-commute-to-office/", "The cheapest way to commute to office"),
+    ("hc", "cover you need"): ("/guides/how-much-health-insurance-do-you-need/", "How much health insurance do you need?"),
+    ("hc", "employer cover"): ("/guides/is-employer-health-insurance-enough/", "Is your employer's health insurance enough?"),
+    ("hc", "parents"): ("/guides/health-insurance-for-parents/", "Health insurance for parents"),
+    ("hc", "medical inflation"): ("/guides/medical-inflation-health-cover/", "Is ₹5 lakh health cover enough?"),
+    ("hc", "super top-up"): ("/guides/super-top-up-health-insurance/", "Base policy plus super top-up"),
     ("ti", "years of support"): ("/guides/how-much-term-insurance-do-you-need/", "How much term insurance do you need?"),
     ("ti", "existing cover"): ("/guides/is-employer-group-cover-enough/", "Is your employer's group cover enough?"),
     ("dp", "PPF after 15 years"): ("/guides/ppf-after-15-years/", "PPF after 15 years"),
@@ -3332,6 +3371,318 @@ SO_TIPS = [
      "Only on the rise above the value already taxed as salary. If the price fell, the loss can be set off against other capital gains this year or carried forward for 8 years."),
 ]
 
+def hc_page():
+    faqs = [
+        ("How much health insurance cover do I need?",
+         "Enough to pay for a bad year without touching your savings: one serious illness in a good private hospital near you, plus, for a family floater, another member's hospital stay in the same year. Then allow for medical costs rising about 10% a year over the years you'll keep the policy. For a family of three in a metro that's about ₹45 lakh today; the calculator works it out for your city and family."),
+        ("What is a super top-up, and how is it different from a top-up?",
+         "Both pay above a deductible. A top-up pays only when a single hospital bill crosses the deductible. A super top-up adds up all your bills in the policy year, so two ₹4 lakh stays together cross a ₹5 lakh deductible. A super top-up costs much less than raising your base cover by the same amount, which is why base plus super top-up is the cheapest way to get high cover."),
+        ("Is my employer's group health cover enough?",
+         "It helps, but it ends when you resign, retire or are laid off, and many group covers are ₹3 to ₹5 lakh shared by the family. Keep a personal base policy as well: buying one later means new waiting periods, and after 60 it's costlier and harder to get. While you're employed, many super top-ups let a claim paid by the group cover count towards the deductible."),
+        ("Should my parents be on my family floater?",
+         "Usually not. A floater's premium is set by the oldest member, and one big claim for a parent uses up the cover your children and spouse share. Buy your parents a separate policy, ideally with a super top-up, and claim the deduction for it separately under the old regime."),
+        ("What is medical inflation in India?",
+         "How fast the cost of treatment rises. Aon projects employer medical costs in India to rise 11.5% in 2026 and 10.1% in 2027, well above general inflation of about 4%. The calculator uses 10% a year by default; change it to see the effect."),
+        ("Is health insurance premium tax-deductible under the new regime?",
+         "No. Section 126 of the Income-tax Act, 2025 (old section 80D) is available only under the old regime: up to ₹25,000 for yourself, your spouse and children (₹50,000 if any of you is a senior citizen) and up to ₹25,000 for parents (₹50,000 if a parent is a senior citizen). Preventive health check-ups count within these limits, up to ₹5,000."),
+        ("Is there GST on health insurance?",
+         "Not on individual policies, including family floaters and senior citizen plans, from 22 September 2025. Group policies bought by employers still carry 18% GST."),
+        ("What else should I check apart from the cover amount?",
+         "Room rent limits (a cap can cut the whole bill in proportion), co-payment, waiting periods for existing illnesses (at most 3 years), restoration of the sum insured, the no-claim bonus, and the insurer's network hospitals near you."),
+    ]
+    def num(k, label, hint="", lid=None, money=True, unit=""):
+        idattr = f' id="{lid}"' if lid else ""
+        box = f'<div class="numin"><span>₹</span><input id="hc-{k}" type="text" inputmode="numeric" autocomplete="off"></div>' if money else f'<div class="numin"><input id="hc-{k}" type="text" inputmode="decimal" autocomplete="off"><span>{unit}</span></div>'
+        return (f'<div class="fld"><div class="row1"><label for="hc-{k}"{idattr}>{label}</label><span class="w" id="hc-{k}-w"></span></div>{box}' + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def seg(key, label, lid, opts):
+        return f'<div class="fld"><div class="row1"><span class="lbl" id="{lid}">{label}</span></div><div class="seg row" role="group" aria-labelledby="{lid}">' + "".join(f'<button type="button" data-{key}="{v}">{t}</button>' for v, t in opts) + "</div></div>"
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your money</p>
+  <h1>Health insurance cover calculator</h1>
+  <p class="lead">How much health cover your family needs for a bad year in your city, allowing for medical costs that rise about 10% a year, and the cheapest way to get there: a base policy plus a super top-up. Your employer's cover counted separately, because it ends with the job.</p>
+  {badges("Medical inflation 10% (Aon: 11.5% in 2026, 10.1% in 2027) · Section 126 of the 2025 Act")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb jox hcx">
+  <div class="card lp-setup" aria-label="Your family">
+    <h3 class="sub" style="border:0;padding-top:0;margin-top:0">Your family</h3>
+    {seg("city", "Where you'd be treated", "hc-cityLbl", [("metro", "Metro"), ("big", "Other big city"), ("small", "Smaller town")])}
+    <div class="two">{seg("adults", "Adults", "hc-adultsLbl", [("1", "1"), ("2", "2")])}{seg("kids", "Children", "hc-kidsLbl", [("0", "0"), ("1", "1"), ("2", "2"), ("3", "3")])}</div>
+    <div class="two">{num("age", "Age of the eldest adult", money=False, unit="years")}{num("years", "Cover should stay enough for", money=False, unit="years", lid="hc-yearsLbl")}</div>
+    <h3 class="sub">Hospital costs</h3>
+    {num("bill", "A serious illness, today", "Cancer, a heart operation or a long ICU stay in a good private hospital. Pre-filled for your kind of city; change it to what hospitals near you charge.", lid="hc-billLbl")}
+    <div class="two">{num("stay", "Second hospital stay", lid="hc-stayLbl")}{num("infl", "Medical inflation", money=False, unit="% a year", lid="hc-inflLbl")}</div>
+    <h3 class="sub">Cover you have</h3>
+    <div class="two">{num("base", "Your own policy", lid="hc-baseLbl")}{num("topup", "Your super top-up", lid="hc-topupLbl")}</div>
+    {num("group", "Employer group cover", "As on your HR portal. Shown as the gap while you're in this job, and as a way to pay your super top-up's deductible; not counted as your own, because it ends when you leave.", lid="hc-groupLbl")}
+    <h3 class="sub">Your parents</h3>
+    {seg("parents", "Parents to cover", "hc-parentsLbl", [("0", "None"), ("1", "One"), ("2", "Two")])}
+    <div id="hcParF"><div class="two">{num("pAge", "Age of the older parent", money=False, unit="years")}{num("pCover", "Their existing cover")}</div></div>
+    <h3 class="sub">Tax</h3>
+    {seg("regime", "Your tax regime", "hc-regimeLbl", [("new", "New"), ("old", "Old")])}
+    <div id="hcTaxF">{seg("slab", "Your slab", "hc-slabLbl", [("5", "5%"), ("20", "20%"), ("30", "30%")])}
+    <div class="two">{num("prem", "Your family's premium a year")}<div id="hcPPremF">{num("pPrem", "Parents' premium a year")}</div></div></div>
+  </div>
+
+  <div>
+    <div class="verdict" id="hcVerdict" aria-live="polite"></div>
+    <div class="verdict pv" id="hcParV" aria-live="polite" hidden></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="hcPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="hcXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="hcShare">Copy share link</button>
+    </div>
+    <p class="status" id="hcStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l" id="hc-s2Lbl">Your family needs</div><div class="n" id="hcS1">—</div><div class="h" id="hcS1h"></div></div>
+      <div class="stat"><div class="l">Short of your own cover</div><div class="n" id="hcS2">—</div><div class="h" id="hcS2h"></div></div>
+      <div class="stat"><div class="l" id="hc-s3Lbl">Short while employed</div><div class="n" id="hcS3">—</div><div class="h" id="hcS3h"></div></div>
+      <div class="stat"><div class="l">Parents need</div><div class="n" id="hcS4">—</div><div class="h" id="hcS4h"></div></div>
+    </div>
+    <p class="g-callout" id="hcRule"></p>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px" id="hc-chartLbl">What a bad year costs, by your age</h2>
+      <div id="hcChart"></div>
+      <p class="hint" style="margin:6px 0 0">Blue: a bad year's bills, rising with medical inflation. Amber: your own cover. Dashed amber: with your employer's cover, while you're in the job. Where blue is above amber, you'd pay the difference yourself.</p>
+    </div>
+    <h2 class="list-h" id="hc-whatLbl">Cover you'd need if</h2>
+    <p class="hint" style="margin:-4px 0 8px">Each box changes one thing and shows the cover you'd need instead.</p>
+    <div class="sens" id="hcSens"></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Year by year</h2>
+  <div class="tbl-wrap calc-wrap" id="hcTbl"></div>
+  <h2>Before you buy</h2>
+  <div class="prose"><ol class="g-check">
+    <li><strong>No room rent cap,</strong> or one that fits a single private room near you: a cap can cut the whole bill in proportion.</li>
+    <li><strong>No co-payment</strong> on your own policy; for parents, know what share you'd pay.</li>
+    <li><strong>Waiting periods:</strong> existing illnesses are covered after at most 3 years, so buy early and don't let the policy lapse.</li>
+    <li><strong>A super top-up with an aggregate deductible</strong> (it adds up all bills in the year), set to your base cover.</li>
+    <li><strong>Network hospitals</strong> near you for cashless treatment, and restoration of the sum insured.</li>
+    <li><strong>Disclose everything</strong> on the form: after 5 years of continuous cover, a claim can't be refused for non-disclosure except fraud.</li>
+  </ol></div>
+</div></section>
+{related("/health-insurance-cover-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/how-much-health-insurance-do-you-need/">How much health insurance do you need? One family's numbers</a>. Before you buy, read <a href="/guides/health-insurance-checklist-before-you-buy/">What to check before you buy</a> and <a href="/guides/health-insurance-opd-maternity-cataract/">What health insurance doesn't fully cover: OPD, maternity and cataract</a>.</p>
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>A bad year:</strong> one serious illness in a good private hospital plus, if more than one person shares the cover, one more ordinary hospital stay in the same year. Defaults: ₹15 lakh and ₹1 lakh in a metro, ₹10 lakh and ₹75,000 in other big cities, ₹7 lakh and ₹50,000 in smaller towns.</li>
+    <li><strong>Over time:</strong> those bills grow at the medical inflation you set, for the years you want the cover to stay enough. Cover you need = that amount, rounded up to the next ₹5 lakh.</li>
+    <li><strong>The split:</strong> keep your own base policy (or ₹10 lakh in a big city, ₹5 lakh in a smaller town, if you don't have one) and add a super top-up, in a standard size, with a deductible equal to the base.</li>
+    <li><strong>Employer cover</strong> is shown alongside, not counted as your own, because it stops when you leave the job.</li>
+    <li><strong>Parents</strong> are worked out the same way as a separate policy.</li>
+    <li><strong>Tax:</strong> old regime only, under section 126 (old 80D), at your slab plus 4% cess. No premium estimates: they depend on age, health, city and insurer.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Medical inflation: Aon Global Medical Trend Rates (India 11.5% for 2026, 10.1% projected for 2027). Hospital costs: published private-hospital ranges for cancer treatment (₹5 lakh to over ₹25 lakh) and bypass surgery (₹3 lakh to ₹6 lakh in metros); average health insurance claim about ₹81,000 in 2024-25 (Policybazaar). Income-tax Act, 2025, section 126 (incometaxindia.gov.in). GST exemption for individual health insurance from 22 September 2025 (Department of Financial Services). IRDAI: waiting periods of at most 36 months; moratorium after 5 years of continuous cover. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="hcBar" hidden><span id="hcBarT"></span><button type="button" class="btn-sm pri" id="hcBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "Health Insurance Cover Calculator", "url": SITE + "/health-insurance-cover-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "How much health insurance cover an Indian family needs, with medical inflation, a base policy plus super top-up, employer cover and parents.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "hc", HC_TIPS)
+    return layout("/health-insurance-cover-calculator/", "Health Insurance Cover Calculator: How Much Do You Need?",
+                  "How much health cover your family needs in your city, with 10% medical inflation, base plus super top-up, employer cover and parents.",
+                  body, crumbs=[("/", "Home"), ("/health-insurance-cover-calculator/", "Health Insurance Cover Calculator")], graph=graph,
+                  css=("tool.css",), js=("health.js",), og="og-health-insurance-cover-calculator.png", og_title="How much health cover does your family need?")
+
+HC_TIPS = [
+    ("""<span class="lbl" id="hc-cityLbl">Where you'd be treated</span>""", "city",
+     "Hospital costs differ a lot by city. Metro: Mumbai, Delhi NCR, Bengaluru, Chennai, Hyderabad, Pune, Kolkata, Ahmedabad. Pick where you'd go for serious treatment, not just where you live."),
+    ("""<label for="hc-years" id="hc-yearsLbl">Cover should stay enough for</label>""", "years",
+     "Cover bought today shrinks in real terms as costs rise. Raising it later means fresh checks and waiting periods, and it gets harder with age, so buy for the next 10 years or so."),
+    ("""<label for="hc-bill" id="hc-billLbl">A serious illness, today</label>""", "a serious illness",
+     "The kind of bill that wipes out savings: cancer treatment (₹5 lakh to over ₹25 lakh in private hospitals), a bypass (₹3 to ₹6 lakh in a metro) or a long ICU stay. The default is a middle figure for your kind of city."),
+    ("""<label for="hc-stay" id="hc-stayLbl">Second hospital stay</label>""", "second hospital stay",
+     "On a family floater, everyone shares one sum insured, so another member's admission in the same year uses it too. The average health insurance claim was about ₹81,000 in 2024-25, higher in metros."),
+    ("""<label for="hc-infl" id="hc-inflLbl">Medical inflation</label>""", "medical inflation",
+     "How fast treatment costs rise. Aon puts India at 11.5% for 2026 and 10.1% for 2027, more than twice general inflation."),
+    ("""<label for="hc-group" id="hc-groupLbl">Employer group cover</label>""", "employer cover",
+     "Counted separately because it ends when you resign, retire or are laid off. While you're employed, many super top-ups count claims it pays towards their deductible."),
+    ("""<label for="hc-topup" id="hc-topupLbl">Your super top-up</label>""", "super top-up",
+     "A second policy that pays once your total hospital bills in a policy year cross its deductible. Enter its sum insured, not the deductible. It's the cheapest way to raise your cover."),
+    ("""<span class="lbl" id="hc-parentsLbl">Parents to cover</span>""", "parents",
+     "Worked out as a separate policy. Keeping parents off your family floater keeps its premium lower and its cover for your spouse and children."),
+    ("""<span class="lbl" id="hc-regimeLbl">Your tax regime</span>""", "tax regime",
+     "Health insurance premiums are deductible under section 126 of the 2025 Act (old 80D) only in the old regime: up to ₹25,000 for your family and ₹25,000 for parents, ₹50,000 each if senior citizens."),
+    ("""<div class="l" id="hc-s2Lbl">Your family needs</div>""", "cover you need",
+     "For you, your spouse and children, not your parents: a bad year's bills grown at medical inflation for the years you chose, rounded up to the next ₹5 lakh. It's the total of your base policy and super top-up."),
+    ("""<div class="l" id="hc-s3Lbl">Short while employed</div>""", "short while employed",
+     "The gap if you count your employer's group cover too. It's the true gap only while you stay in this job: group cover stops on your last day, and when you retire."),
+    ("""<h2 class="list-h" id="hc-whatLbl">Cover you'd need if</h2>""", "what if",
+     "Each box changes one assumption and shows the total cover you'd need then. Small changes in inflation make a big difference over 10 years."),
+]
+
+def rt_page():
+    faqs = [
+        ("How much does going to office five days a week cost?",
+         "It depends on distance and how you travel. Driving 20 km each way in a city like Bengaluru, with parking and an office lunch, costs about ₹650 a day. Going from 2 to 5 days a week adds about ₹7,700 a month, plus 27 hours on the road. By metro the same switch costs about a third as much. Enter your own commute to see yours."),
+        ("How is the cost of an office day worked out?",
+         "Fuel for the round trip (distance ÷ mileage × fuel price), wear and tear (servicing, tyres and depreciation that grow with distance) and parking for a car or two-wheeler; fares for metro, bus, cab or auto. Plus what you spend on food and coffee at office that you wouldn't at home."),
+        ("Should I put a value on my commute time?",
+         "It helps you compare options, but it isn't money in your pocket. The calculator can value commute hours at half or all of your take-home per working hour, or not at all. Use it to compare a long cheap commute with a short dear one, or to decide whether moving closer is worth the higher rent."),
+        ("What pay rise would cover the extra cost?",
+         "Commuting is paid from take-home, but a pay rise is taxed. So the rise must be larger than the cost: at the 30% slab, ₹1 of extra cost needs about ₹1.45 of extra pay. The calculator shows the rise needed to cover the money, not the time."),
+        ("Is it worth moving closer to office?",
+         "Compare the extra rent with what you save on travel, and then the hours you get back. Moving often costs more in money but saves hours every week; whether that's worth it is your call. The calculator shows both and how long the moving cost takes to earn back."),
+        ("Can I claim commuting costs or a transport allowance in my tax?",
+         "No. Commuting between home and office isn't deductible, and from April 2026 a transport allowance is exempt only for employees with specified disabilities. Meal cards are different: up to ₹200 a meal is tax-free in both regimes, so asking HR to move part of your pay to a meal card can save tax."),
+        ("Do companies in India pay for commuting?",
+         "Some run shuttle buses or cabs, especially for late shifts, some pay a travel allowance or reimburse fuel, and many offer meal cards or subsidised canteens. Enter them under company cab or bus and what your employer pays: the calculator takes them off the cost, counting a travel allowance after tax."),
+        ("Why 46 working weeks?",
+         "52 weeks less about 4 weeks of leave and 2 weeks of public holidays. Change your office days to see the effect of a different pattern."),
+    ]
+    def num(k, label, hint="", lid=None, money=True, unit=""):
+        idattr = f' id="{lid}"' if lid else ""
+        box = f'<div class="numin"><span>₹</span><input id="rt-{k}" type="text" inputmode="numeric" autocomplete="off"></div>' if money else f'<div class="numin"><input id="rt-{k}" type="text" inputmode="decimal" autocomplete="off"><span>{unit}</span></div>'
+        return (f'<div class="fld"><div class="row1"><label for="rt-{k}"{idattr}>{label}</label><span class="w" id="rt-{k}-w"></span></div>{box}' + (f'<p class="hint">{hint}</p>' if hint else "") + "</div>")
+    def seg(key, label, lid, opts):
+        return f'<div class="fld"><div class="row1"><span class="lbl" id="{lid}">{label}</span></div><div class="seg row" role="group" aria-labelledby="{lid}">' + "".join(f'<button type="button" data-{key}="{v}">{t}</button>' for v, t in opts) + "</div></div>"
+    days = [(str(i), str(i)) for i in range(0, 7)]
+    body = f"""<section class="tool-hero"><div class="wrap">
+  <p class="eyebrow">Your pay</p>
+  <h1>Back to office: what it costs you</h1>
+  <p class="lead">Office from two days a week to five? See what the extra commute, parking and office lunches cost each month, the hours you'll spend on the road, the pay rise that would cover it, and whether moving closer is worth the rent.</p>
+  {badges("Fuel price Bengaluru, November 2026 · TomTom Traffic Index 2025 · Income-tax Rules, 2026")}
+</div></section>
+
+<section style="padding-top:0"><div class="wrap lp rb jox rtx">
+  <div class="card lp-setup" aria-label="Your commute">
+    <h3 class="sub" style="border:0;padding-top:0;margin-top:0">Office days</h3>
+    {seg("daysNow", "Office days a week now", "rt-daysNowLbl", days)}
+    {seg("daysNew", "Office days a week, new policy", "rt-daysNewLbl", days)}
+    <h3 class="sub">Your commute</h3>
+    {seg("ctype", "Company cab or bus", "rt-ctypeLbl", [("none", "None"), ("free", "Free"), ("paid", "Partly paid")])}
+    <div id="rtCoF"><div class="two">{num("cmins", "Commute time, one way", money=False, unit="min")}<div id="rtShareF">{num("cshare", "Your share, a month")}</div></div></div>
+    <div id="rtOwnF">{seg("mode", "How you get there", "rt-modeLbl", [("car", "Car"), ("bike", "Two-wheeler"), ("metro", "Metro or bus"), ("cab", "Cab or auto")])}
+    <div class="two">{num("km", "Distance, one way", money=False, unit="km")}{num("mins", "Time, one way", money=False, unit="min", lid="rt-minsLbl")}</div></div>
+    <div id="rtFuelF"><div class="two">{num("mileage", "Mileage", money=False, unit="km/litre")}{num("fuel", "Fuel price, a litre", lid="rt-fuelLbl")}</div>
+    <div class="two">{num("wear", "Wear and tear", money=False, unit="₹/km", lid="rt-wearLbl")}{num("park", "Parking, a day")}</div></div>
+    <div id="rtFareF"><div class="fld"><div class="row1"><label for="rt-fare" id="rt-fareLbl"><span id="rt-fareLblT">Fare, one way</span></label><span class="w" id="rt-fare-w"></span></div><div class="numin"><span>₹</span><input id="rt-fare" type="text" inputmode="numeric" autocomplete="off"></div></div></div>
+    {num("food", "Food and coffee at office, a day", "What you spend on office days that you wouldn't at home.", lid="rt-foodLbl")}
+    <h3 class="sub">What your employer pays</h3>
+    <div class="two">{num("allow", "Travel allowance or reimbursement, a month", lid="rt-allowLbl")}{num("mealPaid", "Food it pays for, a day", "Meal card, free lunch or canteen subsidy.", lid="rt-mealLbl")}</div>
+    <h3 class="sub">Your pay</h3>
+    {num("takehome", "Take-home, a month", lid="rt-takehomeLbl")}
+    {seg("valueTime", "Value your commute time at", "rt-valueTimeLbl", [("0", "Not at all"), ("50", "Half your pay"), ("100", "Your pay")])}
+    {seg("slab", "Your tax slab", "rt-slabLbl", [("5", "5%"), ("20", "20%"), ("30", "30%")])}
+    <div class="two">{num("wfhAllow", "WFH allowance you lose", lid="rt-wfhLbl")}{num("other", "Other extra costs, a month", "Childcare, help at home.")}</div>
+    <h3 class="sub">Or move closer?</h3>
+    <div class="two">{num("rentNow", "Rent now")}{num("rentNear", "Rent closer to office", lid="rt-rentNearLbl")}</div>
+    <div class="two">{num("nearKm", "Distance from there", money=False, unit="km")}{num("nearMins", "Time from there", money=False, unit="min")}</div>
+    {num("moveCost", "One-time moving cost", "Packers, deposit difference, brokerage.")}
+  </div>
+
+  <div>
+    <div class="verdict" id="rtVerdict" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" class="btn-sm pri" id="rtPdf">Download PDF report</button>
+      <button type="button" class="btn-sm" id="rtXlsx">Download Excel</button>
+      <button type="button" class="btn-sm btn-ghost" id="rtShare">Copy share link</button>
+    </div>
+    <p class="status" id="rtStatus" role="status"></p>
+    <div class="stats">
+      <div class="stat"><div class="l">Extra a month</div><div class="n" id="rtS1">—</div><div class="h" id="rtS1h"></div></div>
+      <div class="stat"><div class="l" id="rt-s2Lbl">Extra hours a month</div><div class="n" id="rtS2">—</div><div class="h" id="rtS2h"></div></div>
+      <div class="stat"><div class="l" id="rt-s3Lbl">Pay rise to break even</div><div class="n" id="rtS3">—</div><div class="h" id="rtS3h"></div></div>
+      <div class="stat"><div class="l" id="rt-s4Lbl">Moving closer</div><div class="n" id="rtS4">—</div><div class="h" id="rtS4h"></div></div>
+    </div>
+    <p class="g-callout" id="rtRule"></p>
+    <div class="chartbox">
+      <h2 class="list-h" style="margin:0 0 4px" id="rt-chartLbl">What going in costs, by office days a week</h2>
+      <div id="rtChart"></div>
+      <p class="hint" style="margin:6px 0 0">Blue: money a month. Amber on top: your commute time, valued as you chose. Bold: the days you go now and under the new policy.</p>
+    </div>
+    <h2 class="list-h" id="rt-whatLbl">Extra a month if</h2>
+    <p class="hint" style="margin:-4px 0 8px">Each box changes one thing and shows the extra money a month instead.</p>
+    <div class="sens" id="rtSens"></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <h2>Same trip, other ways</h2>
+  <p class="hint">Same distance, with food included; your own figures for your mode, typical ones for the others. Travel time differs by mode: check yours.</p>
+  <div class="mlist" id="rtModes"></div>
+  <h2>Before you accept the new policy</h2>
+  <div class="prose"><ol class="g-check">
+    <li><strong>Ask about transport:</strong> a company shuttle or cab can cut the cost to near zero. Choose it above to see the difference.</li>
+    <li><strong>Ask for a meal card:</strong> up to ₹200 a meal is tax-free in both regimes from April 2026, so moving part of your pay to one raises take-home.</li>
+    <li><strong>Check the WFH allowance:</strong> if it stops, add it to the cost.</li>
+    <li><strong>Try another way in:</strong> metro plus a short auto, or a two-wheeler, often costs a third of driving.</li>
+    <li><strong>Count the hours:</strong> if the time hurts more than the money, compare moving closer below, or a job nearer home with the <a href="/job-offer-comparator/">job offer comparator</a>.</li>
+  </ol></div>
+</div></section>
+{related("/return-to-office-cost-calculator/")}
+<div class="wrap aff-slot" aria-label="Sponsored"></div>
+
+<section style="padding-top:0"><div class="wrap prose">
+  <p class="g-callout"><b>See it worked through:</b> <a href="/guides/return-to-office-cost/">Back to office five days a week: what it really costs</a>. Then compare <a href="/guides/cheapest-way-to-commute-to-office/">car, two-wheeler, metro or cab</a>, and <a href="/guides/move-closer-to-office-or-commute/">moving closer</a>.</p>
+  <h2>How the calculator works</h2>
+  <ul>
+    <li><strong>An office day:</strong> for a car or two-wheeler, fuel for the round trip (distance ÷ mileage × fuel price), wear and tear for the distance, and parking; for metro, bus, cab or auto, two fares. Plus food and coffee you buy only on office days.</li>
+    <li><strong>A month:</strong> office days a week × 46 working weeks (52 less about 4 weeks of leave and 2 of holidays) ÷ 12. The extra is the new pattern less the old one, plus any work-from-home allowance you lose and other costs you enter.</li>
+    <li><strong>What your employer pays:</strong> with a company cab or bus, your travel costs nothing or your monthly share, at its own travel time. A travel allowance is taxable for most employees, so it's counted after tax at your slab. Food your employer pays for comes off your office-day food cost.</li>
+    <li><strong>Your time:</strong> two commutes a day; valued, if you choose, at half or all of your take-home per working hour (take-home ÷ 198 hours: 22 days × 9 hours).</li>
+    <li><strong>Pay rise to break even:</strong> the extra money a year ÷ (1 − your slab × 1.04), because a rise is taxed and commuting is paid from take-home.</li>
+    <li><strong>Moving closer:</strong> the new rent and shorter commute against today's rent and the new-policy commute, plus the hours saved and how long the moving cost takes to earn back.</li>
+  </ul>
+  <h2 id="sources">Sources</h2>
+  <p>Fuel: petrol in Bengaluru about ₹111 a litre in November 2026 (₹102.12 in Delhi); change it to your city's price. Traffic: TomTom Traffic Index 2025 (Bengaluru: 36 minutes 9 seconds for 10 km on average, 168 hours a year lost in rush hour). Tax: Income-tax Rules, 2026, Rule 15 (meals up to ₹200 a meal tax-free in both regimes) and Rule 280 (transport allowance exempt only for employees with specified disabilities). Wear and tear defaults (₹3 a km for a car, ₹1 for a two-wheeler) are rough figures for servicing, tyres and depreciation. Read <a href="/methodology/">how we check our numbers</a>.</p>
+  <h2>Frequently asked questions</h2>
+  {faq_html(faqs)}
+</div></section>
+<div class="rb-bar" id="rtBar" hidden><span id="rtBarT"></span><button type="button" class="btn-sm pri" id="rtBarBtn">See the result</button></div>
+"""
+    graph = [{"@type": "WebApplication", "name": "Back to Office Cost Calculator", "url": SITE + "/return-to-office-cost-calculator/", "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "isAccessibleForFree": True, "inLanguage": "en-IN",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "dateModified": VERIFIED,
+              "description": "What more office days cost an Indian employee: commute, parking, food, time, the pay rise to break even, and moving closer.", "publisher": {"@id": SITE + "/#org"}},
+             faq_ld(faqs)]
+    body = add_tips(body, "rt", RT_TIPS)
+    return layout("/return-to-office-cost-calculator/", "Return to Office Cost Calculator: What 5 Days Costs You",
+                  "Office 5 days a week? What the commute, parking and lunches cost a month, hours on the road, the pay rise to break even, and moving closer.",
+                  body, crumbs=[("/", "Home"), ("/return-to-office-cost-calculator/", "Back to Office Cost Calculator")], graph=graph,
+                  css=("tool.css",), js=("rto.js",), og="og-return-to-office-cost-calculator.png", og_title="What does going back to office cost you?")
+
+RT_TIPS = [
+    ("""<span class="lbl" id="rt-daysNewLbl">Office days a week, new policy</span>""", "office days",
+     "The days a week your company now wants you in. Monthly cost uses 46 working weeks a year, after leave and holidays."),
+    ("""<label for="rt-mins" id="rt-minsLbl">Time, one way</label>""", "commute time",
+     "Door to door at the time you travel. In Bengaluru 10 km takes about 36 minutes on average and longer at rush hour (TomTom, 2025)."),
+    ("""<span class="lbl" id="rt-ctypeLbl">Company cab or bus</span>""", "company transport",
+     "If your office runs a shuttle or cab, your travel costs nothing or a fixed monthly share. Choose Free or Partly paid and enter its time door to door; your own car or fare then isn't counted."),
+    ("""<label for="rt-allow" id="rt-allowLbl">Travel allowance or reimbursement, a month</label>""", "travel allowance",
+     "Fuel, cab or travel money your employer pays for commuting. It's taxed as salary for most employees, so the calculator counts it after tax at your slab."),
+    ("""<label for="rt-mealPaid" id="rt-mealLbl">Food it pays for, a day</label>""", "food paid",
+     "Food your employer pays for on office days: a meal card, free lunch or canteen subsidy. It's taken off your food and coffee cost. Meals up to ₹200 each are tax-free from April 2026."),
+    ("""<label for="rt-fuel" id="rt-fuelLbl">Fuel price, a litre</label>""", "fuel price",
+     "Petrol was about ₹111 a litre in Bengaluru and ₹102 in Delhi in November 2026. Use your city's price."),
+    ("""<label for="rt-wear" id="rt-wearLbl">Wear and tear</label>""", "wear and tear",
+     "Driving more means more servicing, tyres and a lower resale price. ₹3 a km for a car and ₹1 for a two-wheeler are rough figures; set 0 to count fuel only."),
+    ("""<label for="rt-food" id="rt-foodLbl">Food and coffee at office, a day</label>""", "food",
+     "Lunch, tea and snacks you'd make at home on a work-from-home day. A meal card from your employer can make up to ₹200 a meal tax-free."),
+    ("""<span class="lbl" id="rt-valueTimeLbl">Value your commute time at</span>""", "value of time",
+     "Time on the road isn't money in your pocket, but it's not free either. Valuing it helps compare a cheap long commute with a dear short one, or moving closer."),
+    ("""<label for="rt-wfhAllow" id="rt-wfhLbl">WFH allowance you lose</label>""", "WFH allowance",
+     "Some companies paid an internet or home-office allowance while you worked from home and stop it when you're back full time. Enter the monthly amount you lose."),
+    ("""<div class="l" id="rt-s3Lbl">Pay rise to break even</div>""", "pay rise",
+     "Commuting is paid from take-home, but a raise is taxed. At the 30% slab, each ₹1 of cost needs about ₹1.45 of extra pay. This covers the money, not the time."),
+    ("""<div class="l" id="rt-s4Lbl">Moving closer</div>""", "moving closer",
+     "Rent closer to office plus the shorter commute, against today's rent and the new commute. Plus means moving costs more a month in money; the hours saved are in the note."),
+    ("""<h2 class="list-h" id="rt-whatLbl">Extra a month if</h2>""", "what if",
+     "Each box changes one thing, like fewer office days or the metro instead of driving, and shows the extra money a month then."),
+]
+
 def hv_page():
     faqs = [
         ("How do I know if my salary hike beat inflation?",
@@ -4734,16 +5085,16 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-19", "guide-eps-family", "Your investments"),
     ("/guides/budgeting-with-a-bonus/", "How to budget when part of your pay is a bonus",
      "Budget on fixed pay, know what a bonus is worth after tax, and a simple plan for using it: goals, investing and something to enjoy.",
-     "2026-11-19", "guide-bonus-budget", "Your money"),
+     "2026-11-21", "guide-bonus-budget", "Your money"),
     ("/guides/prepay-with-bonus-or-invest/", "Should you prepay your home loan with your bonus, or invest it?",
      "A ₹3 lakh bonus against a ₹40 lakh home loan: prepay or invest, once or every year, the return that decides it, and how to choose.",
-     "2026-11-19", "guide-prepay-bonus", "Your home"),
+     "2026-11-21", "guide-prepay-bonus", "Your home"),
     ("/guides/laddering-term-insurance/", "Should you split your term insurance into two policies?",
      "Two term policies ending at different ages: when laddering saves on premiums, why the bigger policy must run longer, and cover past 60.",
      "2026-11-19", "guide-ladder", "Your money"),
     ("/guides/rent-or-buy-by-age-and-moving-cities/", "Rent or buy a home? Why how long you'll stay matters more than your age",
      "Whether buying beats renting depends on how long you'll stay: how fast prices must rise for buying to win, what that means in your 20s, 30s and 40s, and if you might move.",
-     "2026-11-17", "guide-rent-age", "Your home"),
+     "2026-11-21", "guide-rent-age", "Your home"),
     ("/guides/keep-or-sell-your-home/", "Keep or sell your home when you move: what each costs",
      "Moving cities with a home and a loan: selling vs keeping and renting it out, 10 years later, with tax on each choice and section 82 reinvestment.",
      "2026-11-17", "guide-keep-sell", "Your home"),
@@ -4752,7 +5103,7 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-17", "guide-dual-income", "Your money"),
     ("/guides/car-lease-20-percent-slab-and-ev/", "Is a company car lease worth it in the 20% tax slab?",
      "Company car lease vs loan by tax slab (30%, 20%, 5%), the break-even rental, and why an EV lease saves more under Rule 15.",
-     "2026-11-17", "guide-lease-slab", "Your car"),
+     "2026-11-21", "guide-lease-slab", "Your car"),
     ("/guides/car-lease-job-change-buy-back-or-hand-back/", "Changing jobs with a company car lease? Here's what happens to the car",
      "What happens to your company car lease when you change jobs: closure charges, whether to buy the car or hand it back, and the same choice when a lease ends.",
      "2026-11-17", "guide-lease-exit", "Your car"),
@@ -4764,7 +5115,7 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-17", "guide-ssy-revive", "Your investments"),
     ("/guides/first-salary-budget/", "Your first salary: how to set up a budget",
      "A first-salary budget on ₹40,000 a month: the 50/30/20 split, what to do in your first three months, common traps, and tax on your first salary.",
-     "2026-11-17", "guide-first-budget", "Your money"),
+     "2026-11-21", "guide-first-budget", "Your money"),
     ("/guides/home-loan-insurance-vs-term-plan/", "Home loan insurance vs a term plan: do you need the bank's policy?",
      "Home loan insurance isn't compulsory. What a single premium added to your loan really costs, reducing vs level cover, and why a term plan often works better.",
      "2026-11-19", "guide-hli", "Your money"),
@@ -4800,7 +5151,7 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-19", "guide-term-tax", "Your money"),
     ("/guides/sukanya-samriddhi-at-maturity/", "Sukanya Samriddhi at maturity: what to do with the money",
      "When a Sukanya Samriddhi account pays out, why it earns nothing after maturity, the early options at 18, and where to put the money next.",
-     "2026-11-15", "guide-ssy-maturity", "Your investments"),
+     "2026-11-21", "guide-ssy-maturity", "Your investments"),
     ("/guides/floating-or-fixed-home-loan/", "Floating or fixed-rate home loan?",
      "Floating vs fixed home loan on ₹50 lakh: four rate scenarios, the rise it takes for fixed to win, what fixed usually means, and your rights.",
      "2026-11-15", "guide-float-fixed", "Your loans"),
@@ -4845,13 +5196,52 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-15", "guide-ev-1000", "Your car"),
     ("/guides/sukanya-samriddhi-or-sip/", "Sukanya Samriddhi or a mutual fund SIP for your daughter?",
      "Sukanya Samriddhi at 8.2% tax-free against an equity SIP: what each could give by 18 and 23, the trade-offs, and using both.",
-     "2026-11-15", "guide-ssy-sip", "Your investments"),
+     "2026-11-21", "guide-ssy-sip", "Your investments"),
     ("/guides/retire-at-50-55-or-60/", "Retire at 50, 55 or 60: what each costs",
      "What retiring at 50, 55 or 60 would need, worked through one person's numbers: the extra SIP for each, and why early retirement costs so much.",
-     "2026-11-15", "guide-retire-age", "Your investments"),
+     "2026-11-21", "guide-retire-age", "Your investments"),
     ("/guides/term-insurance-until-60-or-70/", "Term cover until 60 or 70? Choosing the policy term",
      "How long your term insurance should run: when your family's need ends, what cover is needed at 50, 55 and 58, and the cost of longer cover.",
      "2026-11-19", "guide-term-until", "Your money"),
+    ("/guides/how-much-health-insurance-do-you-need/", "How much health insurance do you need? One family's numbers",
+     "How to size your family's health cover from what a bad year in hospital costs, with medical inflation, a super top-up, employer cover and parents.",
+     "2026-11-20", "guide-hc-main", "Your money"),
+    ("/guides/super-top-up-health-insurance/", "Base policy plus super top-up: the cheapest way to high health cover",
+     "How a super top-up and its aggregate deductible work, one big claim step by step, and how it differs from a plain top-up.",
+     "2026-11-20", "guide-hc-supertop", "Your money"),
+    ("/guides/is-employer-health-insurance-enough/", "Is your employer's health insurance enough?",
+     "What group cover gives you, why it isn't enough on its own, what happens when you leave, and how to use it with your own policy.",
+     "2026-11-20", "guide-hc-employer", "Your money"),
+    ("/guides/health-insurance-for-parents/", "Health insurance for parents: their own policy or your family floater?",
+     "Why parents are better on a separate policy, how much cover they need, buying after 60, and the extra tax deduction.",
+     "2026-11-20", "guide-hc-parents", "Your money"),
+    ("/guides/medical-inflation-health-cover/", "Is ₹5 lakh of health cover enough? What medical inflation does to it",
+     "Medical costs rise about 10% a year. What that does to a fixed cover, and how much a family needs to keep up.",
+     "2026-11-20", "guide-hc-inflation", "Your money"),
+    ("/guides/health-insurance-checklist-before-you-buy/", "What to check before you buy health insurance",
+     "Eight clauses that decide how much a claim pays, with a room rent example and the waiting periods in one table.",
+     "2026-11-20", "guide-hc-checklist", "Your money"),
+    ("/guides/health-insurance-opd-maternity-cataract/", "What health insurance doesn't fully cover: OPD, maternity and cataract",
+     "Doctor visits and medicines, maternity waiting periods and limits, cataract caps, robotic surgery and other limits to check.",
+     "2026-11-20", "guide-hc-exclusions", "Your money"),
+    ("/guides/return-to-office-cost/", "Back to office five days a week: what it really costs you",
+     "One commute worked out: fuel, parking and lunches, the hours on the road, the pay rise that would cover it, and ways to cut it.",
+     "2026-11-20", "guide-rt-main", "Your pay"),
+    ("/guides/cheapest-way-to-commute-to-office/", "Car, two-wheeler, metro or cab: the cheapest way to commute to office",
+     "The same 20 km trip four ways: cost a day and a month, time door to door, and when the car still makes sense.",
+     "2026-11-20", "guide-rt-modes", "Your pay"),
+    ("/guides/move-closer-to-office-or-commute/", "Move closer to office or keep commuting?",
+     "More rent against a cheaper, shorter commute and the hours you get back, with the moving cost and how long it takes to earn back.",
+     "2026-11-20", "guide-rt-move", "Your pay"),
+    ("/guides/what-is-your-commute-time-worth/", "What is your commute time worth?",
+     "How many hours five office days add, three ways to value them, and when putting a price on time helps you decide.",
+     "2026-11-20", "guide-rt-time", "Your pay"),
+    ("/guides/pay-rise-to-cover-return-to-office/", "What pay rise would cover going back to office?",
+     "Why the rise must be bigger than the cost, the number at each tax slab, and cheaper things to ask HR for first.",
+     "2026-11-20", "guide-rt-raise", "Your pay"),
+    ("/guides/meal-card-tax-free-200-per-meal/", "Meal cards are tax-free up to ₹200 a meal: what that saves you",
+     "The 2026 rule in both tax regimes, what moving pay to a meal card saves, and how commuting allowances are taxed.",
+     "2026-11-20", "guide-rt-meal", "Your tax"),
     ("/guides/how-much-term-insurance-do-you-need/", "How much term insurance do you need? One family's numbers",
      "How to work out your term cover from your family's expenses, loans and goals, why the need peaks above today's, and until what age to cover.",
      "2026-11-15", "guide-term-main", "Your money"),
@@ -4875,13 +5265,13 @@ GUIDES = [  # (path, title, short description, published, image base name, secti
      "2026-11-15", "guide-sip-lower", "Your investments"),
     ("/guides/low-basic-salary-gratuity/", "Low basic salary? How the 50% wage rule raises your gratuity",
      "Under the labour codes, gratuity wages are at least half your total pay. What that adds when your basic is low, with examples.",
-     "2026-11-15", "guide-low-basic", "Your pay"),
+     "2026-11-21", "guide-low-basic", "Your pay"),
     ("/guides/cumulative-fd-or-monthly-payout/", "Cumulative FD or monthly payout: which earns more?",
      "₹10 lakh for 5 years as a cumulative FD, with quarterly payouts or monthly payouts: interest, tax, and which to choose.",
-     "2026-11-15", "guide-fd-payout", "Your investments"),
+     "2026-11-21", "guide-fd-payout", "Your investments"),
     ("/guides/eps-pension-50-58-or-60/", "EPS pension at 50, 58 or 60: when should you start it?",
      "Early pension from 50 is 4% less a year; deferring to 60 adds 4% a year. What each gives, and the age after which waiting pays.",
-     "2026-11-15", "guide-eps-age", "Your investments"),
+     "2026-11-21", "guide-eps-age", "Your investments"),
     ("/guides/full-and-final-settlement-explained/", "Full and final settlement: what it should include, with one person's numbers",
      "What your full and final settlement includes: last salary, leave encashment, gratuity, notice recovery and tax, and the 2-working-day rule.",
      "2026-11-15", "guide-fnf-main", "Your pay"),
@@ -6091,6 +6481,7 @@ def _catalog():
                       ("/ctc-to-in-hand/", "CTC to In-hand", "What actually reaches your account each month, under the old and new regimes.", False, "After the 1 Feb 2027 Budget", []),
                       ("/salary-hike-vs-inflation/", "Did Your Hike Beat Inflation?", "Your raise against official CPI, in today's money and after tax, or against your own rent, fees and EMIs.", L("/salary-hike-vs-inflation/"), "Coming soon", ["/guides/did-your-hike-beat-inflation/", "/guides/real-salary-hike-after-inflation/", "/guides/personal-inflation-rate/", "/guides/hike-take-home-after-tax/", "/guides/what-hike-to-ask-for/", "/guides/real-pay-growth-since-you-started/"]),
                       ("/salary-hike-calculator/", "Salary Hike Calculator", "What your hike really adds to your monthly take-home after tax and PF, and how two offers compare.", False, "After the 1 Feb 2027 Budget", []),
+                      ("/return-to-office-cost-calculator/", "Back to Office: What It Costs You", "Office five days a week? The commute, parking and lunches a month, hours on the road, the pay rise to break even, and moving closer.", L("/return-to-office-cost-calculator/"), "Coming soon", ["/guides/return-to-office-cost/", "/guides/cheapest-way-to-commute-to-office/", "/guides/move-closer-to-office-or-commute/", "/guides/what-is-your-commute-time-worth/", "/guides/pay-rise-to-cover-return-to-office/", "/guides/meal-card-tax-free-200-per-meal/"]),
                       ("/job-offer-comparator/", "Job Offer Comparator", "Is the new offer really worth more? Take-home, PF, gratuity, bonus, stock and commute, side by side.", L("/job-offer-comparator/"), "Coming soon", ["/guides/compare-job-offers-worked-example/", "/guides/higher-ctc-less-in-hand/", "/guides/switch-jobs-before-5-years-gratuity/", "/guides/value-variable-pay-job-offer/", "/guides/office-days-commute-cost/", "/guides/joining-bonus-stock-job-offer/"]),
                       ("/best-day-to-resign/", "Best Day to Resign", "The last working day that leaves you with the most: gratuity, bonus, RSUs and leave, against the new job's pay.", L("/best-day-to-resign/"), "Coming soon", ["/guides/when-to-resign-best-last-day/", "/guides/resign-before-or-after-rsu-vesting/", "/guides/joining-bonus-clawback/", "/guides/when-to-hand-in-notice/", "/guides/use-or-encash-leave-before-resigning/", "/guides/wait-for-bonus-or-join-now/"]),
                       ("/full-and-final-settlement/", "Full and Final Settlement", "What you get when you leave: last salary, leave encashment, gratuity, notice recovery and when it's due.", L("/full-and-final-settlement/"), "Coming soon", ["/guides/full-and-final-settlement-explained/", "/guides/transfer-pf-dont-withdraw/", "/guides/leave-encashment-tax-on-resignation/", "/guides/notice-period-buyout/", "/guides/two-employers-one-year-tax/", "/guides/bonus-when-you-resign/", "/guides/settlement-not-paid-on-time/"]),
@@ -6112,7 +6503,8 @@ def _catalog():
                         ["/guides/rent-vs-buy/", "/guides/is-rent-really-dead-money/", "/guides/under-construction-vs-ready-to-move/", "/guides/hra-vs-home-loan-tax-benefits/", "/guides/home-loan-down-payment/", "/guides/rent-or-buy-by-age-and-moving-cities/", "/guides/keep-or-sell-your-home/"])]),
         ("Your money", [("/budget-planner/", "Budget Planner", "See what's really left each month, with yearly costs turned into monthly set-asides.", True, "",
                          ["/guides/monthly-budget/", "/guides/budget-on-50000-1-lakh-2-lakh-salary/", "/guides/plan-for-school-fees-and-yearly-costs/", "/guides/first-salary-budget/", "/guides/double-income-family-budget/", "/guides/budgeting-with-a-bonus/"]),
-                        ("/term-insurance-calculator/", "Term Insurance Calculator", "How much cover your family would need, and until what age: support, loans and goals, less what you have.", L("/term-insurance-calculator/"), "Coming soon", ["/guides/how-much-term-insurance-do-you-need/", "/guides/is-employer-group-cover-enough/", "/guides/term-insurance-until-60-or-70/", "/guides/term-insurance-tax-new-regime/", "/guides/home-loan-insurance-vs-term-plan/", "/guides/laddering-term-insurance/"])]),
+                        ("/term-insurance-calculator/", "Term Insurance Calculator", "How much cover your family would need, and until what age: support, loans and goals, less what you have.", L("/term-insurance-calculator/"), "Coming soon", ["/guides/how-much-term-insurance-do-you-need/", "/guides/is-employer-group-cover-enough/", "/guides/term-insurance-until-60-or-70/", "/guides/term-insurance-tax-new-regime/", "/guides/home-loan-insurance-vs-term-plan/", "/guides/laddering-term-insurance/"]),
+                        ("/health-insurance-cover-calculator/", "Health Insurance Cover Calculator", "How much health cover your family and parents need, with medical inflation: base policy plus super top-up.", L("/health-insurance-cover-calculator/"), "Coming soon", ["/guides/how-much-health-insurance-do-you-need/", "/guides/super-top-up-health-insurance/", "/guides/is-employer-health-insurance-enough/", "/guides/health-insurance-for-parents/", "/guides/medical-inflation-health-cover/", "/guides/health-insurance-checklist-before-you-buy/", "/guides/health-insurance-opd-maternity-cataract/"])]),
         ("Your car", [("/company-car-lease-vs-loan/", "Car Lease vs Car Loan", "Lease a car through your company or buy it on a loan? After tax, running costs and resale.", L("/company-car-lease-vs-loan/"), "Coming soon",
                        ["/guides/company-car-lease-vs-car-loan/", "/guides/company-car-lease-policy/", "/guides/company-car-perquisite-value-2026/", "/guides/car-lease-new-tax-regime/", "/guides/car-lease-20-percent-slab-and-ev/", "/guides/car-lease-job-change-buy-back-or-hand-back/"]),
                       ("/car-ownership-cost/", "Car Ownership Cost", "What a petrol, diesel, CNG or electric car really costs per month and per km, after resale. Compare two.", L("/car-ownership-cost/"), "Coming soon", ["/guides/petrol-cng-or-ev-cost-per-km/", "/guides/ev-worth-it-1000-km-a-month/", "/guides/car-loan-or-cash/", "/guides/new-or-used-car/", "/guides/government-ev-rule-should-you-switch/"])]),
@@ -12030,6 +12422,704 @@ def _t7():
 _VIKRAM = "Vikram, 34, works in Bengaluru for the Indian arm of a US-listed tech company. His salary and bonus come to ₹40 lakh a year. In tax year 2026-27, 100 of his RSUs vest, worth ₹17,500 each in rupees on the vesting date."
 _SO_METHOD = 'From the <a href="/esop-rsu-tax-calculator/">ESOP and RSU tax calculator</a>\'s own code with <a href="/guides/rsu-tax-india-worked-example/">Vikram\'s example</a>: new regime for tax year 2026-27 (₹75,000 standard deduction, rebate, surcharge, 4% cess); perquisite under section 17(1)(d) of the Income-tax Act, 2025; capital gains under sections 196, 197 and 198, with surcharge on them capped at 15%. The sale is assumed to fall in a year with the same other income. Read <a href="/methodology/">how we check our numbers</a>.'
 
+_T9C = {}
+def _t9():
+    if not _T9C: _T9C.update(_num("guide_t9_numbers.js"))
+    return _T9C
+_SNEHA = "Sneha, 29, is a software engineer in Bengaluru. She takes home ₹1.1 lakh a month (the 20% slab) and rents a flat in Jayanagar for ₹30,000. Her office is 20 km away: 70 minutes each way by car. Her company is moving from two office days a week to five."
+_RT_METHOD = 'From the <a href="/return-to-office-cost-calculator/">back to office cost calculator</a>\'s own code with <a href="/guides/return-to-office-cost/">Sneha\'s numbers</a>: car at 15 km a litre, petrol ₹111 a litre (Bengaluru, November 2026), wear and tear ₹3 a km, parking ₹100 a day, ₹150 a day on food and coffee; 46 working weeks a year; time valued at half her take-home per working hour (₹1,10,000 ÷ 198 hours) where shown; no company transport, travel allowance or employer-paid food unless stated. Read <a href="/methodology/">how we check our numbers</a>.'
+_MODE_NAME = {"car": "Car", "bike": "Two-wheeler", "metro": "Metro or bus", "cab": "Cab or auto"}
+
+def guide_rt_main():
+    T = _t9(); m = T["main"]; d = m["day"]; n = m["near"]
+    path = "/guides/return-to-office-cost/"
+    toc = [("short-answer", "The short answer"), ("sneha", "Sneha's commute"), ("day", "What one office day costs"), ("month", "From two days to five"), ("hours", "The hours"),
+           ("cut", "Ways to cut it"), ("employer", "If your employer helps"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "When a company calls everyone back five days a week, the memo talks about collaboration. Your bank statement shows fuel, parking and office lunches, and your calendar loses hours to traffic. Here's what the switch costs, worked out for one commute.",
+                      "An office building with a car, a metro and a clock on the road to it").replace("TYPE_LINE", "<span>Back to office cost calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Going from two to five office days a week costs Sneha <strong>{_inr(m['extraMoney'])} more a month</strong> ({_inr(m['yearMoney'])} a year), about {round(m['pct'] * 100)}% of her take-home, and <strong>{round(m['extraHours'])} more hours a month</strong> on the road. To stand still she'd need a pay rise of about {_L(m['raise'])} a year. Switching to the metro would cut the extra cost by more than half, and a free company cab would cut it to {_inr(T['emp']['free']['extra'])}; moving closer costs more in rent but gives back {round(n['hoursSaved'])} hours a month.</p>
+<p class="g-cta"><a class="btn" href="/return-to-office-cost-calculator/">Work out your own commute</a></p>
+
+<h2 id="sneha">Sneha's commute</h2>
+<p>{_SNEHA}</p>
+
+<h2 id="day">What one office day costs</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">One office day, by car</th><th scope="col">Amount</th></tr></thead><tbody>
+<tr><th scope="row">Petrol for 40 km (15 km a litre at ₹111)</th><td>{_inr(40 / 15 * 111)}</td></tr>
+<tr><th scope="row">Wear and tear (₹3 a km)</th><td>₹120</td></tr>
+<tr><th scope="row">Parking</th><td>₹100</td></tr>
+<tr><th scope="row">Lunch and coffee she'd otherwise make at home</th><td>₹150</td></tr>
+<tr><th scope="row"><b>Total</b></th><td>{_inr(d['total'])}</td></tr>
+</tbody></table></div>
+<p>Wear and tear is the cost people forget: more kilometres mean more servicing, tyres and a lower resale price.</p>
+
+<h2 id="month">From two days to five</h2>
+<p>With about 46 working weeks a year after leave and holidays, two days a week is about 7.7 office days a month and five days about 19.2.</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Office days a week</th><th scope="col">Cost a month</th><th scope="col">Hours on the road a month</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>{b['days']}</th><td>{_inr(b['money'])}</td><td>{round(b['hours'])}</td></tr>" for b in m['byDays'] if b['days'] in (2, 3, 4, 5))}
+</tbody></table></div>
+<p>The extra {_inr(m['extraMoney'])} a month is paid from take-home. Because a pay rise is taxed, covering it needs about <strong>{_L(m['raise'])} a year</strong> more in salary at her 20% slab. See <a href="/guides/pay-rise-to-cover-return-to-office/">What pay rise covers going back to office?</a></p>
+
+<h2 id="hours">The hours</h2>
+<p>Bengaluru is the world's second most congested city in TomTom's 2025 index: 10 km takes about 36 minutes on average, more at rush hour. Sneha's extra {round(m['extraHours'])} hours a month come to {round(m['yearHours'])} hours a year, about {round(m['yearHours'] / 9)} working days. Valued at half her take-home per hour, that's another {_inr(m['extraTime'])} a month. More in <a href="/guides/what-is-your-commute-time-worth/">What is your commute time worth?</a></p>
+
+<h2 id="cut">Ways to cut it</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">If Sneha…</th><th scope="col">Extra a month</th></tr></thead><tbody>
+<tr><th scope="row">Drives, as now</th><td>{_inr(m['extraMoney'])}</td></tr>
+{"".join(f"<tr><th scope='row'>Goes by {_MODE_NAME[x['mode']].lower()}</th><td>{_inr(x['extra'])}</td></tr>" for x in T['modeRuns'] if x['mode'] != 'car')}
+<tr><th scope="row">Negotiates three days, not five</th><td>{_inr(T['days'][0]['extra'])}</td></tr>
+</tbody></table></div>
+
+<h2 id="employer">If your employer helps</h2>
+<p>Many companies soften a return-to-office call with transport, an allowance or food. Each changes Sneha's numbers a lot:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">If her company…</th><th scope="col">Extra a month</th><th scope="col">Saved vs driving herself</th></tr></thead><tbody>
+<tr><th scope="row">Gives no help (she drives)</th><td>{_inr(m['extraMoney'])}</td><td>—</td></tr>
+{"".join(f"<tr><th scope='row'>{lbl}</th><td>{_inr(T['emp'][k]['extra'])}</td><td>{_inr(m['extraMoney'] - T['emp'][k]['extra'])}<br><span style='white-space:nowrap'>{round((m['extraMoney'] - T['emp'][k]['extra']) / m['extraMoney'] * 100)}% less</span></td></tr>" for k, lbl in [("free", "Runs a free cab or bus (80 minutes each way)"), ("paid", "Runs one she pays ₹1,500 a month for"), ("allow", "Pays a ₹3,000 a month travel allowance"), ("meal", "Pays for her lunch (₹150 a day)")])}
+</tbody></table></div>
+<p>A travel allowance is taxed as salary, so ₹3,000 covers only {_inr(T['emp']['allow']['allowNet'])} at her slab. A company cab saves money but, at 80 minutes each way, adds time: {round(T['emp']['free']['hours'])} extra hours a month instead of {round(m['extraHours'])}. Enter what your employer offers in the <a href="/return-to-office-cost-calculator/">calculator</a>.</p>
+<ul>
+  <li><strong>Change how you travel:</strong> <a href="/guides/cheapest-way-to-commute-to-office/">Car, two-wheeler, metro or cab</a> compares them.</li>
+  <li><strong>Move closer:</strong> more rent, fewer hours. See <a href="/guides/move-closer-to-office-or-commute/">Move closer to office or keep commuting?</a></li>
+  <li><strong>Ask for a meal card:</strong> up to ₹200 a meal is tax-free from April 2026. See <a href="/guides/meal-card-tax-free-200-per-meal/">Meal cards: what the ₹200 rule saves you</a>.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_RT_METHOD}</p>
+<p class="g-note">This article is for information, not financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What going back to office costs", body, "Back to office")
+
+def guide_rt_modes():
+    T = _t9(); R = T["modeRuns"]; ma = T["metroAuto"]
+    path = "/guides/cheapest-way-to-commute-to-office/"
+    toc = [("short-answer", "The short answer"), ("compare", "Four ways in, side by side"), ("time", "Money against time"), ("mix", "Mixing it up"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Five office days a week turn your commute into one of your biggest monthly bills. The way you travel decides most of it. Here are four ways to make the same 20 km trip, with one commuter's numbers.",
+                      "A car, a two-wheeler, a metro train and an auto on one road").replace("TYPE_LINE", "<span>Back to office cost calculator</span>")
+    car = R[0]; bike = R[1]; metro = R[2]; cab = R[3]
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>For <a href="/guides/return-to-office-cost/">Sneha's</a> 20 km trip five days a week, the metro is cheapest at about <strong>{_inr(metro['newM'])} a month</strong>, a two-wheeler {_inr(bike['newM'])}, her car {_inr(car['newM'])} and a cab both ways {_inr(cab['newM'])}, all including ₹150 a day on food at office. The metro and two-wheeler are also faster in Bengaluru traffic. A car makes sense when there's no good metro line, you carry children or equipment, or your company pays for parking and fuel.</p>
+<p class="g-cta"><a class="btn" href="/return-to-office-cost-calculator/">Compare your own options</a></p>
+
+<h2 id="compare">Four ways in, side by side</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">20 km each way, 5 days a week</th><th scope="col">Travel a day</th><th scope="col">A month (with food)</th><th scope="col">One way</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>{_MODE_NAME[x['mode']]}</th><td>{_inr(x['travel'])}</td><td>{_inr(x['newM'])}</td><td>{x['mins']} min</td></tr>" for x in R)}
+</tbody></table></div>
+<ul>
+  <li><strong>Car:</strong> petrol at 15 km a litre, ₹3 a km wear and tear, ₹100 parking.</li>
+  <li><strong>Two-wheeler:</strong> 45 km a litre, ₹1 a km wear and tear, ₹20 parking.</li>
+  <li><strong>Metro or bus:</strong> ₹50 each way. Add an auto for the last stretch and it's about {_inr(ma['newM'])} a month.</li>
+  <li><strong>Cab or auto:</strong> ₹450 each way; surge pricing at rush hour can push it higher.</li>
+</ul>
+<p>More than half of urban Indian workers already commute by two-wheeler. It's cheap and quick, but weigh safety, weather and pollution on a 40 km round trip every day.</p>
+
+<h2 id="time">Money against time</h2>
+<p>A cheaper mode isn't always slower. In Bengaluru's traffic, where 10 km took about 36 minutes on average in 2025 (TomTom), the metro often beats a car door to door. Sneha's car takes {car['mins']} minutes each way; the metro {metro['mins']} including the walk. Over a month that's about {round(car['hours'] - metro['hours'])} hours back, as well as {_inr(car['newM'] - metro['newM'])}.</p>
+
+<h2 id="mix">Mixing it up</h2>
+<ul>
+  <li><strong>Drive on heavy days, metro on others:</strong> the calculator's cost per day lets you add them up.</li>
+  <li><strong>Car-pool:</strong> two people sharing fuel and parking halve the car's cost.</li>
+  <li><strong>Company cab or bus:</strong> if your office runs one, it's usually the cheapest of all. Free, Sneha's month at five days would be just her office food, {_inr(T['emp']['free']['newM'])}; paying a ₹1,500 share, {_inr(T['emp']['paid']['newM'])}. Shuttles stop for others on the way, so allow more time: 80 minutes each way in her case.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_RT_METHOD} Travel times by mode are typical door-to-door times for this trip, not measured.</p>
+<p class="g-note">This article is for information, not financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "The cheapest way to commute to office", body, "Commute costs")
+
+def guide_rt_move():
+    T = _t9(); m = T["main"]; n = m["near"]; mv = T["move"]
+    path = "/guides/move-closer-to-office-or-commute/"
+    toc = [("short-answer", "The short answer"), ("numbers", "Sneha's numbers"), ("rent", "At different rents"), ("before", "Before you move"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Five office days a week make a long commute hard to live with. Moving closer costs more rent but gives you hours back every week. Here's how to weigh the two, with one person's numbers.",
+                      "A home moving closer to an office along a shorter road").replace("TYPE_LINE", "<span>Back to office cost calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>In money alone, moving closer rarely pays: for <a href="/guides/return-to-office-cost/">Sneha</a>, a flat 5 km from office at ₹42,000 instead of ₹30,000 costs <strong>{_inr(n['diff'])} a month more</strong>, even after the cheaper commute. But it gives her <strong>{round(n['hoursSaved'])} hours a month</strong> back. If those hours are worth half her take-home per hour, she's {_inr(-n['net'])} a month ahead and earns back the ₹60,000 moving cost in about {math.ceil(n['payback'])} months.</p>
+<p class="g-cta"><a class="btn" href="/return-to-office-cost-calculator/">Compare moving with your commute</a></p>
+
+<h2 id="numbers">Sneha's numbers</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">5 office days a week</th><th scope="col">Stay in Jayanagar</th><th scope="col">Move closer</th></tr></thead><tbody>
+<tr><th scope="row">Rent</th><td>₹30,000</td><td>₹42,000</td></tr>
+<tr><th scope="row">Commute and office food</th><td>{_inr(m['newM'])}</td><td>{_inr(n['nearM'])}</td></tr>
+<tr><th scope="row"><b>A month</b></th><td>{_inr(n['stay'])}</td><td>{_inr(n['move'])}</td></tr>
+<tr><th scope="row">Hours on the road a month</th><td>{round(m['byDays'][5]['hours'])}</td><td>{round(m['byDays'][5]['hours'] - n['hoursSaved'])}</td></tr>
+</tbody></table></div>
+<p>How you value the hours decides it: not at all, and moving costs {_inr(T['moveNone']['net'])} a month more; at half her pay, she's {_inr(-n['net'])} ahead; at her full pay, {_inr(-T['moveFull']['net'])} ahead, earning back the move in about {math.ceil(T['moveFull']['payback'])} months.</p>
+
+<h2 id="rent">At different rents</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Rent closer to office</th><th scope="col">Money a month</th><th scope="col">Counting time at half pay</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>{_inr(x['rent'])}</th><td>{'+' if x['diff'] > 0 else ''}{_inr(x['diff'])}</td><td>{'ahead by ' + _inr(-x['net']) if x['net'] < 0 else 'behind by ' + _inr(x['net'])}</td></tr>" for x in mv)}
+</tbody></table></div>
+<p>At ₹36,000, the cheaper commute almost pays the extra rent by itself.</p>
+
+<h2 id="before">Before you move</h2>
+<ul>
+  <li><strong>How long will the five-day rule last?</strong> Policies change; an 11-month lease limits the risk.</li>
+  <li><strong>Count the one-time costs:</strong> brokerage (often a month's rent), packers, a larger deposit.</li>
+  <li><strong>Does your company run a cab or bus?</strong> Then the commute costs little either way, and moving is mostly about time: with a free cab, the closer flat is simply ₹12,000 a month more in rent, for the hours you get back.</li>
+  <li><strong>Think about the rest of the household:</strong> a partner's commute, school runs, family nearby.</li>
+  <li><strong>Buying instead?</strong> Don't let a commute decide a 20-year loan: see <a href="/rent-vs-buy/">Rent or buy</a> and <a href="/guides/rent-or-buy-by-age-and-moving-cities/">why how long you'll stay matters</a>.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_RT_METHOD} The closer flat: 5 km and 20 minutes each way by car.</p>
+<p class="g-note">This article is for information, not financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Move closer to office or keep commuting?", body, "Move or commute")
+
+def guide_rt_time():
+    T = _t9(); m = T["main"]; tm = T["time"]
+    path = "/guides/what-is-your-commute-time-worth/"
+    toc = [("short-answer", "The short answer"), ("hours", "How many hours"), ("value", "Three ways to value it"), ("use", "When to put a price on it"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "A commute costs money you can see and time you can't. Five office days a week add hundreds of hours a year. Putting a rupee value on them helps you compare a cheap long commute with a dear short one.",
+                      "A clock on a steering wheel with hours piling up").replace("TYPE_LINE", "<span>Back to office cost calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Five office days add {round(m['yearHours'])} hours a year to <a href="/guides/return-to-office-cost/">Sneha's</a> commute, about {round(m['yearHours'] / 9)} working days. Valued at half her take-home per working hour ({_inr(tm[1]['tv'])} an hour), that's <strong>{_inr(tm[1]['extraTime'])} a month</strong>, almost as much as the {_inr(m['extraMoney'])} she spends on getting there. You don't have to put a price on time, but doing so shows when a costlier option, like moving closer or the metro, is the better deal.</p>
+<p class="g-cta"><a class="btn" href="/return-to-office-cost-calculator/">Count your hours</a></p>
+
+<h2 id="hours">How many hours</h2>
+<p>Sneha drives 70 minutes each way. In Bengaluru that's normal: TomTom's 2025 index puts the average for 10 km at 36 minutes and says rush-hour drivers lost 168 hours a year to traffic.</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Office days a week</th><th scope="col">Hours a month</th><th scope="col">Hours a year</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>{b['days']}</th><td>{round(b['hours'])}</td><td>{round(b['hours'] * 12)}</td></tr>" for b in m['byDays'] if b['days'] in (2, 3, 4, 5))}
+</tbody></table></div>
+
+<h2 id="value">Three ways to value it</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Value an hour at</th><th scope="col">An hour</th><th scope="col">Extra hours a month, in rupees</th><th scope="col">With the money cost</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>{['Nothing', 'Half her take-home per hour', 'Her take-home per hour'][i]}</th><td>{_inr(x['tv'])}</td><td>{_inr(x['extraTime'])}</td><td>{_inr(x['all'])}</td></tr>" for i, x in enumerate(tm))}
+</tbody></table></div>
+<p>Take-home per working hour is ₹1,10,000 ÷ 198 hours (22 days × 9 hours). Half is a common middle ground: commute time isn't working time, and some of it can be used for calls, reading or podcasts.</p>
+
+<h2 id="use">When to put a price on it</h2>
+<ul>
+  <li><strong>Comparing modes:</strong> the metro may cost less and save time. See <a href="/guides/cheapest-way-to-commute-to-office/">the cheapest way to commute</a>.</li>
+  <li><strong>Deciding whether to move:</strong> the rent is clear; the hours saved are the other side. See <a href="/guides/move-closer-to-office-or-commute/">move closer or commute</a>.</li>
+  <li><strong>Taking the company cab:</strong> it's cheap or free but often slower, because it stops for others. For Sneha, a free cab at 80 minutes each way saves about {_inr(m['extraMoney'] - T['emp']['free']['extra'])} a month but adds {round(T['emp']['free']['hours'] - m['extraHours'])} hours, worth {_inr((T['emp']['free']['hours'] - m['extraHours']) * tm[1]['tv'])} at half her pay.</li>
+  <li><strong>Comparing jobs:</strong> a nearer office with a lower salary can leave you better off. The <a href="/job-offer-comparator/">job offer comparator</a> counts office days and commute too.</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_RT_METHOD}</p>
+<p class="g-note">This article is for information, not financial advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What is your commute time worth?", body, "Commute time")
+
+def guide_rt_raise():
+    T = _t9(); m = T["main"]; rs = T["raise"]
+    path = "/guides/pay-rise-to-cover-return-to-office/"
+    toc = [("short-answer", "The short answer"), ("why", "Why the rise must be bigger"), ("slabs", "At each tax slab"), ("ask", "What else to ask for"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "If going back to office five days a week costs you thousands a month, it's fair to ask what the company will do about it. Here's the rise that would cover it, and cheaper things to ask for first.",
+                      "A payslip with an upward arrow next to an office building").replace("TYPE_LINE", "<span>Back to office cost calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p><a href="/guides/return-to-office-cost/">Sneha's</a> five office days cost {_inr(m['yearMoney'])} a year more than two. Because a rise is taxed, she'd need about <strong>{_L(rs[1]['raise'])} a year</strong> more in salary at her 20% slab just to stand still, before counting her time. Companies rarely raise pay for a policy change, so ask for the cheaper things first: a meal card, transport, a WFH allowance kept, or fewer office days.</p>
+<p class="g-cta"><a class="btn" href="/return-to-office-cost-calculator/">Work out your number</a></p>
+
+<h2 id="why">Why the rise must be bigger</h2>
+<p>Fuel, fares and lunches come out of take-home. A pay rise is taxed first, at your slab plus 4% cess. So each ₹1 of cost needs ₹1 ÷ (1 − 20.8%) ≈ ₹1.26 of extra salary at 20%, and about ₹1.45 at 30%.</p>
+
+<h2 id="slabs">At each tax slab</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Sneha's extra cost ({_inr(m['yearMoney'])} a year) at a slab of</th><th scope="col">Rise needed a year</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>{x['sl']}%</th><td>{_inr(x['raise'])}</td></tr>" for x in rs)}
+</tbody></table></div>
+<p>That's about {round(rs[1]['raise'] / 1600000 * 100, 1)}% of the roughly ₹16 lakh salary her take-home implies: a good part of a typical yearly hike. Check whether your last hike still beats inflation once the commute is counted, with <a href="/salary-hike-vs-inflation/">Did your hike beat inflation?</a></p>
+
+<h2 id="ask">What else to ask for</h2>
+<ol class="g-check">
+  <li><strong>A meal card:</strong> up to ₹200 a meal is tax-free in both regimes from April 2026. Moving part of your pay to one raises take-home at no cost to the company. See <a href="/guides/meal-card-tax-free-200-per-meal/">Meal cards: what the ₹200 rule saves</a>.</li>
+  <li><strong>Company transport:</strong> a free cab or bus would cut Sneha's extra cost to {_inr(T['emp']['free']['extra'])} a month, and the rise needed to about {_inr(T['emp']['free']['raise'])} a year.</li>
+  <li><strong>Keep the WFH allowance,</strong> or turn it into a travel allowance. It's taxable: ₹3,000 a month covers {_inr(T['emp']['allow']['allowNet'])} after tax at 20%, cutting her extra cost to {_inr(T['emp']['allow']['extra'])}.</li>
+  <li><strong>Parking</strong> paid by the company.</li>
+  <li><strong>Fewer days:</strong> three office days instead of five would cost Sneha {_inr(T['days'][0]['extra'])} a month more instead of {_inr(m['extraMoney'])}.</li>
+</ol>
+<p>If none of that is possible, compare a job nearer home: the <a href="/job-offer-comparator/">job offer comparator</a> counts office days and the commute.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_RT_METHOD} The rise covers the money, not the time.</p>
+<p class="g-note">This article is for information, not financial or tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What pay rise covers going back to office?", body, "Pay rise needed")
+
+def guide_rt_meal():
+    T = _t9(); ml = T["meal"]
+    path = "/guides/meal-card-tax-free-200-per-meal/"
+    toc = [("short-answer", "The short answer"), ("rule", "The ₹200 rule"), ("saves", "What it saves"), ("other", "Commuting and other allowances"), ("ask", "How to ask for it"), ("method", "Sources")]
+    body = guide_head(path, "From April 2026, food your employer provides is tax-free up to ₹200 a meal, under both tax regimes. If you're back in office five days a week, a meal card is one of the few ways to make the extra lunches cheaper.",
+                      "A meal card next to a lunch plate with a tax-free tag").replace("TYPE_LINE", "<span>Back to office cost calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Under the Income-tax Rules, 2026, meals and meal vouchers from your employer are tax-free up to ₹200 a meal, in the old and the new regime. If part of your pay moves to a meal card, that part isn't taxed. For <a href="/guides/return-to-office-cost/">Sneha</a>, in the 20% slab, ₹200 for one lunch on 22 days a month (₹52,800 a year) saves about <strong>{_inr(ml['saveOne'])} a year</strong>; two meals a day (the ₹1,05,600 a year usually quoted as the maximum), about {_inr(ml['saveTwo'])}.</p>
+<p class="g-cta"><a class="btn" href="/return-to-office-cost-calculator/">See what office days cost you</a></p>
+
+<h2 id="rule">The ₹200 rule</h2>
+<ul>
+  <li><strong>What's covered:</strong> free food and non-alcoholic drinks at the office during working hours, or paid vouchers (meal cards) usable only at eating places.</li>
+  <li><strong>The limit:</strong> ₹200 a meal, up from ₹50, from tax year 2026-27 (Rule 15 of the Income-tax Rules, 2026). Above that, the excess is taxed as salary.</li>
+  <li><strong>Both regimes:</strong> earlier only the old regime allowed it; now the new regime does too.</li>
+  <li><strong>The yearly maximum</strong> usually quoted is ₹1,05,600: ₹200 × 2 meals × 22 days × 12 months.</li>
+</ul>
+
+<h2 id="saves">What it saves</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Moved to a meal card a year</th><th scope="col">Tax saved at 20%</th><th scope="col">At 30%</th></tr></thead><tbody>
+<tr><th scope="row">One meal, 22 days a month ({_inr(ml['one'])})</th><td>{_inr(ml['saveOne'])}</td><td>{_inr(ml['save30One'])}</td></tr>
+<tr><th scope="row">Two meals, 22 days a month ({_inr(ml['two'])})</th><td>{_inr(ml['saveTwo'])}</td><td>{_inr(ml['save30Two'])}</td></tr>
+</tbody></table></div>
+<p>Tax saved includes the 4% cess. It doesn't cost the company anything: your CTC stays the same, only less of it is taxed.</p>
+
+<h2 id="other">Commuting and other allowances</h2>
+<ul>
+  <li><strong>Commuting costs aren't deductible.</strong> Fuel, fares and parking for home to office come out of taxed pay.</li>
+  <li><strong>Transport allowance is taxable</strong> for most employees; the exemption is only for employees with specified disabilities (Rule 280).</li>
+  <li><strong>Gifts and vouchers</strong> from the employer are tax-free up to ₹15,000 a year in total.</li>
+</ul>
+
+<h2 id="ask">How to ask for it</h2>
+<ol class="g-check">
+  <li>Check whether your company already offers a meal card (Pluxee, formerly Sodexo, Zaggle and others) as a flexible pay option.</li>
+  <li>Ask HR to move ₹4,400 to ₹8,800 a month of taxable pay into it at the next restructuring.</li>
+  <li>Use it only for food: the exemption depends on that.</li>
+</ol>
+<p>If your employer pays for lunch outright, through a meal card, a free canteen or a subsidy, it also cuts the cost of going in: the extra cost of Sneha's move from two to five office days falls from ₹7,659 to {_inr(T['emp']['meal']['extra'])} a month if her ₹150 lunch is paid. Enter it as "Food it pays for, a day" in the calculator.</p>
+<p>Then work out the rest of the return-to-office bill with the <a href="/return-to-office-cost-calculator/">calculator</a>.</p>
+
+<h2 id="method">Sources</h2>
+<p>Income-tax Rules, 2026, Rule 15 (meals up to ₹200 a meal; gifts up to ₹15,000 a year) and Rule 280 (transport allowance), as summarised by KPMG, Taxmann and Business Today, April 2026. Tax at the slab rate plus 4% cess. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Meal cards: what the ₹200 rule saves you", body, "Meal card tax")
+
+_T8C = {}
+def _t8():
+    if not _T8C: _T8C.update(_num("guide_t8_numbers.js"))
+    return _T8C
+_ADITYA = "Aditya, 32, and Kavya, 31, live in Bengaluru with their daughter Ira, 4. Aditya's parents, 62 and 59, live with them. The family has its own health policy of ₹5 lakh, and Aditya's employer gives ₹5 lakh of group cover. His parents have no cover of their own."
+_HC_METHOD = 'From the <a href="/health-insurance-cover-calculator/">health insurance cover calculator</a>\'s own code with <a href="/guides/how-much-health-insurance-do-you-need/">Aditya\'s family</a>: a bad year is one serious illness in a good private metro hospital (₹15 lakh today) plus a second hospital stay (₹1 lakh), grown at 10% a year medical inflation; cover rounded up to the next ₹5 lakh. Hospital costs are typical figures, not quotes; premiums aren\'t estimated. Read <a href="/methodology/">how we check our numbers</a>.'
+_HC_SRC = "Aon Global Medical Trend Rates (India: 11.5% for 2026, 10.1% projected for 2027). Private hospital costs: cancer treatment ₹5 lakh to over ₹25 lakh, bypass surgery ₹3 to ₹6 lakh in metros (published hospital and insurer cost guides). Average health insurance claim about ₹81,000 in 2024-25 (Policybazaar)."
+
+def guide_hc_main():
+    T = _t8(); m = T["main"]; p = m["par"]
+    path = "/guides/how-much-health-insurance-do-you-need/"
+    toc = [("short-answer", "The short answer"), ("family", "Aditya's family"), ("bad-year", "What a bad year costs"), ("ten-years", "Ten years from now"), ("split", "How to get there cheaply"),
+           ("employer", "Where the employer's cover fits"), ("parents", "His parents"), ("changes", "What changes the answer"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Most families pick a health cover by habit: ₹5 lakh because that's what everyone has. A better way is to ask what a bad year in hospital would cost, now and a few years out, and buy for that. Here it is, worked through one family's numbers.",
+                      "A health shield over a family with a rising cost line").replace("TYPE_LINE", "<span>Health insurance cover calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Buy enough to pay for a bad year without touching your savings: one serious illness in a good private hospital near you, plus another family member's stay in the same year, allowing for medical costs that rise about 10% a year. For Aditya's family of three in Bengaluru that's <strong>{_L(m['buy'])}</strong>. They have {_L(m['mine'])}, so the cheapest fix is to keep it and add a <strong>{_L(m['top'])} super top-up</strong> with a {_L(m['ded'])} deductible. His parents need their own {_L(p['buy'])}, on a separate policy.</p>
+<p class="g-cta"><a class="btn" href="/health-insurance-cover-calculator/">Work out your family's cover</a></p>
+
+<h2 id="family">Aditya's family</h2>
+<p>{_ADITYA}</p>
+
+<h2 id="bad-year">What a bad year costs</h2>
+<p>Average claims are small, about ₹81,000 in 2024-25, but averages aren't what ruin savings. The year that matters is the one with a cancer diagnosis, a heart operation or a long ICU stay. In a good private hospital in a metro, cancer treatment runs from ₹5 lakh to well over ₹25 lakh, and a bypass costs ₹3 to ₹6 lakh.</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">A bad year, at today's costs</th><th scope="col">Amount</th></tr></thead><tbody>
+<tr><th scope="row">One serious illness (a middle figure for a metro)</th><td>₹15,00,000</td></tr>
+<tr><th scope="row">A second, ordinary hospital stay for someone else</th><td>₹1,00,000</td></tr>
+<tr><th scope="row"><b>Total</b></th><td>{_inr(m['need0'])}</td></tr>
+</tbody></table></div>
+<p>The second stay is there because a family floater has one sum insured for everyone. If Ira is admitted with dengue in the same year Kavya is treated for cancer, both bills come out of the same pot.</p>
+
+<h2 id="ten-years">Ten years from now</h2>
+<p>Treatment costs in India have been rising about twice as fast as prices in general: Aon puts medical cost growth at 11.5% for 2026 and 10.1% for 2027. At 10% a year, the same bad year costs:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Year</th><th scope="col">Aditya's age</th><th scope="col">A bad year costs</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>{'Today' if i == 0 else 'In ' + str(i) + ' years'}</th><td>{32 + i}</td><td>{_L(v)}</td></tr>" for i, v in enumerate(m['yrs']) if i in (0, 3, 5, 8, 10))}
+</tbody></table></div>
+<p>Cover is cheapest and easiest to buy while you're young and healthy; raising it later means fresh medical checks and waiting periods. So the family buys for 10 years ahead: {_L(m['target'])}, rounded up to <strong>{_L(m['buy'])}</strong>.</p>
+
+<h2 id="split">How to get there cheaply</h2>
+<p>A ₹45 lakh base policy would be expensive. A super top-up does the same job for much less: it pays once the family's total hospital bills in a policy year cross its deductible, and the base policy pays up to that point.</p>
+<ul>
+  <li><strong>Base policy:</strong> keep the existing {_L(m['base'])}. It pays the smaller, more frequent bills.</li>
+  <li><strong>Super top-up:</strong> {_L(m['top'])} with a {_L(m['ded'])} deductible, matching the base.</li>
+  <li><strong>Together:</strong> {_L(m['base'] + m['top'])} for a bad year.</li>
+</ul>
+<p>More in <a href="/guides/super-top-up-health-insurance/">Base policy plus super top-up: the cheapest way to high cover</a>.</p>
+
+<h2 id="employer">Where the employer's cover fits</h2>
+<p>Aditya's {_L(m['withJob'] - m['mine'])} of group cover isn't counted in the {_L(m['buy'])}, because it ends the day he resigns, retires or is laid off. While he's there it's useful: many super top-ups let a claim paid by group cover count towards the deductible. Counting it, the family is {_L(m['gapJob'])} short instead of {_L(m['gap'])}. Read <a href="/guides/is-employer-health-insurance-enough/">Is your employer's health insurance enough?</a></p>
+
+<h2 id="parents">His parents</h2>
+<p>On the same basis his parents need about <strong>{_L(p['buy'])}</strong>, on their own policy: a {_L(p['base'])} senior citizen policy plus a {_L(p['top'])} super top-up. Putting them on the family floater would raise its premium and let one big claim for a parent use up the cover Ira and Kavya rely on. See <a href="/guides/health-insurance-for-parents/">Health insurance for parents</a>.</p>
+
+<h2 id="changes">What changes the answer</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">If…</th><th scope="col">Cover the family needs</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>Medical inflation is {x['i']}% a year</th><td>{_L(x['buy'])}</td></tr>" for x in T['infl'])}
+{"".join(f"<tr><th scope='row'>They buy for {x['y']} years</th><td>{_L(x['buy'])}</td></tr>" for x in T['years'] if x['y'] != 10)}
+{"".join(f"<tr><th scope='row'>They live in {dict(metro='a metro', big='another big city', small='a smaller town')[x['c']]} ({_L(x['bill'])} illness)</th><td>{_L(x['buy'])}</td></tr>" for x in T['cities'] if x['c'] != 'metro')}
+</tbody></table></div>
+<p>Before you buy, check the fine print as well as the amount: room rent caps, co-payment and waiting periods can cut a claim even when the cover is big enough. See <a href="/guides/health-insurance-checklist-before-you-buy/">What to check before you buy</a> and <a href="/guides/health-insurance-opd-maternity-cataract/">What health insurance doesn't fully cover</a>.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HC_METHOD}</p>
+<p>{_HC_SRC}</p>
+<p class="g-note">This article is for information, not insurance advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "How much health insurance do you need?", body, "Health cover")
+
+def guide_hc_supertop():
+    T = _t8(); m = T["main"]; c = T["claim"]; t = T["two"]
+    path = "/guides/super-top-up-health-insurance/"
+    toc = [("short-answer", "The short answer"), ("how", "How a super top-up works"), ("claim", "A big claim, step by step"), ("vs-topup", "Super top-up or top-up?"), ("deductible", "Choosing the deductible"), ("watch", "What to watch"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Raising a health policy from ₹5 lakh to ₹45 lakh is expensive. Adding a super top-up gets you the same protection for a big bill at a fraction of the cost. Here's how it works, with one family's claim.",
+                      "A small health block with a much larger block stacked on top").replace("TYPE_LINE", "<span>Health insurance cover calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>A super top-up is a second health policy that pays only after your hospital bills in a policy year add up past a fixed amount, the deductible. Your base policy pays up to that point. Because the insurer pays only for the rare big year, it costs much less than the same cover in a base policy. <a href="/guides/how-much-health-insurance-do-you-need/">Aditya's family</a> needs {_L(m['buy'])}: their {_L(m['base'])} policy plus a <strong>{_L(m['top'])} super top-up with a {_L(m['ded'])} deductible</strong>.</p>
+<p class="g-cta"><a class="btn" href="/health-insurance-cover-calculator/">Size your super top-up</a></p>
+
+<h2 id="how">How a super top-up works</h2>
+<ul>
+  <li><strong>Deductible:</strong> the amount of bills in a policy year that the super top-up doesn't pay. Your base policy, your employer's cover (if the policy allows) or you pay it.</li>
+  <li><strong>Aggregate:</strong> all hospital bills in the policy year count towards the deductible, across claims and, on a floater, across family members.</li>
+  <li><strong>Above the deductible:</strong> the super top-up pays the rest, up to its own sum insured.</li>
+</ul>
+
+<h2 id="claim">A big claim, step by step</h2>
+<p>Say Kavya needs cancer treatment in five years' time. At 10% medical inflation a ₹15 lakh bill today costs about {_L(c['bill'])} then.</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Who pays</th><th scope="col">Amount</th></tr></thead><tbody>
+<tr><th scope="row">Base policy (up to ₹5 lakh)</th><td>{_inr(c['base'])}</td></tr>
+<tr><th scope="row">Super top-up (above the ₹5 lakh deductible)</th><td>{_inr(c['top'])}</td></tr>
+<tr><th scope="row"><b>The family pays</b></th><td>₹0</td></tr>
+</tbody></table></div>
+<p>Without the super top-up, the family would pay {_L(c['bill'] - c['base'])} from savings.</p>
+
+<h2 id="vs-topup">Super top-up or top-up?</h2>
+<p>A plain <em>top-up</em> looks the same but applies the deductible to each claim separately. Take two hospital stays in one year, ₹4 lakh and ₹3 lakh, with a ₹5 lakh deductible:</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Two stays: ₹4 lakh + ₹3 lakh</th><th scope="col">Top-up pays</th><th scope="col">Super top-up pays</th></tr></thead><tbody>
+<tr><th scope="row">Neither bill crosses ₹5 lakh alone</th><td>{_inr(t['topUpPays'])}</td><td>{_inr(t['superPays'])}</td></tr>
+</tbody></table></div>
+<p>Buy a super top-up; check the policy wording says "aggregate deductible".</p>
+
+<h2 id="deductible">Choosing the deductible</h2>
+<ul>
+  <li><strong>Match it to your base cover.</strong> With a ₹5 lakh base, a ₹5 lakh deductible leaves no gap. A higher deductible is cheaper but leaves you paying the difference.</li>
+  <li><strong>Don't build it on employer cover alone.</strong> Group cover can pay the deductible while you're in the job, but it stops when you leave; keep a personal base policy too.</li>
+  <li><strong>Same insurer helps.</strong> A base and super top-up from one insurer usually means one claim process; from two insurers, you file with both.</li>
+</ul>
+
+<h2 id="watch">What to watch</h2>
+<ul>
+  <li>Room rent caps and co-payment in the super top-up as well as the base. See <a href="/guides/health-insurance-checklist-before-you-buy/">What to check before you buy</a>.</li>
+  <li>Waiting periods start again on a new super top-up, so buy it before you need it.</li>
+  <li>Check whether the deductible resets each policy year (it does in most plans).</li>
+</ul>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HC_METHOD}</p>
+<p class="g-note">This article is for information, not insurance advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Base policy plus super top-up", body, "Super top-up")
+
+def guide_hc_employer():
+    T = _t8(); m = T["main"]; l5 = T["leave5"]
+    path = "/guides/is-employer-health-insurance-enough/"
+    toc = [("short-answer", "The short answer"), ("what", "What group cover gives you"), ("gaps", "Where it falls short"), ("aditya", "Aditya's numbers"), ("use", "How to use it well"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Your employer's health cover is real money and a real benefit. But it was chosen for the company's budget, not your family, and it ends with the job. Here's how far it goes, with one family's numbers.",
+                      "An office badge with a health shield that fades out at the door").replace("TYPE_LINE", "<span>Health insurance cover calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Usually not on its own. Group cover is often ₹3 to ₹5 lakh shared by the family, and it ends when you resign, retire or are laid off. Keep a personal policy and add a super top-up; use the group cover to pay the super top-up's deductible while you're employed. For <a href="/guides/how-much-health-insurance-do-you-need/">Aditya's family</a>, counting his ₹5 lakh group cover still leaves them <strong>{_L(m['gapJob'])} short</strong> of the {_L(m['buy'])} they need, and {_L(m['gap'])} short the day he leaves.</p>
+<p class="g-cta"><a class="btn" href="/health-insurance-cover-calculator/">Check your family's gap</a></p>
+
+<h2 id="what">What group cover gives you</h2>
+<ul>
+  <li><strong>Cover from day one,</strong> often with no waiting periods and with maternity included: things a new personal policy can't offer.</li>
+  <li><strong>No medical checks</strong> and, usually, existing illnesses covered.</li>
+  <li><strong>It's paid for</strong> by the employer, or partly from your CTC.</li>
+</ul>
+
+<h2 id="gaps">Where it falls short</h2>
+<ul>
+  <li><strong>It ends with the job.</strong> Resignations, lay-offs and retirement all end it, and a health scare often comes with a career break.</li>
+  <li><strong>It's usually small.</strong> ₹3 to ₹5 lakh shared by your family barely covers one serious illness in a metro.</li>
+  <li><strong>The terms can change</strong> each year at renewal: room rent caps, co-payment for parents, or parents dropped.</li>
+  <li><strong>Buying later costs more.</strong> A personal policy bought at 45, or after a diagnosis, comes with higher premiums and waiting periods of up to 3 years for existing illnesses.</li>
+</ul>
+
+<h2 id="aditya">Aditya's numbers</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Family cover</th><th scope="col">While employed</th><th scope="col">After he leaves</th></tr></thead><tbody>
+<tr><th scope="row">Own policy</th><td>₹5,00,000</td><td>₹5,00,000</td></tr>
+<tr><th scope="row">Group cover</th><td>₹5,00,000</td><td>₹0</td></tr>
+<tr><th scope="row">Cover needed</th><td>{_inr(m['buy'])}</td><td>{_inr(m['buy'])}</td></tr>
+<tr><th scope="row"><b>Short by</b></th><td>{_inr(m['gapJob'])}</td><td>{_inr(m['gap'])}</td></tr>
+</tbody></table></div>
+<p>If he lost his job in five years and the family had a bad year then, the bills would be about {_L(l5['bad'])} against {_L(l5['own'])} of cover: {_L(l5['short'])} from savings.</p>
+
+<h2 id="use">How to use it well</h2>
+<ol class="g-check">
+  <li><strong>Keep a personal base policy</strong> running even while you have group cover, so its waiting periods are behind you.</li>
+  <li><strong>Add a super top-up</strong> with a deductible your base (or group cover, while employed) can pay. See <a href="/guides/super-top-up-health-insurance/">Base policy plus super top-up</a>.</li>
+  <li><strong>Use group cover for maternity</strong> and the first years, when your personal policy is still in its waiting periods.</li>
+  <li><strong>Ask HR</strong> whether you can convert group cover to a personal policy when you leave, and on what terms.</li>
+  <li><strong>Changing jobs?</strong> Don't let your personal policy lapse in the gap. See <a href="/changing-jobs/">Changing jobs: what to check</a>.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HC_METHOD}</p>
+<p class="g-note">This article is for information, not insurance advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Is your employer's health insurance enough?", body, "Employer health cover")
+
+def guide_hc_parents():
+    T = _t8(); m = T["main"]; p = m["par"]; f = T["floater"]; t3 = T["tax30"]
+    path = "/guides/health-insurance-for-parents/"
+    toc = [("short-answer", "The short answer"), ("floater", "Why not the family floater?"), ("how-much", "How much cover they need"), ("buying", "Buying for parents over 60"), ("tax", "The tax break"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "Parents are the family members most likely to need a hospital, and the hardest to insure. Adding them to your floater looks simple, but it usually costs the rest of the family. Here's the case for a separate policy, with one family's numbers.",
+                      "Two health shields side by side, a larger one for parents").replace("TYPE_LINE", "<span>Health insurance cover calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Give your parents their own policy. On a family floater, one big claim for a parent can use up the cover your spouse and children share, and the floater's premium is set by its oldest member. <a href="/guides/how-much-health-insurance-do-you-need/">Aditya's</a> parents, 62 and 59, need about <strong>{_L(p['buy'])}</strong> on the same basis as his family: a {_L(p['base'])} senior citizen policy plus a {_L(p['top'])} super top-up.</p>
+<p class="g-cta"><a class="btn" href="/health-insurance-cover-calculator/">Work out your parents' cover</a></p>
+
+<h2 id="floater">Why not the family floater?</h2>
+<p>Say the family put everyone on one {_L(f['size'])} floater. If Aditya's father needed cancer treatment in ten years, about {_L(f['father'])} at 10% medical inflation, only {_L(f['left'])} would be left that year for Aditya, Kavya and Ira.</p>
+<ul>
+  <li><strong>Shared sum insured:</strong> parents' claims come first in practice, because they're more frequent and larger.</li>
+  <li><strong>Premium:</strong> a floater is priced on the oldest member, so adding parents raises the price for everyone.</li>
+  <li><strong>Renewal:</strong> a big claim by a parent can affect the whole floater's no-claim bonus.</li>
+</ul>
+
+<h2 id="how-much">How much cover they need</h2>
+<p>The same way as for your own family: one serious illness and a second hospital stay in the same year, at today's costs ({_L(p['need0'])} in a metro), grown at 10% a year for 10 years: {_L(p['target'])}, rounded up to {_L(p['buy'])}.</p>
+
+<h2 id="buying">Buying for parents over 60</h2>
+<ul>
+  <li><strong>There's no upper age limit</strong> for buying health insurance any more: IRDAI removed it in 2024, so insurers must offer at least one policy to every applicant.</li>
+  <li><strong>Existing illnesses</strong> like diabetes or blood pressure are covered after a waiting period of at most 36 months; some senior plans offer shorter waits for a higher premium.</li>
+  <li><strong>Co-payment</strong> is common on senior citizen plans: they pay a fixed share of each claim, set in the policy. Know it before you buy, or pay more for a plan without one.</li>
+  <li><strong>Medical checks</strong> are often needed; disclose everything. After 5 years of continuous cover, a claim can't be refused for non-disclosure, except for fraud.</li>
+  <li><strong>A super top-up for parents</strong> is cheaper than a big base policy and works the same way as yours.</li>
+</ul>
+
+<h2 id="tax">The tax break</h2>
+<p>Under the old tax regime, section 126 of the Income-tax Act, 2025 (old 80D) gives a separate deduction for parents' premiums: up to ₹25,000, or ₹50,000 if a parent is a senior citizen, on top of up to ₹25,000 for your own family. If Aditya were in the old regime at 30%, paying, say, ₹25,000 for his family and ₹50,000 for his parents, he'd save about {_inr(t3['taxSaved'])} in tax. There's no deduction in the new regime. Individual health policies have been GST-free since 22 September 2025.</p>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HC_METHOD} Premiums in the tax example are illustrative.</p>
+<p>IRDAI Master Circular on health insurance, 2024 (no upper age limit; waiting periods of at most 36 months; 5-year moratorium). Income-tax Act, 2025, section 126.</p>
+<p class="g-note">This article is for information, not insurance or tax advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Health insurance for parents", body, "Parents' health cover")
+
+def guide_hc_inflation():
+    T = _t8(); m = T["main"]; fr = T["fiveReal"]
+    path = "/guides/medical-inflation-health-cover/"
+    toc = [("short-answer", "The short answer"), ("rate", "How fast medical costs rise"), ("five-lakh", "What ₹5 lakh is worth over time"), ("aditya", "Aditya's family"), ("keep-up", "How to keep up"), ("method", "How these numbers were worked out")]
+    body = guide_head(path, "A ₹5 lakh policy felt generous ten years ago. With hospital costs rising about 10% a year, it now covers less than half of one serious illness in a metro, and it shrinks every year. Here's what medical inflation does to your cover.",
+                      "A rupee coin shrinking as a hospital bill grows").replace("TYPE_LINE", "<span>Health insurance cover calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>No, for most families in big cities ₹5 lakh isn't enough. Treatment costs in India rise about 10% a year, more than twice general inflation, so cover that's fixed in rupees buys less every year. At 10%, ₹5 lakh of cover today is worth about {_L(fr[2]['real'])} in today's money in 10 years. <a href="/guides/how-much-health-insurance-do-you-need/">Aditya's family</a> needs {_L(m['buy'])} to stay covered for a bad year over that time.</p>
+<p class="g-cta"><a class="btn" href="/health-insurance-cover-calculator/">Check your cover against inflation</a></p>
+
+<h2 id="rate">How fast medical costs rise</h2>
+<p>Aon's Global Medical Trend Rates report puts India's medical cost growth at 11.5% for 2026 and projects 10.1% for 2027, against general inflation of about 4%. Mercer Marsh Benefits puts it near 10% too. The drivers are new treatments and equipment, more use of hospitals, and rising chronic illness.</p>
+
+<h2 id="five-lakh">What ₹5 lakh is worth over time</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Years from now</th><th scope="col">₹5 lakh of cover is worth (today's money)</th><th scope="col">A bad year costs then</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>{'Today' if x['t'] == 0 else x['t']}</th><td>{_L(x['real'])}</td><td>{_L(1600000 * 1.1 ** x['t'])}</td></tr>" for x in fr)}
+</tbody></table></div>
+<p>A bad year here is one serious illness and a second hospital stay in a metro, ₹16 lakh today.</p>
+
+<h2 id="aditya">Aditya's family</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Medical inflation</th><th scope="col">A bad year in 10 years</th><th scope="col">Cover to buy</th></tr></thead><tbody>
+{"".join(f"<tr><th scope='row'>{x['i']}% a year</th><td>{_L(x['target'])}</td><td>{_L(x['buy'])}</td></tr>" for x in T['infl'])}
+</tbody></table></div>
+<p>Two points of inflation either way change the answer by ₹5 to ₹15 lakh, which is why it pays to buy with some room to spare.</p>
+
+<h2 id="keep-up">How to keep up</h2>
+<ol class="g-check">
+  <li><strong>Buy for 10 years ahead, not today.</strong> Raising cover later needs fresh checks and new waiting periods.</li>
+  <li><strong>Use a super top-up</strong> for the big number; it's the cheap part. See <a href="/guides/super-top-up-health-insurance/">Base policy plus super top-up</a>.</li>
+  <li><strong>Look for an inflation-linked or cumulative bonus</strong> that raises your cover each year, especially for claim-free years.</li>
+  <li><strong>Review every 3 to 5 years,</strong> or when you move to a bigger city.</li>
+</ol>
+
+<h2 id="method">How these numbers were worked out</h2>
+<p>{_HC_METHOD}</p>
+<p>{_HC_SRC} Mercer Marsh Benefits Health Trends 2026 (India 9.9%).</p>
+<p class="g-note">This article is for information, not insurance advice.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Is ₹5 lakh health cover enough?", body, "Medical inflation")
+
+def guide_hc_checklist():
+    T = _t8(); r = T["room"]
+    path = "/guides/health-insurance-checklist-before-you-buy/"
+    toc = [("short-answer", "The short answer"), ("checklist", "The checklist"), ("room-rent", "Room rent: the costliest small print"), ("waiting", "Waiting periods, in one table"), ("disclose", "Disclose everything"), ("method", "Sources")]
+    body = guide_head(path, "Two policies with the same cover can pay very different amounts on the same hospital bill. The difference is in the policy wording. Here's what to check before you buy, with an example of how one clause cuts a claim.",
+                      "A policy document with a checklist and a magnifying glass").replace("TYPE_LINE", "<span>Health insurance cover calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>After the cover amount, check eight things: room rent caps, co-payment, waiting periods, sub-limits on common treatments, restoration of the cover, the no-claim bonus, network hospitals near you, and that a super top-up uses an aggregate deductible. A room rent cap alone can cut a ₹3.4 lakh claim by <strong>{_inr(r['you'])}</strong>.</p>
+<p class="g-cta"><a class="btn" href="/health-insurance-cover-calculator/">First, work out how much cover</a></p>
+
+<h2 id="checklist">The checklist</h2>
+<ol class="g-check">
+  <li><strong>No room rent cap,</strong> or one that fits a single private room at hospitals near you.</li>
+  <li><strong>No co-payment</strong> on your own policy. For parents, know the share they'd pay.</li>
+  <li><strong>Waiting periods:</strong> 30 days for most illnesses, up to 3 years for existing illnesses and for specific ones like hernia or cataract. Shorter is better.</li>
+  <li><strong>Sub-limits</strong> on cataract, maternity, robotic surgery and other treatments. See <a href="/guides/health-insurance-opd-maternity-cataract/">What health insurance doesn't fully cover</a>.</li>
+  <li><strong>Restoration:</strong> the cover refills if it runs out in a year, ideally for the same or a different illness.</li>
+  <li><strong>No-claim bonus</strong> that raises your cover each claim-free year, and doesn't fall sharply after a claim.</li>
+  <li><strong>Network hospitals</strong> near you, for cashless treatment.</li>
+  <li><strong>Super top-up with an aggregate deductible</strong>, so all bills in the year count. See <a href="/guides/super-top-up-health-insurance/">Base policy plus super top-up</a>.</li>
+</ol>
+
+<h2 id="room-rent">Room rent: the costliest small print</h2>
+<p>Many policies cap room rent at 1% of the cover a day. If you take a costlier room, the insurer cuts not just the room charge but every bill linked to the room category, such as the doctor's and surgeon's fees and nursing, in the same proportion. Under IRDAI's rules, medicines, implants, consumables and tests aren't cut, and neither are ICU charges.</p>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">₹5 lakh policy, 1% room rent cap</th><th scope="col">Amount</th></tr></thead><tbody>
+<tr><th scope="row">Room limit / room taken, a day</th><td>{_inr(r['cap'])} / {_inr(r['room'])}</td></tr>
+<tr><th scope="row">Room, doctor, surgery and nursing ({r['days']} days)</th><td>{_inr(r['assoc'])}</td></tr>
+<tr><th scope="row">Medicines, implants and tests</th><td>{_inr(r['other'])}</td></tr>
+<tr><th scope="row">Insurer pays ({r['ratio'] * 100:g}% of the first line, all of the second)</th><td>{_inr(r['pays'])}</td></tr>
+<tr><th scope="row"><b>You pay</b></th><td>{_inr(r['you'])}</td></tr>
+</tbody></table></div>
+<p>The room cost only {_inr((r['room'] - r['cap']) * r['days'])} more, but the claim fell by {_inr(r['you'])}.</p>
+
+<h2 id="waiting">Waiting periods, in one table</h2>
+<div class="g-scroll"><table class="g-tbl"><thead><tr><th scope="col">Waiting period</th><th scope="col">Typical length</th><th scope="col">Covers</th></tr></thead><tbody>
+<tr><th scope="row">Initial</th><td>30 days</td><td>Any illness (not accidents)</td></tr>
+<tr><th scope="row">Specific illnesses</th><td>Up to 3 years (often 2)</td><td>Cataract, hernia, joint replacement and similar</td></tr>
+<tr><th scope="row">Existing illnesses</th><td>Up to 3 years (IRDAI cap)</td><td>Conditions diagnosed in the 3 years before you buy</td></tr>
+<tr><th scope="row">Maternity</th><td>9 months to 4 years</td><td>Delivery, where covered</td></tr>
+</tbody></table></div>
+<p>Waiting periods carry over when you port to another insurer, so don't start again from scratch: port rather than buy new.</p>
+
+<h2 id="disclose">Disclose everything</h2>
+<p>Tell the insurer about every condition, medicine and habit on the form. After 5 years of continuous cover (the moratorium), a claim can't be refused for non-disclosure except for fraud, but before that a missed detail can cost the claim.</p>
+
+<h2 id="method">Sources</h2>
+<p>IRDAI Master Circular on health insurance, 2024: waiting periods capped at 36 months, 5-year moratorium, proportionate deduction rules (ICU charges, medicines, implants, consumables and diagnostics excluded). The room rent example is illustrative. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not insurance advice. Your policy wording is what applies.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "Health insurance checklist", body, "Before you buy")
+
+def guide_hc_exclusions():
+    T = _t8(); cat = T["cat"]
+    path = "/guides/health-insurance-opd-maternity-cataract/"
+    toc = [("short-answer", "The short answer"), ("opd", "OPD: doctor visits and medicines"), ("maternity", "Maternity"), ("cataract", "Cataract"), ("modern", "Robotic surgery and modern treatments"),
+           ("other", "Other common limits"), ("check", "How to check your own policy"), ("method", "Sources")]
+    body = guide_head(path, "A health policy pays for hospital stays. Many everyday medical costs sit outside that, and some treatments are covered only up to a small fixed amount. Here's what's usually left out or capped, and how to plan for it.",
+                      "A health shield with three small icons outside it: a pill, an eye and a baby bottle").replace("TYPE_LINE", "<span>Health insurance cover calculator</span>")
+    body += f"""
+<div class="wrap g-body prose">
+{toc_html(toc)}
+<h2 id="short-answer">The short answer</h2>
+<p>Standard health insurance covers hospital stays of 24 hours or more, day-care procedures, and bills just before and after an admission. Doctor visits, medicines and tests without admission (OPD) aren't covered unless you buy an add-on. Maternity is covered only after a waiting period of 9 months to 4 years, and up to a small limit. Cataract surgery is usually capped per eye. Check your policy's sub-limits before you need them.</p>
+<p class="g-cta"><a class="btn" href="/health-insurance-cover-calculator/">Work out the cover you need</a></p>
+
+<h2 id="opd">OPD: doctor visits and medicines</h2>
+<p>If you aren't admitted, a regular policy pays nothing for consultations, prescribed medicines or tests, yet these are a large share of what families spend on health. OPD cover is sold as an add-on or built into some plans, with yearly limits often in the range of ₹3,000 to ₹50,000.</p>
+<ul>
+  <li><strong>Worth it if</strong> someone in the family has a long-term condition with regular visits and medicines.</li>
+  <li><strong>Often not worth it</strong> otherwise: the add-on's price is close to what it pays out. Keep a small medical fund in your budget instead.</li>
+</ul>
+
+<h2 id="maternity">Maternity</h2>
+<ul>
+  <li><strong>Waiting period:</strong> 9 months to 4 years in retail policies. If you're already pregnant, a new policy won't cover the delivery.</li>
+  <li><strong>Sub-limit:</strong> usually ₹25,000 to ₹1 lakh per delivery, whatever your total cover.</li>
+  <li><strong>Newborn cover</strong> and vaccinations vary; some plans cover the baby from birth for a set period.</li>
+  <li><strong>Employer cover is often better here:</strong> many group policies cover maternity from day one. Think twice before changing jobs during a pregnancy.</li>
+</ul>
+<p>Planning a child? Buy maternity cover 2 to 3 years before, or rely on group cover. Complications such as an ectopic pregnancy are usually paid from the main cover, not the maternity limit.</p>
+
+<h2 id="cataract">Cataract</h2>
+<p>Cataract surgery is a covered day-care procedure, but most retail policies have a 2-year waiting period and a cap, often ₹20,000 to ₹50,000 per eye or a percentage of the cover. The surgery itself costs ₹15,000 to ₹2 lakh per eye, depending on the lens and the hospital. With a {_inr(cat['cap'])} cap and a {_inr(cat['bill'])} bill, you'd pay {_inr(cat['you'])} per eye. For parents, look for a plan without a cataract sub-limit.</p>
+
+<h2 id="modern">Robotic surgery and modern treatments</h2>
+<p>Since IRDAI's 2024 rules, modern treatments such as robotic surgery, immunotherapy and stem-cell therapy can't simply be excluded, but policies can cap them. A ₹20 lakh policy might pay only ₹1 lakh or a percentage for a robotic procedure. Look for "modern treatment" in the policy wording and prefer plans that cover them up to the full sum insured.</p>
+
+<h2 id="other">Other common limits</h2>
+<ul>
+  <li><strong>Room rent caps</strong> that cut the whole bill in proportion: see <a href="/guides/health-insurance-checklist-before-you-buy/">What to check before you buy</a>.</li>
+  <li><strong>Co-payment,</strong> especially for parents or treatment outside your city.</li>
+  <li><strong>Usually excluded:</strong> cosmetic treatment, routine dental care, glasses and contact lenses, and non-medical items like gloves and toiletries, unless you have a consumables add-on.</li>
+  <li><strong>Mental illness</strong> must be covered like physical illness under the Mental Healthcare Act, 2017, but check the limits.</li>
+</ul>
+
+<h2 id="check">How to check your own policy</h2>
+<ol class="g-check">
+  <li>Open the policy wording PDF and search for "sub-limit", "co-payment", "room rent", "modern treatment" and "waiting period".</li>
+  <li>Note the maternity and cataract limits against what hospitals near you charge.</li>
+  <li>If the limits are tight, look at porting to a plan without them; your waiting periods carry over.</li>
+</ol>
+
+<h2 id="method">Sources</h2>
+<p>IRDAI Master Circular on health insurance, 2024 (waiting periods, modern treatments). Insurer and broker guides on maternity waiting periods and sub-limits, cataract caps and costs, and OPD add-on limits (ICICI Lombard, Niva Bupa, Ditto, Bajaj Finserv, Policybazaar), checked 20 November 2026. Mental Healthcare Act, 2017, section 21(4). The cataract example is illustrative. Read <a href="/methodology/">how we check our numbers</a>.</p>
+<p class="g-note">This article is for information, not insurance advice. Your policy wording is what applies.</p>
+</div>
+</article>
+{related(path)}
+"""
+    return article(path, "x", "What health insurance doesn't fully cover", body, "Exclusions and limits")
+
 def guide_so_main():
     T = _t7(); m = T["main"]; l = T["long"]
     path = "/guides/rsu-tax-india-worked-example/"
@@ -12960,7 +14050,7 @@ def guide_mf_tax():
     return article(path, "x", "Tax on SIP and mutual funds", body, "SIP and mutual fund tax")
 
 TOPICS = [("retire", "Retirement and pension"), ("invest", "Investing"), ("home", "Home and loans"), ("tax", "Tax"), ("car", "Car"), ("money", "Pay, budget, insurance and leave")]
-TOOL_TOPIC = {"/esop-rsu-tax-calculator/": "tax", "/salary-hike-vs-inflation/": "money", "/epf-calculator/": "retire", "/eps-pension-calculator/": "retire", "/nps-calculator/": "retire", "/retirement-planner/": "retire", "/gratuity-calculator/": "retire",
+TOOL_TOPIC = {"/return-to-office-cost-calculator/": "pay", "/health-insurance-cover-calculator/": "money", "/esop-rsu-tax-calculator/": "tax", "/salary-hike-vs-inflation/": "money", "/epf-calculator/": "retire", "/eps-pension-calculator/": "retire", "/nps-calculator/": "retire", "/retirement-planner/": "retire", "/gratuity-calculator/": "retire",
               "/sip-calculator/": "invest", "/fd-ppf-rd-calculator/": "invest", "/rent-vs-buy/": "home", "/prepay-vs-invest/": "home", "/emi-calculator/": "home",
               "/income-tax-section-finder/": "tax", "/company-car-lease-vs-loan/": "car", "/car-ownership-cost/": "car", "/budget-planner/": "money", "/leave-planner-2027/": "money", "/full-and-final-settlement/": "money", "/labour-codes-salary-calculator/": "money", "/best-day-to-resign/": "money", "/fire-calculator/": "invest", "/swp-calculator/": "invest", "/job-offer-comparator/": "money", "/term-insurance-calculator/": "money", "/sukanya-samriddhi-calculator/": "invest"}
 # Guides listed under more than one tool appear once on /guides/, under the tool they belong to most.
@@ -13157,6 +14247,21 @@ def main():
     if JO_LIVE: write("/job-offer-comparator/", jo_page())
     if HV_LIVE: write("/salary-hike-vs-inflation/", hv_page())
     if SO_LIVE: write("/esop-rsu-tax-calculator/", so_page())
+    if HC_LIVE: write("/health-insurance-cover-calculator/", hc_page())
+    if RT_LIVE: write("/return-to-office-cost-calculator/", rt_page())
+    write("/guides/return-to-office-cost/", guide_rt_main())
+    write("/guides/cheapest-way-to-commute-to-office/", guide_rt_modes())
+    write("/guides/move-closer-to-office-or-commute/", guide_rt_move())
+    write("/guides/what-is-your-commute-time-worth/", guide_rt_time())
+    write("/guides/pay-rise-to-cover-return-to-office/", guide_rt_raise())
+    write("/guides/meal-card-tax-free-200-per-meal/", guide_rt_meal())
+    write("/guides/how-much-health-insurance-do-you-need/", guide_hc_main())
+    write("/guides/super-top-up-health-insurance/", guide_hc_supertop())
+    write("/guides/is-employer-health-insurance-enough/", guide_hc_employer())
+    write("/guides/health-insurance-for-parents/", guide_hc_parents())
+    write("/guides/medical-inflation-health-cover/", guide_hc_inflation())
+    write("/guides/health-insurance-checklist-before-you-buy/", guide_hc_checklist())
+    write("/guides/health-insurance-opd-maternity-cataract/", guide_hc_exclusions())
     if TERM_LIVE: write("/term-insurance-calculator/", term_page())
     if SSY_LIVE: write("/sukanya-samriddhi-calculator/", ssy_page())
     write("/guides/", guides_index())
@@ -13309,7 +14414,7 @@ def main():
     write("/guides/prepay-home-loan-early-or-later/", guide_prepay_timing())
     for p, (name, title, desc, h1, b) in PAGES.items(): write(p, text_page(p, name, title, desc, h1, b))
     write("/404.html", page_404())
-    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-lease-policy/", "0.7"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/salary-under-new-labour-codes/", "0.8"), ("/guides/rsu-tax-india-worked-example/", "0.8"), ("/guides/esop-tax-exercise-and-sale/", "0.7"), ("/guides/sell-rsus-at-vest-or-hold/", "0.7"), ("/guides/startup-esop-tax-deferral/", "0.7"), ("/guides/foreign-rsu-schedule-fa-tax-credit/", "0.7"), ("/guides/rsu-esop-price-falls-after-vesting/", "0.7"), ("/guides/did-your-hike-beat-inflation/", "0.8"), ("/guides/real-salary-hike-after-inflation/", "0.7"), ("/guides/personal-inflation-rate/", "0.7"), ("/guides/hike-take-home-after-tax/", "0.7"), ("/guides/what-hike-to-ask-for/", "0.7"), ("/guides/real-pay-growth-since-you-started/", "0.7"), ("/guides/compare-job-offers-worked-example/", "0.8"), ("/guides/higher-ctc-less-in-hand/", "0.7"), ("/guides/switch-jobs-before-5-years-gratuity/", "0.7"), ("/guides/value-variable-pay-job-offer/", "0.7"), ("/guides/office-days-commute-cost/", "0.7"), ("/guides/joining-bonus-stock-job-offer/", "0.7"), ("/guides/swp-monthly-income-explained/", "0.8"), ("/guides/swp-vs-fd-monthly-income/", "0.7"), ("/guides/how-swp-is-taxed/", "0.7"), ("/guides/safe-swp-withdrawal-rate/", "0.7"), ("/guides/should-swp-rise-with-inflation/", "0.7"), ("/guides/annuity-or-swp/", "0.7"), ("/guides/fire-number-india/", "0.8"), ("/guides/retire-at-45-bridge-epf-nps/", "0.7"), ("/guides/is-25x-enough-early-retirement/", "0.7"), ("/guides/lean-fat-coast-fire/", "0.7"), ("/guides/savings-rate-early-retirement/", "0.7"), ("/guides/epf-nps-if-you-retire-early/", "0.7"), ("/guides/when-to-resign-best-last-day/", "0.8"), ("/guides/resign-before-or-after-rsu-vesting/", "0.7"), ("/guides/joining-bonus-clawback/", "0.7"), ("/guides/when-to-hand-in-notice/", "0.7"), ("/guides/use-or-encash-leave-before-resigning/", "0.7"), ("/guides/wait-for-bonus-or-join-now/", "0.7"), ("/guides/take-home-fell-ctc-same/", "0.7"), ("/guides/basic-pay-50-percent-rule/", "0.7"), ("/guides/higher-basic-more-tax/", "0.7"), ("/guides/pf-full-basic-or-capped/", "0.7"), ("/guides/bonus-variable-pay-wages-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/epf-withdrawal-changes-november-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + ([("/labour-codes-salary-calculator/", "0.9")] if LC_LIVE else []) + ([("/best-day-to-resign/", "0.9")] if RD_LIVE else []) + ([("/fire-calculator/", "0.9")] if FIRE_LIVE else []) + ([("/swp-calculator/", "0.9")] if SWPC_LIVE else []) + ([("/job-offer-comparator/", "0.9")] if JO_LIVE else []) + ([("/salary-hike-vs-inflation/", "0.9")] if HV_LIVE else []) + ([("/esop-rsu-tax-calculator/", "0.9")] if SO_LIVE else []) + [(p, "0.7") for p in SIT_PATHS] + [(p, "0.3") for p in PAGES]
+    urls = [("/", "1.0"), ("/tools/", "0.6"), ("/leave-planner-2027/", "0.9"), ("/prepay-vs-invest/", "0.9"), ("/rent-vs-buy/", "0.9"), ("/guides/", "0.6"), ("/guides/rent-vs-buy/", "0.8"), ("/guides/long-weekends-2027/", "0.8"), ("/guides/monthly-budget/", "0.8"), ("/budget-planner/", "0.9"), ("/guides/prepay-home-loan-or-invest/", "0.8"), ("/guides/under-construction-vs-ready-to-move/", "0.7"), ("/guides/hra-vs-home-loan-tax-benefits/", "0.7"), ("/guides/restricted-holidays-2027/", "0.7"), ("/guides/budget-on-50000-1-lakh-2-lakh-salary/", "0.7"), ("/guides/company-car-lease-vs-car-loan/", "0.8"), ("/guides/company-car-lease-policy/", "0.7"), ("/guides/company-car-perquisite-value-2026/", "0.7"), ("/guides/best-months-for-a-week-long-break-2027/", "0.7"), ("/guides/long-weekends-2027-six-day-week/", "0.7"), ("/guides/how-part-payments-cut-your-home-loan/", "0.8"), ("/guides/car-lease-new-tax-regime/", "0.7"), ("/guides/plan-for-school-fees-and-yearly-costs/", "0.7"), ("/guides/how-much-sip-do-you-need/", "0.8"), ("/guides/step-up-sip/", "0.7"), ("/guides/how-mutual-fund-gains-are-taxed/", "0.7"), ("/guides/gratuity-new-labour-codes/", "0.8"), ("/guides/new-income-tax-section-numbers/", "0.8"), ("/guides/fd-rd-or-ppf/", "0.8"), ("/guides/working-hours-new-labour-codes/", "0.7"), ("/guides/salary-under-new-labour-codes/", "0.8"), ("/guides/rsu-tax-india-worked-example/", "0.8"), ("/guides/esop-tax-exercise-and-sale/", "0.7"), ("/guides/sell-rsus-at-vest-or-hold/", "0.7"), ("/guides/startup-esop-tax-deferral/", "0.7"), ("/guides/foreign-rsu-schedule-fa-tax-credit/", "0.7"), ("/guides/rsu-esop-price-falls-after-vesting/", "0.7"), ("/guides/did-your-hike-beat-inflation/", "0.8"), ("/guides/real-salary-hike-after-inflation/", "0.7"), ("/guides/personal-inflation-rate/", "0.7"), ("/guides/hike-take-home-after-tax/", "0.7"), ("/guides/what-hike-to-ask-for/", "0.7"), ("/guides/real-pay-growth-since-you-started/", "0.7"), ("/guides/compare-job-offers-worked-example/", "0.8"), ("/guides/higher-ctc-less-in-hand/", "0.7"), ("/guides/switch-jobs-before-5-years-gratuity/", "0.7"), ("/guides/value-variable-pay-job-offer/", "0.7"), ("/guides/office-days-commute-cost/", "0.7"), ("/guides/joining-bonus-stock-job-offer/", "0.7"), ("/guides/swp-monthly-income-explained/", "0.8"), ("/guides/swp-vs-fd-monthly-income/", "0.7"), ("/guides/how-swp-is-taxed/", "0.7"), ("/guides/safe-swp-withdrawal-rate/", "0.7"), ("/guides/should-swp-rise-with-inflation/", "0.7"), ("/guides/annuity-or-swp/", "0.7"), ("/guides/fire-number-india/", "0.8"), ("/guides/retire-at-45-bridge-epf-nps/", "0.7"), ("/guides/is-25x-enough-early-retirement/", "0.7"), ("/guides/lean-fat-coast-fire/", "0.7"), ("/guides/savings-rate-early-retirement/", "0.7"), ("/guides/epf-nps-if-you-retire-early/", "0.7"), ("/guides/when-to-resign-best-last-day/", "0.8"), ("/guides/resign-before-or-after-rsu-vesting/", "0.7"), ("/guides/joining-bonus-clawback/", "0.7"), ("/guides/when-to-hand-in-notice/", "0.7"), ("/guides/use-or-encash-leave-before-resigning/", "0.7"), ("/guides/wait-for-bonus-or-join-now/", "0.7"), ("/guides/take-home-fell-ctc-same/", "0.7"), ("/guides/basic-pay-50-percent-rule/", "0.7"), ("/guides/higher-basic-more-tax/", "0.7"), ("/guides/pf-full-basic-or-capped/", "0.7"), ("/guides/bonus-variable-pay-wages-labour-codes/", "0.7"), ("/guides/eps-family-pension/", "0.7"), ("/guides/budgeting-with-a-bonus/", "0.7"), ("/guides/prepay-with-bonus-or-invest/", "0.7"), ("/guides/laddering-term-insurance/", "0.7"), ("/guides/rent-or-buy-by-age-and-moving-cities/", "0.7"), ("/guides/keep-or-sell-your-home/", "0.7"), ("/guides/double-income-family-budget/", "0.7"), ("/guides/car-lease-20-percent-slab-and-ev/", "0.7"), ("/guides/car-lease-job-change-buy-back-or-hand-back/", "0.7"), ("/guides/sukanya-samriddhi-two-daughters/", "0.7"), ("/guides/revive-sukanya-samriddhi-account/", "0.7"), ("/guides/first-salary-budget/", "0.7"), ("/guides/home-loan-insurance-vs-term-plan/", "0.7"), ("/guides/three-bucket-retirement-plan/", "0.7"), ("/guides/government-ev-rule-should-you-switch/", "0.7"), ("/guides/open-sukanya-samriddhi-account/", "0.7"), ("/guides/why-eps-pension-is-low/", "0.7"), ("/guides/bonus-when-you-resign/", "0.7"), ("/guides/settlement-not-paid-on-time/", "0.7"), ("/guides/new-or-used-car/", "0.7"), ("/guides/notice-period-buyout/", "0.7"), ("/guides/two-employers-one-year-tax/", "0.7"), ("/guides/term-insurance-tax-new-regime/", "0.7"), ("/guides/sukanya-samriddhi-at-maturity/", "0.7"), ("/guides/floating-or-fixed-home-loan/", "0.7"), ("/guides/epf-withdrawal-rules-2026/", "0.7"), ("/guides/epf-withdrawal-changes-november-2026/", "0.7"), ("/guides/tax-year-explained/", "0.7"), ("/guides/payslip-form-130-new-section-numbers/", "0.7"), ("/guides/eps-higher-pension/", "0.7"), ("/guides/fd-for-senior-citizens-tds-and-tax/", "0.7"), ("/guides/home-loan-down-payment/", "0.7"), ("/guides/car-loan-or-cash/", "0.7"), ("/guides/part-pay-car-or-personal-loan/", "0.7"), ("/guides/how-long-will-retirement-savings-last/", "0.7"), ("/guides/retirement-planning-in-your-40s/", "0.7"), ("/guides/home-loan-rate-rise-emi-or-tenure/", "0.7"), ("/guides/ev-worth-it-1000-km-a-month/", "0.7"), ("/guides/sukanya-samriddhi-or-sip/", "0.7"), ("/guides/retire-at-50-55-or-60/", "0.7"), ("/guides/term-insurance-until-60-or-70/", "0.7"), ("/guides/how-much-term-insurance-do-you-need/", "0.8"), ("/guides/return-to-office-cost/", "0.8"), ("/guides/cheapest-way-to-commute-to-office/", "0.7"), ("/guides/move-closer-to-office-or-commute/", "0.7"), ("/guides/what-is-your-commute-time-worth/", "0.7"), ("/guides/pay-rise-to-cover-return-to-office/", "0.7"), ("/guides/meal-card-tax-free-200-per-meal/", "0.7"), ("/guides/how-much-health-insurance-do-you-need/", "0.8"), ("/guides/super-top-up-health-insurance/", "0.7"), ("/guides/is-employer-health-insurance-enough/", "0.7"), ("/guides/health-insurance-for-parents/", "0.7"), ("/guides/medical-inflation-health-cover/", "0.7"), ("/guides/health-insurance-checklist-before-you-buy/", "0.7"), ("/guides/health-insurance-opd-maternity-cataract/", "0.7"), ("/guides/is-employer-group-cover-enough/", "0.7"), ("/guides/ppf-after-15-years/", "0.7"), ("/guides/leave-encashment-tax-on-resignation/", "0.7"), ("/guides/first-sip-on-first-salary/", "0.7"), ("/guides/sukanya-samriddhi-explained/", "0.8"), ("/guides/sip-lower-return/", "0.7"), ("/guides/low-basic-salary-gratuity/", "0.7"), ("/guides/cumulative-fd-or-monthly-payout/", "0.7"), ("/guides/eps-pension-50-58-or-60/", "0.7"), ("/guides/full-and-final-settlement-explained/", "0.8"), ("/guides/gratuity-fixed-term-employees/", "0.7"), ("/guides/form-121-stop-tds-fd-interest/", "0.7"), ("/guides/eps-pension-calculation-example/", "0.8"), ("/guides/eps-withdrawal-benefit-or-scheme-certificate/", "0.7"), ("/guides/vpf-worth-it/", "0.7"), ("/guides/how-much-do-you-need-to-retire/", "0.8"), ("/guides/25x-rule-retirement-india/", "0.7"), ("/guides/transfer-pf-dont-withdraw/", "0.7"), ("/guides/how-much-epf-at-58/", "0.8"), ("/guides/eps-pension-explained/", "0.8"), ("/guides/epf-wage-ceiling-25000/", "0.7"), ("/guides/nps-new-exit-rules/", "0.8"), ("/guides/employer-nps-14-percent-new-regime/", "0.7"), ("/guides/nps-80-percent-withdrawal-tax/", "0.7"), ("/guides/nps-vs-ppf-vs-epf/", "0.7"), ("/guides/petrol-cng-or-ev-cost-per-km/", "0.8"), ("/guides/sip-or-lump-sum-bonus/", "0.7"), ("/guides/is-gratuity-taxable-20-lakh-limit/", "0.7"), ("/guides/fd-interest-tax-below-50000/", "0.7"), ("/guides/ppf-deposit-by-5-april/", "0.7"), ("/guides/gratuity-six-month-rule-when-to-resign/", "0.7"), ("/guides/are-your-sips-on-track/", "0.7"), ("/guides/is-rent-really-dead-money/", "0.7"), ("/guides/prepay-home-loan-early-or-later/", "0.7")] + ([("/company-car-lease-vs-loan/", "0.9")] if CAR_LIVE else []) + ([("/emi-calculator/", "0.9")] if EMI_LIVE else []) + ([("/sip-calculator/", "0.9")] if SIP_LIVE else []) + ([("/gratuity-calculator/", "0.9")] if GRATUITY_LIVE else []) + ([("/income-tax-section-finder/", "0.9")] if SECTIONS_LIVE else []) + ([("/fd-ppf-rd-calculator/", "0.9")] if DEPOSITS_LIVE else []) + ([("/car-ownership-cost/", "0.9")] if CAROWN_LIVE else []) + ([("/nps-calculator/", "0.9")] if NPS_LIVE else []) + ([("/epf-calculator/", "0.9")] if EPF_LIVE else []) + ([("/retirement-planner/", "0.9")] if RETIRE_LIVE else []) + ([("/eps-pension-calculator/", "0.9")] if EPS_LIVE else []) + ([("/full-and-final-settlement/", "0.9")] if FNF_LIVE else []) + ([("/term-insurance-calculator/", "0.9")] if TERM_LIVE else []) + ([("/sukanya-samriddhi-calculator/", "0.9")] if SSY_LIVE else []) + ([("/labour-codes-salary-calculator/", "0.9")] if LC_LIVE else []) + ([("/best-day-to-resign/", "0.9")] if RD_LIVE else []) + ([("/fire-calculator/", "0.9")] if FIRE_LIVE else []) + ([("/swp-calculator/", "0.9")] if SWPC_LIVE else []) + ([("/job-offer-comparator/", "0.9")] if JO_LIVE else []) + ([("/salary-hike-vs-inflation/", "0.9")] if HV_LIVE else []) + ([("/esop-rsu-tax-calculator/", "0.9")] if SO_LIVE else []) + ([("/health-insurance-cover-calculator/", "0.9")] if HC_LIVE else []) + ([("/return-to-office-cost-calculator/", "0.9")] if RT_LIVE else []) + [(p, "0.7") for p in SIT_PATHS] + [(p, "0.3") for p in PAGES]
     # lastmod: the date each page's content last changed. A page's date moves only when its HTML changes
     # (ignoring the ?v= cache-busting hashes), tracked in src/data/lastmod.json.
     import hashlib, datetime

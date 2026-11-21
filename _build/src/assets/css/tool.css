@@ -439,3 +439,15 @@ button.sf-reg{cursor:pointer;font:600 12px var(--ff);line-height:1.4}
 .jox .sens{grid-template-columns:repeat(2,minmax(0,1fr))}
 .jo-tbl table.calc{min-width:0}.jo-tbl table.calc th[scope=row]{white-space:normal}
 .jo-row .lbl{display:inline-flex}.jo-row>.tipw{display:inline-block;vertical-align:middle}.jo-row .pair .seg.row{flex-wrap:nowrap}.jo-row .pair .seg.row button{flex:1;min-width:0;padding-left:6px;padding-right:6px}
+/* Health cover: second, smaller result for parents */
+.verdict.pv{margin-top:12px;padding:18px 24px}.verdict.pv .v{font-size:clamp(20px,3vw,24px)}
+/* Back to office: same trip by each mode (fits phones without sideways scroll) */
+.mlist{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;max-width:720px}
+.mrow{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,.8fr) minmax(0,1fr);gap:10px;align-items:center;padding:12px 16px;border-top:1px solid var(--line);font-size:15px}
+.mrow:first-child{border-top:0}.mrow span{text-align:right;font-variant-numeric:tabular-nums}
+.mrow.mhead{background:var(--s1);font-size:12px;font-weight:700;color:var(--muted);text-transform:none}
+.mrow.on{background:color-mix(in srgb,var(--brand) 10%,transparent)}.mrow em{font-style:normal;font-size:11px;font-weight:700;color:var(--brand);margin-left:6px}
+@media (max-width:480px){.mrow{padding:11px 12px;font-size:14px;gap:8px}.mrow b em{display:block;margin:2px 0 0}}
+.mrow.mhead span:first-child{text-align:left}
+.rtx [aria-labelledby="rt-daysNowLbl"],.rtx [aria-labelledby="rt-daysNewLbl"]{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.rtx [aria-labelledby="rt-daysNowLbl"] button,.rtx [aria-labelledby="rt-daysNewLbl"] button{min-width:0;padding-left:0;padding-right:0}

@@ -128,7 +128,16 @@
       if (!head) [r[1], r[2]].forEach(function (v, j) { var t = v === null || v === undefined ? "—" : (typeof v === "string" ? v : sp.inr(v)); T(x, t, j ? M + W - 20 : M + W * 0.72, y + 31, 22, bold ? 800 : 600, bold ? C.green : C.ink, "right"); });
       y += 46;
     });
-    if (sp.money.note) y = wrap(x, sp.money.note, M, y + 40, W, 21, 400, C.muted, 32);
+    if (Array.isArray(sp.money.note)) {
+      /* Optional structured notes: money.note = [[title, text], ...] (with money.noteTitle): a heading, then a bold title and an indented paragraph per point */
+      y += 50; T(x, sp.money.noteTitle || "What this means", M, y, 26, 800, C.ink); y += 42;
+      sp.money.note.forEach(function (n) {
+        if (y + 110 > PH - 160) { p = newPage(); pages.push(p); x = p.x; y = header(p, sp); }
+        x.beginPath(); x.arc(M + 6, y - 7, 5, 0, 7); x.fillStyle = C.blue; x.fill();
+        T(x, n[0], M + 24, y, 22, 800, C.ink);
+        y = wrap(x, n[1], M + 24, y + 32, W - 24, 21, 400, C.muted, 31) + 20;
+      });
+    } else if (sp.money.note) y = wrap(x, sp.money.note, M, y + 40, W, 21, 400, C.muted, 32);
     y += 40;
     sp.tables.forEach(function (tb) {
       p = pages[pages.length - 1];
@@ -281,7 +290,8 @@
       function cell(v) { return v === null || v === undefined ? { v: "—", s: 8 } : typeof v === "string" ? { v: v, s: 8 } : { v: v, s: b ? 6 : 2 }; }
       sum.push([b ? { v: r[0], s: 3 } : (r[3] === "sub" ? "  " + r[0] : r[0]), cell(r[1]), cell(r[2])]);
     });
-    if (sp.money.note) sum.push([{ v: sp.money.note, s: 7 }]);
+    if (Array.isArray(sp.money.note)) { sum.push([], [{ v: sp.money.noteTitle || "What this means", s: 4 }]); sp.money.note.forEach(function (n) { sum.push([{ v: n[0] + ": " + n[1], s: 7 }]); }); }
+    else if (sp.money.note) sum.push([{ v: sp.money.note, s: 7 }]);
     sum.push([], sec("Assumptions")); sp.notes.forEach(function (n) { sum.push([{ v: n, s: 7 }]); });
     sum.push([], sec("Tax rules used")); sp.taxRules.forEach(function (n) { sum.push([{ v: n, s: 7 }]); });
     sum.push([], [{ v: DISCLAIMER, s: 7 }], [{ v: "Free, private money tools for salaried India: salarist.in", s: 3 }]);

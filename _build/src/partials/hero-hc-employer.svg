@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="An office badge with a health shield that fades out at the door">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<g transform="translate(560 460)"><rect x="-130" y="-200" width="260" height="360" rx="28" fill="#FFFFFF"/><rect x="-40" y="-230" width="80" height="50" rx="12" fill="#CDD6E3"/><circle cx="0" cy="-90" r="50" fill="#1F5FE0"/><rect x="-80" y="0" width="160" height="18" rx="9" fill="#CDD6E3"/><rect x="-60" y="40" width="120" height="18" rx="9" fill="#CDD6E3"/></g><g transform="translate(1040 460) scale(.8)" opacity=".45"><path d="M0 -170 L140 -120 L140 10 Q140 120 0 180 Q-140 120 -140 10 L-140 -120 Z" fill="#FFFFFF"/><path d="M-22 -60 h44 v38 h38 v44 h-38 v38 h-44 v-38 h-38 v-44 h38 Z" fill="#1F5FE0"/></g><path d="M760 460 h120" stroke="#FFD27A" stroke-width="14" stroke-linecap="round" stroke-dasharray="4 26"/>
+</svg>

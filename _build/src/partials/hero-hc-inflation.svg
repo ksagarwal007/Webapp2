@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="A rupee coin shrinking as a hospital bill grows">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5FE0"/><stop offset="1" stop-color="#0B2A6B"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".35" r=".6"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g fill="#FFFFFF" opacity=".08"><circle cx="190" cy="760" r="80"/><circle cx="1450" cy="740" r="64"/><circle cx="230" cy="160" r="46"/></g>
+<g transform="translate(560 470)"><circle r="120" fill="#FFD27A"/><g transform="scale(2.4)"><path d="M-14 -18 H15 M-14 -5 H15 M-12 -18 C10 -18 10 8 -12 8 L12 22" fill="none" stroke="#0E1726" stroke-width="5" stroke-linecap="round"/></g></g><g transform="translate(860 230)"><rect width="300" height="440" rx="24" fill="#FFFFFF"/><rect x="40" y="50" width="220" height="22" rx="11" fill="#1F5FE0"/><g fill="#CDD6E3"><rect x="40" y="120" width="200" height="16" rx="8"/><rect x="40" y="160" width="160" height="16" rx="8"/><rect x="40" y="200" width="190" height="16" rx="8"/></g><path d="M40 380 L120 330 L180 350 L260 260" stroke="#F5B547" stroke-width="14" fill="none" stroke-linecap="round"/></g>
+</svg>
